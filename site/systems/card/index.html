@@ -1,0 +1,2019 @@
+
+<!doctype html>
+<html lang="ko" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://suan2z.github.io/2048/systems/card/">
+      
+      
+        <link rel="prev" href="../board/">
+      
+      
+        <link rel="next" href="../combat/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>카드 시스템 - 2048 기획서</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          콘텐츠로 이동
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="상단/헤더">
+    <a href="../.." title="2048 기획서" class="md-header__button md-logo" aria-label="2048 기획서" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            2048 기획서
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              카드 시스템
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="검색" placeholder="검색" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="검색">
+        
+        <button type="reset" class="md-search__icon md-icon" title="지우기" aria-label="지우기" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            검색 초기화
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="탭" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  게임 개요
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../overview/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  인게임 전투
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../growth/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  게임 세부 시스템
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../ux/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  UI/UX
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../schema/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  스키마 설계
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../resources/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  필요 리소스
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../schedule/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  일정
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../backup/concept_A/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  백업
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="네비게이션" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="2048 기획서" class="md-nav__button md-logo" aria-label="2048 기획서" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    2048 기획서
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    게임 개요
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    인게임 전투
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    인게임 전투
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    인게임 전투 개요
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../board/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    보드 시스템
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    카드 시스템
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    카드 시스템
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="목차">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      목차
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 개요
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 카드 데이터 구조
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 덱 운영 구조
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 드로우 규칙
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. 카드 발동 흐름
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. 카드 강화
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. 카드 보상 및 덱 관리
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. 관련 시스템 링크
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. 미결 사항 요약
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../combat/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    전투 흐름
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../enemy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    적 AI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../combat_mockup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    전투 화면 목업
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    게임 세부 시스템
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    게임 세부 시스템
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../growth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    성장 시스템
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    UI/UX
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../schema/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    스키마 설계
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../resources/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    필요 리소스
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../schedule/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    일정
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    백업
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    백업
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../backup/concept_A/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    안 A — 카제나 방식 × 패키지 RPG
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../backup/concept_B/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    안 B — 스테이지 클리어 × 덱 리셋 로그라이크
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../backup/concept_C/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    안 C — 2048 에너지 보드 × 덱 카드 RPG
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../references/limbus/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    림버스 컴퍼니
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../references/chaos_zero_nightmare/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    카오스 제로 나이트메어
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="_1">카드 시스템</h1>
+<blockquote>
+<p>참고 문서: <a href="../overview/">게임 세부 시스템 개요</a> §카드 시스템, <a href="../../">게임 개요</a> §스킬 카드와 발동 조건<br />
+관련 문서: <a href="../board/">보드 시스템</a>, <a href="../combat/">전투 시스템</a> (작성 예정)</p>
+</blockquote>
+<hr />
+<h2 id="1">1. 개요</h2>
+<p>카드 시스템은 출전 캐릭터의 스킬 카드를 <strong>대기덱·핸드덱·소모덱</strong> 세 영역으로 통합 관리하는 구조다. 각 카드에는 보드에서 소모해야 하는 <strong>발동 숫자</strong>(4·8·16·32·64·128)가 지정되어 있으며, 숫자가 높을수록 강력한 효과를 제공한다.</p>
+<h3 id="_2">카드 시스템의 흐름 요약</h3>
+<div class="highlight"><pre><span></span><code>전투 시작
+    └─ 파티 전체 카드를 합산 → 셔플 → 대기덱 구성
+           └─ 5장 드로우 → 핸드덱 구성
+                  ↓
+           [슬라이드 페이즈] 보드에 타일 준비
+                  ↓
+           [카드 선택] 같은 숫자 카드 여러 장이면 원하는 카드 선택
+                  ↓
+           [액션 버튼]
+             ├─ 매칭된 카드: 타일 소모 → 효과 발동
+             └─ 미매칭 카드: 효과 없이 대기
+                  ↓
+           핸드 전체 소모덱으로 이동 → 대기덱에서 재드로우
+                  ↓
+           [반복] 전투 종료 → 보상 3장 중 1장 선택
+</code></pre></div>
+<hr />
+<h2 id="2">2. 카드 데이터 구조</h2>
+<h3 id="2-1-card">2-1. Card 구조체</h3>
+<table>
+<thead>
+<tr>
+<th>필드명</th>
+<th>타입</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td><code>string</code></td>
+<td>카드 고유 식별자 (예: <code>"char_a_attack_01"</code>)</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>카드 표시 이름 (예: "참격")</td>
+</tr>
+<tr>
+<td><code>ownerCharacterId</code></td>
+<td><code>string</code></td>
+<td>이 카드를 소유하는 캐릭터 ID. 3인 파티 공용 덱에서 소유자 추적에 사용</td>
+</tr>
+<tr>
+<td><code>triggerNumber</code></td>
+<td><code>int</code></td>
+<td>발동에 필요한 보드 타일 숫자. 허용값: 4·8·16·32·64·128</td>
+</tr>
+<tr>
+<td><code>grade</code></td>
+<td><code>CardGrade</code></td>
+<td>발동 숫자로 결정되는 등급 열거형 (§2-3 참고)</td>
+</tr>
+<tr>
+<td><code>effectType</code></td>
+<td><code>CardEffectType</code></td>
+<td>카드 효과 분류 열거형 (§2-2 참고)</td>
+</tr>
+<tr>
+<td><code>effectParams</code></td>
+<td><code>EffectParams</code></td>
+<td>효과 실행에 필요한 파라미터 묶음 (§2-2 참고)</td>
+</tr>
+<tr>
+<td><code>upgradeLevel</code></td>
+<td><code>int</code></td>
+<td>강화 단계. 기본값 0, 합성 1회마다 +1. 현재 최대 1 (§6 참고)</td>
+</tr>
+<tr>
+<td><code>upgradedTriggerNumber</code></td>
+<td><code>int \| null</code></td>
+<td>강화 단계 1일 때 적용되는 발동 숫자. null이면 미강화 상태</td>
+</tr>
+<tr>
+<td><code>isActive</code></td>
+<td><code>bool</code></td>
+<td>소유 캐릭터가 생존해 있으면 <code>true</code>. 사망 시 <code>false</code>로 전환되어 발동 불가</td>
+</tr>
+</tbody>
+</table>
+<h4 id="_3">제약 조건</h4>
+<ul>
+<li><code>triggerNumber</code>는 반드시 {4, 8, 16, 32, 64, 128} 집합에 속해야 한다.</li>
+<li><code>upgradedTriggerNumber</code>가 존재하는 경우, 반드시 <code>triggerNumber</code>보다 작아야 한다.</li>
+<li><code>upgradeLevel</code>이 0이면 <code>upgradedTriggerNumber</code>는 <code>null</code>이다.</li>
+<li><code>ownerCharacterId</code>는 현재 전투에 출전한 캐릭터 ID 목록에 포함되어야 한다. 미출전 캐릭터의 카드는 덱에 포함되지 않는다.</li>
+</ul>
+<h4 id="_4">런타임에서의 발동 숫자 결정</h4>
+<div class="highlight"><pre><span></span><code>effectiveTriggerNumber = (upgradeLevel &gt;= 1 &amp;&amp; upgradedTriggerNumber != null)
+    ? upgradedTriggerNumber
+    : triggerNumber
+</code></pre></div>
+<h3 id="2-2-cardeffecttype">2-2. 효과 타입 열거형 (CardEffectType)</h3>
+<blockquote>
+<p><strong>[미결 A-1]</strong> 카드 효과 타입의 범위가 확정되지 않았습니다.<br />
+- <strong>(a)</strong> 공격·회복·버프·디버프 4종으로 고정<br />
+- <strong>(b)</strong> 실드(Shield)·드로우(Draw)·상태이상(StatusEffect) 등 추가 타입 포함한 확장 목록  </p>
+<p>아래 표는 <strong>(a) 기준 4종을 기본으로</strong> 작성하되, 확장 타입 후보를 함께 나열합니다. 확정 시 <code>EffectParams</code> 구조체도 함께 갱신해야 합니다.</p>
+</blockquote>
+<h4 id="4">기본 4종 (확정)</h4>
+<table>
+<thead>
+<tr>
+<th><code>CardEffectType</code> 값</th>
+<th>설명</th>
+<th>주요 <code>EffectParams</code> 필드</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ATTACK</code></td>
+<td>적 단일 또는 전체에 피해를 입힌다</td>
+<td><code>damage: int</code>, <code>targetType: TargetType</code></td>
+</tr>
+<tr>
+<td><code>HEAL</code></td>
+<td>아군 단일 또는 전체의 HP를 회복한다</td>
+<td><code>healAmount: int</code>, <code>targetType: TargetType</code></td>
+</tr>
+<tr>
+<td><code>BUFF</code></td>
+<td>아군에게 유리한 상태 효과를 부여한다</td>
+<td><code>buffId: string</code>, <code>duration: int</code>, <code>targetType: TargetType</code></td>
+</tr>
+<tr>
+<td><code>DEBUFF</code></td>
+<td>적에게 불리한 상태 효과를 부여한다</td>
+<td><code>debuffId: string</code>, <code>duration: int</code>, <code>targetType: TargetType</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="a-1">확장 타입 후보 (A-1 미결 — 채택 여부 확정 필요)</h4>
+<table>
+<thead>
+<tr>
+<th><code>CardEffectType</code> 후보값</th>
+<th>설명</th>
+<th>비고</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SHIELD</code></td>
+<td>아군에게 피해를 일정량 흡수하는 방어막을 부여</td>
+<td>방어막 수치 소진 시 자동 제거</td>
+</tr>
+<tr>
+<td><code>DRAW</code></td>
+<td>대기덱에서 지정 장수를 즉시 핸드에 추가로 드로우</td>
+<td>핸드 초과 장수 처리 규칙 별도 결정 필요</td>
+</tr>
+<tr>
+<td><code>STATUS_EFFECT</code></td>
+<td>독·마비 등 지속 피해 또는 행동 제한 상태이상 부여</td>
+<td><code>DEBUFF</code>와 별도 분리 여부 결정 필요</td>
+</tr>
+</tbody>
+</table>
+<h4 id="effectparams">EffectParams 공통 구조</h4>
+<div class="highlight"><pre><span></span><code>EffectParams {
+    targetType      : TargetType    // SINGLE_ENEMY | ALL_ENEMIES | SINGLE_ALLY | ALL_ALLIES
+    damage          : int?          // ATTACK 타입 사용
+    healAmount      : int?          // HEAL 타입 사용
+    buffId          : string?       // BUFF 타입 사용
+    debuffId        : string?       // DEBUFF 타입 사용
+    duration        : int?          // BUFF·DEBUFF 지속 턴 수 (액션 버튼 횟수 기준)
+    shieldAmount    : int?          // SHIELD 타입 사용 (A-1 확장 시)
+    drawCount       : int?          // DRAW 타입 사용 (A-1 확장 시)
+}
+</code></pre></div>
+<blockquote>
+<p><code>duration</code> 필드의 단위(액션 버튼 횟수 vs. 적 공격 횟수)는 미결 C-5와 연동되며, <code>docs/systems/enemy.md</code> 작성 시 함께 확정한다.</p>
+</blockquote>
+<h3 id="2-3-cardgrade">2-3. 카드 등급 정의 (CardGrade)</h3>
+<p>카드 등급은 <code>triggerNumber</code>로 결정되며, 강화 후 <code>upgradedTriggerNumber</code>가 기존 등급 경계를 넘어서도 <strong>기준 등급은 변경되지 않는다</strong>. 등급은 카드 식별 및 UI 표시 목적으로만 사용한다.</p>
+<table>
+<thead>
+<tr>
+<th><code>CardGrade</code> 값</th>
+<th style="text-align: center;"><code>triggerNumber</code></th>
+<th>등급명</th>
+<th>효과 규모 예시</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>BASIC</code></td>
+<td style="text-align: center;">4</td>
+<td>기본</td>
+<td>단일 약공격, 소량 방어막</td>
+</tr>
+<tr>
+<td><code>NORMAL</code></td>
+<td style="text-align: center;">8</td>
+<td>일반</td>
+<td>단일 공격, 디버프 1개</td>
+</tr>
+<tr>
+<td><code>ENHANCED</code></td>
+<td style="text-align: center;">16</td>
+<td>강화</td>
+<td>중간 공격, 광역 디버프, 아군 회복</td>
+</tr>
+<tr>
+<td><code>POWERFUL</code></td>
+<td style="text-align: center;">32</td>
+<td>강력</td>
+<td>강한 광역 공격, 파티 전체 방어막</td>
+</tr>
+<tr>
+<td><code>LETHAL</code></td>
+<td style="text-align: center;">64</td>
+<td>필살</td>
+<td>캐릭터 전용 필살기</td>
+</tr>
+<tr>
+<td><code>TRANSCENDENT</code></td>
+<td style="text-align: center;">128</td>
+<td>초월</td>
+<td>전투 판도를 뒤집는 초강력 효과</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="3">3. 덱 운영 구조</h2>
+<h3 id="3-1-deckstate">3-1. DeckState 구조체</h3>
+<p>전투 중 카드 전체의 상태를 표현하는 구조체다. 전투 시작 시 초기화되고, 전투 종료 시 소멸한다.</p>
+<div class="highlight"><pre><span></span><code>DeckState {
+    waitDeck    : Card[]    // 대기덱 — 드로우되지 않은 카드들. 셔플된 순서로 관리
+    hand        : Card[]    // 핸드덱 — 현재 사용 가능한 카드들. 최대 5장
+    discardDeck : Card[]    // 소모덱 — 발동·미발동 모두 포함해 버려진 카드들. 순서 유지
+}
+</code></pre></div>
+<blockquote>
+<p><strong>[미결 A-5]</strong> 덱 전체 카드 수의 상한이 결정되지 않았습니다.<br />
+- <strong>(a)</strong> 상한 없음 — 전투 보상으로 카드를 계속 추가할 수 있음<br />
+- <strong>(b)</strong> 최대 N장 제한 — 상한 초과 시 기존 카드를 제거하거나 추가를 거부하는 규칙 필요  </p>
+<p>소모덱 순환 주기와 전략적 덱 설계에 직접 영향을 줍니다. (a) 채택 시 <code>DeckState</code>에 상한 필드 불필요. (b) 채택 시 <code>maxDeckSize: int</code> 필드 추가 필요.</p>
+</blockquote>
+<h3 id="3-2">3-2. 세 영역의 역할</h3>
+<table>
+<thead>
+<tr>
+<th>영역</th>
+<th>구조체 필드</th>
+<th>역할</th>
+<th style="text-align: center;">드로우 가능 여부</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>대기덱 (<code>waitDeck</code>)</td>
+<td><code>Card[]</code></td>
+<td>아직 드로우되지 않은 카드 풀. 셔플된 상태로 유지되며 맨 앞 카드부터 드로우됨</td>
+<td style="text-align: center;">O</td>
+</tr>
+<tr>
+<td>핸드덱 (<code>hand</code>)</td>
+<td><code>Card[]</code></td>
+<td>현재 플레이어가 운용 중인 카드. 액션 버튼 발동의 대상이 되는 영역</td>
+<td style="text-align: center;">X</td>
+</tr>
+<tr>
+<td>소모덱 (<code>discardDeck</code>)</td>
+<td><code>Card[]</code></td>
+<td>사용 후 버려진 카드. 대기덱이 소진되면 전체 셔플 후 대기덱으로 전환됨</td>
+<td style="text-align: center;">X (직접 접근 불가)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="3-3">3-3. 영역 간 이동 규칙</h3>
+<p>아래 표는 카드가 한 영역에서 다른 영역으로 이동하는 모든 시점과 조건을 정의한다.</p>
+<table>
+<thead>
+<tr>
+<th>이동 방향</th>
+<th>트리거</th>
+<th>조건</th>
+<th>비고</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>대기덱 → 핸드덱</td>
+<td>드로우</td>
+<td>대기덱에 1장 이상 존재</td>
+<td>맨 앞 카드를 꺼내 핸드덱 끝에 추가</td>
+</tr>
+<tr>
+<td>소모덱 → 대기덱</td>
+<td>셔플</td>
+<td>대기덱이 0장이고 드로우가 필요한 시점</td>
+<td>소모덱 전체를 무작위 순서로 재배열 후 대기덱으로 전환</td>
+</tr>
+<tr>
+<td>핸드덱 → 소모덱</td>
+<td>액션 버튼 이후</td>
+<td>핸드에 카드가 존재</td>
+<td>발동 여부와 무관하게 핸드 전체 이동. 이동 순서는 핸드 내 인덱스 순서</td>
+</tr>
+<tr>
+<td>핸드덱 → 소모덱</td>
+<td>사망 캐릭터 카드 처리</td>
+<td><code>isActive == false</code>인 카드가 핸드에 존재</td>
+<td>액션 버튼 이후 핸드 교체 시 함께 이동. 별도 조기 이동 없음</td>
+</tr>
+</tbody>
+</table>
+<h3 id="3-4">3-4. 전투 시작 초기화 순서</h3>
+<div class="highlight"><pre><span></span><code>1. 출전 캐릭터(최대 3인)의 카드를 전부 수집
+2. 수집된 카드 전체를 waitDeck에 배치
+3. waitDeck을 무작위 순서로 셔플
+4. waitDeck에서 최대 5장 드로우 → hand에 배치
+   └─ 드로우 상세 규칙은 §4 드로우 규칙 참고
+5. discardDeck은 빈 배열로 초기화
+</code></pre></div>
+<hr />
+<h2 id="4_1">4. 드로우 규칙</h2>
+<h3 id="4-1-2">4-1. 드로우 트리거 2종</h3>
+<p>드로우는 다음 두 시점에만 발생한다.</p>
+<table>
+<thead>
+<tr>
+<th>트리거</th>
+<th>시점</th>
+<th style="text-align: center;">목표 드로우 수</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>전투 시작 드로우</strong></td>
+<td>전투 초기화 완료 직후 (§3-4 4번 단계)</td>
+<td style="text-align: center;">5장</td>
+</tr>
+<tr>
+<td><strong>액션 버튼 이후 드로우</strong></td>
+<td>핸드 전체가 소모덱으로 이동한 직후</td>
+<td style="text-align: center;">5장</td>
+</tr>
+</tbody>
+</table>
+<p>두 트리거 모두 동일한 드로우 함수(<code>drawCards(count: 5)</code>)를 호출한다.</p>
+<h3 id="4-2-drawcardscount">4-2. 드로우 함수 동작 (<code>drawCards(count)</code>)</h3>
+<div class="highlight"><pre><span></span><code>function drawCards(count: int):
+    remaining = count
+
+    while remaining &gt; 0:
+        if waitDeck.length == 0:
+            if discardDeck.length == 0:
+                break  // §4-4 예외 처리 적용
+            else:
+                shuffleDiscardIntoDeck()  // §4-3 셔플 처리
+
+        card = waitDeck.shift()  // 맨 앞 카드 꺼내기
+        hand.push(card)
+        remaining -= 1
+</code></pre></div>
+<h3 id="4-3">4-3. 대기덱 소진 시 셔플 처리</h3>
+<blockquote>
+<p><strong>[미결 A-3]</strong> 셔플 타이밍이 확정되지 않았습니다.<br />
+- <strong>(a)</strong> 대기덱이 0장이 되는 순간 즉시 셔플 — 드로우 필요 여부와 무관하게 소진과 동시에 셔플<br />
+- <strong>(b)</strong> 드로우를 시도하는 시점에 대기덱이 0이면 그때 셔플 — 표준적인 TCG 방식  </p>
+<p>현재 문서는 <strong>(b) 기준</strong>으로 작성되어 있습니다. (a) 채택 시 <code>drawCards</code> 함수 외부에 소진 감지 훅 추가 필요.</p>
+</blockquote>
+<p><code>shuffleDiscardIntoDeck()</code> 처리 순서:</p>
+<div class="highlight"><pre><span></span><code>1. discardDeck 전체를 waitDeck으로 이동
+2. waitDeck을 무작위 순서로 셔플
+3. discardDeck을 빈 배열로 초기화
+</code></pre></div>
+<h3 id="4-4-5">4-4. 전투 시작 드로우 시 대기덱 5장 미만 처리</h3>
+<blockquote>
+<p><strong>[미결 A-2]</strong> 전투 시작 시 대기덱이 5장 미만인 경우의 처리가 확정되지 않았습니다.<br />
+- <strong>(a)</strong> 있는 장수를 먼저 드로우한 뒤, 소모덱을 셔플하여 대기덱을 보충하고 나머지를 드로우<br />
+- <strong>(b)</strong> 있는 장수만 드로우하고 셔플 없이 전투 시작 (핸드가 5장 미만인 채로 시작 가능)  </p>
+<p>전투 시작 시 소모덱은 빈 상태(§3-4 5번)이므로, 대기덱이 5장 미만인 상황은 <strong>전투 보상으로 카드 수가 적은 초반</strong>에만 발생합니다. (a)는 사실상 초반에 효과가 없으며 (b)와 동일하게 동작합니다. 이 시나리오 자체가 발생 불가능한지 최소 덱 구성 규칙으로 방지할 것인지도 함께 결정 필요.</p>
+</blockquote>
+<h3 id="4-5-0">4-5. 예외: 대기덱·소모덱 모두 0장</h3>
+<p><code>drawCards</code> 함수 내에서 <code>waitDeck.length == 0</code>이고 <code>discardDeck.length == 0</code>이면 드로우를 중단한다.</p>
+<ul>
+<li>핸드덱은 현재까지 드로우된 장수만큼만 유지된다 (0장일 수 있음).</li>
+<li>0장 핸드 상태에서도 액션 버튼은 눌를 수 있다. 발동되는 카드가 없으므로 효과 없이 핸드 교체(이미 비어있음) → 적 카운트 -1만 처리된다.</li>
+<li>이 상태는 덱이 매우 작고 순환이 완료된 경우에 발생한다.</li>
+</ul>
+<hr />
+<h2 id="5">5. 카드 발동 흐름</h2>
+<p>액션 버튼을 누른 시점부터 핸드 교체 완료까지의 처리 순서를 정의한다.<br />
+전투 전체 턴 구조에서 이 섹션은 "액션 버튼 처리" 단계에 해당한다. (<code>docs/systems/combat.md</code> §액션 버튼 처리 흐름과 연동)</p>
+<h3 id="5-1">5-1. 전체 처리 순서</h3>
+<div class="highlight"><pre><span></span><code>[액션 버튼 입력]
+    │
+    ▼
+(1) 중복 숫자 카드 선택 처리 (§5-2)
+    │
+    ▼
+(2) 핸드 전체 매칭 검사 (§5-3)
+    │
+    ├─ 매칭된 카드: 타일 소모 → 효과 실행 목록에 추가
+    └─ 미매칭 카드: 효과 없이 대기
+    │
+    ▼
+(3) 효과 실행 (§5-4) — 매칭된 카드 목록 순서대로
+    │
+    ▼
+(4) 핸드 전체 소모덱으로 이동 (§5-5)
+    │
+    ▼
+(5) 재드로우 — drawCards(5) 호출 (§4-2)
+    │
+    ▼
+[다음 단계: 적 카운트 처리 → combat.md로 위임]
+</code></pre></div>
+<h3 id="5-2">5-2. 중복 숫자 카드 선택</h3>
+<p>핸드에 동일한 <code>effectiveTriggerNumber</code>를 가진 카드가 여러 장 존재하고, 보드에 해당 숫자 타일이 존재할 때 선택이 필요하다.</p>
+<blockquote>
+<p><strong>[미결 B-3]</strong> 중복 숫자 카드 선택 UI의 발동 시점이 확정되지 않았습니다.<br />
+- <strong>(a)</strong> 액션 버튼을 누르기 전에 핸드 영역에서 항상 원하는 카드를 선택할 수 있는 상태 유지<br />
+- <strong>(b)</strong> 액션 버튼을 누른 뒤 중복이 감지된 시점에 선택 팝업 표시  </p>
+<p>(a)는 사전 계획을 강조하는 방식으로 UX가 자연스럽습니다. (b)는 구현이 단순하지만 플레이어가 액션 버튼 이후 추가 입력을 해야 하는 흐름이 됩니다.</p>
+</blockquote>
+<p>중복 검사 로직:</p>
+<div class="highlight"><pre><span></span><code>for each uniqueTriggerNumber in hand:
+    candidates = hand.filter(card =&gt; card.effectiveTriggerNumber == uniqueTriggerNumber)
+    boardHasTile = board.hasTile(uniqueTriggerNumber)
+
+    if candidates.length &gt; 1 &amp;&amp; boardHasTile:
+        // 선택 UI 표시 → 플레이어가 1장 선택
+        // 나머지 candidates는 미선택 상태가 되어 매칭에서 제외
+        // (단, 보드에 같은 숫자 타일이 2개 이상이면 여러 장 발동 가능 — §5-3 참고)
+</code></pre></div>
+<h3 id="5-3">5-3. 매칭 검사</h3>
+<p>핸드의 각 카드에 대해 보드에서 <code>effectiveTriggerNumber</code>와 일치하는 타일을 찾는다.</p>
+<p><strong>규칙:</strong></p>
+<ul>
+<li>정확한 숫자 일치만 허용한다. 더 높은 숫자 타일로 대체 발동은 불가.</li>
+<li>보드에 같은 숫자 타일이 여러 개 있으면, 핸드에 같은 숫자 카드가 여러 장일 때 각각 다른 타일을 소모하여 복수 발동이 가능하다.</li>
+<li><code>isActive == false</code>인 카드(사망 캐릭터 카드)는 보드 타일 존재 여부와 무관하게 매칭에서 제외한다.</li>
+</ul>
+<p><strong>타일 소모 위치 선택:</strong></p>
+<blockquote>
+<p><strong>[미결 B-2]</strong> 보드에 같은 숫자 타일이 여러 개일 때 소모할 타일 위치 결정 방식이 확정되지 않았습니다.<br />
+- <strong>(a)</strong> 자동 선택 — 보드 좌상단 → 우하단 방향으로 첫 번째 해당 타일을 소모<br />
+- <strong>(b)</strong> 플레이어가 직접 소모할 타일 위치를 선택 (추가 선택 UI 필요)  </p>
+<p>(b)는 전략적 깊이를 높이지만 조작 복잡도가 증가합니다.</p>
+</blockquote>
+<p>매칭 후 타일은 <strong>즉시</strong> 보드에서 제거한다. 이후 카드 효과 실행(§5-4) 순서와 관계없이, 타일 소모는 매칭 검사 완료 시점에 일괄 처리한다.</p>
+<h3 id="5-4">5-4. 효과 실행 순서</h3>
+<blockquote>
+<p><strong>[미결 B-1]</strong> 매칭된 카드의 효과 실행 순서가 확정되지 않았습니다.<br />
+- <strong>(a)</strong> 핸드에서 낮은 인덱스(왼쪽) 순서대로 실행<br />
+- <strong>(b)</strong> <code>effectiveTriggerNumber</code> 오름차순 (낮은 숫자 먼저)<br />
+- <strong>(c)</strong> <code>effectiveTriggerNumber</code> 내림차순 (높은 숫자 먼저)<br />
+- <strong>(d)</strong> 플레이어가 실행 순서를 직접 지정  </p>
+<p>파티 연계 발동(§5-5)의 판정이 실행 순서에 의존하므로, B-1과 연계 판정 시점(미결 B-6)을 함께 결정해야 합니다.</p>
+</blockquote>
+<p>효과 실행 중 파티원이 사망해도 이미 대상으로 지정된 카드 효과는 완전히 적용된 후 전투 결과를 판정한다. (예: A 카드가 적을 처치했더라도 처리 대기 중인 B 카드의 효과는 모두 실행됨)</p>
+<p><strong>파티 연계 발동 판정:</strong></p>
+<blockquote>
+<p><strong>[미결 B-6]</strong> 연계 판정 시점이 확정되지 않았습니다.<br />
+- <strong>(a)</strong> 카드 효과를 순차 실행하면서 직전 카드와 현재 카드의 소유 캐릭터가 다르면 연계로 판정<br />
+- <strong>(b)</strong> 플레이어가 카드 실행 순서를 지정한 시점에 미리 연계 여부를 계산  </p>
+<p>연계 보너스 수치는 미결 B-5 참고. 연계 발동 규칙 상세는 <code>docs/systems/party.md</code> (작성 예정)에서 다룬다.</p>
+</blockquote>
+<h3 id="5-5">5-5. 미매칭 카드 처리</h3>
+<p>매칭에 실패한 카드(보드에 해당 타일 없음, <code>isActive == false</code>)는 효과를 발동하지 않는다. 이 카드들은 매칭된 카드와 함께 핸드 교체 시 소모덱으로 이동한다.</p>
+<p>핸드 교체 처리:</p>
+<div class="highlight"><pre><span></span><code>1. hand 내 모든 카드(매칭·미매칭·isActive=false 모두 포함)를 discardDeck으로 이동
+2. hand를 빈 배열로 초기화
+3. drawCards(5) 호출 (§4-2)
+</code></pre></div>
+<hr />
+<h2 id="6">6. 카드 강화</h2>
+<h3 id="6-1">6-1. 합성 조건</h3>
+<table>
+<thead>
+<tr>
+<th>조건</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>같은 <code>id</code>를 가진 카드 2장</td>
+<td>현재 <code>upgradeLevel</code>이 0인 카드 2장이 필요</td>
+</tr>
+<tr>
+<td>합성은 거점(아웃 오브 전투) 화면에서만 가능</td>
+<td>전투 중 합성 불가</td>
+</tr>
+<tr>
+<td>합성 결과 1장이 덱에 남고, 재료 카드 1장은 제거됨</td>
+<td>덱 장수가 1 감소함</td>
+</tr>
+</tbody>
+</table>
+<p>강화 단계는 현재 최대 1단계로 제한한다. <code>upgradeLevel == 1</code>인 카드는 추가 합성 대상이 될 수 없다.</p>
+<h3 id="6-2">6-2. 강화 결과</h3>
+<blockquote>
+<p><strong>[미결 A-4]</strong> 카드 강화(합성) 결과 방식이 확정되지 않았습니다.<br />
+- <strong>(a)</strong> 발동 숫자만 감소 — 예: <code>triggerNumber</code> 16인 카드 → <code>upgradedTriggerNumber</code> 12<br />
+- <strong>(b)</strong> 카드마다 고정된 강화 결과를 데이터로 정의 — 발동 숫자 감소 또는 효과 수치 강화 중 하나  </p>
+<p>(a) 채택 시 <code>upgradedTriggerNumber = triggerNumber - (triggerNumber / 4)</code> 등의 공식으로 자동 산출 가능.<br />
+(b) 채택 시 <code>Card</code> 구조체에 <code>upgradedEffectParams: EffectParams?</code> 필드 추가 필요.  </p>
+<p>아래 예시 표는 <strong>(a) 기준 발동 숫자 감소</strong> 방식으로 작성합니다.</p>
+</blockquote>
+<h4 id="a-4-a">강화 후 발동 숫자 예시 (A-4-a 기준)</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">원본 <code>triggerNumber</code></th>
+<th style="text-align: center;">강화 후 <code>upgradedTriggerNumber</code></th>
+<th>변화</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">3</td>
+<td>-1</td>
+</tr>
+<tr>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">6</td>
+<td>-2</td>
+</tr>
+<tr>
+<td style="text-align: center;">16</td>
+<td style="text-align: center;">12</td>
+<td>-4</td>
+</tr>
+<tr>
+<td style="text-align: center;">32</td>
+<td style="text-align: center;">24</td>
+<td>-8</td>
+</tr>
+<tr>
+<td style="text-align: center;">64</td>
+<td style="text-align: center;">48</td>
+<td>-16</td>
+</tr>
+<tr>
+<td style="text-align: center;">128</td>
+<td style="text-align: center;">96</td>
+<td>-32</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>강화 후 <code>upgradedTriggerNumber</code>는 보드에서 해당 숫자 타일을 병합으로 만들 수 없는 값(예: 3, 6, 12, 24 등)이 될 수 있다. 이 경우 <strong>보드 타일과의 매칭이 불가능</strong>해지므로, A-4 확정 시 발동 가능한 숫자 집합을 재검토해야 한다. 또는 강화 효과를 발동 숫자 감소가 아닌 효과 수치 강화로 변경하는 방향(A-4-b)을 권장.</p>
+</blockquote>
+<h3 id="6-3">6-3. 강화 처리 순서</h3>
+<div class="highlight"><pre><span></span><code>1. 합성 대상 카드 2장 확인 (id 동일, upgradeLevel == 0)
+2. 카드 1장(resultCard)의 upgradeLevel을 1로 갱신
+3. resultCard.upgradedTriggerNumber에 강화 후 발동 숫자 저장
+4. 나머지 카드 1장(sourceCard)을 덱에서 제거
+5. 덱 상태 저장
+</code></pre></div>
+<hr />
+<h2 id="7">7. 카드 보상 및 덱 관리</h2>
+<h3 id="7-1">7-1. 전투 보상 흐름</h3>
+<p>전투 승리 시 카드 보상 선택 화면이 표시된다.</p>
+<div class="highlight"><pre><span></span><code>전투 승리 확정
+    ↓
+보상 후보 카드 3장 무작위 선정 (보상 풀에서 추출)
+    ↓
+보상 화면 표시: 카드 3장을 나란히 표시, 각 카드의 이름·발동 숫자·효과 표시
+    ↓
+플레이어가 1장 선택
+    ↓
+선택한 카드를 현재 덱(waitDeck 또는 discardDeck)에 추가
+    └─ 추가 위치: discardDeck 끝에 추가 (즉시 핸드에 올라오지 않음)
+    ↓
+보상 화면 종료 → 거점 귀환
+</code></pre></div>
+<p>보상 후보 카드 3장은 현재 덱에 포함된 카드와 중복될 수 있다. 보상 화면에서 카드를 선택하지 않고 건너뛰는 옵션은 별도로 결정 필요 (현재 미정의).</p>
+<h3 id="7-2">7-2. 챕터 클리어 시 덱 초기화</h3>
+<p>챕터 클리어 확정 시점에 아래 순서로 초기화한다.</p>
+<div class="highlight"><pre><span></span><code>1. DeckState 전체(waitDeck, hand, discardDeck) 소멸
+2. 전투 보상으로 획득한 카드 전부 제거
+3. 강화된 카드(upgradeLevel &gt;= 1)도 제거
+4. 챕터 시작 이전의 기본 덱 구성으로 복원
+</code></pre></div>
+<blockquote>
+<p>기본 덱의 정의(캐릭터별 초기 카드 목록, 초기 장수)는 <code>docs/characters.md</code> (작성 예정)에서 관리한다.</p>
+</blockquote>
+<h3 id="7-3">7-3. 거점에서의 덱 편집</h3>
+<p>거점 귀환 후 다음 챕터 진입 전, 플레이어는 덱 편집 화면에서 아래 작업을 수행할 수 있다.</p>
+<table>
+<thead>
+<tr>
+<th>작업</th>
+<th style="text-align: center;">가능 여부</th>
+<th>비고</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>카드 강화 (합성)</td>
+<td style="text-align: center;">가능</td>
+<td>§6 참고</td>
+</tr>
+<tr>
+<td>카드 제거</td>
+<td style="text-align: center;">미정</td>
+<td>덱에서 특정 카드를 의도적으로 제거하는 기능 제공 여부 미결</td>
+</tr>
+<tr>
+<td>카드 순서 변경</td>
+<td style="text-align: center;">미정</td>
+<td>대기덱 순서 고정 여부 미결 (셔플이므로 의미 없을 수 있음)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="8">8. 관련 시스템 링크</h2>
+<table>
+<thead>
+<tr>
+<th>시스템</th>
+<th>연관 내용</th>
+<th>문서</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>보드 시스템</td>
+<td>카드 발동을 위한 타일 소모 규칙, 타일 숫자 집합</td>
+<td><a href="../board/">board.md</a></td>
+</tr>
+<tr>
+<td>전투 시스템</td>
+<td>액션 버튼 처리 전체 순서, 적 카운트 감소 타이밍</td>
+<td><a href="../combat/">combat.md</a> (작성 예정)</td>
+</tr>
+<tr>
+<td>파티 연계 시스템</td>
+<td>연계 발동 조건, 연계 보너스 규칙</td>
+<td><a href="party.md">party.md</a> (작성 예정)</td>
+</tr>
+<tr>
+<td>성장 시스템</td>
+<td>챕터 패시브 "공명석" 유물 (64 이상 타일 소모 시 드로우 +1)</td>
+<td><a href="../growth/">growth.md</a> (작성 예정)</td>
+</tr>
+<tr>
+<td>캐릭터</td>
+<td>기본 덱 구성, 캐릭터별 초기 카드 목록</td>
+<td><a href="../characters.md">characters.md</a> (작성 예정)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="9">9. 미결 사항 요약</h2>
+<table>
+<thead>
+<tr>
+<th>번호</th>
+<th>항목</th>
+<th>영향 범위</th>
+<th style="text-align: center;">결정 필요 시점</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>A-1</strong></td>
+<td>카드 효과 타입 목록 (4종 고정 vs. 확장)</td>
+<td>Card 구조체, EffectParams 설계 전반</td>
+<td style="text-align: center;">2단계 착수 전</td>
+</tr>
+<tr>
+<td><strong>A-2</strong></td>
+<td>전투 시작 드로우 시 대기덱 5장 미만 처리</td>
+<td><code>drawCards</code> 초기화 분기</td>
+<td style="text-align: center;">2단계 착수 전</td>
+</tr>
+<tr>
+<td><strong>A-3</strong></td>
+<td>셔플 타이밍 (소진 즉시 vs. 드로우 시도 시점)</td>
+<td><code>drawCards</code> 함수 내 셔플 호출 위치</td>
+<td style="text-align: center;">2단계 착수 전</td>
+</tr>
+<tr>
+<td><strong>A-4</strong></td>
+<td>카드 강화(합성) 결과 방식</td>
+<td>Card 구조체 필드 수, 강화 공식</td>
+<td style="text-align: center;">2단계 착수 전</td>
+</tr>
+<tr>
+<td><strong>A-5</strong></td>
+<td>덱 구성 상한 (무제한 vs. 최대 N장)</td>
+<td>DeckState 구조체, 보상 추가 로직</td>
+<td style="text-align: center;">2단계 착수 전</td>
+</tr>
+<tr>
+<td><strong>B-1</strong></td>
+<td>카드 효과 실행 순서</td>
+<td>연계 판정 순서, 효과 적용 순서</td>
+<td style="text-align: center;">3단계 착수 전</td>
+</tr>
+<tr>
+<td><strong>B-2</strong></td>
+<td>동일 숫자 타일 다수 존재 시 소모 위치</td>
+<td>매칭 검사 로직, 선택 UI 필요 여부</td>
+<td style="text-align: center;">3단계 착수 전</td>
+</tr>
+<tr>
+<td><strong>B-3</strong></td>
+<td>중복 숫자 카드 선택 UI 발동 시점</td>
+<td>액션 버튼 처리 흐름, UX 설계</td>
+<td style="text-align: center;">3단계 착수 전</td>
+</tr>
+<tr>
+<td><strong>B-6</strong></td>
+<td>연계 판정 시점</td>
+<td>B-1과 연동, party.md 설계</td>
+<td style="text-align: center;">3단계 착수 전</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  맨위로
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.indexes", "navigation.top", "toc.integrate", "search.suggest", "search.highlight", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\ud074\ub9bd\ubcf4\ub4dc\uc5d0 \ubcf5\uc0ac\ub428", "clipboard.copy": "\ud074\ub9bd\ubcf4\ub4dc\ub85c \ubcf5\uc0ac", "search.result.more.one": "\uc774 \ubb38\uc11c\uc5d0\uc11c 1\uac1c\uc758 \uac80\uc0c9 \uacb0\uacfc \ub354 \ubcf4\uae30", "search.result.more.other": "\uc774 \ubb38\uc11c\uc5d0\uc11c #\uac1c\uc758 \uac80\uc0c9 \uacb0\uacfc \ub354 \ubcf4\uae30", "search.result.none": "\uac80\uc0c9\uc5b4\uc640 \uc77c\uce58\ud558\ub294 \ubb38\uc11c\uac00 \uc5c6\uc2b5\ub2c8\ub2e4", "search.result.one": "1\uac1c\uc758 \uc77c\uce58\ud558\ub294 \ubb38\uc11c", "search.result.other": "#\uac1c\uc758 \uc77c\uce58\ud558\ub294 \ubb38\uc11c", "search.result.placeholder": "\uac80\uc0c9\uc5b4\ub97c \uc785\ub825\ud558\uc138\uc694", "search.result.term.missing": "\ud3ec\ud568\ub418\uc9c0 \uc54a\uc740 \uac80\uc0c9\uc5b4", "select.version": "\ubc84\uc804 \uc120\ud0dd"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../javascripts/scroll_top.js"></script>
+      
+    
+  </body>
+</html>

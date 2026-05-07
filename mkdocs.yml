@@ -36,9 +36,15 @@ extra_javascript:
 # 메뉴 구조
 nav:
   - 게임 개요: index.md
-  - 게임 세부 시스템:
+  - 인게임 전투:
     - systems/overview.md
     - 보드 시스템: systems/board.md
+    - 카드 시스템: systems/card.md
+    - 전투 흐름: systems/combat.md
+    - 적 AI: systems/enemy.md
+    - 전투 화면 목업: combat_mockup.md
+  - 게임 세부 시스템:
+    - 성장 시스템: systems/growth.md
   - UI/UX: ux.md
   - 스키마 설계: schema.md
   - 필요 리소스: resources.md
