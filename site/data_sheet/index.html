@@ -1,0 +1,2345 @@
+
+<!doctype html>
+<html lang="ko" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://suan2z.github.io/2048/data_sheet/">
+      
+      
+        <link rel="prev" href="../schema/">
+      
+      
+        <link rel="next" href="../resources/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>데이터 시트 - 2048 기획서</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          콘텐츠로 이동
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="상단/헤더">
+    <a href=".." title="2048 기획서" class="md-header__button md-logo" aria-label="2048 기획서" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            2048 기획서
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              데이터 시트
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="검색" placeholder="검색" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="검색">
+        
+        <button type="reset" class="md-search__icon md-icon" title="지우기" aria-label="지우기" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            검색 초기화
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="탭" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  게임 개요
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../systems/overview/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  인게임 전투
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../systems/growth/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  게임 세부 시스템
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ux/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  UI/UX
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../schema/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  스키마 설계
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  데이터 시트
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../resources/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  필요 리소스
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../schedule/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  일정
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../backup/concept_A/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  백업
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="네비게이션" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="2048 기획서" class="md-nav__button md-logo" aria-label="2048 기획서" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    2048 기획서
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    게임 개요
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    인게임 전투
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    인게임 전투
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../systems/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    인게임 전투 개요
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../systems/character/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    캐릭터 시스템
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../systems/board/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    보드 시스템
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../systems/card/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    카드 시스템
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../systems/combat/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    전투 흐름
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../systems/enemy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    적 AI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../combat_mockup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    전투 화면 목업
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    게임 세부 시스템
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    게임 세부 시스템
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../systems/growth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    성장 시스템
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    UI/UX
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../schema/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    스키마 설계
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    데이터 시트
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    데이터 시트
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="목차">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      목차
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        파이프라인
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        시트 목록
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        시트 상세
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        변환 스크립트 입출력 요약
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../resources/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    필요 리소스
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../schedule/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    일정
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    백업
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    백업
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../backup/concept_A/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    안 A — 카제나 방식 × 패키지 RPG
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../backup/concept_B/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    안 B — 스테이지 클리어 × 덱 리셋 로그라이크
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../backup/concept_C/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    안 C — 2048 에너지 보드 × 덱 카드 RPG
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../references/limbus/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    림버스 컴퍼니
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../references/chaos_zero_nightmare/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    카오스 제로 나이트메어
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="_1">데이터 시트 설계</h1>
+<blockquote>
+<p>Google Sheets(또는 Excel)로 게임 데이터를 편집하고, 변환 스크립트로 JSON을 생성하는 파이프라인을 정의합니다.<br />
+JSON 구조 상세는 <a href="../schema/">schema.md</a>를 참조하십시오.</p>
+</blockquote>
+<hr />
+<h2 id="_2">파이프라인</h2>
+<div class="highlight"><pre><span></span><code>Google Sheets  ──변환 스크립트──▶  JSON 파일  ──로드──▶  게임
+  (편집 소스)                      (게임 데이터)
+</code></pre></div>
+<ul>
+<li><strong>시트</strong>: 기획자가 편집하는 소스. 평면(2D) 구조.</li>
+<li><strong>변환 스크립트</strong>: 시트 → JSON 변환. 시트의 분리된 행을 중첩 구조로 조립.</li>
+<li><strong>JSON</strong>: 게임 코드가 읽는 최종 데이터. <a href="../schema/">schema.md</a> 구조를 따름.</li>
+</ul>
+<hr />
+<h2 id="_3">시트 목록</h2>
+<table>
+<thead>
+<tr>
+<th>시트 탭</th>
+<th>대응 JSON</th>
+<th>비고</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="#stage">Stage</a></td>
+<td><code>stages.json</code></td>
+<td>보드 설정·챕터 위치</td>
+</tr>
+<tr>
+<td><a href="#stagemonster">StageMonster</a></td>
+<td><code>stages.json</code> 내 <code>monsters[]</code></td>
+<td>Stage에 병합</td>
+</tr>
+<tr>
+<td><a href="#character">Character</a></td>
+<td><code>characters.json</code></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="#card">Card</a></td>
+<td><code>cards.json</code></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="#monster">Monster</a></td>
+<td><code>monsters.json</code></td>
+<td>기본 스탯만</td>
+</tr>
+<tr>
+<td><a href="#monsteraction">MonsterAction</a></td>
+<td><code>monsters.json</code> 내 <code>actionPattern</code>, <code>phaseThresholds[].actionPattern</code></td>
+<td>Monster에 병합</td>
+</tr>
+<tr>
+<td><a href="#bossphase">BossPhase</a></td>
+<td><code>monsters.json</code> 내 <code>phaseThresholds[]</code></td>
+<td>Monster에 병합</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="_4">시트 상세</h2>
+<h3 id="stage">Stage</h3>
+<table>
+<thead>
+<tr>
+<th>컬럼</th>
+<th>타입</th>
+<th>예시</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td>string</td>
+<td><code>ch1_stage1</code></td>
+<td>스테이지 식별자 (PK)</td>
+</tr>
+<tr>
+<td><code>chapterId</code></td>
+<td>string</td>
+<td><code>chapter1</code></td>
+<td>소속 챕터</td>
+</tr>
+<tr>
+<td><code>orderInChapter</code></td>
+<td>number</td>
+<td><code>1</code></td>
+<td>챕터 내 순서</td>
+</tr>
+<tr>
+<td><code>stageType</code></td>
+<td>enum</td>
+<td><code>NORMAL</code></td>
+<td><code>NORMAL</code> / <code>ELITE</code> / <code>BOSS</code></td>
+</tr>
+<tr>
+<td><code>maxSlides</code></td>
+<td>number</td>
+<td><code>5</code></td>
+<td>턴당 최대 슬라이드 횟수</td>
+</tr>
+<tr>
+<td><code>tileValues</code></td>
+<td>string</td>
+<td><code>2,4</code></td>
+<td>생성 가능한 타일 값. 쉼표 구분</td>
+</tr>
+<tr>
+<td><code>tileWeights</code></td>
+<td>string</td>
+<td><code>3,1</code></td>
+<td>각 타일 값의 생성 가중치. 쉼표 구분. <code>tileValues</code>와 길이 동일</td>
+</tr>
+</tbody>
+</table>
+<p><strong>예시 행</strong></p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>chapterId</th>
+<th style="text-align: center;">orderInChapter</th>
+<th>stageType</th>
+<th style="text-align: center;">maxSlides</th>
+<th>tileValues</th>
+<th>tileWeights</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ch1_stage1</td>
+<td>chapter1</td>
+<td style="text-align: center;">1</td>
+<td>NORMAL</td>
+<td style="text-align: center;">5</td>
+<td>2</td>
+<td>1</td>
+</tr>
+<tr>
+<td>ch1_stage2</td>
+<td>chapter1</td>
+<td style="text-align: center;">2</td>
+<td>ELITE</td>
+<td style="text-align: center;">4</td>
+<td>2,4</td>
+<td>3,1</td>
+</tr>
+<tr>
+<td>ch1_stage3</td>
+<td>chapter1</td>
+<td style="text-align: center;">3</td>
+<td>BOSS</td>
+<td style="text-align: center;">5</td>
+<td>2,4</td>
+<td>3,1</td>
+</tr>
+</tbody>
+</table>
+<p><strong>변환 규칙</strong>: <code>tileValues</code>, <code>tileWeights</code> → 쉼표로 분리하여 <code>tileSpawnConfig.values[]</code>, <code>tileSpawnConfig.weights[]</code> 배열로 변환.</p>
+<hr />
+<h3 id="stagemonster">StageMonster</h3>
+<p>Stage와 Monster를 연결하는 중간 테이블.<br />
+변환 시 <code>stageId</code>로 그룹화하여 해당 Stage의 <code>monsters[]</code> 배열로 병합된다.</p>
+<table>
+<thead>
+<tr>
+<th>컬럼</th>
+<th>타입</th>
+<th>예시</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>stageId</code></td>
+<td>string</td>
+<td><code>ch1_stage1</code></td>
+<td><code>Stage.id</code> 참조 (FK)</td>
+</tr>
+<tr>
+<td><code>monsterId</code></td>
+<td>string</td>
+<td><code>goblin_01</code></td>
+<td><code>Monster.id</code> 참조 (FK)</td>
+</tr>
+<tr>
+<td><code>position</code></td>
+<td>number</td>
+<td><code>1</code></td>
+<td>화면 위→아래 순서이자 행동 처리 순서. 오름차순, 중복 불가</td>
+</tr>
+</tbody>
+</table>
+<p><strong>예시 행</strong></p>
+<table>
+<thead>
+<tr>
+<th>stageId</th>
+<th>monsterId</th>
+<th style="text-align: center;">position</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ch1_stage1</td>
+<td>goblin_01</td>
+<td style="text-align: center;">1</td>
+</tr>
+<tr>
+<td>ch1_stage1</td>
+<td>goblin_02</td>
+<td style="text-align: center;">2</td>
+</tr>
+<tr>
+<td>ch1_stage2</td>
+<td>orc_mage_01</td>
+<td style="text-align: center;">1</td>
+</tr>
+<tr>
+<td>ch1_stage3</td>
+<td>dragon_boss_01</td>
+<td style="text-align: center;">1</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="character">Character</h3>
+<table>
+<thead>
+<tr>
+<th>컬럼</th>
+<th>타입</th>
+<th>예시</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td>string</td>
+<td><code>char_a</code></td>
+<td>캐릭터 식별자 (PK)</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td>string</td>
+<td><code>카이</code></td>
+<td>화면 표시 이름</td>
+</tr>
+<tr>
+<td><code>baseHp</code></td>
+<td>number</td>
+<td><code>80</code></td>
+<td>최대 체력</td>
+</tr>
+<tr>
+<td><code>isDlc</code></td>
+<td>boolean</td>
+<td><code>FALSE</code></td>
+<td>DLC 캐릭터 여부</td>
+</tr>
+</tbody>
+</table>
+<p><strong>예시 행</strong></p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>name</th>
+<th style="text-align: center;">baseHp</th>
+<th style="text-align: center;">isDlc</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>char_a</td>
+<td>카이</td>
+<td style="text-align: center;">80</td>
+<td style="text-align: center;">FALSE</td>
+</tr>
+<tr>
+<td>char_b</td>
+<td>레나</td>
+<td style="text-align: center;">60</td>
+<td style="text-align: center;">FALSE</td>
+</tr>
+<tr>
+<td>char_c</td>
+<td>막스</td>
+<td style="text-align: center;">100</td>
+<td style="text-align: center;">FALSE</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="card">Card</h3>
+<table>
+<thead>
+<tr>
+<th>컬럼</th>
+<th>타입</th>
+<th>예시</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td>string</td>
+<td><code>char_a_atk_01</code></td>
+<td>카드 식별자 (PK)</td>
+</tr>
+<tr>
+<td><code>ownerCharacterId</code></td>
+<td>string</td>
+<td><code>char_a</code></td>
+<td><code>Character.id</code> 참조 (FK)</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td>string</td>
+<td><code>참격</code></td>
+<td>카드 표시 이름</td>
+</tr>
+<tr>
+<td><code>triggerNumber</code></td>
+<td>number</td>
+<td><code>16</code></td>
+<td>발동 숫자. <code>4/8/16/32/64/128</code> 중 하나</td>
+</tr>
+<tr>
+<td><code>grade</code></td>
+<td>enum</td>
+<td><code>ENHANCED</code></td>
+<td><code>triggerNumber</code>에서 파생. 입력 편의용</td>
+</tr>
+<tr>
+<td><code>effectType</code></td>
+<td>enum</td>
+<td><code>ATTACK</code></td>
+<td><code>ATTACK</code> / <code>HEAL</code> / <code>BUFF</code> / <code>DEBUFF</code></td>
+</tr>
+<tr>
+<td><code>targetType</code></td>
+<td>enum</td>
+<td><code>SINGLE_ENEMY</code></td>
+<td><code>SINGLE_ENEMY</code> / <code>ALL_ENEMIES</code> / <code>SINGLE_ALLY</code> / <code>ALL_ALLIES</code></td>
+</tr>
+<tr>
+<td><code>damage</code></td>
+<td>number</td>
+<td><code>25</code></td>
+<td><code>ATTACK</code> 전용. 피해량</td>
+</tr>
+<tr>
+<td><code>healAmount</code></td>
+<td>number</td>
+<td></td>
+<td><code>HEAL</code> 전용. 회복량</td>
+</tr>
+<tr>
+<td><code>buffId</code></td>
+<td>string</td>
+<td></td>
+<td><code>BUFF</code> 전용. 버프 식별자</td>
+</tr>
+<tr>
+<td><code>debuffId</code></td>
+<td>string</td>
+<td></td>
+<td><code>DEBUFF</code> 전용. 디버프 식별자</td>
+</tr>
+<tr>
+<td><code>duration</code></td>
+<td>number</td>
+<td></td>
+<td><code>BUFF</code>/<code>DEBUFF</code> 전용. 지속 액션 버튼 횟수. 빈 칸이면 영구</td>
+</tr>
+<tr>
+<td><code>upgradedTriggerNumber</code></td>
+<td>number</td>
+<td><code>8</code></td>
+<td>강화 후 대체 발동 숫자. 빈 칸이면 미강화 상태</td>
+</tr>
+</tbody>
+</table>
+<p><strong>예시 행</strong></p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>ownerCharacterId</th>
+<th>name</th>
+<th style="text-align: center;">triggerNumber</th>
+<th>grade</th>
+<th>effectType</th>
+<th>targetType</th>
+<th style="text-align: center;">damage</th>
+<th style="text-align: center;">healAmount</th>
+<th>buffId</th>
+<th>debuffId</th>
+<th style="text-align: center;">duration</th>
+<th style="text-align: center;">upgradedTriggerNumber</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>char_a_atk_01</td>
+<td>char_a</td>
+<td>참격</td>
+<td style="text-align: center;">8</td>
+<td>NORMAL</td>
+<td>ATTACK</td>
+<td>SINGLE_ENEMY</td>
+<td style="text-align: center;">12</td>
+<td style="text-align: center;"></td>
+<td></td>
+<td></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>char_a_atk_02</td>
+<td>char_a</td>
+<td>연참</td>
+<td style="text-align: center;">16</td>
+<td>ENHANCED</td>
+<td>ATTACK</td>
+<td>ALL_ENEMIES</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;"></td>
+<td></td>
+<td></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">8</td>
+</tr>
+<tr>
+<td>char_b_heal_01</td>
+<td>char_b</td>
+<td>응급처치</td>
+<td style="text-align: center;">8</td>
+<td>NORMAL</td>
+<td>HEAL</td>
+<td>SINGLE_ALLY</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">15</td>
+<td></td>
+<td></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>char_c_buff_01</td>
+<td>char_c</td>
+<td>방어 태세</td>
+<td style="text-align: center;">16</td>
+<td>ENHANCED</td>
+<td>BUFF</td>
+<td>ALL_ALLIES</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td>shield_up</td>
+<td></td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>변환 규칙</strong>: <code>damage</code>, <code>healAmount</code>, <code>buffId</code>, <code>debuffId</code>, <code>duration</code> → <code>effectParams</code> 객체로 묶음. 빈 칸은 <code>undefined</code>.</p>
+<hr />
+<h3 id="monster">Monster</h3>
+<p>행동 패턴은 <a href="#monsteraction">MonsterAction</a> 시트에 별도 입력하며 변환 시 병합된다.</p>
+<table>
+<thead>
+<tr>
+<th>컬럼</th>
+<th>타입</th>
+<th>예시</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td>string</td>
+<td><code>goblin_01</code></td>
+<td>적 식별자 (PK)</td>
+</tr>
+<tr>
+<td><code>displayName</code></td>
+<td>string</td>
+<td><code>고블린 검사</code></td>
+<td>화면 표시 이름</td>
+</tr>
+<tr>
+<td><code>enemyType</code></td>
+<td>enum</td>
+<td><code>NORMAL</code></td>
+<td><code>NORMAL</code> / <code>ELITE</code> / <code>BOSS</code></td>
+</tr>
+<tr>
+<td><code>maxHp</code></td>
+<td>number</td>
+<td><code>40</code></td>
+<td>최대 체력</td>
+</tr>
+<tr>
+<td><code>initialShield</code></td>
+<td>number</td>
+<td><code>0</code></td>
+<td>전투 시작 방어막. <code>0</code>이면 없음</td>
+</tr>
+<tr>
+<td><code>initialCount</code></td>
+<td>number</td>
+<td><code>3</code></td>
+<td>페이즈 1 기본 카운트 초기값</td>
+</tr>
+</tbody>
+</table>
+<p><strong>예시 행</strong></p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>displayName</th>
+<th>enemyType</th>
+<th style="text-align: center;">maxHp</th>
+<th style="text-align: center;">initialShield</th>
+<th style="text-align: center;">initialCount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>goblin_01</td>
+<td>고블린 검사</td>
+<td>NORMAL</td>
+<td style="text-align: center;">40</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">3</td>
+</tr>
+<tr>
+<td>orc_mage_01</td>
+<td>오크 마법사</td>
+<td>ELITE</td>
+<td style="text-align: center;">80</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">2</td>
+</tr>
+<tr>
+<td>dragon_boss_01</td>
+<td>보스 드래곤</td>
+<td>BOSS</td>
+<td style="text-align: center;">500</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">4</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="monsteraction">MonsterAction</h3>
+<p>적의 모든 행동을 정의한다. 변환 시 <code>monsterId</code> + <code>phase</code>로 그룹화하여 <code>actionPattern</code>을 구성하고, <code>Monster</code> JSON에 병합된다.</p>
+<table>
+<thead>
+<tr>
+<th>컬럼</th>
+<th>타입</th>
+<th>예시</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>monsterId</code></td>
+<td>string</td>
+<td><code>dragon_boss_01</code></td>
+<td><code>Monster.id</code> 참조 (FK)</td>
+</tr>
+<tr>
+<td><code>phase</code></td>
+<td>number</td>
+<td><code>1</code></td>
+<td>소속 페이즈. <code>1</code> = 기본 패턴, <code>2 이상</code> = 해당 BossPhase 패턴</td>
+</tr>
+<tr>
+<td><code>role</code></td>
+<td>enum</td>
+<td><code>action</code></td>
+<td>행동 역할. 아래 표 참조</td>
+</tr>
+<tr>
+<td><code>orderIndex</code></td>
+<td>number</td>
+<td><code>0</code></td>
+<td><code>role = action</code>일 때 순환 순서. 0부터 시작. 나머지 role은 빈 칸</td>
+</tr>
+<tr>
+<td><code>actionType</code></td>
+<td>enum</td>
+<td><code>ATTACK_AOE</code></td>
+<td><code>ATTACK_SINGLE</code> / <code>ATTACK_AOE</code> / <code>DEBUFF</code> / <code>BUFF_SELF</code></td>
+</tr>
+<tr>
+<td><code>targetMode</code></td>
+<td>enum</td>
+<td><code>ALL</code></td>
+<td><code>SINGLE</code> / <code>ALL</code>. <code>ATTACK_AOE</code>·<code>BUFF_SELF</code>는 무시됨</td>
+</tr>
+<tr>
+<td><code>power</code></td>
+<td>number</td>
+<td><code>15</code></td>
+<td>피해량 또는 효과 수치</td>
+</tr>
+<tr>
+<td><code>effectId</code></td>
+<td>string</td>
+<td><code>defense_down</code></td>
+<td><code>DEBUFF</code>·<code>BUFF_SELF</code> 전용. 빈 칸이면 없음</td>
+</tr>
+<tr>
+<td><code>effectDuration</code></td>
+<td>number</td>
+<td><code>2</code></td>
+<td>효과 지속 횟수. 빈 칸이면 영구</td>
+</tr>
+<tr>
+<td><code>resetCount</code></td>
+<td>number</td>
+<td><code>4</code></td>
+<td>이 행동 실행 후 카운트 리셋값</td>
+</tr>
+<tr>
+<td><code>scheduledTurns</code></td>
+<td>string</td>
+<td><code>5,10,15</code></td>
+<td>특정 턴에만 발동. 쉼표 구분. 빈 칸이면 기본 순환에 포함</td>
+</tr>
+</tbody>
+</table>
+<p><strong>role 종류</strong></p>
+<table>
+<thead>
+<tr>
+<th>값</th>
+<th>설명</th>
+<th style="text-align: center;"><code>orderIndex</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>action</code></td>
+<td>순환 목록의 일반 행동</td>
+<td style="text-align: center;">필수</td>
+</tr>
+<tr>
+<td><code>default</code></td>
+<td>스킬 없는 턴의 기본 행동</td>
+<td style="text-align: center;">빈 칸</td>
+</tr>
+<tr>
+<td><code>transition</code></td>
+<td>페이즈 전환 즉시 발동 행동 (<code>phase 2</code> 이상에서만 유효)</td>
+<td style="text-align: center;">빈 칸</td>
+</tr>
+</tbody>
+</table>
+<p><strong>예시 행</strong></p>
+<table>
+<thead>
+<tr>
+<th>monsterId</th>
+<th style="text-align: center;">phase</th>
+<th>role</th>
+<th style="text-align: center;">orderIndex</th>
+<th>actionType</th>
+<th style="text-align: center;">targetMode</th>
+<th style="text-align: center;">power</th>
+<th>effectId</th>
+<th style="text-align: center;">effectDuration</th>
+<th style="text-align: center;">resetCount</th>
+<th>scheduledTurns</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>goblin_01</td>
+<td style="text-align: center;">1</td>
+<td>action</td>
+<td style="text-align: center;">0</td>
+<td>ATTACK_SINGLE</td>
+<td style="text-align: center;">SINGLE</td>
+<td style="text-align: center;">8</td>
+<td></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">3</td>
+<td></td>
+</tr>
+<tr>
+<td>goblin_01</td>
+<td style="text-align: center;">1</td>
+<td>action</td>
+<td style="text-align: center;">1</td>
+<td>ATTACK_SINGLE</td>
+<td style="text-align: center;">SINGLE</td>
+<td style="text-align: center;">8</td>
+<td></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">3</td>
+<td></td>
+</tr>
+<tr>
+<td>goblin_01</td>
+<td style="text-align: center;">1</td>
+<td>default</td>
+<td style="text-align: center;"></td>
+<td>ATTACK_SINGLE</td>
+<td style="text-align: center;">SINGLE</td>
+<td style="text-align: center;">8</td>
+<td></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">3</td>
+<td></td>
+</tr>
+<tr>
+<td>orc_mage_01</td>
+<td style="text-align: center;">1</td>
+<td>action</td>
+<td style="text-align: center;">0</td>
+<td>ATTACK_SINGLE</td>
+<td style="text-align: center;">SINGLE</td>
+<td style="text-align: center;">8</td>
+<td></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">3</td>
+<td></td>
+</tr>
+<tr>
+<td>orc_mage_01</td>
+<td style="text-align: center;">1</td>
+<td>action</td>
+<td style="text-align: center;">1</td>
+<td>ATTACK_SINGLE</td>
+<td style="text-align: center;">SINGLE</td>
+<td style="text-align: center;">8</td>
+<td></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">3</td>
+<td></td>
+</tr>
+<tr>
+<td>orc_mage_01</td>
+<td style="text-align: center;">1</td>
+<td>action</td>
+<td style="text-align: center;">2</td>
+<td>ATTACK_AOE</td>
+<td style="text-align: center;">ALL</td>
+<td style="text-align: center;">12</td>
+<td></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">3</td>
+<td></td>
+</tr>
+<tr>
+<td>orc_mage_01</td>
+<td style="text-align: center;">1</td>
+<td>default</td>
+<td style="text-align: center;"></td>
+<td>ATTACK_SINGLE</td>
+<td style="text-align: center;">SINGLE</td>
+<td style="text-align: center;">8</td>
+<td></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">3</td>
+<td></td>
+</tr>
+<tr>
+<td>orc_mage_01</td>
+<td style="text-align: center;">1</td>
+<td>action</td>
+<td style="text-align: center;"></td>
+<td>DEBUFF</td>
+<td style="text-align: center;">ALL</td>
+<td style="text-align: center;">5</td>
+<td>defense_down</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">3</td>
+<td>5,10,15</td>
+</tr>
+<tr>
+<td>dragon_boss_01</td>
+<td style="text-align: center;">1</td>
+<td>action</td>
+<td style="text-align: center;">0</td>
+<td>ATTACK_SINGLE</td>
+<td style="text-align: center;">SINGLE</td>
+<td style="text-align: center;">20</td>
+<td></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">4</td>
+<td></td>
+</tr>
+<tr>
+<td>dragon_boss_01</td>
+<td style="text-align: center;">1</td>
+<td>action</td>
+<td style="text-align: center;">1</td>
+<td>ATTACK_AOE</td>
+<td style="text-align: center;">ALL</td>
+<td style="text-align: center;">15</td>
+<td></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">4</td>
+<td></td>
+</tr>
+<tr>
+<td>dragon_boss_01</td>
+<td style="text-align: center;">1</td>
+<td>action</td>
+<td style="text-align: center;">2</td>
+<td>BUFF_SELF</td>
+<td style="text-align: center;">SINGLE</td>
+<td style="text-align: center;">40</td>
+<td>shield_gain</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">4</td>
+<td></td>
+</tr>
+<tr>
+<td>dragon_boss_01</td>
+<td style="text-align: center;">1</td>
+<td>default</td>
+<td style="text-align: center;"></td>
+<td>ATTACK_SINGLE</td>
+<td style="text-align: center;">SINGLE</td>
+<td style="text-align: center;">20</td>
+<td></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">4</td>
+<td></td>
+</tr>
+<tr>
+<td>dragon_boss_01</td>
+<td style="text-align: center;">2</td>
+<td>transition</td>
+<td style="text-align: center;"></td>
+<td>ATTACK_AOE</td>
+<td style="text-align: center;">ALL</td>
+<td style="text-align: center;">30</td>
+<td></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">3</td>
+<td></td>
+</tr>
+<tr>
+<td>dragon_boss_01</td>
+<td style="text-align: center;">2</td>
+<td>action</td>
+<td style="text-align: center;">0</td>
+<td>ATTACK_AOE</td>
+<td style="text-align: center;">ALL</td>
+<td style="text-align: center;">20</td>
+<td></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">3</td>
+<td></td>
+</tr>
+<tr>
+<td>dragon_boss_01</td>
+<td style="text-align: center;">2</td>
+<td>action</td>
+<td style="text-align: center;">1</td>
+<td>ATTACK_AOE</td>
+<td style="text-align: center;">ALL</td>
+<td style="text-align: center;">20</td>
+<td>defense_down</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">3</td>
+<td></td>
+</tr>
+<tr>
+<td>dragon_boss_01</td>
+<td style="text-align: center;">2</td>
+<td>default</td>
+<td style="text-align: center;"></td>
+<td>ATTACK_AOE</td>
+<td style="text-align: center;">ALL</td>
+<td style="text-align: center;">20</td>
+<td></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">3</td>
+<td></td>
+</tr>
+<tr>
+<td>dragon_boss_01</td>
+<td style="text-align: center;">3</td>
+<td>action</td>
+<td style="text-align: center;">0</td>
+<td>ATTACK_AOE</td>
+<td style="text-align: center;">ALL</td>
+<td style="text-align: center;">25</td>
+<td></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">2</td>
+<td></td>
+</tr>
+<tr>
+<td>dragon_boss_01</td>
+<td style="text-align: center;">3</td>
+<td>action</td>
+<td style="text-align: center;">1</td>
+<td>ATTACK_AOE</td>
+<td style="text-align: center;">ALL</td>
+<td style="text-align: center;">30</td>
+<td></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">2</td>
+<td></td>
+</tr>
+<tr>
+<td>dragon_boss_01</td>
+<td style="text-align: center;">3</td>
+<td>default</td>
+<td style="text-align: center;"></td>
+<td>ATTACK_AOE</td>
+<td style="text-align: center;">ALL</td>
+<td style="text-align: center;">25</td>
+<td></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">2</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>변환 규칙</strong></p>
+<div class="highlight"><pre><span></span><code>MonsterAction 행 전체를 monsterId로 그룹화
+  → phase = 1인 행: Monster.actionPattern 구성
+      role = &#39;action&#39;  → orderIndex 오름차순 정렬 → actionPattern.actions[]
+      role = &#39;default&#39; → actionPattern.defaultAction
+  → phase &gt;= 2인 행: 해당 phase의 BossPhase.actionPattern 구성
+      role = &#39;action&#39;      → actionPattern.actions[]
+      role = &#39;default&#39;     → actionPattern.defaultAction
+      role = &#39;transition&#39;  → PhaseThreshold.transitionAction
+scheduledTurns 쉼표 문자열 → number[] 배열로 변환. 빈 칸이면 undefined
+effectDuration 빈 칸 → undefined (영구 지속 예약)
+</code></pre></div>
+<hr />
+<h3 id="bossphase">BossPhase</h3>
+<p>보스 페이즈 전환 조건을 정의한다. <code>enemyType = BOSS</code>인 Monster 전용.<br />
+변환 시 <code>monsterId</code>로 그룹화하여 <code>Monster.phaseThresholds[]</code>에 병합된다.<br />
+<code>initialCount</code>는 각 페이즈의 <code>ActionPattern.initialCount</code>로 사용된다.</p>
+<table>
+<thead>
+<tr>
+<th>컬럼</th>
+<th>타입</th>
+<th>예시</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>monsterId</code></td>
+<td>string</td>
+<td><code>dragon_boss_01</code></td>
+<td><code>Monster.id</code> 참조 (FK). <code>enemyType = BOSS</code>만 유효</td>
+</tr>
+<tr>
+<td><code>phaseNumber</code></td>
+<td>number</td>
+<td><code>2</code></td>
+<td>페이즈 번호. 2 이상 (1은 Monster 기본 패턴)</td>
+</tr>
+<tr>
+<td><code>triggerValue</code></td>
+<td>number</td>
+<td><code>0.5</code></td>
+<td>전환 트리거 체력 비율. <code>0.0 초과 ~ 1.0 미만</code></td>
+</tr>
+<tr>
+<td><code>initialCount</code></td>
+<td>number</td>
+<td><code>3</code></td>
+<td>이 페이즈의 카운트 초기값</td>
+</tr>
+</tbody>
+</table>
+<p><strong>예시 행</strong></p>
+<table>
+<thead>
+<tr>
+<th>monsterId</th>
+<th style="text-align: center;">phaseNumber</th>
+<th style="text-align: center;">triggerValue</th>
+<th style="text-align: center;">initialCount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>dragon_boss_01</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">0.5</td>
+<td style="text-align: center;">3</td>
+</tr>
+<tr>
+<td>dragon_boss_01</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">0.25</td>
+<td style="text-align: center;">2</td>
+</tr>
+</tbody>
+</table>
+<p><strong>제약 조건</strong>: <code>triggerValue</code> 내림차순 정렬 권장. <code>phaseNumber</code>는 해당 monsterId의 MonsterAction에 같은 <code>phase</code> 값의 행이 존재해야 한다.</p>
+<hr />
+<h2 id="_5">변환 스크립트 입출력 요약</h2>
+<div class="highlight"><pre><span></span><code>입력  : 시트 7개 (CSV 또는 Google Sheets API)
+출력  : stages.json / characters.json / cards.json / monsters.json
+
+stages.json    ← Stage + StageMonster 병합
+characters.json← Character
+cards.json     ← Card (effectParams 객체로 조립)
+monsters.json  ← Monster + MonsterAction + BossPhase 병합
+</code></pre></div>
+<p><strong>병합 순서</strong></p>
+<div class="highlight"><pre><span></span><code>1. BossPhase 행을 monsterId로 그룹화 → phaseThresholds[] 초안 구성
+2. MonsterAction 행을 monsterId + phase로 그룹화 → actionPattern 구성
+   phase = 1  → Monster.actionPattern
+   phase &gt;= 2 → 해당 PhaseThreshold.actionPattern + transitionAction
+3. Monster 행 + 위 결과 병합 → monsters.json
+4. StageMonster 행을 stageId로 그룹화 → Stage.monsters[] 구성
+5. Stage 행 + 위 결과 병합 → stages.json
+</code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  맨위로
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.indexes", "navigation.top", "toc.integrate", "search.suggest", "search.highlight", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\ud074\ub9bd\ubcf4\ub4dc\uc5d0 \ubcf5\uc0ac\ub428", "clipboard.copy": "\ud074\ub9bd\ubcf4\ub4dc\ub85c \ubcf5\uc0ac", "search.result.more.one": "\uc774 \ubb38\uc11c\uc5d0\uc11c 1\uac1c\uc758 \uac80\uc0c9 \uacb0\uacfc \ub354 \ubcf4\uae30", "search.result.more.other": "\uc774 \ubb38\uc11c\uc5d0\uc11c #\uac1c\uc758 \uac80\uc0c9 \uacb0\uacfc \ub354 \ubcf4\uae30", "search.result.none": "\uac80\uc0c9\uc5b4\uc640 \uc77c\uce58\ud558\ub294 \ubb38\uc11c\uac00 \uc5c6\uc2b5\ub2c8\ub2e4", "search.result.one": "1\uac1c\uc758 \uc77c\uce58\ud558\ub294 \ubb38\uc11c", "search.result.other": "#\uac1c\uc758 \uc77c\uce58\ud558\ub294 \ubb38\uc11c", "search.result.placeholder": "\uac80\uc0c9\uc5b4\ub97c \uc785\ub825\ud558\uc138\uc694", "search.result.term.missing": "\ud3ec\ud568\ub418\uc9c0 \uc54a\uc740 \uac80\uc0c9\uc5b4", "select.version": "\ubc84\uc804 \uc120\ud0dd"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../javascripts/scroll_top.js"></script>
+      
+    
+  </body>
+</html>

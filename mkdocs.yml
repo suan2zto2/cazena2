@@ -48,6 +48,7 @@ nav:
     - 성장 시스템: systems/growth.md
   - UI/UX: ux.md
   - 스키마 설계: schema.md
+  - 데이터 시트: data_sheet.md
   - 필요 리소스: resources.md
   - 일정: schedule.md
   - 백업:
@@ -60,7 +61,11 @@ nav:
 markdown_extensions:
   - attr_list
   - md_in_html
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - tables
   - toc:
       toc_depth: 2
