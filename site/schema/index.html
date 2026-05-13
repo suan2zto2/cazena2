@@ -14,7 +14,7 @@
         <link rel="prev" href="../ux/">
       
       
-        <link rel="next" href="../data_sheet/">
+        <link rel="next" href="../enums/">
       
       
         
@@ -272,6 +272,25 @@
     
   
   스키마 설계
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../enums/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  열거형 정의
 
       </a>
     </li>
@@ -961,6 +980,33 @@
   
   
     <li class="md-nav__item">
+      <a href="../enums/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    열거형 정의
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../data_sheet/" class="md-nav__link">
         
   
@@ -1067,10 +1113,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
         
           
-          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
             
   
   
@@ -1088,8 +1134,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_9">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1375,10 +1421,9 @@
         string id PK
         string ownerCharacterId FK
         string name
-        number triggerNumber
         string tileRank
         string effectType
-        number upgradedTriggerNumber
+        string upgradedTileRank "nullable"
     }
     Stage {
         string id PK
@@ -1496,7 +1541,7 @@
 </tr>
 <tr>
 <td><code>stageType</code></td>
-<td><code>'NORMAL' \| 'ELITE' \| 'BOSS'</code></td>
+<td><a href="../enums/#stagetype"><code>StageType</code></a></td>
 <td>스테이지 유형</td>
 </tr>
 <tr>
@@ -1629,18 +1674,13 @@
 <td>카드 표시 이름</td>
 </tr>
 <tr>
-<td><code>triggerNumber</code></td>
-<td><code>4 \| 8 \| 16 \| 32 \| 64 \| 128</code></td>
-<td>발동에 필요한 보드 타일 숫자</td>
-</tr>
-<tr>
 <td><code>tileRank</code></td>
-<td><code>TileRank</code></td>
-<td><code>triggerNumber</code>로 결정되는 티어. UI 표시용</td>
+<td><a href="../enums/#tilerank"><code>TileRank</code></a></td>
+<td>발동에 필요한 타일 숫자 등급. 실제 타일 숫자는 <code>TileRank</code> 정의에서 파생</td>
 </tr>
 <tr>
 <td><code>effectType</code></td>
-<td><code>CardEffectType</code></td>
+<td><a href="../enums/#cardeffecttype"><code>CardEffectType</code></a></td>
 <td>카드 효과 분류</td>
 </tr>
 <tr>
@@ -1649,9 +1689,9 @@
 <td>효과 실행 파라미터 (아래 참조)</td>
 </tr>
 <tr>
-<td><code>upgradedTriggerNumber</code></td>
-<td><code>4 \| 8 \| 16 \| 32 \| 64 \| 128 \| undefined</code></td>
-<td>강화 후 대체 발동 숫자. 반드시 <code>triggerNumber</code>보다 작아야 한다</td>
+<td><code>upgradedTileRank</code></td>
+<td><a href="../enums/#tilerank"><code>TileRank</code></a><code>\| undefined</code></td>
+<td>강화 후 대체 등급. 반드시 <code>tileRank</code>보다 낮은 등급이어야 한다</td>
 </tr>
 </tbody>
 </table>
@@ -1672,78 +1712,6 @@
 </tr>
 </tbody>
 </table>
-<p><strong>TileRank</strong></p>
-<table>
-<thead>
-<tr>
-<th>값</th>
-<th style="text-align: center;"><code>triggerNumber</code></th>
-<th>표시명</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>BASIC</code></td>
-<td style="text-align: center;">4</td>
-<td>기본</td>
-</tr>
-<tr>
-<td><code>NORMAL</code></td>
-<td style="text-align: center;">8</td>
-<td>일반</td>
-</tr>
-<tr>
-<td><code>ENHANCED</code></td>
-<td style="text-align: center;">16</td>
-<td>강화</td>
-</tr>
-<tr>
-<td><code>POWERFUL</code></td>
-<td style="text-align: center;">32</td>
-<td>강력</td>
-</tr>
-<tr>
-<td><code>LETHAL</code></td>
-<td style="text-align: center;">64</td>
-<td>필살</td>
-</tr>
-<tr>
-<td><code>TRANSCENDENT</code></td>
-<td style="text-align: center;">128</td>
-<td>초월</td>
-</tr>
-</tbody>
-</table>
-<p><strong>CardEffectType</strong></p>
-<table>
-<thead>
-<tr>
-<th>값</th>
-<th>설명</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>ATTACK</code></td>
-<td>적에게 피해</td>
-</tr>
-<tr>
-<td><code>HEAL</code></td>
-<td>아군 체력 회복</td>
-</tr>
-<tr>
-<td><code>BUFF</code></td>
-<td>아군에게 유리한 상태 효과</td>
-</tr>
-<tr>
-<td><code>DEBUFF</code></td>
-<td>적에게 불리한 상태 효과</td>
-</tr>
-</tbody>
-</table>
-<blockquote>
-<p><strong>[미결 A-1]</strong> <code>SHIELD</code>·<code>DRAW</code>·<code>STATUS_EFFECT</code> 타입 추가 여부 미결. 채택 시 <code>effectParams</code>에 <code>shieldAmount</code>, <code>drawCount</code> 필드 추가 필요.</p>
-</blockquote>
 <p><strong>EffectParams</strong></p>
 <table>
 <thead>
@@ -1757,7 +1725,7 @@
 <tbody>
 <tr>
 <td><code>targetType</code></td>
-<td><code>'SINGLE_ENEMY' \| 'ALL_ENEMIES' \| 'SINGLE_ALLY' \| 'ALL_ALLIES'</code></td>
+<td><a href="../enums/#targettype"><code>TargetType</code></a></td>
 <td>전체</td>
 <td>효과 적용 대상</td>
 </tr>
@@ -1820,8 +1788,8 @@
 </tr>
 <tr>
 <td><code>enemyType</code></td>
-<td><code>'NORMAL' \| 'ELITE' \| 'BOSS'</code></td>
-<td>적 유형. 아래 표 참조</td>
+<td><a href="../enums/#enemytype"><code>EnemyType</code></a></td>
+<td>적 유형</td>
 </tr>
 <tr>
 <td><code>maxHp</code></td>
@@ -1842,33 +1810,6 @@
 <td><code>phaseThresholds</code></td>
 <td><code>PhaseThreshold[] \| undefined</code></td>
 <td>페이즈 전환 조건. <strong>BOSS 전용</strong></td>
-</tr>
-</tbody>
-</table>
-<p><strong>enemyType별 카운트 권장 범위</strong></p>
-<table>
-<thead>
-<tr>
-<th>값</th>
-<th style="text-align: center;"><code>initialCount</code> 권장 범위</th>
-<th>행동 특성</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>NORMAL</code></td>
-<td style="text-align: center;">2 ~ 4</td>
-<td>단일 공격 위주</td>
-</tr>
-<tr>
-<td><code>ELITE</code></td>
-<td style="text-align: center;">2 ~ 3</td>
-<td>단일·광역 혼재, 디버프 가능</td>
-</tr>
-<tr>
-<td><code>BOSS</code></td>
-<td style="text-align: center;">3 ~ 5 (페이즈마다 변동)</td>
-<td>다수 행동 유형, 페이즈 전환</td>
 </tr>
 </tbody>
 </table>
@@ -1911,12 +1852,12 @@
 <tbody>
 <tr>
 <td><code>actionType</code></td>
-<td><code>ActionType</code></td>
-<td>행동 유형. 아래 표 참조</td>
+<td><a href="../enums/#actiontype"><code>ActionType</code></a></td>
+<td>행동 유형</td>
 </tr>
 <tr>
 <td><code>targetMode</code></td>
-<td><code>'SINGLE' \| 'ALL'</code></td>
+<td><a href="../enums/#targetmode"><code>TargetMode</code></a></td>
 <td>대상 범위. <code>ATTACK_AOE</code>·<code>BUFF_SELF</code>는 무시됨</td>
 </tr>
 <tr>
@@ -1943,33 +1884,6 @@
 <td><code>scheduledTurns</code></td>
 <td><code>number[] \| undefined</code></td>
 <td>지정 턴(액션 버튼 누적 횟수)에만 발동. <code>undefined</code>이면 기본 순환에 포함</td>
-</tr>
-</tbody>
-</table>
-<p><strong>ActionType</strong></p>
-<table>
-<thead>
-<tr>
-<th>값</th>
-<th>설명</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>ATTACK_SINGLE</code></td>
-<td>파티원 1명에게 피해 (대상 선택 방식 미결 C-6)</td>
-</tr>
-<tr>
-<td><code>ATTACK_AOE</code></td>
-<td>생존 파티원 전원에게 동일 피해</td>
-</tr>
-<tr>
-<td><code>DEBUFF</code></td>
-<td>파티원에게 불리한 상태이상 부여</td>
-</tr>
-<tr>
-<td><code>BUFF_SELF</code></td>
-<td>자신에게 유리한 상태 부여</td>
 </tr>
 </tbody>
 </table>

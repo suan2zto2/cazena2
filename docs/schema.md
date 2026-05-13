@@ -44,10 +44,9 @@ erDiagram
         string id PK
         string ownerCharacterId FK
         string name
-        number triggerNumber
         string tileRank
         string effectType
-        number upgradedTriggerNumber
+        string upgradedTileRank "nullable"
     }
     Stage {
         string id PK
@@ -162,7 +161,7 @@ flowchart LR
 | `id` | `string` | 스테이지 식별자. 예: `"ch1_stage2"` |
 | `chapterId` | `string` | 소속 챕터. 예: `"chapter1"` |
 | `orderInChapter` | `number` | 챕터 내 순서. 1부터 시작 |
-| `stageType` | `'NORMAL' \| 'ELITE' \| 'BOSS'` | 스테이지 유형 |
+| `stageType` | [`StageType`](enums.md#stagetype) | 스테이지 유형 |
 | `maxSlides` | `number` | 턴당 최대 슬라이드 횟수. 전투 시작 시 `BoardState.maxSlides`로 주입 |
 | `tileSpawnConfig` | `{ values: number[], weights: number[] }` | 슬라이드 후 타일 생성 확률 분포. 기본값: `{ values: [2], weights: [1] }` |
 | `monsters` | `{ monsterId: string, position: number }[]` | 등장 몬스터 목록. `position` 오름차순이 화면 위→아래이자 행동 처리 순서 |
@@ -210,11 +209,10 @@ flowchart LR
 | `id` | `string` | 카드 식별자. 예: `"char_a_attack_01"` |
 | `ownerCharacterId` | `string` | `Character.id` 참조. 해당 캐릭터가 출전하지 않으면 이 카드는 덱에 포함되지 않는다 |
 | `name` | `string` | 카드 표시 이름 |
-| `triggerNumber` | `4 \| 8 \| 16 \| 32 \| 64 \| 128` | 발동에 필요한 보드 타일 숫자 |
-| `tileRank` | `TileRank` | `triggerNumber`로 결정되는 티어. UI 표시용 |
-| `effectType` | `CardEffectType` | 카드 효과 분류 |
+| `tileRank` | [`TileRank`](enums.md#tilerank) | 발동에 필요한 타일 숫자 등급. 실제 타일 숫자는 `TileRank` 정의에서 파생 |
+| `effectType` | [`CardEffectType`](enums.md#cardeffecttype) | 카드 효과 분류 |
 | `effectParams` | `EffectParams` | 효과 실행 파라미터 (아래 참조) |
-| `upgradedTriggerNumber` | `4 \| 8 \| 16 \| 32 \| 64 \| 128 \| undefined` | 강화 후 대체 발동 숫자. 반드시 `triggerNumber`보다 작아야 한다 |
+| `upgradedTileRank` | [`TileRank`](enums.md#tilerank)` \| undefined` | 강화 후 대체 등급. 반드시 `tileRank`보다 낮은 등급이어야 한다 |
 
 **런타임 데이터 전용 필드** (기획 테이블에 없음. 전투 시작 시 세팅)
 
@@ -222,33 +220,11 @@ flowchart LR
 |------|------|------|
 | `isActive` | `boolean` | 소유 캐릭터 생존 여부. `false`이면 발동 불가 |
 
-**TileRank**
-
-| 값 | `triggerNumber` | 표시명 |
-|----|:-----------:|--------|
-| `BASIC` | 4 | 기본 |
-| `NORMAL` | 8 | 일반 |
-| `ENHANCED` | 16 | 강화 |
-| `POWERFUL` | 32 | 강력 |
-| `LETHAL` | 64 | 필살 |
-| `TRANSCENDENT` | 128 | 초월 |
-
-**CardEffectType**
-
-| 값 | 설명 |
-|----|------|
-| `ATTACK` | 적에게 피해 |
-| `HEAL` | 아군 체력 회복 |
-| `BUFF` | 아군에게 유리한 상태 효과 |
-| `DEBUFF` | 적에게 불리한 상태 효과 |
-
-> **[미결 A-1]** `SHIELD`·`DRAW`·`STATUS_EFFECT` 타입 추가 여부 미결. 채택 시 `effectParams`에 `shieldAmount`, `drawCount` 필드 추가 필요.
-
 **EffectParams**
 
 | 필드 | 타입 | 사용 `effectType` | 설명 |
 |------|------|-------------------|------|
-| `targetType` | `'SINGLE_ENEMY' \| 'ALL_ENEMIES' \| 'SINGLE_ALLY' \| 'ALL_ALLIES'` | 전체 | 효과 적용 대상 |
+| `targetType` | [`TargetType`](enums.md#targettype) | 전체 | 효과 적용 대상 |
 | `damage` | `number \| undefined` | `ATTACK` | 피해량 |
 | `healAmount` | `number \| undefined` | `HEAL` | 회복량 |
 | `buffId` | `string \| undefined` | `BUFF` | 부여할 버프 식별자 |
@@ -267,19 +243,12 @@ flowchart LR
 |------|------|------|
 | `id` | `string` | 적 식별자. 예: `"goblin_swordsman_01"` |
 | `displayName` | `string` | 화면 표시 이름 |
-| `enemyType` | `'NORMAL' \| 'ELITE' \| 'BOSS'` | 적 유형. 아래 표 참조 |
+| `enemyType` | [`EnemyType`](enums.md#enemytype) | 적 유형 |
 | `maxHp` | `number` | 최대 체력 |
 | `initialShield` | `number` | 전투 시작 시 방어막. `0`이면 없음 |
 | `actionPattern` | `ActionPattern` | 기본 행동 패턴 (아래 참조) |
 | `phaseThresholds` | `PhaseThreshold[] \| undefined` | 페이즈 전환 조건. **BOSS 전용** |
 
-**enemyType별 카운트 권장 범위**
-
-| 값 | `initialCount` 권장 범위 | 행동 특성 |
-|----|:------------------------:|-----------|
-| `NORMAL` | 2 ~ 4 | 단일 공격 위주 |
-| `ELITE` | 2 ~ 3 | 단일·광역 혼재, 디버프 가능 |
-| `BOSS` | 3 ~ 5 (페이즈마다 변동) | 다수 행동 유형, 페이즈 전환 |
 
 #### ActionPattern
 
@@ -293,22 +262,14 @@ flowchart LR
 
 | 필드 | 타입 | 설명 |
 |------|------|------|
-| `actionType` | `ActionType` | 행동 유형. 아래 표 참조 |
-| `targetMode` | `'SINGLE' \| 'ALL'` | 대상 범위. `ATTACK_AOE`·`BUFF_SELF`는 무시됨 |
+| `actionType` | [`ActionType`](enums.md#actiontype) | 행동 유형 |
+| `targetMode` | [`TargetMode`](enums.md#targetmode) | 대상 범위. `ATTACK_AOE`·`BUFF_SELF`는 무시됨 |
 | `power` | `number` | 피해량 또는 효과 수치 |
 | `effectId` | `string \| undefined` | `DEBUFF`·`BUFF_SELF` 전용. 적용할 효과 식별자 |
 | `effectDuration` | `number \| undefined` | 효과 지속 횟수. `0`은 영구 지속 예약값 (미결 C-5) |
 | `resetCount` | `number` | 이 행동 실행 후 `actionCount` 리셋값. 현재 `actionPattern.initialCount`와 동일값 사용 (미결 C-1) |
 | `scheduledTurns` | `number[] \| undefined` | 지정 턴(액션 버튼 누적 횟수)에만 발동. `undefined`이면 기본 순환에 포함 |
 
-**ActionType**
-
-| 값 | 설명 |
-|----|------|
-| `ATTACK_SINGLE` | 파티원 1명에게 피해 (대상 선택 방식 미결 C-6) |
-| `ATTACK_AOE` | 생존 파티원 전원에게 동일 피해 |
-| `DEBUFF` | 파티원에게 불리한 상태이상 부여 |
-| `BUFF_SELF` | 자신에게 유리한 상태 부여 |
 
 #### PhaseThreshold (BOSS 전용)
 

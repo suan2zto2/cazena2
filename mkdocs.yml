@@ -48,6 +48,7 @@ nav:
     - 성장 시스템: systems/growth.md
   - UI/UX: ux.md
   - 스키마 설계: schema.md
+  - 열거형 정의: enums.md
   - 데이터 시트: data_sheet.md
   - 필요 리소스: resources.md
   - 일정: schedule.md
