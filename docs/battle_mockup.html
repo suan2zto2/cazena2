@@ -22,14 +22,19 @@
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    html { overflow-x: auto; }
     body {
       background: #060612;
       display: flex; flex-direction: column; align-items: center;
-      padding: 14px; gap: 10px;
+      padding: 10px; gap: 10px;
       font-family: 'Segoe UI', system-ui, sans-serif;
       color: var(--text);
-      min-width: 1308px; /* 1280 + 좌우 padding 14px×2 — 센터링 시 좌측 잘림 방지 */
+      overflow: hidden;
+    }
+
+    /* .bs-wrap: zoom 적용 후 레이아웃 높이를 맞추는 컨테이너 */
+    .bs-wrap {
+      display: flex; justify-content: center;
+      width: 100%;
     }
 
     /* ── toolbar ── */
@@ -45,7 +50,7 @@
        BATTLE SCREEN  1280 × 720
        ════════════════════════════════════ */
     .bs {
-      width: 1280px; height: 720px;
+      width: 1280px; height: 720px; flex-shrink: 0;
       background: var(--bg);
       border: 2px solid var(--border);
       border-radius: 10px; overflow: hidden;
@@ -375,11 +380,14 @@
   <div class="tb-label">페이즈 :</div>
   <button class="tb-btn on" id="btn-puzzle" onclick="setPhase('puzzle')">🧩 퍼즐 페이즈 (보드 표시)</button>
   <button class="tb-btn"    id="btn-combat" onclick="setPhase('combat')">⚔ 전투 연출 (보드 숨김)</button>
+  <div style="flex:1"></div>
+  <button class="tb-btn" onclick="window.open(location.href,'_blank')" style="border-color:#303058;color:#a0a0c0">🔍 크게보기</button>
 </div>
 
 <!-- ══════════════════════════════════════════
      BATTLE SCREEN
 ══════════════════════════════════════════ -->
+<div class="bs-wrap" id="bs-wrap">
 <div class="bs">
 
   <!-- ── TOP BAR ── -->
@@ -642,8 +650,23 @@
 
   </div>
 </div>
+</div><!-- /bs-wrap -->
 
 <script>
+  function autoScale() {
+    const bs   = document.querySelector('.bs');
+    const wrap = document.getElementById('bs-wrap');
+    const tb   = document.querySelector('.toolbar');
+    const tbH  = tb ? tb.offsetHeight + 10 : 0; /* 10 = gap */
+    const availW = document.documentElement.clientWidth  - 20; /* body padding ×2 */
+    const availH = document.documentElement.clientHeight - tbH - 20;
+    const scale  = Math.min(availW / 1280, availH / 720, 1);
+    bs.style.zoom = scale;
+    wrap.style.height = Math.ceil(720 * scale) + 'px';
+  }
+  window.addEventListener('resize', autoScale);
+  autoScale();
+
   function setPhase(p) {
     const overlay = document.getElementById('board-overlay');
     const btnP = document.getElementById('btn-puzzle');
