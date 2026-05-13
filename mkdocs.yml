@@ -38,6 +38,7 @@ nav:
   - 게임 개요: index.md
   - 인게임 전투:
     - systems/overview.md
+    - 캐릭터 시스템: systems/character.md
     - 보드 시스템: systems/board.md
     - 카드 시스템: systems/card.md
     - 전투 흐름: systems/combat.md

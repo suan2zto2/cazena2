@@ -429,6 +429,8 @@
       
         
       
+        
+      
     
     
     
@@ -492,6 +494,34 @@
     
   
     인게임 전투 개요
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../character/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    캐릭터 시스템
   
 
     
@@ -658,7 +688,7 @@
   <a href="#6" class="md-nav__link">
     <span class="md-ellipsis">
       
-        6. 카드 강화
+        6. 카드 보상 및 덱 관리
       
     </span>
   </a>
@@ -669,7 +699,7 @@
   <a href="#7" class="md-nav__link">
     <span class="md-ellipsis">
       
-        7. 카드 보상 및 덱 관리
+        7. 관련 시스템 링크
       
     </span>
   </a>
@@ -680,18 +710,7 @@
   <a href="#8" class="md-nav__link">
     <span class="md-ellipsis">
       
-        8. 관련 시스템 링크
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#9" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        9. 미결 사항 요약
+        8. 미결 사항 요약
       
     </span>
   </a>
@@ -1298,16 +1317,6 @@
 <td>효과 실행에 필요한 파라미터 묶음 (§2-2 참고)</td>
 </tr>
 <tr>
-<td><code>upgradeLevel</code></td>
-<td><code>int</code></td>
-<td>강화 단계. 기본값 0, 합성 1회마다 +1. 현재 최대 1 (§6 참고)</td>
-</tr>
-<tr>
-<td><code>upgradedTriggerNumber</code></td>
-<td><code>int \| null</code></td>
-<td>강화 단계 1일 때 적용되는 발동 숫자. null이면 미강화 상태</td>
-</tr>
-<tr>
 <td><code>isActive</code></td>
 <td><code>bool</code></td>
 <td>소유 캐릭터가 생존해 있으면 <code>true</code>. 사망 시 <code>false</code>로 전환되어 발동 불가</td>
@@ -1704,94 +1713,7 @@
 3. drawCards(5) 호출 (§4-2)
 </code></pre></div>
 <hr />
-<h2 id="6">6. 카드 강화</h2>
-<h3 id="6-1">6-1. 합성 조건</h3>
-<table>
-<thead>
-<tr>
-<th>조건</th>
-<th>설명</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>같은 <code>id</code>를 가진 카드 2장</td>
-<td>현재 <code>upgradeLevel</code>이 0인 카드 2장이 필요</td>
-</tr>
-<tr>
-<td>합성은 거점(아웃 오브 전투) 화면에서만 가능</td>
-<td>전투 중 합성 불가</td>
-</tr>
-<tr>
-<td>합성 결과 1장이 덱에 남고, 재료 카드 1장은 제거됨</td>
-<td>덱 장수가 1 감소함</td>
-</tr>
-</tbody>
-</table>
-<p>강화 단계는 현재 최대 1단계로 제한한다. <code>upgradeLevel == 1</code>인 카드는 추가 합성 대상이 될 수 없다.</p>
-<h3 id="6-2">6-2. 강화 결과</h3>
-<blockquote>
-<p><strong>[미결 A-4]</strong> 카드 강화(합성) 결과 방식이 확정되지 않았습니다.<br />
-- <strong>(a)</strong> 발동 숫자만 감소 — 예: <code>triggerNumber</code> 16인 카드 → <code>upgradedTriggerNumber</code> 12<br />
-- <strong>(b)</strong> 카드마다 고정된 강화 결과를 데이터로 정의 — 발동 숫자 감소 또는 효과 수치 강화 중 하나  </p>
-<p>(a) 채택 시 <code>upgradedTriggerNumber = triggerNumber - (triggerNumber / 4)</code> 등의 공식으로 자동 산출 가능.<br />
-(b) 채택 시 <code>Card</code> 구조체에 <code>upgradedEffectParams: EffectParams?</code> 필드 추가 필요.  </p>
-<p>아래 예시 표는 <strong>(a) 기준 발동 숫자 감소</strong> 방식으로 작성합니다.</p>
-</blockquote>
-<h4 id="a-4-a">강화 후 발동 숫자 예시 (A-4-a 기준)</h4>
-<table>
-<thead>
-<tr>
-<th style="text-align: center;">원본 <code>triggerNumber</code></th>
-<th style="text-align: center;">강화 후 <code>upgradedTriggerNumber</code></th>
-<th>변화</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align: center;">4</td>
-<td style="text-align: center;">3</td>
-<td>-1</td>
-</tr>
-<tr>
-<td style="text-align: center;">8</td>
-<td style="text-align: center;">6</td>
-<td>-2</td>
-</tr>
-<tr>
-<td style="text-align: center;">16</td>
-<td style="text-align: center;">12</td>
-<td>-4</td>
-</tr>
-<tr>
-<td style="text-align: center;">32</td>
-<td style="text-align: center;">24</td>
-<td>-8</td>
-</tr>
-<tr>
-<td style="text-align: center;">64</td>
-<td style="text-align: center;">48</td>
-<td>-16</td>
-</tr>
-<tr>
-<td style="text-align: center;">128</td>
-<td style="text-align: center;">96</td>
-<td>-32</td>
-</tr>
-</tbody>
-</table>
-<blockquote>
-<p>강화 후 <code>upgradedTriggerNumber</code>는 보드에서 해당 숫자 타일을 병합으로 만들 수 없는 값(예: 3, 6, 12, 24 등)이 될 수 있다. 이 경우 <strong>보드 타일과의 매칭이 불가능</strong>해지므로, A-4 확정 시 발동 가능한 숫자 집합을 재검토해야 한다. 또는 강화 효과를 발동 숫자 감소가 아닌 효과 수치 강화로 변경하는 방향(A-4-b)을 권장.</p>
-</blockquote>
-<h3 id="6-3">6-3. 강화 처리 순서</h3>
-<div class="highlight"><pre><span></span><code>1. 합성 대상 카드 2장 확인 (id 동일, upgradeLevel == 0)
-2. 카드 1장(resultCard)의 upgradeLevel을 1로 갱신
-3. resultCard.upgradedTriggerNumber에 강화 후 발동 숫자 저장
-4. 나머지 카드 1장(sourceCard)을 덱에서 제거
-5. 덱 상태 저장
-</code></pre></div>
-<hr />
-<h2 id="7">7. 카드 보상 및 덱 관리</h2>
+<h2 id="6">6. 카드 보상 및 덱 관리</h2>
 <h3 id="7-1">7-1. 전투 보상 흐름</h3>
 <p>전투 승리 시 카드 보상 선택 화면이 표시된다.</p>
 <div class="highlight"><pre><span></span><code>전투 승리 확정
@@ -1831,8 +1753,8 @@
 <tbody>
 <tr>
 <td>카드 강화 (합성)</td>
-<td style="text-align: center;">가능</td>
-<td>§6 참고</td>
+<td style="text-align: center;">미정</td>
+<td></td>
 </tr>
 <tr>
 <td>카드 제거</td>
@@ -1847,7 +1769,7 @@
 </tbody>
 </table>
 <hr />
-<h2 id="8">8. 관련 시스템 링크</h2>
+<h2 id="7">7. 관련 시스템 링크</h2>
 <table>
 <thead>
 <tr>
@@ -1885,7 +1807,7 @@
 </tbody>
 </table>
 <hr />
-<h2 id="9">9. 미결 사항 요약</h2>
+<h2 id="8">8. 미결 사항 요약</h2>
 <table>
 <thead>
 <tr>
@@ -1912,12 +1834,6 @@
 <td><strong>A-3</strong></td>
 <td>셔플 타이밍 (소진 즉시 vs. 드로우 시도 시점)</td>
 <td><code>drawCards</code> 함수 내 셔플 호출 위치</td>
-<td style="text-align: center;">2단계 착수 전</td>
-</tr>
-<tr>
-<td><strong>A-4</strong></td>
-<td>카드 강화(합성) 결과 방식</td>
-<td>Card 구조체 필드 수, 강화 공식</td>
 <td style="text-align: center;">2단계 착수 전</td>
 </tr>
 <tr>

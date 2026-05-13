@@ -11,7 +11,7 @@
         <link rel="canonical" href="https://suan2z.github.io/2048/systems/board/">
       
       
-        <link rel="prev" href="../overview/">
+        <link rel="prev" href="../character/">
       
       
         <link rel="next" href="../card/">
@@ -429,6 +429,8 @@
       
         
       
+        
+      
     
     
     
@@ -492,6 +494,34 @@
     
   
     인게임 전투 개요
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../character/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    캐릭터 시스템
   
 
     
@@ -1529,7 +1559,6 @@ row 3 [   ] [  4] [   ] [  2]
 <tr>
 <th style="text-align: center;">slideCount</th>
 <th style="text-align: center;">슬라이드 입력</th>
-<th style="text-align: center;">카드 발동</th>
 <th style="text-align: center;">액션 버튼</th>
 </tr>
 </thead>
@@ -1538,12 +1567,10 @@ row 3 [   ] [  4] [   ] [  2]
 <td style="text-align: center;">1 이상</td>
 <td style="text-align: center;">가능</td>
 <td style="text-align: center;">가능</td>
-<td style="text-align: center;">가능</td>
 </tr>
 <tr>
 <td style="text-align: center;">0</td>
 <td style="text-align: center;"><strong>차단</strong></td>
-<td style="text-align: center;">가능</td>
 <td style="text-align: center;">가능</td>
 </tr>
 </tbody>
@@ -1592,10 +1619,6 @@ row 3 [   ] [  4] [   ] [  2]
 <td><strong>차단.</strong> 해당 방향 슬라이드 UI 비활성화</td>
 </tr>
 <tr>
-<td>카드 발동</td>
-<td><strong>가능.</strong> 보드에 해당 숫자 타일이 있으면 정상 발동</td>
-</tr>
-<tr>
 <td>액션 버튼</td>
 <td><strong>가능.</strong> 턴을 정상 진행할 수 있다</td>
 </tr>
@@ -1606,9 +1629,8 @@ row 3 [   ] [  4] [   ] [  2]
 </tbody>
 </table>
 <h3 id="6-4">6-4. 슬라이드 불능 해제</h3>
-<p>카드 발동으로 보드의 타일이 소모된 후, <strong>슬라이드 가능한 방향이 하나라도 생기면 자동 해제</strong>한다.</p>
-<p>해제 확인 타이밍: 카드 발동 처리 완료 시점마다 보드 상태를 검사하여 <code>isSlideBlocked</code>를 갱신한다.</p>
-<div class="highlight"><pre><span></span><code>카드 발동 → 타일 소모 → 보드 상태 변경
+<p>액션 버튼으로 타일이 행동 재화로 소모된 후, 다음 턴 슬라이드 시작 시점에 보드 상태를 재검사하여 자동 해제한다.</p>
+<div class="highlight"><pre><span></span><code>액션 버튼 → 타일 소모 → 적 턴 → 다음 슬라이드 페이즈 시작
   → 4방향 슬라이드 가능 여부 재검사
     → 유효 방향 1개 이상: isSlideBlocked = false (자동 해제)
     → 여전히 모든 방향 불가: isSlideBlocked = true 유지
@@ -1656,15 +1678,15 @@ row 3 [   ] [  4] [   ] [  2]
 4. 새 타일 생성 없음
 5. 해당 방향 슬라이드 불능 처리 (§6 참조)
 6. 4방향 모두 무효이면 <code>isSlideBlocked = true</code> → 슬라이드 입력 전면 차단
-7. 플레이어는 카드 발동 또는 액션 버튼만 사용 가능</p>
+7. 플레이어는 액션 버튼만 사용 가능</p>
 <div class="highlight"><pre><span></span><code>예시:
 슬라이드 전 행: [2, 4, 8, 16]  (왼쪽 슬라이드 시도)
 슬라이드 후 행: [2, 4, 8, 16]  ← 변화 없음 → 무효 슬라이드
 </code></pre></div>
 <h3 id="c">케이스 C — 슬라이드 횟수 소진 상태에서 슬라이드 시도</h3>
 <p><code>slideCount === 0</code>이면 슬라이드 입력 자체를 수신하지 않는다. 입력이 들어오더라도 슬라이드 연산을 수행하지 않고 무시한다. <code>isSlideBlocked</code>와 독립적인 차단이다.</p>
-<h3 id="d">케이스 D — 슬라이드 불능 상태에서 카드 발동 후 보드 변경</h3>
-<p>타일 소모로 보드 상태가 바뀌면 슬라이드 가능 여부를 재검사한다. 슬라이드 가능한 방향이 생기면 <code>isSlideBlocked = false</code>로 자동 갱신한다. 단, <code>slideCount === 0</code>이면 불능 해제와 무관하게 슬라이드 입력은 여전히 차단된다.</p>
+<h3 id="d">케이스 D — 슬라이드 불능 상태에서 액션 버튼 후 보드 변경</h3>
+<p>액션 버튼으로 타일이 소모되면 다음 턴 슬라이드 페이즈 시작 시 보드 상태를 재검사한다. 슬라이드 가능한 방향이 생기면 <code>isSlideBlocked = false</code>로 자동 갱신한다.</p>
 <h3 id="e">케이스 E — 타일 소모 숫자 불일치</h3>
 <p>카드의 발동 숫자와 보드의 타일 값이 정확히 일치해야만 소모된다. 예를 들어 발동 숫자 <code>16</code>인 카드는 보드에 <code>16</code> 타일이 있을 때만 발동 가능하다. 보드에 <code>32</code> 타일이 있더라도 <code>16</code> 카드의 대체 발동으로 사용할 수 없다.</p>
 <hr />
