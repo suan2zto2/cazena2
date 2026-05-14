@@ -1,0 +1,2 @@
+# Claude Code 로컬 설정 (컴퓨터별로 다른 권한/세션 정보)
+.claude/settings.local.json
