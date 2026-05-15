@@ -1,5 +1,7 @@
 # 게임 개요
 
+[🎬 게임 소개 슬라이드 보기](pitch.html){target="_blank" .md-button .md-button--primary}
+
 | 항목 | 내용 |
 |------|------|
 | 장르 | 턴제 카드 RPG |
