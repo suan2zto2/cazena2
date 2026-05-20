@@ -1,12 +1,11 @@
 # 스키마 설계
 
-> 스키마 데이터는 세 계층으로 구분합니다.
+> 스키마 데이터는 두 계층으로 구분합니다.
 
 | 계층 | 설명 | 생명주기 |
 |------|------|----------|
 | **기획 테이블** | 기획자가 정의하는 콘텐츠 데이터 | 릴리즈 시점에 확정. 게임 중 변하지 않음 |
 | **세이브 데이터** | 플레이어별로 생성·변경되는 진행 데이터 | 로컬 저장소에 유지. 세션 사이에 보존 |
-| **런타임 데이터** | 전투 중 메모리에서만 존재하는 임시 데이터 | 전투 시작 시 생성. 전투 종료 시 소멸 |
 
 ---
 
@@ -22,9 +21,6 @@
 | [`AccountSave`](#accountsave) | 세이브 데이터 | 챕터 리셋과 무관한 영구 성장 데이터 |
 | [`ChapterRun`](#chapterrun) | 세이브 데이터 | 챕터 클리어 시 삭제되는 단일 챕터 진행 상태 |
 | [`CharacterState`](#characterstate) | 세이브 데이터 | 챕터 진행 중 파티원 체력 등 상태 |
-| [`BoardState`](#boardstate) | 런타임 데이터 | 전투 중 보드 전체 상태 |
-| [`DeckState`](#deckstate) | 런타임 데이터 | 전투 중 카드 덱 전체 상태 |
-| [`Tile`](#tile) | 런타임 데이터 | 슬라이드 연산 중에만 사용하는 임시 구조체 |
 
 ---
 
@@ -139,15 +135,6 @@ erDiagram
     ChapterRun ||--|{ CharacterState : "party (출전 3인)"
 ```
 
-### 기획 테이블 → 런타임 데이터 연결
-
-```mermaid
-flowchart LR
-    Stage -->|maxSlides 주입| BoardState
-    Stage -->|tileSpawnConfig 참조| TileLogic["타일 생성 로직"]
-    Cards["Card[ ]\n출전 3인 합산"] -->|셔플| WaitDeck["DeckState\n.waitDeck"]
-```
-
 ---
 
 ## 기획 테이블
@@ -162,7 +149,7 @@ flowchart LR
 | `chapterId` | `string` | 소속 챕터. 예: `"chapter1"` |
 | `orderInChapter` | `number` | 챕터 내 순서. 1부터 시작 |
 | `stageType` | [`StageType`](enums.md#stagetype) | 스테이지 유형 |
-| `maxSlides` | `number` | 턴당 최대 슬라이드 횟수. 전투 시작 시 `BoardState.maxSlides`로 주입 |
+| `maxSlides` | `number` | 턴당 최대 슬라이드 횟수 |
 | `tileSpawnConfig` | `{ values: number[], weights: number[] }` | 슬라이드 후 타일 생성 확률 분포. 기본값: `{ values: [2], weights: [1] }` |
 | `monsters` | `{ monsterId: string, position: number }[]` | 등장 몬스터 목록. `position` 오름차순이 화면 위→아래이자 행동 처리 순서 |
 
@@ -214,12 +201,6 @@ flowchart LR
 | `effectParams` | `EffectParams` | 효과 실행 파라미터 (아래 참조) |
 | `upgradedTileRank` | [`TileRank`](enums.md#tilerank)` \| undefined` | 강화 후 대체 등급. 반드시 `tileRank`보다 낮은 등급이어야 한다 |
 
-**런타임 데이터 전용 필드** (기획 테이블에 없음. 전투 시작 시 세팅)
-
-| 필드 | 타입 | 설명 |
-|------|------|------|
-| `isActive` | `boolean` | 소유 캐릭터 생존 여부. `false`이면 발동 불가 |
-
 **EffectParams**
 
 | 필드 | 타입 | 사용 `effectType` | 설명 |
@@ -249,7 +230,6 @@ flowchart LR
 | `actionPattern` | `ActionPattern` | 기본 행동 패턴 (아래 참조) |
 | `phaseThresholds` | `PhaseThreshold[] \| undefined` | 페이즈 전환 조건. **BOSS 전용** |
 
-
 #### ActionPattern
 
 | 필드 | 타입 | 설명 |
@@ -269,7 +249,6 @@ flowchart LR
 | `effectDuration` | `number \| undefined` | 효과 지속 횟수. `0`은 영구 지속 예약값 (미결 C-5) |
 | `resetCount` | `number` | 이 행동 실행 후 `actionCount` 리셋값. 현재 `actionPattern.initialCount`와 동일값 사용 (미결 C-1) |
 | `scheduledTurns` | `number[] \| undefined` | 지정 턴(액션 버튼 누적 횟수)에만 발동. `undefined`이면 기본 순환에 포함 |
-
 
 #### PhaseThreshold (BOSS 전용)
 
@@ -395,52 +374,6 @@ const dragonBoss: Monster = {
 |------|------|------|
 | `characterId` | `string` | `Character.id` 참조 |
 | `currentHp` | `number` | 현재 체력. `0`이면 사망. `Character.baseHp` 이하 |
-
----
-
-## 런타임 데이터
-
-전투 시작 시 생성되고 전투 종료 시 소멸한다.
-
-### BoardState
-
-전투 중 보드 전체 상태.
-
-> 상세 동작: [board.md §2-4](systems/board.md)
-
-| 필드 | 타입 | 초기값 | 설명 |
-|------|------|--------|------|
-| `board` | `number[][]` | 4×4 전체 `0` | 빈 칸 `0`, 타일은 `2` 이상 양의 정수 |
-| `slideCount` | `number` | `maxSlides` | 현재 턴 남은 슬라이드 횟수. `0`이면 입력 차단 |
-| `maxSlides` | `number` | `Stage.maxSlides` | 턴당 최대 슬라이드 횟수. 재드로우 완료 시 `slideCount` 리셋 기준값 |
-| `isSlideBlocked` | `boolean` | `false` | 4방향 모두 무효일 때 `true`. `slideCount === 0` 차단과 독립 |
-
----
-
-### DeckState
-
-전투 중 카드 덱 전체 상태. 대기덱·핸드·소모덱 세 영역을 관리한다.
-
-> 상세 동작: [card.md §3](systems/card.md)
-
-| 필드 | 타입 | 초기값 | 설명 |
-|------|------|--------|------|
-| `waitDeck` | `Card[]` | 출전 캐릭터 카드 합산 셔플 | 아직 드로우되지 않은 카드 풀 |
-| `hand` | `Card[]` | 대기덱에서 5장 드로우 | 현재 사용 가능한 카드. 최대 5장 |
-| `discardDeck` | `Card[]` | `[]` | 사용된 카드. 대기덱 소진 시 셔플하여 대기덱으로 전환 |
-
----
-
-### Tile
-
-슬라이드 연산 중에만 사용. `board[r][c]` 정수를 연산 진입 시 변환하고 완료 후 다시 정수로 평탄화한다.
-
-> 상세 동작: [board.md §2-2](systems/board.md)
-
-| 필드 | 타입 | 초기값 | 설명 |
-|------|------|--------|------|
-| `value` | `number` | 원본 정수 | 타일 숫자. 병합 시 두 배 |
-| `mergedThisTurn` | `boolean` | `false` | 현재 슬라이드에서 병합된 타일이면 `true`. 연쇄 병합 차단에 사용. 슬라이드 완료 시 전체 `false` 초기화 |
 
 ---
 

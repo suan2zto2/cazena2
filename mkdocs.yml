@@ -1,4 +1,4 @@
-site_name: 2048 기획서
+site_name: 테세라위버 기획서
 site_url: https://suan2z.github.io/2048/
 
 theme:
@@ -32,6 +32,7 @@ extra_css:
 
 extra_javascript:
   - javascripts/scroll_top.js
+  - javascripts/build_data.js
 
 # 메뉴 구조
 nav:
@@ -51,6 +52,9 @@ nav:
     - 스키마 설계: schema.md
     - 열거형 정의: enums.md
     - 기획 테이블 시트: data_sheet.md
+  - 콘텐츠:
+    - 시나리오: contents/scenario.md
+    - 캐릭터: contents/characters.md
   - 필요 리소스: resources.md
   - 일정: schedule.md
   - 백업:
@@ -63,6 +67,7 @@ nav:
 markdown_extensions:
   - attr_list
   - md_in_html
+  - admonition
   - pymdownx.superfences:
       custom_fences:
         - name: mermaid

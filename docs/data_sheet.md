@@ -7,6 +7,62 @@
 
 ---
 
+## JSON 익스포트 다운로드
+
+구글 시트에서 변환한 최신 JSON 파일입니다. 게임 코드에서 직접 로드하거나 로컬에 저장해 사용하세요.
+
+<button id="btn-build-data" class="md-button md-button--primary" onclick="buildAndDownloadData()">🔄 구글 시트에서 JSON 만들기 (전체)</button>
+
+!!! warning "사용 조건"
+    구글 시트가 **"링크가 있는 사람 모두 — 뷰어"** 로 공유되어 있어야 합니다.  
+    시트 우측 상단 **공유 → 링크 복사 → 뷰어** 로 설정하세요.
+
+---
+
+## JSON 파일 목록
+
+<table>
+  <thead>
+    <tr>
+      <th>파일</th>
+      <th>포함 테이블</th>
+      <th style="text-align:center">JSON 만들기</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>stages.json</code></td>
+      <td>Stage, StageMonster</td>
+      <td style="text-align:center">
+        <button id="btn-build-stages" class="md-button" onclick="buildStagesJson('btn-build-stages')">🔄 JSON 만들기</button>
+      </td>
+    </tr>
+    <tr>
+      <td><code>characters.json</code></td>
+      <td>Character</td>
+      <td style="text-align:center">
+        <button id="btn-build-characters" class="md-button" onclick="buildCharactersJson('btn-build-characters')">🔄 JSON 만들기</button>
+      </td>
+    </tr>
+    <tr>
+      <td><code>cards.json</code></td>
+      <td>Card</td>
+      <td style="text-align:center">
+        <button id="btn-build-cards" class="md-button" onclick="buildCardsJson('btn-build-cards')">🔄 JSON 만들기</button>
+      </td>
+    </tr>
+    <tr>
+      <td><code>monsters.json</code></td>
+      <td>Monster, MonsterAction, BossPhase</td>
+      <td style="text-align:center">
+        <button id="btn-build-monsters" class="md-button" onclick="buildMonstersJson('btn-build-monsters')">🔄 JSON 만들기</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
 ## 파이프라인
 
 ```
