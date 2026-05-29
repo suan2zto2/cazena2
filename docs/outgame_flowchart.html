@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>아웃게임 구조 순서도 — 테세라위버</title>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #0d1117;
+      color: #c9d1d9;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    header {
+      flex-shrink: 0;
+      padding: 16px 28px;
+      border-bottom: 1px solid #21262d;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    header h1 {
+      font-size: 1.1rem;
+      color: #4dd0e1;
+      letter-spacing: 0.04em;
+    }
+
+    header p {
+      font-size: 0.78rem;
+      color: #8b949e;
+    }
+
+    .controls {
+      margin-left: auto;
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn {
+      background: #21262d;
+      color: #c9d1d9;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      padding: 5px 12px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: background 0.15s;
+      user-select: none;
+    }
+    .btn:hover { background: #30363d; }
+
+    .canvas {
+      flex: 1;
+      overflow: auto;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 32px;
+    }
+
+    .zoom-wrap {
+      transform-origin: top center;
+      transition: transform 0.15s ease;
+    }
+
+    .mermaid svg {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>아웃게임 전체 구조 순서도</h1>
+    <p>테세라위버 — 게임 모드 · 스테이지 타입 · 팀 덱 저장 흐름</p>
+  </div>
+  <div class="controls">
+    <button class="btn" onclick="zoom(0.15)">＋ 확대</button>
+    <button class="btn" onclick="zoom(-0.15)">－ 축소</button>
+    <button class="btn" onclick="resetZoom()">초기화</button>
+  </div>
+</header>
+
+<div class="canvas" id="canvas">
+  <div class="zoom-wrap" id="zoomWrap">
+    <div class="mermaid">
+flowchart TD
+    START([▶ 게임 시작]) --> MENU[메인 메뉴]
+
+    MENU --> SM[스토리 모드]
+    MENU --> BM[전투 모드]
+    MENU --> CI[캐릭터 정보]
+    MENU --> TC[팀 구성]
+
+    subgraph sg_story[스토리 모드]
+        SM --> MS[메인 스토리\n챕터 선택]
+        SM --> SS[서브 스토리\n항목 목록 → 진행]
+
+        MS --> CH[챕터 경로 진행]
+        CH --> STS[스토리 스테이지\n연출 → 즉시 보상]
+        CH --> NBS[일반 전투 스테이지\n일반 팀덱으로 전투]
+        CH --> NRS[일반 로그라이크 스테이지\n챕터 로그라이크 진행]
+
+        NRS --> NR_CLR{클리어?}
+        NR_CLR -->|성공| NR_SAVE[/일반 팀덱 저장 여부 확인/]
+        NR_SAVE --> NR_END([스테이지 종료])
+        NR_CLR -->|실패| NR_FAIL([경험치 획득 → 종료])
+    end
+
+    subgraph sg_battle[전투 모드]
+        BM --> CRM[도전 로그라이크 모드]
+        BM --> NBM[일반 전투 모드\n일반 팀덱 선택\n→ 고정 스테이지 전투]
+        BM --> CBM[도전 전투 모드\n도전 팀덱 선택\n→ 고정 스테이지 전투\n⚠ 조건부 해금]
+
+        CRM --> CR_PLAY[챕터 로그라이크 진행]
+        CR_PLAY --> CR_CLR{클리어?}
+        CR_CLR -->|챕터 클리어| CR_SAVE_N[/일반 팀덱 저장 가능/]
+        CR_SAVE_N --> CR_CONT{계속 도전?}
+        CR_CONT -->|계속| CR_PLAY
+        CR_CONT -->|종료| CR_END([종료])
+        CR_CLR -->|최종 패배| CR_SAVE_C[/도전 팀덱 저장 가능/]
+        CR_SAVE_C --> CR_END
+    end
+
+    subgraph sg_manage[정보 · 관리]
+        CI --> CI_VIEW[캐릭터 5인\n능력치 · 스킬덱 탭\n열람 전용]
+        TC --> TC_N[일반 전투 팀\n1~10팀 관리]
+        TC --> TC_C[도전 전투 팀\n1~10팀 관리]
+    end
+
+    classDef saveNode fill:#1a6b4a,stroke:#2ecc71,color:#fff
+    class NR_SAVE,CR_SAVE_N,CR_SAVE_C saveNode
+    </div>
+  </div>
+</div>
+
+<script>
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: 'dark',
+    themeVariables: {
+      primaryColor: '#1e3a5f',
+      primaryTextColor: '#e0e0e0',
+      primaryBorderColor: '#4a8ecb',
+      lineColor: '#8b949e',
+      secondaryColor: '#1a2744',
+      tertiaryColor: '#161b22',
+      clusterBkg: '#161b22',
+      clusterBorder: '#30363d',
+      titleColor: '#c9d1d9',
+      edgeLabelBackground: '#161b22',
+      fontSize: '15px'
+    },
+    flowchart: {
+      useMaxWidth: false,
+      htmlLabels: true,
+      curve: 'basis',
+      padding: 20
+    }
+  });
+
+  let scale = 1;
+
+  function zoom(delta) {
+    scale = Math.min(3, Math.max(0.3, scale + delta));
+    applyZoom();
+  }
+
+  function resetZoom() {
+    scale = 1;
+    applyZoom();
+  }
+
+  function applyZoom() {
+    document.getElementById('zoomWrap').style.transform = `scale(${scale})`;
+  }
+
+  // 휠 줌
+  document.getElementById('canvas').addEventListener('wheel', (e) => {
+    if (e.ctrlKey || e.metaKey) {
+      e.preventDefault();
+      zoom(e.deltaY < 0 ? 0.1 : -0.1);
+    }
+  }, { passive: false });
+</script>
+
+</body>
+</html>

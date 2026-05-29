@@ -8,31 +8,31 @@
       
       
       
-        <link rel="canonical" href="https://suan2z.github.io/2048/systems/growth/">
+        <link rel="canonical" href="https://suan2z.github.io/2048/outgame_mockup/">
       
       
-        <link rel="prev" href="../stage/">
+        <link rel="prev" href="../outgame/">
       
       
-        <link rel="next" href="../../ux/">
+        <link rel="next" href="../systems/stage/">
       
       
         
       
       
-      <link rel="icon" href="../../assets/images/favicon.png">
+      <link rel="icon" href="../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
     
     
       
-        <title>성장 시스템 - 테세라위버 기획서</title>
+        <title>아웃게임 UI 목업 - 테세라위버 기획서</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -51,9 +51,9 @@
       
     
     
-      <link rel="stylesheet" href="../../stylesheets/extra.css">
+      <link rel="stylesheet" href="../stylesheets/extra.css">
     
-    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -76,7 +76,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#_1" class="md-skip">
+        <a href="#ui" class="md-skip">
           콘텐츠로 이동
         </a>
       
@@ -92,7 +92,7 @@
 
 <header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="상단/헤더">
-    <a href="../.." title="테세라위버 기획서" class="md-header__button md-logo" aria-label="테세라위버 기획서" data-md-component="logo">
+    <a href=".." title="테세라위버 기획서" class="md-header__button md-logo" aria-label="테세라위버 기획서" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -112,7 +112,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              성장 시스템
+              아웃게임 UI 목업
             
           </span>
         </div>
@@ -181,7 +181,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../.." class="md-tabs__link">
+      <a href=".." class="md-tabs__link">
         
   
   
@@ -202,7 +202,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../overview/" class="md-tabs__link">
+        <a href="../systems/overview/" class="md-tabs__link">
           
   
   
@@ -226,7 +226,7 @@
     
     
       <li class="md-tabs__item md-tabs__item--active">
-        <a href="../../outgame/" class="md-tabs__link">
+        <a href="../outgame/" class="md-tabs__link">
           
   
   
@@ -246,7 +246,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../ux/" class="md-tabs__link">
+      <a href="../ux/" class="md-tabs__link">
         
   
   
@@ -267,7 +267,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../schema/" class="md-tabs__link">
+        <a href="../schema/" class="md-tabs__link">
           
   
   
@@ -289,7 +289,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../contents/scenario/" class="md-tabs__link">
+        <a href="../contents/scenario/" class="md-tabs__link">
           
   
   
@@ -309,7 +309,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../resources/" class="md-tabs__link">
+      <a href="../resources/" class="md-tabs__link">
         
   
   
@@ -328,7 +328,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../schedule/" class="md-tabs__link">
+      <a href="../schedule/" class="md-tabs__link">
         
   
   
@@ -349,7 +349,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../backup/concept_A/" class="md-tabs__link">
+        <a href="../backup/concept_A/" class="md-tabs__link">
           
   
   
@@ -380,7 +380,9 @@
           
             
               
-              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
@@ -393,7 +395,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="네비게이션" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="테세라위버 기획서" class="md-nav__button md-logo" aria-label="테세라위버 기획서" data-md-component="logo">
+    <a href=".." title="테세라위버 기획서" class="md-nav__button md-logo" aria-label="테세라위버 기획서" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -411,7 +413,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../.." class="md-nav__link">
+      <a href=".." class="md-nav__link">
         
   
   
@@ -506,7 +508,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../overview/" class="md-nav__link">
+      <a href="../systems/overview/" class="md-nav__link">
         
   
   
@@ -534,7 +536,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../character/" class="md-nav__link">
+      <a href="../systems/character/" class="md-nav__link">
         
   
   
@@ -562,7 +564,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../board/" class="md-nav__link">
+      <a href="../systems/board/" class="md-nav__link">
         
   
   
@@ -590,7 +592,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../card/" class="md-nav__link">
+      <a href="../systems/card/" class="md-nav__link">
         
   
   
@@ -618,7 +620,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../combat/" class="md-nav__link">
+      <a href="../systems/combat/" class="md-nav__link">
         
   
   
@@ -646,7 +648,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../enemy/" class="md-nav__link">
+      <a href="../systems/enemy/" class="md-nav__link">
         
   
   
@@ -674,7 +676,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../combat_mockup/" class="md-nav__link">
+      <a href="../combat_mockup/" class="md-nav__link">
         
   
   
@@ -776,7 +778,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../outgame/" class="md-nav__link">
+      <a href="../outgame/" class="md-nav__link">
         
   
   
@@ -784,62 +786,6 @@
     
   
     아웃게임 시스템
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../outgame_mockup/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    아웃게임 UI 목업
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../stage/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    스테이지 진행
   
 
     
@@ -869,14 +815,14 @@
         
       
       
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
   
   
   <span class="md-ellipsis">
     
   
-    성장 시스템
+    아웃게임 UI 목업
   
 
     
@@ -884,10 +830,49 @@
   
   
 
-          <span class="md-nav__icon md-icon"></span>
-        </label>
+      </a>
       
-      <a href="./" class="md-nav__link md-nav__link--active">
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../systems/stage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    스테이지 진행
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../systems/growth/" class="md-nav__link">
         
   
   
@@ -903,59 +888,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="목차">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      목차
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        성장 계층 구조
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        챕터 내 성장
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_7" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        영구 성장
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -975,7 +907,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../ux/" class="md-nav__link">
+      <a href="../ux/" class="md-nav__link">
         
   
   
@@ -1062,7 +994,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../schema/" class="md-nav__link">
+      <a href="../schema/" class="md-nav__link">
         
   
   
@@ -1090,7 +1022,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../enums/" class="md-nav__link">
+      <a href="../enums/" class="md-nav__link">
         
   
   
@@ -1118,7 +1050,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../data_sheet/" class="md-nav__link">
+      <a href="../data_sheet/" class="md-nav__link">
         
   
   
@@ -1211,7 +1143,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../contents/scenario/" class="md-nav__link">
+      <a href="../contents/scenario/" class="md-nav__link">
         
   
   
@@ -1239,7 +1171,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../contents/characters/" class="md-nav__link">
+      <a href="../contents/characters/" class="md-nav__link">
         
   
   
@@ -1274,7 +1206,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../resources/" class="md-nav__link">
+      <a href="../resources/" class="md-nav__link">
         
   
   
@@ -1301,7 +1233,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../schedule/" class="md-nav__link">
+      <a href="../schedule/" class="md-nav__link">
         
   
   
@@ -1392,7 +1324,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../backup/concept_A/" class="md-nav__link">
+      <a href="../backup/concept_A/" class="md-nav__link">
         
   
   
@@ -1420,7 +1352,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../backup/concept_B/" class="md-nav__link">
+      <a href="../backup/concept_B/" class="md-nav__link">
         
   
   
@@ -1448,7 +1380,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../backup/concept_C/" class="md-nav__link">
+      <a href="../backup/concept_C/" class="md-nav__link">
         
   
   
@@ -1476,7 +1408,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../references/limbus/" class="md-nav__link">
+      <a href="../references/limbus/" class="md-nav__link">
         
   
   
@@ -1504,7 +1436,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../references/chaos_zero_nightmare/" class="md-nav__link">
+      <a href="../references/chaos_zero_nightmare/" class="md-nav__link">
         
   
   
@@ -1546,139 +1478,14 @@
               <article class="md-content__inner md-typeset">
                 
                   
+  
 
 
 
-<h1 id="_1">성장 시스템</h1>
-<blockquote>
-<p>챕터 진행 중 누적되는 <strong>챕터 내 성장</strong>과 챕터가 끝나도 유지되는 <strong>영구 성장</strong> 두 계층으로 구성됩니다.</p>
-</blockquote>
-<h2 id="_2">성장 계층 구조</h2>
-<table>
-<thead>
-<tr>
-<th>계층</th>
-<th>요소</th>
-<th>생명주기</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>챕터 내</td>
-<td>챕터 패시브, 유물, 카드 보상, 골드</td>
-<td>챕터 종료(클리어·실패) 시 전부 소멸</td>
-</tr>
-<tr>
-<td>영구</td>
-<td>유저 레벨, 장비(보류)</td>
-<td>챕터 종료 후에도 유지</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h2 id="_3">챕터 내 성장</h2>
-<p>챕터 진행 중에만 유효하며, 챕터가 종료(클리어·실패)되면 모두 소멸됩니다. 획득 경로는 <a href="../stage/">스테이지 진행 시스템</a> 참조.</p>
-<h3 id="_4">챕터 패시브</h3>
-<p>챕터 진행 중 레벨업 시 3종의 후보 중 1개를 선택. 챕터 내 이후 전투에 즉시 적용된다. 보드 규칙 변경, 전투 조건 변경, 연계 강화 등 다양한 범주를 포함한다.</p>
-<table>
-<thead>
-<tr>
-<th>패시브</th>
-<th>효과</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>선제 타일</td>
-<td>전투 시작 시 보드에 4 타일 2개 추가 생성</td>
-</tr>
-<tr>
-<td>타일 절약</td>
-<td>카드 발동 후 소모 타일 수치의 절반을 보드에 반환</td>
-</tr>
-<tr>
-<td>카운트 지연</td>
-<td>전투 시작 시 모든 적 카운트 +1</td>
-</tr>
-<tr>
-<td>연계 전문</td>
-<td>연계 발동 보너스 피해 +50%</td>
-</tr>
-</tbody>
-</table>
-<p>동일한 챕터 패시브를 중복 선택할 수 없으며, 이미 보유한 패시브는 후보 목록에서 제외된다.</p>
-<h3 id="_5">유물</h3>
-<p>보스 처치마다 1개 획득. 미확인 지역 이벤트에서도 획득할 수 있다. 보드 규칙 변경과 카드 조건 변경 두 범주로 분류된다.</p>
-<table>
-<thead>
-<tr>
-<th>유물</th>
-<th>효과</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>시간의 모래</td>
-<td>특정 카드 발동 시 모든 적 카운트 +1</td>
-</tr>
-<tr>
-<td>황금 나침반</td>
-<td>슬라이드 3회마다 원하는 위치에 타일 1개 지정 생성</td>
-</tr>
-<tr>
-<td>공명석</td>
-<td>64 이상 타일 소모 시 추가로 핸드덱 1장 드로우</td>
-</tr>
-</tbody>
-</table>
-<p>유물 효과가 충돌하는 경우(예: 카운트를 동시에 증가·감소시키는 유물) 획득 순서대로 순차 적용한다.</p>
-<h3 id="_6">카드 보상</h3>
-<p>일반·엘리트 전투 승리 후 3장 중 1장을 선택하여 덱에 추가한다. 엘리트 전투는 일반 전투보다 고품질 카드가 제시된다.</p>
-<hr />
-<h2 id="_7">영구 성장</h2>
-<h3 id="_8">유저 레벨</h3>
-<p>챕터 플레이로 경험치를 획득하며 유저 레벨이 상승한다. 챕터 클리어 여부와 무관하게 진행한 스테이지 수에 비례해 경험치가 지급된다.</p>
-<p>레벨업 시 영구 해금되는 요소:</p>
-<table>
-<thead>
-<tr>
-<th>해금 요소</th>
-<th>내용</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>유물 풀 확장</td>
-<td>챕터에서 등장 가능한 유물 종류 추가</td>
-</tr>
-<tr>
-<td>카드 풀 확장</td>
-<td>캐릭터별 획득 가능한 카드 종류 추가</td>
-</tr>
-</tbody>
-</table>
-<h3 id="_9">장비</h3>
-<blockquote>
-<p><strong>[보류]</strong> 게임에 적용할지 여부를 추후 판단 예정. 채택 시 아래 두 방향 중 선택.</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>방향</th>
-<th>내용</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>A안 — 스탯 성장형</strong></td>
-<td>장비 장착 시 캐릭터 기본 수치(체력·방어·공격) 상승. 장비 강화로 수치가 성장하는 RPG형 요소 포함</td>
-</tr>
-<tr>
-<td><strong>B안 — 덱 수정형</strong></td>
-<td>장비가 시작 덱 구성을 일부 변경. 수치 성장 없이 초기 덱 세팅 차별화에 집중</td>
-</tr>
-</tbody>
-</table>
+
+<h1 id="ui">아웃게임 UI 목업</h1>
+<p><a class="md-button md-button--primary" href="../outgame_mockup.html" target="_blank">🖥 목업 열기</a></p>
+<p>5개 화면을 상단 툴바로 전환합니다: 메인 메뉴 · 스토리 모드 · 전투 모드 · 캐릭터 정보 · 팀 구성</p>
 
 
 
@@ -1686,8 +1493,13 @@
 
 
 
+  
+  
 
 
+
+
+  
 
 
 
@@ -1734,14 +1546,14 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.indexes", "navigation.top", "toc.integrate", "search.suggest", "search.highlight", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\ud074\ub9bd\ubcf4\ub4dc\uc5d0 \ubcf5\uc0ac\ub428", "clipboard.copy": "\ud074\ub9bd\ubcf4\ub4dc\ub85c \ubcf5\uc0ac", "search.result.more.one": "\uc774 \ubb38\uc11c\uc5d0\uc11c 1\uac1c\uc758 \uac80\uc0c9 \uacb0\uacfc \ub354 \ubcf4\uae30", "search.result.more.other": "\uc774 \ubb38\uc11c\uc5d0\uc11c #\uac1c\uc758 \uac80\uc0c9 \uacb0\uacfc \ub354 \ubcf4\uae30", "search.result.none": "\uac80\uc0c9\uc5b4\uc640 \uc77c\uce58\ud558\ub294 \ubb38\uc11c\uac00 \uc5c6\uc2b5\ub2c8\ub2e4", "search.result.one": "1\uac1c\uc758 \uc77c\uce58\ud558\ub294 \ubb38\uc11c", "search.result.other": "#\uac1c\uc758 \uc77c\uce58\ud558\ub294 \ubb38\uc11c", "search.result.placeholder": "\uac80\uc0c9\uc5b4\ub97c \uc785\ub825\ud558\uc138\uc694", "search.result.term.missing": "\ud3ec\ud568\ub418\uc9c0 \uc54a\uc740 \uac80\uc0c9\uc5b4", "select.version": "\ubc84\uc804 \uc120\ud0dd"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.indexes", "navigation.top", "toc.integrate", "search.suggest", "search.highlight", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\ud074\ub9bd\ubcf4\ub4dc\uc5d0 \ubcf5\uc0ac\ub428", "clipboard.copy": "\ud074\ub9bd\ubcf4\ub4dc\ub85c \ubcf5\uc0ac", "search.result.more.one": "\uc774 \ubb38\uc11c\uc5d0\uc11c 1\uac1c\uc758 \uac80\uc0c9 \uacb0\uacfc \ub354 \ubcf4\uae30", "search.result.more.other": "\uc774 \ubb38\uc11c\uc5d0\uc11c #\uac1c\uc758 \uac80\uc0c9 \uacb0\uacfc \ub354 \ubcf4\uae30", "search.result.none": "\uac80\uc0c9\uc5b4\uc640 \uc77c\uce58\ud558\ub294 \ubb38\uc11c\uac00 \uc5c6\uc2b5\ub2c8\ub2e4", "search.result.one": "1\uac1c\uc758 \uc77c\uce58\ud558\ub294 \ubb38\uc11c", "search.result.other": "#\uac1c\uc758 \uc77c\uce58\ud558\ub294 \ubb38\uc11c", "search.result.placeholder": "\uac80\uc0c9\uc5b4\ub97c \uc785\ub825\ud558\uc138\uc694", "search.result.term.missing": "\ud3ec\ud568\ub418\uc9c0 \uc54a\uc740 \uac80\uc0c9\uc5b4", "select.version": "\ubc84\uc804 \uc120\ud0dd"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
       
-        <script src="../../javascripts/scroll_top.js"></script>
+        <script src="../javascripts/scroll_top.js"></script>
       
-        <script src="../../javascripts/build_data.js"></script>
+        <script src="../javascripts/build_data.js"></script>
       
     
   </body>

@@ -226,7 +226,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../growth/" class="md-tabs__link">
+        <a href="../../outgame/" class="md-tabs__link">
           
   
   
@@ -853,6 +853,12 @@
       
         
       
+        
+      
+        
+      
+        
+      
     
     
     
@@ -897,6 +903,90 @@
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../outgame/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    아웃게임 시스템
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../outgame_mockup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    아웃게임 UI 목업
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../stage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    스테이지 진행
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -1586,11 +1676,6 @@
 <td><code>EffectParams</code></td>
 <td>효과 실행에 필요한 파라미터 묶음 (§2-2 참고)</td>
 </tr>
-<tr>
-<td><code>isActive</code></td>
-<td><code>bool</code></td>
-<td>소유 캐릭터가 생존해 있으면 <code>true</code>. 사망 시 <code>false</code>로 전환되어 발동 불가</td>
-</tr>
 </tbody>
 </table>
 <h4 id="_3">제약 조건</h4>
@@ -1813,12 +1898,6 @@
 <td>핸드에 카드가 존재</td>
 <td>발동 여부와 무관하게 핸드 전체 이동. 이동 순서는 핸드 내 인덱스 순서</td>
 </tr>
-<tr>
-<td>핸드덱 → 소모덱</td>
-<td>사망 캐릭터 카드 처리</td>
-<td><code>isActive == false</code>인 카드가 핸드에 존재</td>
-<td>액션 버튼 이후 핸드 교체 시 함께 이동. 별도 조기 이동 없음</td>
-</tr>
 </tbody>
 </table>
 <h3 id="3-4">3-4. 전투 시작 초기화 순서</h3>
@@ -1948,7 +2027,6 @@
 <ul>
 <li>정확한 숫자 일치만 허용한다. 더 높은 숫자 타일로 대체 발동은 불가.</li>
 <li>보드에 같은 숫자 타일이 여러 개 있으면, 핸드에 같은 숫자 카드가 여러 장일 때 각각 다른 타일을 소모하여 복수 발동이 가능하다.</li>
-<li><code>isActive == false</code>인 카드(사망 캐릭터 카드)는 보드 타일 존재 여부와 무관하게 매칭에서 제외한다.</li>
 </ul>
 <p><strong>타일 소모 위치 선택:</strong></p>
 <blockquote>
@@ -1967,7 +2045,7 @@
 - <strong>(d)</strong> 플레이어가 실행 순서를 직접 지정  </p>
 <p>파티 연계 발동(§5-5)의 판정이 실행 순서에 의존하므로, B-1과 연계 판정 시점(미결 B-6)을 함께 결정해야 합니다.</p>
 </blockquote>
-<p>효과 실행 중 파티원이 사망해도 이미 대상으로 지정된 카드 효과는 완전히 적용된 후 전투 결과를 판정한다. (예: A 카드가 적을 처치했더라도 처리 대기 중인 B 카드의 효과는 모두 실행됨)</p>
+<p>효과 실행 중 팀 체력이 0이 되어도 현재 카드의 효과는 완전히 적용된 후 전투 결과를 판정한다.</p>
 <p><strong>파티 연계 발동 판정:</strong></p>
 <blockquote>
 <p><strong>[미결 B-6]</strong> 연계 판정 시점이 확정되지 않았습니다.<br />
@@ -1976,9 +2054,9 @@
 <p>연계 보너스 수치는 미결 B-5 참고. 연계 발동 규칙 상세는 <code>docs/systems/party.md</code> (작성 예정)에서 다룬다.</p>
 </blockquote>
 <h3 id="5-5">5-5. 미매칭 카드 처리</h3>
-<p>매칭에 실패한 카드(보드에 해당 타일 없음, <code>isActive == false</code>)는 효과를 발동하지 않는다. 이 카드들은 매칭된 카드와 함께 핸드 교체 시 소모덱으로 이동한다.</p>
+<p>매칭에 실패한 카드(보드에 해당 타일 없음)는 효과를 발동하지 않는다. 이 카드들은 매칭된 카드와 함께 핸드 교체 시 소모덱으로 이동한다.</p>
 <p>핸드 교체 처리:</p>
-<div class="highlight"><pre><span></span><code>1. hand 내 모든 카드(매칭·미매칭·isActive=false 모두 포함)를 discardDeck으로 이동
+<div class="highlight"><pre><span></span><code>1. hand 내 모든 카드(매칭·미매칭 모두 포함)를 discardDeck으로 이동
 2. hand를 빈 배열로 초기화
 3. drawCards(5) 호출 (§4-2)
 </code></pre></div>

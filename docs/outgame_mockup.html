@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1280">
+  <title>테세라위버 — 아웃게임 UI 목업</title>
+  <style>
+    :root {
+      --bg:      #0d0d1f;
+      --panel:   #111125;
+      --card-bg: #181830;
+      --border:  #252545;
+      --border2: #303058;
+      --accent:  #00bcd4;
+      --accent2: #00e5ff;
+      --danger:  #f44336;
+      --warning: #ff9800;
+      --success: #4caf50;
+      --gold:    #ffd740;
+      --text:    #e0e0e0;
+      --dim:     #7070a0;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #060612;
+      display: flex; flex-direction: column; align-items: center;
+      padding: 10px; gap: 10px;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      color: var(--text);
+      overflow: hidden;
+    }
+
+    .bs-wrap { display: flex; justify-content: center; width: 100%; }
+
+    .bs {
+      width: 1280px; height: 720px; flex-shrink: 0;
+      background: var(--bg);
+      border: 2px solid var(--border);
+      border-radius: 10px; overflow: hidden;
+      position: relative;
+    }
+
+    /* toolbar */
+    .toolbar { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+    .tb-btn {
+      padding: 5px 14px; border-radius: 4px; cursor: pointer; font-size: 12px;
+      background: var(--card-bg); border: 1px solid var(--border); color: var(--dim);
+    }
+    .tb-btn.on { border-color: var(--accent); color: var(--accent); }
+    .tb-sep { width: 1px; height: 20px; background: var(--border); }
+
+    /* screens */
+    .screen { position: absolute; inset: 0; display: none; flex-direction: column; }
+    .screen.active { display: flex; }
+
+    /* common top-bar */
+    .top-bar {
+      height: 52px; flex-shrink: 0;
+      background: var(--panel); border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; padding: 0 20px; gap: 12px;
+    }
+    .back-btn {
+      padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 12px;
+      background: var(--card-bg); border: 1px solid var(--border); color: var(--dim);
+    }
+    .back-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .screen-title { font-size: 15px; font-weight: 700; color: var(--text); }
+    .tab-group { display: flex; gap: 2px; margin-left: 8px; }
+    .tab {
+      padding: 5px 14px; border-radius: 4px; cursor: pointer; font-size: 12px;
+      background: transparent; border: 1px solid transparent; color: var(--dim);
+    }
+    .tab.on { background: var(--card-bg); border-color: var(--accent); color: var(--accent); }
+
+    /* ══════════════════════════
+       SCREEN 1 — MAIN MENU
+    ══════════════════════════ */
+    #screen-menu {
+      background: radial-gradient(ellipse at 50% 25%, #0a1a3a 0%, #060612 65%);
+      justify-content: center; align-items: center;
+    }
+    .menu-grid {
+      position: absolute; inset: 0; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(0,188,212,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,188,212,.04) 1px, transparent 1px);
+      background-size: 50px 50px;
+    }
+    .menu-inner { display: flex; flex-direction: column; align-items: center; gap: 40px; z-index: 1; }
+    .menu-logo h1 {
+      font-size: 48px; font-weight: 900; letter-spacing: .1em;
+      color: var(--accent2);
+      text-shadow: 0 0 30px #00e5ff88, 0 0 60px #00e5ff44;
+      text-align: center;
+    }
+    .menu-logo p { font-size: 13px; color: var(--dim); margin-top: 6px; letter-spacing: .05em; text-align: center; }
+    .menu-nav { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .menu-btn {
+      width: 260px; height: 88px;
+      background: var(--card-bg); border: 1px solid var(--border2);
+      border-radius: 10px;
+      display: flex; align-items: center; gap: 18px;
+      padding: 0 22px; cursor: pointer;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .menu-btn:hover { border-color: var(--accent); box-shadow: 0 0 20px #00bcd433; }
+    .menu-btn-icon { font-size: 30px; }
+    .menu-btn-text strong { display: block; font-size: 15px; color: var(--text); }
+    .menu-btn-text span { font-size: 11px; color: var(--dim); }
+    .menu-footer {
+      position: absolute; bottom: 18px;
+      font-size: 11px; color: var(--dim);
+      display: flex; gap: 12px;
+    }
+    .menu-footer span.sep { color: var(--border2); }
+
+    /* ══════════════════════════
+       SCREEN 2 — STORY MODE
+    ══════════════════════════ */
+    .story-body { flex: 1; display: flex; overflow: hidden; }
+
+    .chapter-list {
+      width: 380px; flex-shrink: 0;
+      background: var(--panel); border-right: 1px solid var(--border);
+      overflow-y: auto; padding: 12px;
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .chapter-list::-webkit-scrollbar { width: 4px; }
+    .chapter-list::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+
+    .ch-card {
+      padding: 11px 14px;
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: 8px; cursor: pointer;
+      display: flex; align-items: center; gap: 12px;
+      transition: border-color .15s;
+    }
+    .ch-card:hover, .ch-card.sel { border-color: var(--accent); }
+    .ch-card.locked { opacity: .45; cursor: default; }
+
+    .ch-num {
+      width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0;
+      background: var(--border2); border: 2px solid var(--border2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; font-weight: 700; color: var(--dim);
+    }
+    .ch-num.ok   { border-color: var(--success); color: var(--success); background: #0a200a; }
+    .ch-num.go   { border-color: var(--accent);  color: var(--accent);  background: #091820; }
+
+    .ch-info { flex: 1; }
+    .ch-title { font-size: 13px; font-weight: 600; color: var(--text); }
+    .ch-arc   { font-size: 10px; color: var(--dim); margin-top: 2px; }
+
+    .ch-badge { font-size: 9px; padding: 2px 7px; border-radius: 3px; font-weight: 700; white-space: nowrap; }
+    .ch-badge.ok { background: #0a200a; color: var(--success); border: 1px solid var(--success); }
+    .ch-badge.go { background: #091820; color: var(--accent);  border: 1px solid var(--accent); }
+    .ch-badge.lk { background: #1a1a2e; color: var(--dim);    border: 1px solid var(--border); }
+
+    .ch-detail {
+      flex: 1; padding: 32px 36px;
+      display: flex; flex-direction: column; gap: 18px;
+    }
+    .cd-head { display: flex; gap: 18px; align-items: flex-start; }
+    .cd-num-big {
+      width: 60px; height: 60px; border-radius: 12px;
+      border: 2px solid var(--accent); background: #091820;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 26px; font-weight: 900; color: var(--accent2); flex-shrink: 0;
+    }
+    .cd-name  { font-size: 22px; font-weight: 700; color: var(--text); }
+    .arc-tag  {
+      display: inline-block; margin-top: 5px;
+      font-size: 10px; padding: 2px 8px; border-radius: 3px;
+      font-weight: 700; letter-spacing: 1px;
+    }
+    .arc-intro  { background:#0a1a2a; color:#80b0ff; border:1px solid #4a8ecb; }
+    .arc-dev    { background:#1a1a0a; color:#d0c050; border:1px solid #a09030; }
+    .arc-crisis { background:#2a0a0a; color:#ff8080; border:1px solid #c04040; }
+    .arc-climax { background:#2a0a2a; color:#d080ff; border:1px solid #9040c0; }
+
+    .cd-desc { font-size: 13px; color: var(--dim); line-height: 1.7; }
+
+    .cd-prog {
+      padding: 14px; background: var(--panel); border: 1px solid var(--border); border-radius: 8px;
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .cd-prog-row { display: flex; justify-content: space-between; font-size: 12px; color: var(--dim); }
+    .cd-prog-bar { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+    .cd-prog-fill { height: 100%; background: var(--accent); border-radius: 3px; }
+
+    .cd-acts { display: flex; gap: 8px; }
+    .cd-act {
+      flex: 1; padding: 10px 6px;
+      background: var(--card-bg); border: 1px solid var(--border); border-radius: 6px;
+      display: flex; flex-direction: column; align-items: center; gap: 3px;
+    }
+    .cd-act.done { border-color: var(--success); }
+    .cd-act.next { border-color: var(--accent); }
+    .cd-act-lbl  { font-size: 9px; color: var(--dim); }
+    .cd-act-icon { font-size: 20px; }
+    .cd-act-sub  { font-size: 9px; color: var(--dim); }
+
+    .cd-btn {
+      align-self: flex-start;
+      padding: 11px 26px; border-radius: 8px; cursor: pointer;
+      font-size: 14px; font-weight: 700; letter-spacing: 1px;
+      background: linear-gradient(135deg,#004d52,#007780);
+      border: 2px solid var(--accent); color: #fff;
+      box-shadow: 0 0 18px #00bcd444; transition: box-shadow .2s;
+    }
+    .cd-btn:hover { box-shadow: 0 0 28px #00bcd488; }
+    .cd-btn.lk { background: var(--card-bg); border-color: var(--border); color: var(--dim); box-shadow: none; cursor: default; }
+
+    /* sub story */
+    .sub-list {
+      flex: 1; padding: 20px; overflow-y: auto;
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .ss-item {
+      padding: 14px 16px;
+      background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px;
+      display: flex; align-items: center; gap: 14px; cursor: pointer;
+      transition: border-color .15s;
+    }
+    .ss-item:hover { border-color: var(--accent); }
+    .ss-item.locked { opacity:.45; cursor:default; }
+    .ss-icon { font-size: 22px; }
+    .ss-info { flex: 1; }
+    .ss-title { font-size: 13px; font-weight: 600; color: var(--text); }
+    .ss-cond  { font-size: 10px; color: var(--dim); margin-top: 2px; }
+    .ss-badge { font-size: 10px; padding: 2px 8px; border-radius: 3px; }
+    .ss-badge.ok { background:#0a200a; color:var(--success); border:1px solid var(--success); }
+    .ss-badge.go { background:#091820; color:var(--accent);  border:1px solid var(--accent); }
+    .ss-badge.lk { background:#1a1a2e; color:var(--dim);    border:1px solid var(--border); }
+
+    /* ══════════════════════════
+       SCREEN 3 — BATTLE MODE
+    ══════════════════════════ */
+    .battle-body {
+      flex: 1; display: flex; align-items: center; justify-content: center;
+      gap: 20px; padding: 0 40px;
+    }
+    .mode-card {
+      flex: 1; max-width: 340px; height: 500px;
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: 14px; display: flex; flex-direction: column; overflow: hidden;
+      cursor: pointer; transition: border-color .2s, box-shadow .2s;
+    }
+    .mode-card:hover { border-color: var(--accent); box-shadow: 0 0 24px #00bcd433; }
+    .mode-card.locked { opacity:.5; cursor:default; }
+    .mode-card.locked:hover { border-color: var(--border); box-shadow: none; }
+
+    .mc-header {
+      height: 120px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 52px; border-bottom: 1px solid var(--border);
+    }
+    .mc-h-r { background: linear-gradient(135deg,#0a1a3a,#0d2050); }
+    .mc-h-n { background: linear-gradient(135deg,#0a2a1a,#0d3020); }
+    .mc-h-c { background: linear-gradient(135deg,#2a0a1a,#3a0d20); }
+
+    .mc-body { flex:1; padding:20px; display:flex; flex-direction:column; gap:14px; }
+    .mc-title    { font-size:16px; font-weight:700; color:var(--text); }
+    .mc-subtitle { font-size:11px; color:var(--accent); }
+    .mc-desc     { font-size:12px; color:var(--dim); line-height:1.7; flex:1; }
+    .mc-stats    { padding:10px; background:var(--panel); border:1px solid var(--border); border-radius:6px; display:flex; flex-direction:column; gap:5px; }
+    .mc-stat-row { display:flex; justify-content:space-between; font-size:11px; }
+    .mc-stat-row span:first-child { color:var(--dim); }
+    .mc-btn      { padding:10px; border-radius:6px; text-align:center; font-size:13px; font-weight:700; cursor:pointer; letter-spacing:.5px; }
+    .mc-btn-r    { background:linear-gradient(135deg,#004d52,#007780); border:1px solid var(--accent); color:#fff; }
+    .mc-btn-n    { background:linear-gradient(135deg,#1a4d20,#257730); border:1px solid var(--success); color:#fff; }
+    .mc-btn-lk   { background:var(--panel); border:1px solid var(--border); color:var(--dim); cursor:default; }
+    .mc-lock-hint { font-size:10px; color:var(--dim); text-align:center; }
+
+    /* ══════════════════════════
+       SCREEN 4 — CHARACTER INFO
+    ══════════════════════════ */
+    .char-body { flex:1; display:flex; overflow:hidden; }
+
+    .char-list-panel {
+      width: 190px; flex-shrink:0;
+      background:var(--panel); border-right:1px solid var(--border);
+      padding:12px; display:flex; flex-direction:column; gap:6px;
+    }
+    .char-item {
+      padding:10px 12px;
+      background:var(--card-bg); border:1px solid var(--border);
+      border-radius:8px; cursor:pointer;
+      display:flex; align-items:center; gap:10px;
+      transition:border-color .15s;
+    }
+    .char-item:hover, .char-item.sel { border-color:var(--accent); }
+    .char-avatar {
+      width:34px; height:34px; border-radius:50%;
+      border:2px solid var(--border2);
+      display:flex; align-items:center; justify-content:center; font-size:16px; flex-shrink:0;
+    }
+    .char-item.sel .char-avatar { border-color:var(--accent); }
+    .char-item-name { font-size:12px; font-weight:600; color:var(--text); }
+    .char-item-role { font-size:10px; color:var(--dim); }
+
+    .char-detail { flex:1; display:flex; flex-direction:column; overflow:hidden; }
+    .char-dhead  {
+      padding:20px 24px; border-bottom:1px solid var(--border);
+      display:flex; gap:20px; align-items:center; flex-shrink:0;
+    }
+    .char-portrait {
+      width:80px; height:80px; border-radius:12px;
+      border:2px solid var(--accent); background:var(--card-bg);
+      display:flex; align-items:center; justify-content:center;
+      font-size:36px; flex-shrink:0;
+    }
+    .char-dname { font-size:22px; font-weight:700; color:var(--text); }
+    .role-tag {
+      display:inline-block; margin-top:4px;
+      font-size:10px; padding:2px 8px; border-radius:3px; font-weight:700; letter-spacing:.5px;
+    }
+    .rt-tank { background:#1a2a0a; color:#90c030; border:1px solid #608020; }
+    .rt-sct  { background:#2a2a0a; color:var(--gold);  border:1px solid #b09020; }
+    .rt-snp  { background:#2a0a0a; color:#ff8080; border:1px solid var(--danger); }
+    .rt-hwk  { background:#1a0a2a; color:#c080ff; border:1px solid #8040c0; }
+    .rt-sus  { background:#2a0a1a; color:#ff80c0; border:1px solid #c04080; }
+
+    .char-stats { display:flex; gap:16px; margin-top:10px; }
+    .char-stat  { display:flex; flex-direction:column; align-items:center; gap:2px; }
+    .cs-val { font-size:16px; font-weight:700; color:var(--accent2); }
+    .cs-lbl { font-size:9px; color:var(--dim); }
+
+    .skill-area { flex:1; display:flex; flex-direction:column; overflow:hidden; }
+    .skill-tabs { display:flex; border-bottom:1px solid var(--border); flex-shrink:0; }
+    .skill-tab  { padding:10px 18px; font-size:12px; color:var(--dim); cursor:pointer; border-bottom:2px solid transparent; }
+    .skill-tab.on { color:var(--accent); border-bottom-color:var(--accent); }
+
+    .skill-grid {
+      flex:1; overflow-y:auto; padding:16px;
+      display:grid; grid-template-columns:repeat(5,1fr); gap:8px; align-content:flex-start;
+    }
+    .sk-card {
+      padding:10px 8px;
+      background:var(--card-bg); border:1px solid var(--border); border-radius:8px;
+      display:flex; flex-direction:column; align-items:center; gap:4px;
+    }
+    .sk-card.unk { opacity:.4; }
+    .sk-strip { width:100%; height:2px; border-radius:1px; margin-bottom:2px; }
+    .sk-num  { font-size:18px; font-weight:800; }
+    .sk-name { font-size:10px; color:var(--text); text-align:center; line-height:1.3; }
+    .sk-eff  { font-size:9px; color:var(--dim); text-align:center; }
+
+    /* ══════════════════════════
+       SCREEN 5 — TEAM COMP
+    ══════════════════════════ */
+    .team-body { flex:1; overflow-y:auto; padding:16px; display:flex; flex-direction:column; gap:8px; }
+    .team-body::-webkit-scrollbar { width:4px; }
+    .team-body::-webkit-scrollbar-thumb { background:var(--border2); border-radius:2px; }
+
+    .team-slot {
+      padding:14px 16px;
+      background:var(--card-bg); border:1px solid var(--border); border-radius:10px;
+      display:flex; align-items:center; gap:16px; cursor:pointer;
+      transition:border-color .15s;
+    }
+    .team-slot:hover, .team-slot.sel { border-color:var(--accent); }
+
+    .team-num {
+      width:30px; height:30px; border-radius:50%;
+      background:var(--panel); border:1px solid var(--border2);
+      display:flex; align-items:center; justify-content:center;
+      font-size:13px; font-weight:700; color:var(--dim); flex-shrink:0;
+    }
+    .team-slot.sel .team-num { border-color:var(--accent); color:var(--accent); }
+
+    .team-chars { display:flex; gap:6px; }
+    .team-ch-av {
+      width:36px; height:36px; border-radius:50%;
+      background:var(--panel); border:2px solid var(--border2);
+      display:flex; align-items:center; justify-content:center; font-size:16px;
+    }
+    .team-relics { display:flex; gap:5px; }
+    .team-relic {
+      width:26px; height:26px; border-radius:6px;
+      background:var(--panel); border:1px solid var(--border2);
+      display:flex; align-items:center; justify-content:center; font-size:12px;
+    }
+    .team-info { flex:1; }
+    .team-name   { font-size:13px; font-weight:600; color:var(--text); }
+    .team-detail { font-size:10px; color:var(--dim); margin-top:2px; }
+
+    .team-acts { display:flex; gap:5px; }
+    .t-act {
+      width:26px; height:26px; border-radius:4px;
+      background:var(--panel); border:1px solid var(--border);
+      display:flex; align-items:center; justify-content:center;
+      font-size:11px; cursor:pointer; color:var(--dim);
+    }
+    .t-act:hover { border-color:var(--accent); color:var(--accent); }
+    .t-act.del:hover { border-color:var(--danger); color:var(--danger); }
+    .t-act.off { opacity:.3; cursor:default; pointer-events:none; }
+
+    .team-add {
+      padding:14px; border:1px dashed var(--border2); border-radius:10px;
+      display:flex; align-items:center; justify-content:center; gap:8px;
+      font-size:12px; color:var(--dim); cursor:pointer;
+    }
+    .team-add:hover { border-color:var(--accent); color:var(--accent); }
+  </style>
+</head>
+<body>
+
+<div class="toolbar">
+  <button class="tb-btn on" onclick="go('menu')">🏠 메인 메뉴</button>
+  <div class="tb-sep"></div>
+  <button class="tb-btn" onclick="go('story')">📖 스토리 모드</button>
+  <button class="tb-btn" onclick="go('battle')">⚔ 전투 모드</button>
+  <button class="tb-btn" onclick="go('char')">👤 캐릭터 정보</button>
+  <button class="tb-btn" onclick="go('team')">🧩 팀 구성</button>
+</div>
+
+<div class="bs-wrap" id="bs-wrap">
+<div class="bs">
+
+<!-- ═══════════════════════════════════════
+     SCREEN 1 — MAIN MENU
+═══════════════════════════════════════ -->
+<div class="screen active" id="screen-menu">
+  <div class="menu-grid"></div>
+  <div class="menu-inner">
+    <div class="menu-logo">
+      <h1>TESSERA WEAVER</h1>
+      <p>당신의 스와이프가 도시의 코드를 다시 쓴다</p>
+    </div>
+    <div class="menu-nav">
+      <div class="menu-btn" onclick="go('story')">
+        <div class="menu-btn-icon">📖</div>
+        <div class="menu-btn-text"><strong>스토리 모드</strong><span>메인 · 서브 스토리 진행</span></div>
+      </div>
+      <div class="menu-btn" onclick="go('battle')">
+        <div class="menu-btn-icon">⚔</div>
+        <div class="menu-btn-text"><strong>전투 모드</strong><span>도전 로그라이크 · 전투 스테이지</span></div>
+      </div>
+      <div class="menu-btn" onclick="go('char')">
+        <div class="menu-btn-icon">👤</div>
+        <div class="menu-btn-text"><strong>캐릭터 정보</strong><span>5인 능력치 · 스킬덱 열람</span></div>
+      </div>
+      <div class="menu-btn" onclick="go('team')">
+        <div class="menu-btn-icon">🧩</div>
+        <div class="menu-btn-text"><strong>팀 구성</strong><span>일반 · 도전 팀덱 관리</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="menu-footer">
+    <span>v0.1.0-dev</span><span class="sep">|</span>
+    <span>세이브 슬롯 A</span><span class="sep">|</span>
+    <span>유저 Lv. 7</span><span class="sep">|</span>
+    <span>⚙ 설정</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     SCREEN 2 — STORY MODE
+═══════════════════════════════════════ -->
+<div class="screen" id="screen-story">
+  <div class="top-bar">
+    <div class="back-btn" onclick="go('menu')">← 뒤로</div>
+    <div class="screen-title">스토리 모드</div>
+    <div class="tab-group">
+      <div class="tab on"  id="stab-main" onclick="storyTab('main')">메인 스토리</div>
+      <div class="tab"     id="stab-sub"  onclick="storyTab('sub')">서브 스토리</div>
+    </div>
+  </div>
+
+  <!-- main story -->
+  <div class="story-body" id="spanel-main">
+    <div class="chapter-list" id="ch-list"></div>
+    <div class="ch-detail" id="ch-detail"></div>
+  </div>
+
+  <!-- sub story -->
+  <div class="story-body" id="spanel-sub" style="display:none">
+    <div class="sub-list">
+      <div class="ss-item"><div class="ss-icon">🛡</div><div class="ss-info"><div class="ss-title">케스트럴 — 철의 여인</div><div class="ss-cond">해금: 챕터 2 클리어 + 케스트럴 동반</div></div><div class="ss-badge ok">CLEAR</div></div>
+      <div class="ss-item"><div class="ss-icon">⚡</div><div class="ss-info"><div class="ss-title">주베 — 조커의 기원</div><div class="ss-cond">해금: 챕터 3 클리어 + 주베 동반</div></div><div class="ss-badge go">진행 가능</div></div>
+      <div class="ss-item locked"><div class="ss-icon">🎯</div><div class="ss-info"><div class="ss-title">베인 — 라스트 노트</div><div class="ss-cond">해금: 챕터 4 클리어 필요</div></div><div class="ss-badge lk">🔒 잠금</div></div>
+      <div class="ss-item locked"><div class="ss-icon">👁</div><div class="ss-info"><div class="ss-title">사이퍼 — 이중 계약</div><div class="ss-cond">해금: 챕터 5 클리어 + 사이퍼 신뢰도</div></div><div class="ss-badge lk">🔒 잠금</div></div>
+      <div class="ss-item locked"><div class="ss-icon">💊</div><div class="ss-info"><div class="ss-title">펄스 — 브레이크</div><div class="ss-cond">해금: 챕터 5 클리어 필요</div></div><div class="ss-badge lk">🔒 잠금</div></div>
+      <div class="ss-item locked"><div class="ss-icon">🌆</div><div class="ss-info"><div class="ss-title">요람 해안의 어부 (이벤트)</div><div class="ss-cond">해금: 미확인 지역 이벤트 10회 완료</div></div><div class="ss-badge lk">🔒 잠금</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     SCREEN 3 — BATTLE MODE
+═══════════════════════════════════════ -->
+<div class="screen" id="screen-battle">
+  <div class="top-bar">
+    <div class="back-btn" onclick="go('menu')">← 뒤로</div>
+    <div class="screen-title">전투 모드</div>
+  </div>
+  <div class="battle-body">
+
+    <div class="mode-card">
+      <div class="mc-header mc-h-r">🔄</div>
+      <div class="mc-body">
+        <div class="mc-title">도전 로그라이크 모드</div>
+        <div class="mc-subtitle">Challenge Roguelike</div>
+        <div class="mc-desc">챕터 클리어 후에도 계속 도전 가능. 몬스터가 점점 강해지며 최종 패배 시 도전 팀덱을 저장할 수 있다.</div>
+        <div class="mc-stats">
+          <div class="mc-stat-row"><span>최고 기록</span><span>3챕터 7막</span></div>
+          <div class="mc-stat-row"><span>도전 팀덱</span><span>2 / 10</span></div>
+        </div>
+        <div class="mc-btn mc-btn-r">▶ 시작하기</div>
+      </div>
+    </div>
+
+    <div class="mode-card">
+      <div class="mc-header mc-h-n">⚔</div>
+      <div class="mc-body">
+        <div class="mc-title">일반 전투 모드</div>
+        <div class="mc-subtitle">Normal Battle</div>
+        <div class="mc-desc">저장된 일반 팀덱으로 고정 스테이지를 도전. 각 스테이지는 고유한 적 구성과 특수 조건이 있으며 뒤로 갈수록 강해진다.</div>
+        <div class="mc-stats">
+          <div class="mc-stat-row"><span>진행 상황</span><span>스테이지 8 / 30</span></div>
+          <div class="mc-stat-row"><span>일반 팀덱</span><span>3 / 10</span></div>
+        </div>
+        <div class="mc-btn mc-btn-n">▶ 시작하기</div>
+      </div>
+    </div>
+
+    <div class="mode-card locked">
+      <div class="mc-header mc-h-c">🏆</div>
+      <div class="mc-body">
+        <div class="mc-title">도전 전투 모드</div>
+        <div class="mc-subtitle">Challenge Battle</div>
+        <div class="mc-desc">저장된 도전 팀덱으로 강화된 고정 스테이지를 도전. 도전 팀덱 보유 시 해금된다.</div>
+        <div class="mc-stats">
+          <div class="mc-stat-row"><span>해금 조건</span><span>도전 팀덱 보유</span></div>
+          <div class="mc-stat-row"><span>도전 팀덱</span><span>2 / 10</span></div>
+        </div>
+        <div class="mc-btn mc-btn-lk">🔒 잠금 해제 필요</div>
+        <div class="mc-lock-hint">도전 로그라이크에서 도전 팀덱을 획득하세요</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     SCREEN 4 — CHARACTER INFO
+═══════════════════════════════════════ -->
+<div class="screen" id="screen-char">
+  <div class="top-bar">
+    <div class="back-btn" onclick="go('menu')">← 뒤로</div>
+    <div class="screen-title">캐릭터 정보</div>
+  </div>
+  <div class="char-body">
+    <div class="char-list-panel" id="char-list"></div>
+    <div class="char-detail">
+      <div class="char-dhead">
+        <div class="char-portrait" id="c-portrait">🛡</div>
+        <div>
+          <div class="char-dname"  id="c-name">케스트럴</div>
+          <div class="role-tag rt-tank" id="c-role">탱커</div>
+          <div class="char-stats">
+            <div class="char-stat"><div class="cs-val" id="c-hp">180</div><div class="cs-lbl">HP</div></div>
+            <div class="char-stat"><div class="cs-val" id="c-atk">22</div><div class="cs-lbl">ATK</div></div>
+            <div class="char-stat"><div class="cs-val" id="c-def">35</div><div class="cs-lbl">DEF</div></div>
+            <div class="char-stat"><div class="cs-val" id="c-spd">12</div><div class="cs-lbl">SPD</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="skill-area">
+        <div class="skill-tabs">
+          <div class="skill-tab on" onclick="sktab('base')">기본 스킬덱</div>
+          <div class="skill-tab"    onclick="sktab('unl')">해금 스킬덱</div>
+          <div class="skill-tab"    onclick="sktab('lk')">미해금 스킬덱</div>
+        </div>
+        <div class="skill-grid" id="skill-grid"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     SCREEN 5 — TEAM COMPOSITION
+═══════════════════════════════════════ -->
+<div class="screen" id="screen-team">
+  <div class="top-bar">
+    <div class="back-btn" onclick="go('menu')">← 뒤로</div>
+    <div class="screen-title">팀 구성</div>
+    <div class="tab-group">
+      <div class="tab on" id="ttab-n" onclick="teamTab('n')">일반 전투 팀</div>
+      <div class="tab"    id="ttab-c" onclick="teamTab('c')">도전 전투 팀</div>
+    </div>
+  </div>
+
+  <!-- normal teams -->
+  <div class="team-body" id="tpanel-n">
+    <div class="team-slot sel">
+      <div class="team-num">1</div>
+      <div class="team-chars"><div class="team-ch-av">🛡</div><div class="team-ch-av">⚡</div><div class="team-ch-av">💊</div></div>
+      <div class="team-relics"><div class="team-relic" title="시간의 모래">⌚</div><div class="team-relic" title="황금 나침반">🧭</div><div class="team-relic" title="공명석">💎</div></div>
+      <div class="team-info"><div class="team-name">팀 1</div><div class="team-detail">케스트럴 · 주베 · 펄스 | 로그라이크 3막 달성</div></div>
+      <div class="team-acts">
+        <div class="t-act off">↑</div><div class="t-act">↓</div>
+        <div class="t-act del off" title="마지막 팀은 삭제 불가">🗑</div>
+      </div>
+    </div>
+    <div class="team-slot">
+      <div class="team-num">2</div>
+      <div class="team-chars"><div class="team-ch-av">🎯</div><div class="team-ch-av">👁</div><div class="team-ch-av">🛡</div></div>
+      <div class="team-relics"><div class="team-relic">💎</div><div class="team-relic">⌚</div></div>
+      <div class="team-info"><div class="team-name">팀 2</div><div class="team-detail">베인 · 사이퍼 · 케스트럴 | 로그라이크 2막 달성</div></div>
+      <div class="team-acts"><div class="t-act">↑</div><div class="t-act">↓</div><div class="t-act del">🗑</div></div>
+    </div>
+    <div class="team-slot">
+      <div class="team-num">3</div>
+      <div class="team-chars"><div class="team-ch-av">⚡</div><div class="team-ch-av">🎯</div><div class="team-ch-av">👁</div></div>
+      <div class="team-relics"><div class="team-relic">🧭</div></div>
+      <div class="team-info"><div class="team-name">팀 3</div><div class="team-detail">주베 · 베인 · 사이퍼 | 로그라이크 1막 달성</div></div>
+      <div class="team-acts"><div class="t-act">↑</div><div class="t-act off">↓</div><div class="t-act del">🗑</div></div>
+    </div>
+    <div class="team-add">＋ 팀 추가 &nbsp;<span style="color:var(--dim)">(3 / 10)</span></div>
+  </div>
+
+  <!-- challenge teams -->
+  <div class="team-body" id="tpanel-c" style="display:none">
+    <div class="team-slot sel">
+      <div class="team-num">1</div>
+      <div class="team-chars"><div class="team-ch-av">🛡</div><div class="team-ch-av">🎯</div><div class="team-ch-av">👁</div></div>
+      <div class="team-relics"><div class="team-relic">⌚</div><div class="team-relic">🧭</div><div class="team-relic">💎</div></div>
+      <div class="team-info"><div class="team-name">도전 팀 1</div><div class="team-detail">케스트럴 · 베인 · 사이퍼 | 도전 8챕터 3막 달성</div></div>
+      <div class="team-acts"><div class="t-act off">↑</div><div class="t-act">↓</div><div class="t-act del off">🗑</div></div>
+    </div>
+    <div class="team-slot">
+      <div class="team-num">2</div>
+      <div class="team-chars"><div class="team-ch-av">⚡</div><div class="team-ch-av">💊</div><div class="team-ch-av">🎯</div></div>
+      <div class="team-relics"><div class="team-relic">💎</div></div>
+      <div class="team-info"><div class="team-name">도전 팀 2</div><div class="team-detail">주베 · 펄스 · 베인 | 도전 5챕터 2막 달성</div></div>
+      <div class="team-acts"><div class="t-act">↑</div><div class="t-act off">↓</div><div class="t-act del">🗑</div></div>
+    </div>
+    <div class="team-add">＋ 팀 추가 &nbsp;<span style="color:var(--dim)">(2 / 10)</span></div>
+  </div>
+</div>
+
+</div><!-- .bs -->
+</div><!-- .bs-wrap -->
+
+<script>
+/* ── screen switch ── */
+const IDS = ['menu','story','battle','char','team'];
+function go(id) {
+  IDS.forEach(s => document.getElementById('screen-'+s).classList.toggle('active', s===id));
+  document.querySelectorAll('.toolbar .tb-btn').forEach((b,i)=>b.classList.toggle('on', IDS[i]===id));
+}
+
+/* ── auto-scale ── */
+function scale() {
+  const bs=document.querySelector('.bs'), wrap=document.getElementById('bs-wrap');
+  const tb=document.querySelector('.toolbar'), tbH=tb?tb.offsetHeight+10:0;
+  const s=Math.min((innerWidth-20)/1280,(innerHeight-tbH-20)/720,1);
+  bs.style.zoom=s; wrap.style.height=Math.ceil(720*s)+'px';
+}
+addEventListener('resize',scale); scale();
+
+/* ── story tabs ── */
+function storyTab(t) {
+  document.getElementById('spanel-main').style.display=t==='main'?'flex':'none';
+  document.getElementById('spanel-sub').style.display =t==='sub' ?'flex':'none';
+  document.getElementById('stab-main').classList.toggle('on',t==='main');
+  document.getElementById('stab-sub').classList.toggle('on',t==='sub');
+}
+
+/* ── chapter data ── */
+const CHS=[
+  {n:1,t:'도시의 균열',   arc:'도입',   ac:'arc-intro', desc:'테세라의 일상과 팀 결성. 첫 번째 기업 침투 저지이자 시스템 학습 구간.',prog:100,st:'ok'},
+  {n:2,t:'암호의 미로',   arc:'도입',   ac:'arc-intro', desc:'열강의 암호 네트워크가 도시 내부로 침투. 신호 교란 작전과 정보 추적.',prog:100,st:'ok'},
+  {n:3,t:'와이어 음영',   arc:'전개',   ac:'arc-dev',   desc:'와이어 음영 지역 깊숙이 숨겨진 펜움브라의 흔적을 쫓는다.',prog:40,st:'go'},
+  {n:4,t:'거래의 흔적',   arc:'전개',   ac:'arc-dev',   desc:'열강과의 뒷거래를 주도한 내부 배신자 추적. 라운드테이블의 균열 표면화.',prog:0,st:'lk'},
+  {n:5,t:'내부의 적',     arc:'전개',   ac:'arc-dev',   desc:'매수된 자들과의 정면 대결. 팀 내부 갈등 폭발과 각 캐릭터의 과거사 해금.',prog:0,st:'lk'},
+  {n:6,t:'앵커를 향하여', arc:'위기',   ac:'arc-crisis',desc:'도시 보호막 붕괴. 앵커의 위치를 향한 긴박한 추격이 시작된다.',prog:0,st:'lk'},
+  {n:7,t:'붕괴',          arc:'위기',   ac:'arc-crisis',desc:'테세라 전역이 점령당하고 마지막 저항선이 무너진다.',prog:0,st:'lk'},
+  {n:8,t:'최후의 컴파일', arc:'절정·결말',ac:'arc-climax',desc:'앵커의 핵심에서 벌어지는 최종전. 플레이어의 선택으로 테세라의 운명이 결정된다.',prog:0,st:'lk'},
+];
+let selCh=1;
+
+function buildChList(){
+  document.getElementById('ch-list').innerHTML=CHS.map(c=>`
+    <div class="ch-card${c.st==='lk'?' locked':''} ${c.n===selCh?'sel':''}" onclick="${c.st!=='lk'?`selChapter(${c.n})`:''}">
+      <div class="ch-num ${c.st}">${c.n}</div>
+      <div class="ch-info"><div class="ch-title">${c.t}</div><div class="ch-arc">${c.arc} · 30 스테이지</div></div>
+      <div class="ch-badge ${c.st}">${c.st==='ok'?'CLEAR':c.st==='go'?'진행 중':'🔒 잠금'}</div>
+    </div>`).join('');
+}
+function selChapter(n){
+  selCh=n; buildChList();
+  const c=CHS[n-1];
+  const a1=c.prog>=34, a2=c.prog>=67, a3=c.prog>=100;
+  document.getElementById('ch-detail').innerHTML=`
+    <div class="cd-head">
+      <div class="cd-num-big">${c.n}</div>
+      <div><div class="cd-name">${c.t}</div><span class="arc-tag ${c.ac}">${c.arc}</span></div>
+    </div>
+    <div class="cd-desc">${c.desc}</div>
+    <div class="cd-prog">
+      <div class="cd-prog-row"><span>진행률</span><span>${c.prog}%</span></div>
+      <div class="cd-prog-bar"><div class="cd-prog-fill" style="width:${c.prog}%"></div></div>
+    </div>
+    <div class="cd-acts">
+      <div class="cd-act${a1?' done':c.prog>0?' next':''}"><div class="cd-act-lbl">1막</div><div class="cd-act-icon">${a1?'✅':'⚔'}</div><div class="cd-act-sub">중간 보스</div></div>
+      <div class="cd-act${a2?' done':a1?' next':''}"><div class="cd-act-lbl">2막</div><div class="cd-act-icon">${a2?'✅':'⚔'}</div><div class="cd-act-sub">중간 보스</div></div>
+      <div class="cd-act${a3?' done':a2?' next':''}"><div class="cd-act-lbl">3막</div><div class="cd-act-icon">${a3?'✅':'🏆'}</div><div class="cd-act-sub">최종 보스</div></div>
+    </div>
+    <div class="cd-btn${c.st==='lk'?' lk':''}">${c.st==='lk'?'🔒 이전 챕터 클리어 필요':c.st==='ok'?'↺ 다시 플레이':'▶ 진행하기'}</div>`;
+}
+buildChList(); selChapter(1);
+
+/* ── character data ── */
+const CHARS={
+  kestrel:{icon:'🛡',name:'케스트럴',role:'탱커',rc:'rt-tank',hp:180,atk:22,def:35,spd:12,
+    base:[{n:4,nm:'방패 치기',ef:'단일 공격 6',c:'#607d8b'},{n:8,nm:'베스천 전개',ef:'방어막 +15',c:'#00bcd4'},{n:16,nm:'장벽 생성',ef:'타일 고정',c:'#4caf50'},{n:32,nm:'충격파',ef:'광역 공격 22',c:'#ff9800'},{n:64,nm:'철벽 요새',ef:'방어막 +40',c:'#f44336'}],
+    unl: [{n:4,nm:'반격 자세',ef:'피해 반사 30%',c:'#607d8b'},{n:8,nm:'도발',ef:'적 집중 유도',c:'#00bcd4'}],
+    lk:  [{n:16,nm:'?',ef:'?',c:'#333'},{n:32,nm:'?',ef:'?',c:'#333'},{n:128,nm:'?',ef:'?',c:'#333'}]},
+  jube:{icon:'⚡',name:'주베',role:'스카우트',rc:'rt-sct',hp:120,atk:18,def:15,spd:28,
+    base:[{n:4,nm:'빠른 이동',ef:'타일 강제 이동',c:'#ffd740'},{n:4,nm:'슬라이더',ef:'슬라이드 +1',c:'#ffd740'},{n:8,nm:'부스터',ef:'단일 공격 10',c:'#ff9800'},{n:16,nm:'쇄도',ef:'광역 공격 14',c:'#f44336'},{n:32,nm:'네온 슬래시',ef:'단일 공격 30',c:'#c0392b'}],
+    unl: [{n:4,nm:'타일 흡수',ef:'타일 병합 +1',c:'#ffd740'}],
+    lk:  [{n:16,nm:'?',ef:'?',c:'#333'},{n:64,nm:'?',ef:'?',c:'#333'}]},
+  vane:{icon:'🎯',name:'베인',role:'스나이퍼',rc:'rt-snp',hp:100,atk:45,def:10,spd:16,
+    base:[{n:4,nm:'정밀 조준',ef:'단일 공격 8',c:'#e53935'},{n:8,nm:'저격',ef:'단일 공격 18',c:'#e74c3c'},{n:16,nm:'관통탄',ef:'방어 무시',c:'#ff5722'},{n:32,nm:'심장 겨냥',ef:'단일 공격 40',c:'#ff6b35'},{n:64,nm:'라스트 노트',ef:'단일 공격 80',c:'#ff3d00'}],
+    unl: [{n:8,nm:'저격 예열',ef:'다음 공격 +50%',c:'#e74c3c'},{n:16,nm:'다중 조준',ef:'3연속 10',c:'#ff5722'}],
+    lk:  [{n:32,nm:'?',ef:'?',c:'#333'},{n:128,nm:'?',ef:'?',c:'#333'}]},
+  cipher:{icon:'👁',name:'사이퍼',role:'호크',rc:'rt-hwk',hp:110,atk:20,def:18,spd:20,
+    base:[{n:4,nm:'스캔',ef:'취약 표시',c:'#9c27b0'},{n:4,nm:'해킹 패킷',ef:'디버프 부여',c:'#9c27b0'},{n:8,nm:'취약 지정',ef:'피해 +30%',c:'#7b1fa2'},{n:16,nm:'예측 조작',ef:'적 카운트 +1',c:'#6a1b9a'},{n:32,nm:'데이터 붕괴',ef:'광역 디버프',c:'#4a148c'}],
+    unl: [{n:8,nm:'헤르메스',ef:'드론 배치',c:'#7b1fa2'}],
+    lk:  [{n:32,nm:'?',ef:'?',c:'#333'},{n:64,nm:'?',ef:'?',c:'#333'},{n:128,nm:'?',ef:'?',c:'#333'}]},
+  pulse:{icon:'💊',name:'펄스',role:'서스테이너',rc:'rt-sus',hp:130,atk:12,def:20,spd:18,
+    base:[{n:4,nm:'응급 처치',ef:'아군 회복 10',c:'#e91e63'},{n:4,nm:'나노 필드',ef:'방해 타일 정화',c:'#e91e63'},{n:8,nm:'나노 치유',ef:'아군 회복 20',c:'#c2185b'},{n:16,nm:'회복 파동',ef:'전체 회복 15',c:'#880e4f'},{n:32,nm:'에테르 방출',ef:'전체 회복 30',c:'#ad1457'}],
+    unl: [{n:8,nm:'생명선',ef:'HP 유지',c:'#c2185b'},{n:16,nm:'정화 파동',ef:'디버프 제거',c:'#880e4f'}],
+    lk:  [{n:64,nm:'?',ef:'?',c:'#333'},{n:128,nm:'?',ef:'?',c:'#333'}]},
+};
+const CKEYS=Object.keys(CHARS);
+let curChar='kestrel', curSkTab='base';
+
+function buildCharList(){
+  document.getElementById('char-list').innerHTML=CKEYS.map(k=>`
+    <div class="char-item${k===curChar?' sel':''}" onclick="selChar('${k}')">
+      <div class="char-avatar">${CHARS[k].icon}</div>
+      <div><div class="char-item-name">${CHARS[k].name}</div><div class="char-item-role">${CHARS[k].role}</div></div>
+    </div>`).join('');
+}
+function selChar(k){
+  curChar=k; curSkTab='base';
+  document.querySelectorAll('.skill-tab').forEach((el,i)=>el.classList.toggle('on',i===0));
+  buildCharList();
+  const c=CHARS[k];
+  document.getElementById('c-portrait').textContent=c.icon;
+  document.getElementById('c-name').textContent=c.name;
+  const rt=document.getElementById('c-role');
+  rt.textContent=c.role; rt.className='role-tag '+c.rc;
+  document.getElementById('c-hp').textContent=c.hp;
+  document.getElementById('c-atk').textContent=c.atk;
+  document.getElementById('c-def').textContent=c.def;
+  document.getElementById('c-spd').textContent=c.spd;
+  renderSkills();
+}
+function sktab(t){
+  curSkTab=t;
+  document.querySelectorAll('.skill-tab').forEach((el,i)=>el.classList.toggle('on',['base','unl','lk'][i]===t));
+  renderSkills();
+}
+function renderSkills(){
+  const list=CHARS[curChar][curSkTab], lk=curSkTab==='lk';
+  document.getElementById('skill-grid').innerHTML=list.map(s=>`
+    <div class="sk-card${lk?' unk':''}">
+      <div class="sk-strip" style="background:${lk?'#333':s.c}"></div>
+      <div class="sk-num" style="color:${lk?'#555':s.c}">${lk?'?':s.n}</div>
+      <div class="sk-name">${lk?'???':s.nm}</div>
+      <div class="sk-eff">${lk?'???':s.ef}</div>
+    </div>`).join('');
+}
+buildCharList(); selChar('kestrel');
+
+/* ── team tabs ── */
+function teamTab(t){
+  document.getElementById('tpanel-n').style.display=t==='n'?'flex':'none';
+  document.getElementById('tpanel-c').style.display=t==='c'?'flex':'none';
+  document.getElementById('ttab-n').classList.toggle('on',t==='n');
+  document.getElementById('ttab-c').classList.toggle('on',t==='c');
+}
+</script>
+</body>
+</html>

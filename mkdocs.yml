@@ -46,6 +46,9 @@ nav:
     - 적 AI: systems/enemy.md
     - 전투 화면 목업: combat_mockup.md
   - 게임 세부 시스템:
+    - 아웃게임 시스템: outgame.md
+    - 아웃게임 UI 목업: outgame_mockup.md
+    - 스테이지 진행: systems/stage.md
     - 성장 시스템: systems/growth.md
   - UI/UX: ux.md
   - 데이터:

@@ -226,7 +226,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../growth/" class="md-tabs__link">
+        <a href="../../outgame/" class="md-tabs__link">
           
   
   
@@ -853,6 +853,12 @@
       
         
       
+        
+      
+        
+      
+        
+      
     
     
     
@@ -897,6 +903,90 @@
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../outgame/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    아웃게임 시스템
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../outgame_mockup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    아웃게임 UI 목업
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../stage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    스테이지 진행
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -1854,8 +1944,8 @@ nextAction = actions[currentActionIndex]  (다음 예고 등록)
 </table>
 <p><strong>피해 적용 순서</strong>:
 1. 대상 파티원의 <code>shield &gt; 0</code>이면 피해를 <code>shield</code>에서 먼저 차감
-2. <code>shield</code>가 0이 되면 남은 피해를 <code>currentHp</code>에서 차감
-3. <code>currentHp &lt;= 0</code>이면 해당 파티원 사망 처리</p>
+2. <code>shield</code>가 0이 되면 남은 피해를 팀 체력에서 차감
+3. 팀 체력이 0 이하가 되면 전투 패배 판정</p>
 <blockquote>
 <p><strong>[미결 C-6]</strong> 단일 공격의 대상 선택 방식이 미결 상태다.
 - <strong>(a) 항상 첫 번째 생존 파티원</strong>: 파티원 목록의 가장 앞 순서(인덱스 0번부터)에서 생존한 캐릭터를 선택. 구현 최단순. 플레이어가 대상을 완전히 예측 가능.
