@@ -50,7 +50,7 @@ nav:
     - 스테이지 진행: systems/stage.md
     - 성장 시스템: systems/growth.md
   - 아웃게임 UI:
-    - 전체 구조 순서도: outgame_flowchart.md
+    - 아웃게임 UI구조: outgame_flowchart.md
     - UI 목업: outgame_mockup.md
   - 데이터:
     - 스키마 설계: schema.md
