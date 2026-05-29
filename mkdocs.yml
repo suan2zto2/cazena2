@@ -47,10 +47,12 @@ nav:
     - 전투 화면 목업: combat_mockup.md
   - 게임 세부 시스템:
     - 아웃게임 시스템: outgame.md
-    - 아웃게임 UI 목업: outgame_mockup.md
     - 스테이지 진행: systems/stage.md
     - 성장 시스템: systems/growth.md
-  - UI/UX: ux.md
+  - 아웃게임 UI:
+    - UI/UX 개요: ux.md
+    - 전체 구조 순서도: outgame_flowchart.md
+    - UI 목업: outgame_mockup.md
   - 데이터:
     - 스키마 설계: schema.md
     - 열거형 정의: enums.md
