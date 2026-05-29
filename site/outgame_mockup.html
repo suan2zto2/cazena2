@@ -631,6 +631,75 @@
       transition:border-color .15s, background .15s;
     }
     .t-skill-btn:hover { border-color:var(--accent); background:rgba(0,188,212,.08); color:var(--accent); }
+
+    /* ══════════════════════════
+       SCREEN 6 — ROGUELIKE MAP
+    ══════════════════════════ */
+    #screen-rogue { background:#07071a; flex-direction:column; }
+
+    .rogue-top {
+      height:62px; flex-shrink:0;
+      background:rgba(0,0,0,.8); border-bottom:1px solid rgba(255,255,255,.05);
+      display:flex; align-items:center; padding:0 14px; gap:12px; z-index:10;
+    }
+    .rogue-hp-col { display:flex; flex-direction:column; gap:3px; }
+    .rogue-hp-txt { font-size:12px; font-weight:700; color:#e0e0e0; text-align:center; }
+    .rogue-hpbar  { width:200px; height:9px; background:#1a1a2e; border-radius:5px; overflow:hidden; }
+    .rogue-hpfill { height:100%; background:linear-gradient(90deg,#4caf50,#80c040); border-radius:5px; }
+
+    .rogue-chars { display:flex; gap:6px; align-items:flex-start; }
+    .rogue-char-col { display:flex; flex-direction:column; align-items:center; gap:3px; }
+    .rogue-char {
+      width:44px; height:44px; border-radius:8px;
+      border:2px solid var(--border2); background:var(--card-bg);
+      display:flex; align-items:center; justify-content:center; font-size:18px;
+    }
+    .rogue-char-hp { width:38px; height:3px; background:var(--border); border-radius:2px; overflow:hidden; }
+    .rogue-char-hpf { height:100%; border-radius:2px; }
+
+    .rogue-res { margin-left:auto; display:flex; align-items:center; gap:10px; }
+    .rogue-gold { display:flex; align-items:center; gap:6px; font-size:16px; font-weight:700; color:var(--gold); }
+    .rogue-act-btn {
+      width:38px; height:38px; border-radius:50%;
+      border:2px solid var(--border2); background:rgba(0,0,0,.5);
+      display:flex; align-items:center; justify-content:center;
+      font-size:15px; cursor:pointer; color:var(--dim);
+      transition:border-color .15s, color .15s;
+    }
+    .rogue-act-btn:hover { border-color:var(--accent); color:var(--accent); }
+
+    .rogue-map-area { flex:1; position:relative; overflow:hidden; }
+    .rogue-grid {
+      position:absolute; inset:0; pointer-events:none; z-index:0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+      background-size:40px 40px;
+    }
+    .rogue-scroll {
+      width:100%; height:100%; overflow-x:auto; overflow-y:hidden;
+      position:relative; z-index:1;
+    }
+    .rogue-scroll::-webkit-scrollbar { height:4px; }
+    .rogue-scroll::-webkit-scrollbar-thumb { background:var(--border2); border-radius:2px; }
+    #rogue-svg { display:block; }
+
+    .rogue-zoom {
+      position:absolute; bottom:16px; left:16px; z-index:10;
+      display:flex; align-items:center; gap:6px;
+      padding:7px 18px; border-radius:24px;
+      border:1px solid var(--border2); background:rgba(6,6,22,.92);
+      color:var(--dim); font-size:13px; cursor:pointer;
+      transition:border-color .15s, color .15s;
+    }
+    .rogue-zoom:hover { border-color:var(--accent); color:var(--accent); }
+    .rogue-info {
+      position:absolute; top:10px; right:16px; z-index:10;
+      width:32px; height:32px; border-radius:50%;
+      border:2px solid var(--border2); background:rgba(6,6,22,.92);
+      display:flex; align-items:center; justify-content:center;
+      font-size:13px; color:var(--dim); cursor:pointer;
+    }
   </style>
 </head>
 <body>
@@ -642,6 +711,8 @@
   <button class="tb-btn" onclick="go('battle')">⚔ 전투 모드</button>
   <button class="tb-btn" onclick="go('char')">👤 캐릭터 정보</button>
   <button class="tb-btn" onclick="go('team')">🧩 팀 구성</button>
+  <div class="tb-sep"></div>
+  <button class="tb-btn" onclick="go('rogue')">🗺 로그라이크 맵</button>
 </div>
 
 <div class="bs-wrap" id="bs-wrap">
@@ -949,7 +1020,7 @@
           <div class="mc-stat-row"><span>최고 기록</span><span>3챕터 7막</span></div>
           <div class="mc-stat-row"><span>도전 팀덱</span><span>2 / 10</span></div>
         </div>
-        <div class="mc-btn mc-btn-r">▶ 시작하기</div>
+        <div class="mc-btn mc-btn-r" onclick="go('rogue')" style="cursor:pointer;">▶ 시작하기</div>
       </div>
     </div>
 
@@ -1153,12 +1224,55 @@
   </div>
 </div>
 
+<!-- ═══════════════════════════════════════
+     SCREEN 6 — ROGUELIKE MAP
+═══════════════════════════════════════ -->
+<div class="screen" id="screen-rogue">
+
+  <div class="rogue-top">
+    <div class="rogue-hp-col">
+      <div class="rogue-hp-txt">430 / 430</div>
+      <div class="rogue-hpbar"><div class="rogue-hpfill" style="width:78%"></div></div>
+    </div>
+    <div class="rogue-chars">
+      <div class="rogue-char-col">
+        <div class="rogue-char">🛡</div>
+        <div class="rogue-char-hp"><div class="rogue-char-hpf" style="width:90%;background:#4caf50;"></div></div>
+      </div>
+      <div class="rogue-char-col">
+        <div class="rogue-char">⚡</div>
+        <div class="rogue-char-hp"><div class="rogue-char-hpf" style="width:58%;background:#ff9800;"></div></div>
+      </div>
+      <div class="rogue-char-col">
+        <div class="rogue-char">💊</div>
+        <div class="rogue-char-hp"><div class="rogue-char-hpf" style="width:100%;background:#4caf50;"></div></div>
+      </div>
+    </div>
+    <div class="rogue-res">
+      <div class="rogue-gold">💰 240</div>
+      <div class="rogue-act-btn" title="빠르게 진행">⏩</div>
+      <div style="width:1px;height:22px;background:var(--border);"></div>
+      <div class="rogue-act-btn">☰</div>
+    </div>
+  </div>
+
+  <div class="rogue-map-area">
+    <div class="rogue-grid"></div>
+    <div class="rogue-scroll">
+      <svg id="rogue-svg"></svg>
+    </div>
+    <div class="rogue-zoom">－ 축소</div>
+    <div class="rogue-info">ⓘ</div>
+  </div>
+
+</div>
+
 </div><!-- .bs -->
 </div><!-- .bs-wrap -->
 
 <script>
 /* ── screen switch ── */
-const IDS = ['menu','story','battle','char','team'];
+const IDS = ['menu','story','battle','char','team','rogue'];
 function go(id) {
   IDS.forEach(s => document.getElementById('screen-'+s).classList.toggle('active', s===id));
   document.querySelectorAll('.toolbar .tb-btn').forEach((b,i)=>b.classList.toggle('on', IDS[i]===id));
@@ -1274,6 +1388,84 @@ function renderSkills(){
     </div>`).join('');
 }
 buildCharList(); selChar('kestrel');
+
+/* ── roguelike map ── */
+const ROGUE_NODES = [
+  {id:0,  x:80,  y:290, t:'start'},
+  {id:1,  x:240, y:120, t:'combat'},
+  {id:2,  x:430, y:80,  t:'unknown'},
+  {id:3,  x:620, y:80,  t:'supply'},
+  {id:4,  x:820, y:120, t:'unknown'},
+  {id:5,  x:1010,y:80,  t:'combat'},
+  {id:6,  x:1190,y:110, t:'unknown'},
+  {id:7,  x:240, y:240, t:'combat'},
+  {id:8,  x:430, y:230, t:'unknown'},
+  {id:9,  x:620, y:265, t:'combat'},
+  {id:10, x:820, y:250, t:'combat'},
+  {id:11, x:1010,y:255, t:'unknown'},
+  {id:12, x:240, y:370, t:'supply'},
+  {id:13, x:430, y:370, t:'combat'},
+  {id:14, x:620, y:370, t:'unknown'},
+  {id:15, x:820, y:370, t:'combat'},
+  {id:16, x:1010,y:360, t:'combat'},
+  {id:17, x:1190,y:360, t:'unknown'},
+  {id:18, x:240, y:480, t:'combat'},
+  {id:19, x:430, y:480, t:'supply'},
+  {id:20, x:820, y:460, t:'unknown'},
+  {id:21, x:1190,y:470, t:'unknown'},
+];
+const ROGUE_EDGES = [
+  [0,1],[0,7],[0,12],[0,18],
+  [1,2],[2,3],[3,4],[3,8],[4,5],[5,6],[5,11],
+  [7,8],[8,9],[8,13],[9,10],[10,4],[10,11],[11,6],[11,17],
+  [12,13],[13,14],[13,19],[14,15],[15,16],[15,10],[16,11],[16,17],
+  [18,19],[19,14],[19,20],[20,16],[20,21],[17,6],
+];
+const NODE_STYLE = {
+  start:   {fill:'rgba(0,188,212,.12)', stroke:'#00e5ff', w:28},
+  combat:  {fill:'#b0305a', stroke:'#e060a0', w:23},
+  unknown: {fill:'#1a7a8a', stroke:'#20c0d8', w:23},
+  supply:  {fill:'#9a6210', stroke:'#ffd740', w:23},
+  elite:   {fill:'#c03080', stroke:'#ff80c0', w:23},
+};
+const NODE_ICON = {start:'◈', combat:'✕', unknown:'?', supply:'⬥', elite:'✕'};
+
+function buildRogueMap() {
+  const W=1300, H=560;
+  const svg = document.getElementById('rogue-svg');
+  if (!svg) return;
+  svg.setAttribute('width', W); svg.setAttribute('height', H);
+  let html = `<defs>
+    <filter id="nd-glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="4" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>`;
+  // edges
+  ROGUE_EDGES.forEach(([a,b])=>{
+    const na=ROGUE_NODES[a], nb=ROGUE_NODES[b];
+    html+=`<line x1="${na.x}" y1="${na.y}" x2="${nb.x}" y2="${nb.y}" stroke="rgba(255,255,255,.3)" stroke-width="1.5" stroke-linecap="round"/>`;
+  });
+  // nodes
+  ROGUE_NODES.forEach(n=>{
+    const s=NODE_STYLE[n.t]||NODE_STYLE.combat;
+    const w=s.w;
+    if (n.t==='start') {
+      html+=`<g transform="translate(${n.x},${n.y})">
+        <polygon points="0,${-w} ${w},0 0,${w} ${-w},0" fill="${s.fill}" stroke="${s.stroke}" stroke-width="2.5" filter="url(#nd-glow)"/>
+        <text text-anchor="middle" dominant-baseline="central" font-size="22" fill="${s.stroke}" font-family="Segoe UI Symbol">◈</text>
+      </g>`;
+    } else {
+      const icon = NODE_ICON[n.t]||'?';
+      html+=`<g transform="translate(${n.x},${n.y})" style="cursor:pointer">
+        <polygon points="0,${-w} ${w},0 0,${w} ${-w},0" fill="${s.fill}" stroke="${s.stroke}" stroke-width="2" filter="url(#nd-glow)"/>
+        <text text-anchor="middle" dominant-baseline="central" font-size="${n.t==='unknown'?16:14}" font-weight="700" fill="white" font-family="Segoe UI,sans-serif">${icon}</text>
+      </g>`;
+    }
+  });
+  svg.innerHTML = html;
+}
+buildRogueMap();
 
 /* ── team tabs ── */
 function teamTab(t){
