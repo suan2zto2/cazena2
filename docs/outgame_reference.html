@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>아웃게임 UI 레퍼런스 — 테세라위버</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #07071a;
+      color: #e0e0e0;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      min-height: 100vh;
+      padding: 36px 28px;
+    }
+
+    header {
+      max-width: 1400px; margin: 0 auto 32px;
+      display: flex; align-items: baseline; gap: 14px;
+    }
+    header h1 {
+      font-size: 1.3rem; font-weight: 700;
+      color: #00e5ff;
+      text-shadow: 0 0 16px #00e5ff44;
+    }
+    header p { font-size: 0.78rem; color: #7070a0; }
+
+    .grid {
+      max-width: 1400px; margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    .ref-card {
+      background: #111125;
+      border: 1px solid #252545;
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex; flex-direction: column;
+    }
+
+    .ref-label {
+      padding: 12px 16px;
+      border-bottom: 1px solid #252545;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .ref-num {
+      width: 24px; height: 24px; border-radius: 50%;
+      background: rgba(0,188,212,0.12); border: 1px solid #00bcd4;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 700; color: #00bcd4; flex-shrink: 0;
+    }
+    .ref-title { font-size: 13px; font-weight: 700; color: #e0e0e0; }
+    .ref-sub   { font-size: 10px; color: #7070a0; margin-top: 1px; }
+
+    .ref-img-wrap {
+      position: relative;
+      background: #0d0d1f;
+      min-height: 320px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .ref-img-wrap img {
+      width: 100%; height: auto;
+      display: block;
+      border-radius: 0;
+    }
+    /* placeholder shown when image fails to load */
+    .ref-img-wrap img:not([src]),
+    .ref-img-wrap img[src=""] {
+      display: none;
+    }
+    .ref-placeholder {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 10px;
+      font-size: 12px; color: #404060;
+      pointer-events: none;
+    }
+    .ref-placeholder-icon { font-size: 36px; opacity: .3; }
+    .ref-placeholder-text { font-family: 'Roboto Mono', monospace; font-size: 11px; }
+
+    .ref-img-wrap img[src] ~ .ref-placeholder { display: none; }
+
+    .ref-desc {
+      padding: 12px 16px;
+      font-size: 11px; color: #7070a0; line-height: 1.7;
+      border-top: 1px solid #252545;
+    }
+    .ref-desc strong { color: #a0a0c0; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>아웃게임 UI 레퍼런스</h1>
+  <p>테세라위버 아웃게임 화면 설계 참고 자료</p>
+</header>
+
+<div class="grid">
+
+  <!-- 1. 로비화면 -->
+  <div class="ref-card">
+    <div class="ref-label">
+      <div class="ref-num">1</div>
+      <div>
+        <div class="ref-title">로비화면 (메인 메뉴)</div>
+        <div class="ref-sub">전체 레이아웃 · 우측 세로형 네비게이션 · 상단 리소스 바</div>
+      </div>
+    </div>
+    <div class="ref-img-wrap">
+      <img src="assets/references/ref_01_lobby.png" alt="로비화면 레퍼런스">
+      <div class="ref-placeholder">
+        <div class="ref-placeholder-icon">🖼</div>
+        <div class="ref-placeholder-text">assets/references/ref_01_lobby.png</div>
+      </div>
+    </div>
+    <div class="ref-desc">
+      <strong>주요 요소:</strong> 상단 LV·XP 바 / 우측 세로 네비 패널 (스토리·시뮬레이션·카오스 등) / 잠금 아이콘 처리 / 하단 이벤트 배너 / 중앙 캐릭터 일러스트
+    </div>
+  </div>
+
+  <!-- 2. 스토리모드 선택 -->
+  <div class="ref-card">
+    <div class="ref-label">
+      <div class="ref-num">2</div>
+      <div>
+        <div class="ref-title">스토리모드 선택 화면</div>
+        <div class="ref-sub">메인 스토리 / 전투 임무 대형 카드 선택</div>
+      </div>
+    </div>
+    <div class="ref-img-wrap">
+      <img src="assets/references/ref_02_story_select.png" alt="스토리 모드 선택 레퍼런스">
+      <div class="ref-placeholder">
+        <div class="ref-placeholder-icon">🖼</div>
+        <div class="ref-placeholder-text">assets/references/ref_02_story_select.png</div>
+      </div>
+    </div>
+    <div class="ref-desc">
+      <strong>주요 요소:</strong> 전체 화면을 2분할하는 대형 카드 / 카드 하단 진행 상황 텍스트 / 우측 상단 확대 아이콘 / N 뱃지(신규) / 상단바 뒤로가기 + 홈 + 메뉴
+    </div>
+  </div>
+
+  <!-- 3. 메인스토리 챕터 선택 -->
+  <div class="ref-card">
+    <div class="ref-label">
+      <div class="ref-num">3</div>
+      <div>
+        <div class="ref-title">메인스토리 챕터 선택 (막 선택)</div>
+        <div class="ref-sub">아치형 세로 카드 · 잠금/해금 상태 표시</div>
+      </div>
+    </div>
+    <div class="ref-img-wrap">
+      <img src="assets/references/ref_03_story_chapter.png" alt="챕터 선택 레퍼런스">
+      <div class="ref-placeholder">
+        <div class="ref-placeholder-icon">🖼</div>
+        <div class="ref-placeholder-text">assets/references/ref_03_story_chapter.png</div>
+      </div>
+    </div>
+    <div class="ref-desc">
+      <strong>주요 요소:</strong> 아치형(반원 상단) 카드 3장 / 활성 카드 컬러·하이라이트, 잠금 카드 흑백 처리 + 자물쇠 아이콘 / 카드 하단 막 번호·이름·진행 화수 / 흐릿한 배경 아트
+    </div>
+  </div>
+
+  <!-- 4. 메인스토리 진행 화면 -->
+  <div class="ref-card">
+    <div class="ref-label">
+      <div class="ref-num">4</div>
+      <div>
+        <div class="ref-title">메인스토리 진행 화면 (스테이지 목록)</div>
+        <div class="ref-sub">가로 스크롤 타임라인 · 에피소드 노드 · 좌측 정보 패널</div>
+      </div>
+    </div>
+    <div class="ref-img-wrap">
+      <img src="assets/references/ref_04_story_stage.png" alt="스테이지 진행 레퍼런스">
+      <div class="ref-placeholder">
+        <div class="ref-placeholder-icon">🖼</div>
+        <div class="ref-placeholder-text">assets/references/ref_04_story_stage.png</div>
+      </div>
+    </div>
+    <div class="ref-desc">
+      <strong>주요 요소:</strong> 좌측 현재 에피소드 제목·진행도 / 가로 타임라인 연결선 / 에피소드 노드 (썸네일 + 제목 + 완료✓ 뱃지) / 재생·스킵 버튼 / 상단 장 이동 네비 (◁ 1장 N ▷)
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
