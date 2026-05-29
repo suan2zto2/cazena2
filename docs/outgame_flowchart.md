@@ -1,10 +1,6 @@
----
-hide:
-  - navigation
-  - toc
----
-
 # 아웃게임 전체 구조 순서도
+
+[🗺 크게 보기](outgame_flowchart.html){ .md-button target="_blank" }
 
 ```mermaid
 flowchart TD
