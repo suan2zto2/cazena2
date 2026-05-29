@@ -224,118 +224,155 @@
     /* ══════════════════════════
        SCREEN 2 — STORY MODE
     ══════════════════════════ */
-    .story-body { flex: 1; display: flex; overflow: hidden; }
+    .stv { flex:1; display:none; flex-direction:column; overflow:hidden; }
+    .stv.active { display:flex; }
 
-    .chapter-list {
-      width: 380px; flex-shrink: 0;
-      background: var(--panel); border-right: 1px solid var(--border);
-      overflow-y: auto; padding: 12px;
-      display: flex; flex-direction: column; gap: 6px;
+    /* view 1 — mode select */
+    .stv1-body {
+      flex:1; display:flex; align-items:center; justify-content:center;
+      gap:20px; padding:28px 48px;
+      background:linear-gradient(160deg,#0a0a1e,#07071a); position:relative;
     }
-    .chapter-list::-webkit-scrollbar { width: 4px; }
-    .chapter-list::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
-
-    .ch-card {
-      padding: 11px 14px;
-      background: var(--card-bg); border: 1px solid var(--border);
-      border-radius: 8px; cursor: pointer;
-      display: flex; align-items: center; gap: 12px;
-      transition: border-color .15s;
+    .stv1-bg-grid {
+      position:absolute; inset:0; pointer-events:none;
+      background-image:
+        linear-gradient(rgba(0,188,212,.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,188,212,.025) 1px, transparent 1px);
+      background-size:60px 60px;
     }
-    .ch-card:hover, .ch-card.sel { border-color: var(--accent); }
-    .ch-card.locked { opacity: .45; cursor: default; }
-
-    .ch-num {
-      width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0;
-      background: var(--border2); border: 2px solid var(--border2);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 14px; font-weight: 700; color: var(--dim);
+    .stv1-card {
+      flex:1; height:100%; max-height:520px;
+      border-radius:16px; overflow:hidden;
+      border:1px solid var(--border2); cursor:pointer; position:relative;
+      transition:transform .2s, box-shadow .2s, border-color .2s;
     }
-    .ch-num.ok   { border-color: var(--success); color: var(--success); background: #0a200a; }
-    .ch-num.go   { border-color: var(--accent);  color: var(--accent);  background: #091820; }
-
-    .ch-info { flex: 1; }
-    .ch-title { font-size: 13px; font-weight: 600; color: var(--text); }
-    .ch-arc   { font-size: 10px; color: var(--dim); margin-top: 2px; }
-
-    .ch-badge { font-size: 9px; padding: 2px 7px; border-radius: 3px; font-weight: 700; white-space: nowrap; }
-    .ch-badge.ok { background: #0a200a; color: var(--success); border: 1px solid var(--success); }
-    .ch-badge.go { background: #091820; color: var(--accent);  border: 1px solid var(--accent); }
-    .ch-badge.lk { background: #1a1a2e; color: var(--dim);    border: 1px solid var(--border); }
-
-    .ch-detail {
-      flex: 1; padding: 32px 36px;
-      display: flex; flex-direction: column; gap: 18px;
+    .stv1-card:hover { transform:translateY(-6px); box-shadow:0 16px 48px rgba(0,0,0,.6),0 0 30px rgba(0,188,212,.2); border-color:var(--accent); }
+    .stv1-art { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:100px; }
+    .stv1-main { background:linear-gradient(160deg,#0a1428,#0d1e3a,#0a0a1e); }
+    .stv1-sub  { background:linear-gradient(160deg,#1a0a2a,#220d38,#180a28); }
+    .stv1-overlay { position:absolute; inset:0; background:linear-gradient(0deg,rgba(0,0,0,.88) 0%,rgba(0,0,0,.15) 55%,transparent 100%); }
+    .stv1-corner {
+      position:absolute; top:10px; left:10px; width:22px; height:22px; border-radius:4px;
+      background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.2);
+      display:flex; align-items:center; justify-content:center; font-size:10px; color:rgba(255,255,255,.5);
     }
-    .cd-head { display: flex; gap: 18px; align-items: flex-start; }
-    .cd-num-big {
-      width: 60px; height: 60px; border-radius: 12px;
-      border: 2px solid var(--accent); background: #091820;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 26px; font-weight: 900; color: var(--accent2); flex-shrink: 0;
+    .stv1-nbadge {
+      position:absolute; top:10px; right:10px;
+      width:22px; height:22px; border-radius:50%;
+      background:#ff5500; color:#fff;
+      display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700;
     }
-    .cd-name  { font-size: 22px; font-weight: 700; color: var(--text); }
-    .arc-tag  {
-      display: inline-block; margin-top: 5px;
-      font-size: 10px; padding: 2px 8px; border-radius: 3px;
-      font-weight: 700; letter-spacing: 1px;
-    }
-    .arc-intro  { background:#0a1a2a; color:#80b0ff; border:1px solid #4a8ecb; }
-    .arc-dev    { background:#1a1a0a; color:#d0c050; border:1px solid #a09030; }
-    .arc-crisis { background:#2a0a0a; color:#ff8080; border:1px solid #c04040; }
-    .arc-climax { background:#2a0a2a; color:#d080ff; border:1px solid #9040c0; }
+    .stv1-bottom { position:absolute; bottom:0; left:0; right:0; padding:20px 24px; display:flex; align-items:flex-end; justify-content:space-between; }
+    .stv1-label { font-size:22px; font-weight:700; color:#fff; }
+    .stv1-prog  { font-size:12px; color:var(--accent); margin-top:4px; }
+    .stv1-icon  { font-size:36px; opacity:.85; }
 
-    .cd-desc { font-size: 13px; color: var(--dim); line-height: 1.7; }
-
-    .cd-prog {
-      padding: 14px; background: var(--panel); border: 1px solid var(--border); border-radius: 8px;
-      display: flex; flex-direction: column; gap: 6px;
+    /* view 2 — act select */
+    .stv2-body {
+      flex:1; position:relative; overflow:hidden;
+      background:linear-gradient(160deg,#0e0e24,#12122a);
+      display:flex; align-items:center; justify-content:center;
+      gap:28px; padding:32px 80px;
     }
-    .cd-prog-row { display: flex; justify-content: space-between; font-size: 12px; color: var(--dim); }
-    .cd-prog-bar { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
-    .cd-prog-fill { height: 100%; background: var(--accent); border-radius: 3px; }
-
-    .cd-acts { display: flex; gap: 8px; }
-    .cd-act {
-      flex: 1; padding: 10px 6px;
-      background: var(--card-bg); border: 1px solid var(--border); border-radius: 6px;
-      display: flex; flex-direction: column; align-items: center; gap: 3px;
+    .stv2-glow {
+      position:absolute; bottom:-80px; left:50%; transform:translateX(-50%);
+      width:700px; height:280px;
+      background:radial-gradient(ellipse,rgba(80,60,200,.12) 0%,transparent 70%);
+      pointer-events:none;
     }
-    .cd-act.done { border-color: var(--success); }
-    .cd-act.next { border-color: var(--accent); }
-    .cd-act-lbl  { font-size: 9px; color: var(--dim); }
-    .cd-act-icon { font-size: 20px; }
-    .cd-act-sub  { font-size: 9px; color: var(--dim); }
-
-    .cd-btn {
-      align-self: flex-start;
-      padding: 11px 26px; border-radius: 8px; cursor: pointer;
-      font-size: 14px; font-weight: 700; letter-spacing: 1px;
-      background: linear-gradient(135deg,#004d52,#007780);
-      border: 2px solid var(--accent); color: #fff;
-      box-shadow: 0 0 18px #00bcd444; transition: box-shadow .2s;
+    .act-card {
+      width:210px; height:480px; flex-shrink:0;
+      border-radius:105px 105px 16px 16px;
+      overflow:hidden; border:1px solid var(--border2);
+      cursor:pointer; position:relative;
+      transition:transform .2s, box-shadow .2s, border-color .2s;
     }
-    .cd-btn:hover { box-shadow: 0 0 28px #00bcd488; }
-    .cd-btn.lk { background: var(--card-bg); border-color: var(--border); color: var(--dim); box-shadow: none; cursor: default; }
-
-    /* sub story */
-    .sub-list {
-      flex: 1; padding: 20px; overflow-y: auto;
-      display: flex; flex-direction: column; gap: 8px;
+    .act-card:hover:not(.lk) { transform:translateY(-8px); box-shadow:0 20px 50px rgba(0,0,0,.6); border-color:rgba(200,180,255,.5); }
+    .act-card.sel { border-color:var(--accent); box-shadow:0 0 30px rgba(0,188,212,.35); }
+    .act-card.lk  { cursor:default; }
+    .act-art { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:70px; }
+    .act-art-1 { background:linear-gradient(180deg,#1a1428,#0a0e1e); }
+    .act-art-2 { background:linear-gradient(180deg,#1e1428,#100a1e); filter:grayscale(.7) brightness(.5); }
+    .act-art-3 { background:linear-gradient(180deg,#1a1028,#0e0a1e); filter:grayscale(.7) brightness(.5); }
+    .act-ov { position:absolute; inset:0; background:linear-gradient(0deg,rgba(0,0,0,.88) 0%,rgba(0,0,0,.08) 60%,transparent 100%); }
+    .act-info { position:absolute; bottom:20px; left:0; right:0; text-align:center; padding:0 12px; }
+    .act-num  { font-size:18px; font-weight:900; color:#fff; display:flex; align-items:center; justify-content:center; gap:6px; }
+    .act-name { font-size:11px; color:#c0c0d0; margin-top:5px; line-height:1.5; }
+    .act-prog { font-size:10px; color:var(--accent); margin-top:6px; }
+    .act-lock { position:absolute; top:50%; left:50%; transform:translate(-50%,-55%); font-size:40px; opacity:.5; }
+    .act-badge {
+      position:absolute; top:20px; left:50%; transform:translateX(-50%);
+      background:#ff5500; color:#fff; width:22px; height:22px; border-radius:50%;
+      display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700;
     }
+
+    /* view 3 — stage timeline */
+    .stv3-body { flex:1; display:flex; overflow:hidden; background:linear-gradient(135deg,#0a0a1e,#10101e); position:relative; }
+    .stv3-bg { position:absolute; inset:0; pointer-events:none; background:radial-gradient(ellipse at 20% 70%,rgba(60,40,160,.08) 0%,transparent 60%); }
+    .stv3-left {
+      width:260px; flex-shrink:0;
+      padding:28px 22px; display:flex; flex-direction:column; gap:10px;
+      border-right:1px solid var(--border); z-index:1;
+    }
+    .stv3-act-tag { font-size:10px; color:var(--accent); letter-spacing:2px; font-family:'Roboto Mono',monospace; }
+    .stv3-name    { font-size:16px; font-weight:700; color:var(--text); margin-top:2px; }
+    .stv3-pw { display:flex; align-items:center; gap:8px; margin-top:4px; }
+    .stv3-pb { flex:1; height:3px; background:var(--border); border-radius:2px; overflow:hidden; }
+    .stv3-pf { height:100%; background:var(--accent); border-radius:2px; }
+    .stv3-pt { font-size:10px; color:var(--dim); }
+    .stv3-desc { font-size:11px; color:var(--dim); line-height:1.8; margin-top:6px; flex:1; }
+
+    .stv3-scroll { flex:1; display:flex; align-items:center; overflow-x:auto; overflow-y:hidden; padding:0 32px; }
+    .stv3-scroll::-webkit-scrollbar { height:4px; }
+    .stv3-scroll::-webkit-scrollbar-thumb { background:var(--border2); border-radius:2px; }
+    .stv3-track { display:flex; align-items:center; min-width:max-content; }
+    .stv3-line { width:48px; height:2px; flex-shrink:0; }
+    .stv3-line.done { background:var(--accent); }
+    .stv3-line.todo { background:var(--border2); }
+
+    .snode { display:flex; flex-direction:column; align-items:center; gap:5px; flex-shrink:0; cursor:pointer; }
+    .snode-lbl { font-size:10px; color:var(--dim); white-space:nowrap; text-align:center; max-width:110px; }
+    .snode-thumb {
+      width:100px; height:60px; border-radius:8px;
+      background:var(--card-bg); border:2px solid var(--border2);
+      display:flex; align-items:center; justify-content:center; font-size:26px;
+      position:relative; transition:border-color .15s;
+    }
+    .snode:hover .snode-thumb:not(.lk) { border-color:var(--accent); }
+    .snode-thumb.done { border-color:var(--success); }
+    .snode-thumb.cur  { border-color:var(--accent); box-shadow:0 0 14px rgba(0,188,212,.4); }
+    .snode-thumb.lk   { filter:grayscale(.8) brightness(.4); }
+    .snode-ck {
+      position:absolute; bottom:-7px; right:-7px;
+      width:16px; height:16px; border-radius:50%;
+      display:flex; align-items:center; justify-content:center; font-size:8px; font-weight:700;
+    }
+    .snode-ck.ok { background:var(--success); color:#fff; }
+    .snode-ep { font-size:9px; color:var(--dim); }
+    .snode-btns { display:flex; gap:3px; }
+    .sbtn {
+      width:22px; height:22px; border-radius:50%;
+      display:flex; align-items:center; justify-content:center; font-size:9px; cursor:pointer;
+    }
+    .sbtn.skip  { background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.15); color:#888; }
+    .sbtn.play  { background:var(--accent); border:1px solid var(--accent2); color:#000; font-weight:900; }
+    .sbtn.rep   { background:rgba(76,175,80,.15); border:1px solid var(--success); color:var(--success); }
+    .sbtn.dis   { opacity:.25; cursor:default; }
+
+    /* view 4 — sub story */
+    .sub-list { flex:1; padding:20px; overflow-y:auto; display:flex; flex-direction:column; gap:8px; }
     .ss-item {
-      padding: 14px 16px;
-      background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px;
-      display: flex; align-items: center; gap: 14px; cursor: pointer;
-      transition: border-color .15s;
+      padding:14px 16px;
+      background:var(--card-bg); border:1px solid var(--border); border-radius:8px;
+      display:flex; align-items:center; gap:14px; cursor:pointer; transition:border-color .15s;
     }
-    .ss-item:hover { border-color: var(--accent); }
+    .ss-item:hover { border-color:var(--accent); }
     .ss-item.locked { opacity:.45; cursor:default; }
-    .ss-icon { font-size: 22px; }
-    .ss-info { flex: 1; }
-    .ss-title { font-size: 13px; font-weight: 600; color: var(--text); }
-    .ss-cond  { font-size: 10px; color: var(--dim); margin-top: 2px; }
-    .ss-badge { font-size: 10px; padding: 2px 8px; border-radius: 3px; }
+    .ss-icon { font-size:22px; }
+    .ss-info { flex:1; }
+    .ss-title { font-size:13px; font-weight:600; color:var(--text); }
+    .ss-cond  { font-size:10px; color:var(--dim); margin-top:2px; }
+    .ss-badge { font-size:10px; padding:2px 8px; border-radius:3px; }
     .ss-badge.ok { background:#0a200a; color:var(--success); border:1px solid var(--success); }
     .ss-badge.go { background:#091820; color:var(--accent);  border:1px solid var(--accent); }
     .ss-badge.lk { background:#1a1a2e; color:var(--dim);    border:1px solid var(--border); }
@@ -658,23 +695,143 @@
      SCREEN 2 — STORY MODE
 ═══════════════════════════════════════ -->
 <div class="screen" id="screen-story">
+
   <div class="top-bar">
-    <div class="back-btn" onclick="go('menu')">← 뒤로</div>
-    <div class="screen-title">스토리 모드</div>
-    <div class="tab-group">
-      <div class="tab on"  id="stab-main" onclick="storyTab('main')">메인 스토리</div>
-      <div class="tab"     id="stab-sub"  onclick="storyTab('sub')">서브 스토리</div>
+    <div class="back-btn" id="story-back" onclick="storyBack()">← 뒤로</div>
+    <div class="screen-title">스토리</div>
+    <span id="story-breadcrumb" style="font-size:12px;color:var(--accent);margin-left:6px;"></span>
+    <div style="margin-left:auto;display:flex;gap:8px;align-items:center;">
+      <span style="font-size:18px;cursor:pointer;opacity:.65;">🏠</span>
+      <span style="font-size:18px;cursor:pointer;opacity:.65;">☰</span>
     </div>
   </div>
 
-  <!-- main story -->
-  <div class="story-body" id="spanel-main">
-    <div class="chapter-list" id="ch-list"></div>
-    <div class="ch-detail" id="ch-detail"></div>
+  <!-- VIEW 1: 모드 선택 -->
+  <div class="stv active" id="stv-mode">
+    <div class="stv1-body">
+      <div class="stv1-bg-grid"></div>
+      <div class="stv1-card" onclick="storyNav('act')">
+        <div class="stv1-art stv1-main">🌆</div>
+        <div class="stv1-overlay"></div>
+        <div class="stv1-corner">⛶</div>
+        <div class="stv1-nbadge">N</div>
+        <div class="stv1-bottom">
+          <div><div class="stv1-label">메인 스토리</div><div class="stv1-prog">챕터 3 · 1막 진행 중</div></div>
+          <div class="stv1-icon">📖</div>
+        </div>
+      </div>
+      <div class="stv1-card" onclick="storyNav('sub')">
+        <div class="stv1-art stv1-sub">✨</div>
+        <div class="stv1-overlay"></div>
+        <div class="stv1-corner">⛶</div>
+        <div class="stv1-bottom">
+          <div><div class="stv1-label">서브 스토리</div><div class="stv1-prog">1개 완료 · 1개 진행 가능</div></div>
+          <div class="stv1-icon">💫</div>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <!-- sub story -->
-  <div class="story-body" id="spanel-sub" style="display:none">
+  <!-- VIEW 2: 막 선택 -->
+  <div class="stv" id="stv-act">
+    <div class="stv2-body">
+      <div class="stv2-glow"></div>
+      <div class="act-card sel" onclick="storyNav('stage')">
+        <div class="act-art act-art-1">🏙</div>
+        <div class="act-ov"></div>
+        <div class="act-badge">N</div>
+        <div class="act-info">
+          <div class="act-num">1막</div>
+          <div class="act-name">와이어 음영의<br>심층부</div>
+          <div class="act-prog">1장 3화 진행 중</div>
+        </div>
+      </div>
+      <div class="act-card lk">
+        <div class="act-art act-art-2">🌃</div>
+        <div class="act-ov"></div>
+        <div class="act-lock">🔒</div>
+        <div class="act-info">
+          <div class="act-num">2막</div>
+          <div class="act-name">펜움브라의<br>유산</div>
+          <div class="act-prog" style="color:var(--dim)">잠금</div>
+        </div>
+      </div>
+      <div class="act-card lk">
+        <div class="act-art act-art-3">🌉</div>
+        <div class="act-ov"></div>
+        <div class="act-lock">🔒</div>
+        <div class="act-info">
+          <div class="act-num">3막</div>
+          <div class="act-name">앵커를 향한<br>발걸음</div>
+          <div class="act-prog" style="color:var(--dim)">잠금</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VIEW 3: 스테이지 타임라인 -->
+  <div class="stv" id="stv-stage">
+    <div class="stv3-body">
+      <div class="stv3-bg"></div>
+      <div class="stv3-left">
+        <div class="stv3-act-tag">챕터 3 · 1막</div>
+        <div class="stv3-name">와이어 음영의 심층부</div>
+        <div class="stv3-pw">
+          <div class="stv3-pb"><div class="stv3-pf" style="width:40%"></div></div>
+          <div class="stv3-pt">40%</div>
+        </div>
+        <div class="stv3-desc">와이어 음영 지역 깊숙이 숨겨진 펜움브라의 흔적을 쫓는다. 열강의 감시가 닿지 않는 곳에서 과거의 비밀이 드러나기 시작한다.</div>
+      </div>
+      <div class="stv3-scroll">
+        <div class="stv3-track">
+          <div class="snode">
+            <div class="snode-lbl">도시의 외곽</div>
+            <div class="snode-thumb done">🏗<div class="snode-ck ok">✓</div></div>
+            <div class="snode-ep">스토리 #01</div>
+            <div class="snode-btns"><div class="sbtn skip">✕</div><div class="sbtn rep">▶</div></div>
+          </div>
+          <div class="stv3-line done"></div>
+          <div class="snode">
+            <div class="snode-lbl">음영 경계선</div>
+            <div class="snode-thumb done">🌆<div class="snode-ck ok">✓</div></div>
+            <div class="snode-ep">일반 전투</div>
+            <div class="snode-btns"><div class="sbtn skip">✕</div><div class="sbtn rep">▶</div></div>
+          </div>
+          <div class="stv3-line done"></div>
+          <div class="snode">
+            <div class="snode-lbl">펜움브라의 잔해</div>
+            <div class="snode-thumb cur">🏚</div>
+            <div class="snode-ep">로그라이크 #01</div>
+            <div class="snode-btns"><div class="sbtn skip">✕</div><div class="sbtn play">▶</div></div>
+          </div>
+          <div class="stv3-line todo"></div>
+          <div class="snode">
+            <div class="snode-lbl">암호의 심층</div>
+            <div class="snode-thumb lk">🔐</div>
+            <div class="snode-ep">일반 전투</div>
+            <div class="snode-btns"><div class="sbtn skip dis">✕</div><div class="sbtn play dis">▶</div></div>
+          </div>
+          <div class="stv3-line todo"></div>
+          <div class="snode">
+            <div class="snode-lbl">보급 지점</div>
+            <div class="snode-thumb lk">🏕</div>
+            <div class="snode-ep">보급 지역</div>
+            <div class="snode-btns"><div class="sbtn skip dis">✕</div><div class="sbtn play dis">▶</div></div>
+          </div>
+          <div class="stv3-line todo"></div>
+          <div class="snode">
+            <div class="snode-lbl">중간 보스</div>
+            <div class="snode-thumb lk">⚔</div>
+            <div class="snode-ep">보스 전투</div>
+            <div class="snode-btns"><div class="sbtn skip dis">✕</div><div class="sbtn play dis">▶</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VIEW 4: 서브 스토리 -->
+  <div class="stv" id="stv-sub">
     <div class="sub-list">
       <div class="ss-item"><div class="ss-icon">🛡</div><div class="ss-info"><div class="ss-title">케스트럴 — 철의 여인</div><div class="ss-cond">해금: 챕터 2 클리어 + 케스트럴 동반</div></div><div class="ss-badge ok">CLEAR</div></div>
       <div class="ss-item"><div class="ss-icon">⚡</div><div class="ss-info"><div class="ss-title">주베 — 조커의 기원</div><div class="ss-cond">해금: 챕터 3 클리어 + 주베 동반</div></div><div class="ss-badge go">진행 가능</div></div>
@@ -684,6 +841,7 @@
       <div class="ss-item locked"><div class="ss-icon">🌆</div><div class="ss-info"><div class="ss-title">요람 해안의 어부 (이벤트)</div><div class="ss-cond">해금: 미확인 지역 이벤트 10회 완료</div></div><div class="ss-badge lk">🔒 잠금</div></div>
     </div>
   </div>
+
 </div>
 
 <!-- ═══════════════════════════════════════
@@ -860,57 +1018,25 @@ function scale() {
 }
 addEventListener('resize',scale); scale();
 
-/* ── story tabs ── */
-function storyTab(t) {
-  document.getElementById('spanel-main').style.display=t==='main'?'flex':'none';
-  document.getElementById('spanel-sub').style.display =t==='sub' ?'flex':'none';
-  document.getElementById('stab-main').classList.toggle('on',t==='main');
-  document.getElementById('stab-sub').classList.toggle('on',t==='sub');
+/* ── story navigation ── */
+const STORY_STACK = [];
+const STORY_CRUMBS = { mode:'', act:'챕터 3', stage:'챕터 3 · 1막', sub:'서브 스토리' };
+
+function storyNav(view) {
+  const cur = document.querySelector('#screen-story .stv.active');
+  if (cur) { STORY_STACK.push(cur.id); cur.classList.remove('active'); }
+  document.getElementById('stv-' + view).classList.add('active');
+  document.getElementById('story-breadcrumb').textContent = STORY_CRUMBS[view] || '';
 }
 
-/* ── chapter data ── */
-const CHS=[
-  {n:1,t:'도시의 균열',   arc:'도입',   ac:'arc-intro', desc:'테세라의 일상과 팀 결성. 첫 번째 기업 침투 저지이자 시스템 학습 구간.',prog:100,st:'ok'},
-  {n:2,t:'암호의 미로',   arc:'도입',   ac:'arc-intro', desc:'열강의 암호 네트워크가 도시 내부로 침투. 신호 교란 작전과 정보 추적.',prog:100,st:'ok'},
-  {n:3,t:'와이어 음영',   arc:'전개',   ac:'arc-dev',   desc:'와이어 음영 지역 깊숙이 숨겨진 펜움브라의 흔적을 쫓는다.',prog:40,st:'go'},
-  {n:4,t:'거래의 흔적',   arc:'전개',   ac:'arc-dev',   desc:'열강과의 뒷거래를 주도한 내부 배신자 추적. 라운드테이블의 균열 표면화.',prog:0,st:'lk'},
-  {n:5,t:'내부의 적',     arc:'전개',   ac:'arc-dev',   desc:'매수된 자들과의 정면 대결. 팀 내부 갈등 폭발과 각 캐릭터의 과거사 해금.',prog:0,st:'lk'},
-  {n:6,t:'앵커를 향하여', arc:'위기',   ac:'arc-crisis',desc:'도시 보호막 붕괴. 앵커의 위치를 향한 긴박한 추격이 시작된다.',prog:0,st:'lk'},
-  {n:7,t:'붕괴',          arc:'위기',   ac:'arc-crisis',desc:'테세라 전역이 점령당하고 마지막 저항선이 무너진다.',prog:0,st:'lk'},
-  {n:8,t:'최후의 컴파일', arc:'절정·결말',ac:'arc-climax',desc:'앵커의 핵심에서 벌어지는 최종전. 플레이어의 선택으로 테세라의 운명이 결정된다.',prog:0,st:'lk'},
-];
-let selCh=1;
-
-function buildChList(){
-  document.getElementById('ch-list').innerHTML=CHS.map(c=>`
-    <div class="ch-card${c.st==='lk'?' locked':''} ${c.n===selCh?'sel':''}" onclick="${c.st!=='lk'?`selChapter(${c.n})`:''}">
-      <div class="ch-num ${c.st}">${c.n}</div>
-      <div class="ch-info"><div class="ch-title">${c.t}</div><div class="ch-arc">${c.arc} · 30 스테이지</div></div>
-      <div class="ch-badge ${c.st}">${c.st==='ok'?'CLEAR':c.st==='go'?'진행 중':'🔒 잠금'}</div>
-    </div>`).join('');
+function storyBack() {
+  const prev = STORY_STACK.pop();
+  if (!prev) { go('menu'); return; }
+  document.querySelector('#screen-story .stv.active')?.classList.remove('active');
+  document.getElementById(prev).classList.add('active');
+  const view = prev.replace('stv-','');
+  document.getElementById('story-breadcrumb').textContent = STORY_CRUMBS[view] || '';
 }
-function selChapter(n){
-  selCh=n; buildChList();
-  const c=CHS[n-1];
-  const a1=c.prog>=34, a2=c.prog>=67, a3=c.prog>=100;
-  document.getElementById('ch-detail').innerHTML=`
-    <div class="cd-head">
-      <div class="cd-num-big">${c.n}</div>
-      <div><div class="cd-name">${c.t}</div><span class="arc-tag ${c.ac}">${c.arc}</span></div>
-    </div>
-    <div class="cd-desc">${c.desc}</div>
-    <div class="cd-prog">
-      <div class="cd-prog-row"><span>진행률</span><span>${c.prog}%</span></div>
-      <div class="cd-prog-bar"><div class="cd-prog-fill" style="width:${c.prog}%"></div></div>
-    </div>
-    <div class="cd-acts">
-      <div class="cd-act${a1?' done':c.prog>0?' next':''}"><div class="cd-act-lbl">1막</div><div class="cd-act-icon">${a1?'✅':'⚔'}</div><div class="cd-act-sub">중간 보스</div></div>
-      <div class="cd-act${a2?' done':a1?' next':''}"><div class="cd-act-lbl">2막</div><div class="cd-act-icon">${a2?'✅':'⚔'}</div><div class="cd-act-sub">중간 보스</div></div>
-      <div class="cd-act${a3?' done':a2?' next':''}"><div class="cd-act-lbl">3막</div><div class="cd-act-icon">${a3?'✅':'🏆'}</div><div class="cd-act-sub">최종 보스</div></div>
-    </div>
-    <div class="cd-btn${c.st==='lk'?' lk':''}">${c.st==='lk'?'🔒 이전 챕터 클리어 필요':c.st==='ok'?'↺ 다시 플레이':'▶ 진행하기'}</div>`;
-}
-buildChList(); selChapter(1);
 
 /* ── character data ── */
 const CHARS={
