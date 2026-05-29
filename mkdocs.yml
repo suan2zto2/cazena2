@@ -52,6 +52,7 @@ nav:
   - 아웃게임 UI:
     - 아웃게임 UI구조: outgame_flowchart.md
     - UI 목업: outgame_mockup.md
+    - 참고 레퍼런스: outgame_reference.md
   - 데이터:
     - 스키마 설계: schema.md
     - 열거형 정의: enums.md

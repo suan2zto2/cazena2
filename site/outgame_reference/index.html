@@ -8,9 +8,13 @@
       
       
       
-        <link rel="canonical" href="https://suan2z.github.io/2048/concepts/">
+        <link rel="canonical" href="https://suan2z.github.io/2048/outgame_reference/">
       
       
+        <link rel="prev" href="../outgame_mockup/">
+      
+      
+        <link rel="next" href="../schema/">
       
       
         
@@ -21,7 +25,7 @@
     
     
       
-        <title>컨셉 안 비교 개요 - 테세라위버 기획서</title>
+        <title>참고 레퍼런스 - 테세라위버 기획서</title>
       
     
     
@@ -72,7 +76,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#_1" class="md-skip">
+        <a href="#ui" class="md-skip">
           콘텐츠로 이동
         </a>
       
@@ -108,7 +112,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              컨셉 안 비교 개요
+              참고 레퍼런스
             
           </span>
         </div>
@@ -238,10 +242,12 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
+      <li class="md-tabs__item md-tabs__item--active">
         <a href="../outgame_flowchart/" class="md-tabs__link">
           
   
@@ -854,8 +860,10 @@
       
   
   
+    
   
   
+  
     
     
       
@@ -869,19 +877,22 @@
     
     
       
+        
+        
+      
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
         
           
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
             
   
   
@@ -899,7 +910,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             
@@ -970,10 +981,19 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../outgame_reference/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -989,6 +1009,7 @@
   
 
       </a>
+      
     </li>
   
 
@@ -1555,147 +1576,37 @@
 
 
 
-<h1 id="_1">컨셉 안 비교 개요</h1>
-<hr />
-<h2 id="_2">공통 기본 정보</h2>
+<h1 id="ui">아웃게임 UI 레퍼런스</h1>
+<p><small style="color:#7070a0;font-family:'Roboto Mono',monospace;background:rgba(255,255,255,0.05);padding:2px 12px;border-radius:20px;border:1px solid rgba(255,255,255,0.08);">📄 docs/outgame_reference.md</small></p>
+<p><a class="md-button" href="../outgame_reference.html" target="_blank">🖼 전체 화면으로 보기</a></p>
+<p>아웃게임 화면 설계 참고 자료. 스크린샷은 <code>docs/assets/references/</code> 폴더에 저장하면 자동 표시됩니다.</p>
 <table>
 <thead>
 <tr>
-<th>항목</th>
-<th>내용</th>
+<th>파일명</th>
+<th>화면</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>장르</td>
-<td>턴제 카드 RPG</td>
+<td><code>ref_01_lobby.png</code></td>
+<td>로비화면 (메인 메뉴)</td>
 </tr>
 <tr>
-<td>플랫폼</td>
-<td>Steam (패키지)</td>
+<td><code>ref_02_story_select.png</code></td>
+<td>스토리모드 선택 화면</td>
 </tr>
 <tr>
-<td>예상 플레이타임</td>
-<td>1회차 50~60시간</td>
+<td><code>ref_03_story_chapter.png</code></td>
+<td>메인스토리 챕터 선택</td>
 </tr>
 <tr>
-<td>파티 구성</td>
-<td>3인 고정</td>
+<td><code>ref_04_story_stage.png</code></td>
+<td>메인스토리 진행 화면</td>
 </tr>
 </tbody>
 </table>
-<hr />
-<h2 id="_3">안별 비교</h2>
-<table>
-<thead>
-<tr>
-<th>항목</th>
-<th><a href="concept_A/">안 A — 카제나 방식 × 패키지 RPG</a></th>
-<th><a href="concept_B/">안 B — 스테이지 클리어 × 덱 리셋 로그라이크</a></th>
-<th><a href="../backup/concept_C/">안 C — 2048 에너지 보드 × 덱 카드 RPG</a></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>핵심 키워드</strong></td>
-<td>카오스에서 덱 완성 → 영구 유지</td>
-<td>스테이지마다 덱 리셋 + 메타 진행</td>
-<td>2048 보드로 에너지 생성 → 스킬 발동</td>
-</tr>
-<tr>
-<td><strong>덱 리셋 여부</strong></td>
-<td>없음 (게임 전체 유지)</td>
-<td>스테이지 클리어마다 리셋</td>
-<td>없음 (게임 전체 유지)</td>
-</tr>
-<tr>
-<td><strong>전투 흐름</strong></td>
-<td>드로우 → 에너지 소모 → 카드 사용</td>
-<td>드로우 → 에너지 소모 → 카드 사용</td>
-<td>보드 슬라이드로 수치 조합 → 일치하는 스킬 발동</td>
-</tr>
-<tr>
-<td><strong>전략 핵심</strong></td>
-<td>카오스 활용 여부 + 덱 방향성 설계</td>
-<td>런마다 덱을 빠르게 완성하는 판단력</td>
-<td>보드 상태 읽기 + 손패 계획 + 연계 타이밍</td>
-</tr>
-<tr>
-<td><strong>파티 상호작용</strong></td>
-<td>공용 드로우 풀 + 파티 시너지 카드</td>
-<td>공용 드로우 풀 + 캐릭터 사망 시 카드 소실</td>
-<td>공용 손패 + 연속 발동 시 연계 스킬</td>
-</tr>
-<tr>
-<td><strong>성장 방식</strong></td>
-<td>덱 강화 / 캐릭터 패시브 / 유물</td>
-<td>런 내 성장 + 메타 해금 (영구 누적)</td>
-<td>덱 강화 / 보드 확장 패시브 / 유물</td>
-</tr>
-<tr>
-<td><strong>엔딩 구조</strong></td>
-<td>챕터 클리어 누적 → 최종 보스</td>
-<td>메타 진행 + 스토리 조각 수집 → 트루 엔딩</td>
-<td>챕터 클리어 누적 → 최종 보스</td>
-</tr>
-<tr>
-<td><strong>유사 게임</strong></td>
-<td>Slay the Spire, Across the Obelisk</td>
-<td>Slay the Spire, Hades, Darkest Dungeon</td>
-<td>Slay the Spire, Puzzle Quest, 2048</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h2 id="_4">특성 비교</h2>
-<table>
-<thead>
-<tr>
-<th>항목</th>
-<th style="text-align: center;">안 A</th>
-<th style="text-align: center;">안 B</th>
-<th style="text-align: center;">안 C</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>전략 깊이</td>
-<td style="text-align: center;">★★★★☆</td>
-<td style="text-align: center;">★★★★☆</td>
-<td style="text-align: center;">★★★★★</td>
-</tr>
-<tr>
-<td>직관적 재미</td>
-<td style="text-align: center;">★★★★☆</td>
-<td style="text-align: center;">★★★★☆</td>
-<td style="text-align: center;">★★★☆☆</td>
-</tr>
-<tr>
-<td>독창성</td>
-<td style="text-align: center;">★★★☆☆</td>
-<td style="text-align: center;">★★★☆☆</td>
-<td style="text-align: center;">★★★★★</td>
-</tr>
-<tr>
-<td>재플레이성</td>
-<td style="text-align: center;">★★★★☆</td>
-<td style="text-align: center;">★★★★★</td>
-<td style="text-align: center;">★★★★☆</td>
-</tr>
-<tr>
-<td>학습 난이도</td>
-<td style="text-align: center;">★★☆☆☆</td>
-<td style="text-align: center;">★★★☆☆</td>
-<td style="text-align: center;">★★★★☆</td>
-</tr>
-<tr>
-<td>시스템 설계 복잡도</td>
-<td style="text-align: center;">★★★☆☆</td>
-<td style="text-align: center;">★★★★☆</td>
-<td style="text-align: center;">★★★★★</td>
-</tr>
-</tbody>
-</table>
+<iframe src="../outgame_reference.html" style="width:100%; height:900px; border:none; border-radius:8px; display:block; margin-top:16px;"></iframe>
 
 
 
