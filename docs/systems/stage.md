@@ -1,5 +1,7 @@
 # 스테이지 진행 시스템
 
+<small style="color:#7070a0;font-family:'Roboto Mono',monospace;background:rgba(255,255,255,0.05);padding:2px 12px;border-radius:20px;border:1px solid rgba(255,255,255,0.08);">📄 docs/systems/stage.md</small>
+
 ## 개요
 
 게임의 챕터 진행 구조를 정의한다. 메인 스토리, 서브 스토리, 도전 로그라이크 모드가 모두 동일한 챕터 구조를 사용한다.

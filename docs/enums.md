@@ -1,5 +1,7 @@
 # 열거형 정의
 
+<small style="color:#7070a0;font-family:'Roboto Mono',monospace;background:rgba(255,255,255,0.05);padding:2px 12px;border-radius:20px;border:1px solid rgba(255,255,255,0.08);">📄 docs/enums.md</small>
+
 게임 전반에서 공용으로 사용하는 열거형(enum) 타입 목록입니다.
 
 | 열거형 | 사용처 |

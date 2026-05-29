@@ -1,5 +1,7 @@
 # 시나리오
 
+<small style="color:#7070a0;font-family:'Roboto Mono',monospace;background:rgba(255,255,255,0.05);padding:2px 12px;border-radius:20px;border:1px solid rgba(255,255,255,0.08);">📄 docs/contents/scenario.md</small>
+
 > **테세라 위버 (Tessera Weaver)** — 당신의 스와이프(Swipe)가 도시의 코드를 다시 쓴다.
 
 [📋 시나리오 데이터 시트](https://docs.google.com/spreadsheets/d/1vLNlukAZCnPZiYIv0W-OgCgzPR4Z-SId0MXbOacVluk/edit?gid=931860894#gid=931860894){ .md-button .md-button--primary target="_blank" }

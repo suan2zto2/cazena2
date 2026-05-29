@@ -1,5 +1,7 @@
 # 스키마 설계
 
+<small style="color:#7070a0;font-family:'Roboto Mono',monospace;background:rgba(255,255,255,0.05);padding:2px 12px;border-radius:20px;border:1px solid rgba(255,255,255,0.08);">📄 docs/schema.md</small>
+
 > 스키마 데이터는 두 계층으로 구분합니다.
 
 | 계층 | 설명 | 생명주기 |

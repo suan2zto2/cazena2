@@ -1,5 +1,7 @@
 # 성장 시스템
 
+<small style="color:#7070a0;font-family:'Roboto Mono',monospace;background:rgba(255,255,255,0.05);padding:2px 12px;border-radius:20px;border:1px solid rgba(255,255,255,0.08);">📄 docs/systems/growth.md</small>
+
 > 챕터 진행 중 누적되는 **챕터 내 성장**과 챕터가 끝나도 유지되는 **영구 성장** 두 계층으로 구성됩니다.
 
 ## 성장 계층 구조

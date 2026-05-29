@@ -1,5 +1,7 @@
 # 카오스 제로 나이트메어(Chaos Zero Nightmare) 심층 분석 보고서
 
+<small style="color:#7070a0;font-family:'Roboto Mono',monospace;background:rgba(255,255,255,0.05);padding:2px 12px;border-radius:20px;border:1px solid rgba(255,255,255,0.08);">📄 docs/references/chaos_zero_nightmare.md</small>
+
 <iframe
   src="../chaos_ZN_infographic.html"
   width="100%"

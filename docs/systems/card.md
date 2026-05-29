@@ -1,5 +1,7 @@
 # 카드 시스템
 
+<small style="color:#7070a0;font-family:'Roboto Mono',monospace;background:rgba(255,255,255,0.05);padding:2px 12px;border-radius:20px;border:1px solid rgba(255,255,255,0.08);">📄 docs/systems/card.md</small>
+
 > 참고 문서: [게임 세부 시스템 개요](overview.md) §카드 시스템, [게임 개요](../index.md) §스킬 카드와 발동 조건  
 > 관련 문서: [보드 시스템](board.md), [전투 시스템](combat.md) (작성 예정)
 

@@ -1,5 +1,7 @@
 # 전투 시스템 상세 명세
 
+<small style="color:#7070a0;font-family:'Roboto Mono',monospace;background:rgba(255,255,255,0.05);padding:2px 12px;border-radius:20px;border:1px solid rgba(255,255,255,0.08);">📄 docs/systems/combat.md</small>
+
 > 기준 문서: [`docs/systems/overview.md` §전투 시스템](overview.md), [`docs/index.md` §코어 루프](../index.md)  
 > 관련 구현 일정: `docs/schedule.md` 2단계 (05/25–05/29), 3단계 (06/01–06/05)  
 > 이 문서의 **액션 버튼 처리 흐름(§4)** 단계 번호가 카드·적 AI 구현의 실행 순서 기준이다.

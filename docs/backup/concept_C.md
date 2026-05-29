@@ -1,5 +1,7 @@
 # 안 C — 2048 에너지 보드 × 덱 카드 RPG
 
+<small style="color:#7070a0;font-family:'Roboto Mono',monospace;background:rgba(255,255,255,0.05);padding:2px 12px;border-radius:20px;border:1px solid rgba(255,255,255,0.08);">📄 docs/backup/concept_C.md</small>
+
 ---
 
 ## 기본 정보

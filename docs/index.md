@@ -1,5 +1,7 @@
 # 게임 개요
 
+<small style="color:#7070a0;font-family:'Roboto Mono',monospace;background:rgba(255,255,255,0.05);padding:2px 12px;border-radius:20px;border:1px solid rgba(255,255,255,0.08);">📄 docs/index.md</small>
+
 [🎬 게임 소개 슬라이드 보기](pitch.html){target="_blank" .md-button .md-button--primary}
 
 | 항목 | 내용 |

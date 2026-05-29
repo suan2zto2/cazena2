@@ -1,5 +1,7 @@
 # 캐릭터
 
+<small style="color:#7070a0;font-family:'Roboto Mono',monospace;background:rgba(255,255,255,0.05);padding:2px 12px;border-radius:20px;border:1px solid rgba(255,255,255,0.08);">📄 docs/contents/characters.md</small>
+
 > 5명의 동료와 위버(플레이어)로 구성. 전투 시 위버 + 3인 파티를 편성한다.
 
 ---

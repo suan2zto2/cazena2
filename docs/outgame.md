@@ -1,5 +1,7 @@
 # 아웃게임 시스템
 
+<small style="color:#7070a0;font-family:'Roboto Mono',monospace;background:rgba(255,255,255,0.05);padding:2px 12px;border-radius:20px;border:1px solid rgba(255,255,255,0.08);">📄 docs/outgame.md</small>
+
 게임 전반의 모드 구성 및 전투 외 화면을 정의한다.
 
 [🖥 UI 목업 보기](outgame_mockup.html){ .md-button .md-button--primary target="_blank" }

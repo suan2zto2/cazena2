@@ -1,5 +1,7 @@
 # 보드 시스템 상세 명세
 
+<small style="color:#7070a0;font-family:'Roboto Mono',monospace;background:rgba(255,255,255,0.05);padding:2px 12px;border-radius:20px;border:1px solid rgba(255,255,255,0.08);">📄 docs/systems/board.md</small>
+
 > 기준 문서: [`docs/systems/overview.md` §보드 시스템](overview.md), [`docs/index.md` §보드 슬라이드와 액션 버튼](../index.md)  
 > 관련 구현 일정: `docs/schedule.md` 1단계 (05/11 – 05/22)
 

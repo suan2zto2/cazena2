@@ -1,5 +1,7 @@
 # 기획 테이블 시트
 
+<small style="color:#7070a0;font-family:'Roboto Mono',monospace;background:rgba(255,255,255,0.05);padding:2px 12px;border-radius:20px;border:1px solid rgba(255,255,255,0.08);">📄 docs/data_sheet.md</small>
+
 [📋 구글 시트 열기](https://docs.google.com/spreadsheets/d/1SRpzgAzrPeH7GlxGkBo3hs83RiYDknOo3uXKJkeRubM/edit){ .md-button .md-button--primary target="_blank" }
 
 > Google Sheets로 게임 데이터를 편집하고, 변환 스크립트로 JSON을 생성하는 파이프라인을 정의합니다.  

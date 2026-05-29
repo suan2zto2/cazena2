@@ -1,5 +1,7 @@
 # 적 AI 시스템
 
+<small style="color:#7070a0;font-family:'Roboto Mono',monospace;background:rgba(255,255,255,0.05);padding:2px 12px;border-radius:20px;border:1px solid rgba(255,255,255,0.08);">📄 docs/systems/enemy.md</small>
+
 > 참고 문서: [게임 세부 시스템 개요](overview.md) §적 AI 시스템 / [게임 개요](../index.md) §적 행동 예고
 
 ---

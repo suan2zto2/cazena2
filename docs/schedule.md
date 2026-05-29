@@ -1,5 +1,7 @@
 # 일정
 
+<small style="color:#7070a0;font-family:'Roboto Mono',monospace;background:rgba(255,255,255,0.05);padding:2px 12px;border-radius:20px;border:1px solid rgba(255,255,255,0.08);">📄 docs/schedule.md</small>
+
 > 전투 시스템 구현 범위만 포함. 스토리·아웃게임·성장 시스템은 별도 일정으로 분리 예정.
 
 ---
