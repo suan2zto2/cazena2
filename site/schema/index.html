@@ -224,7 +224,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../systems/growth/" class="md-tabs__link">
+        <a href="../outgame/" class="md-tabs__link">
           
   
   
@@ -713,6 +713,12 @@
       
         
       
+        
+      
+        
+      
+        
+      
     
     
     
@@ -757,6 +763,90 @@
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../outgame/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    아웃게임 시스템
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../outgame_mockup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    아웃게임 UI 목업
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../systems/stage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    스테이지 진행
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -1518,9 +1608,19 @@
 </thead>
 <tbody>
 <tr>
+<td><a href="#chapter"><code>Chapter</code></a></td>
+<td>기획 테이블</td>
+<td>챕터 정의. 막 수·스테이지 구성 설정</td>
+</tr>
+<tr>
 <td><a href="#stage"><code>Stage</code></a></td>
 <td>기획 테이블</td>
-<td>스테이지. 보드 설정·등장 몬스터 포함</td>
+<td>스테이지. 유형·보드 설정·등장 몬스터 포함</td>
+</tr>
+<tr>
+<td><a href="#storyscene"><code>StoryScene</code></a></td>
+<td>기획 테이블</td>
+<td>스토리 씬. 챕터 내 발동 시점과 씬 식별자</td>
 </tr>
 <tr>
 <td><a href="#character"><code>Character</code></a></td>
@@ -1563,6 +1663,19 @@
 <h2 id="erd">ERD</h2>
 <h3 id="_3">기획 테이블</h3>
 <pre class="mermaid"><code>erDiagram
+    Chapter {
+        string id PK
+        string title
+        string storyType
+        number actCount
+    }
+    ActConfig {
+        string chapterId FK
+        number actNumber
+        number stageCount
+        string[] supplyPositions
+        string bossMonsterId FK
+    }
     Character {
         string id PK
         string name
@@ -1579,10 +1692,10 @@
     }
     Stage {
         string id PK
-        string chapterId
-        number orderInChapter
+        string chapterId FK
+        number actNumber
         string stageType
-        number maxSlides
+        number maxSlides "NORMAL·ELITE·BOSS 전용"
     }
     Monster {
         string id PK
@@ -1597,9 +1710,24 @@
         number position
     }
 
+    StoryScene {
+        string id PK
+        string chapterId FK
+        string triggerType
+        string sceneAssetId
+        string monsterId "nullable - BOSS 트리거 전용"
+        string stageId "nullable - STAGE_START 전용"
+    }
+
+    Chapter ||--|{ ActConfig : "막 구성"
+    Chapter ||--o{ Stage : "스테이지 템플릿"
+    Chapter ||--o{ StoryScene : "씬 등록"
     Character ||--o{ Card : "소유 (ownerCharacterId)"
-    Stage ||--o{ StageMonster : "등장 몬스터"
-    Monster ||--o{ StageMonster : "스테이지 배치"</code></pre>
+    Stage ||--o{ StageMonster : "등장 몬스터 (전투 스테이지만)"
+    Stage ||--o| StoryScene : "STAGE_START 씬"
+    Monster ||--o{ StageMonster : "스테이지 배치"
+    Monster ||--o{ ActConfig : "막 보스 지정"
+    Monster ||--o| StoryScene : "BOSS 씬 연결"</code></pre>
 <h3 id="monster">Monster 내부 구조</h3>
 <pre class="mermaid"><code>erDiagram
     Monster {
@@ -1645,7 +1773,10 @@
     }
     ChapterRun {
         string chapterId
-        string currentStageId
+        number currentActNumber
+        string currentStageId "nullable"
+        string[] clearedStageIds
+        number gold
         string[] passiveIds
         string[] relicIds
         string[] addedCardIds
@@ -1660,8 +1791,8 @@
     ChapterRun ||--|{ CharacterState : "party (출전 3인)"</code></pre>
 <hr />
 <h2 id="_5">기획 테이블</h2>
-<h3 id="stage">Stage</h3>
-<p>스테이지 정의. 챕터 내 위치, 보드 설정, 등장 몬스터를 포함한다.</p>
+<h3 id="chapter">Chapter</h3>
+<p>챕터 정의. 메인 스토리와 서브 스토리 모두 이 구조를 사용한다. 막 구성 상세는 <code>ActConfig</code> 참조.</p>
 <table>
 <thead>
 <tr>
@@ -1674,17 +1805,92 @@
 <tr>
 <td><code>id</code></td>
 <td><code>string</code></td>
-<td>스테이지 식별자. 예: <code>"ch1_stage2"</code></td>
+<td>챕터 식별자. 예: <code>"ch1"</code>, <code>"sub_kestrel"</code></td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>챕터 표시 제목</td>
+</tr>
+<tr>
+<td><code>storyType</code></td>
+<td><code>"MAIN" \| "SUB"</code></td>
+<td>메인 스토리 또는 서브 스토리 구분</td>
+</tr>
+<tr>
+<td><code>actCount</code></td>
+<td><code>number</code></td>
+<td>막 수. 기본 3. <code>ActConfig</code> 항목 수와 일치해야 한다</td>
+</tr>
+</tbody>
+</table>
+<h3 id="actconfig">ActConfig</h3>
+<p>챕터 내 각 막의 구성 설정. 챕터당 <code>actCount</code>개 존재한다.</p>
+<table>
+<thead>
+<tr>
+<th>필드</th>
+<th>타입</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>chapterId</code></td>
+<td><code>string</code></td>
+<td><code>Chapter.id</code> 참조</td>
+</tr>
+<tr>
+<td><code>actNumber</code></td>
+<td><code>number</code></td>
+<td>막 번호. 1부터 시작</td>
+</tr>
+<tr>
+<td><code>stageCount</code></td>
+<td><code>number</code></td>
+<td>이 막에 배치되는 스테이지 수 (보스 제외)</td>
+</tr>
+<tr>
+<td><code>supplyPositions</code></td>
+<td><code>number[]</code></td>
+<td>보급 지역(SUPPLY)이 고정 배치될 위치 인덱스 목록</td>
+</tr>
+<tr>
+<td><code>bossMonsterId</code></td>
+<td><code>string</code></td>
+<td>이 막의 보스로 사용할 <code>Monster.id</code>. <code>enemyType === 'BOSS'</code>여야 함</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="stage">Stage</h3>
+<p>스테이지 템플릿. 챕터 내 전투 스테이지의 보드 설정과 등장 몬스터를 정의한다. 런타임에 경로 생성 시 풀(pool)로 사용된다.</p>
+<blockquote>
+<p><code>SUPPLY</code>·<code>UNKNOWN</code> 유형은 전투가 없으므로 <code>maxSlides</code>, <code>tileSpawnConfig</code>, <code>monsters</code> 필드를 사용하지 않는다.</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>필드</th>
+<th>타입</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td><code>string</code></td>
+<td>스테이지 식별자. 예: <code>"ch1_s01"</code></td>
 </tr>
 <tr>
 <td><code>chapterId</code></td>
 <td><code>string</code></td>
-<td>소속 챕터. 예: <code>"chapter1"</code></td>
+<td><code>Chapter.id</code> 참조</td>
 </tr>
 <tr>
-<td><code>orderInChapter</code></td>
+<td><code>actNumber</code></td>
 <td><code>number</code></td>
-<td>챕터 내 순서. 1부터 시작</td>
+<td>소속 막 번호</td>
 </tr>
 <tr>
 <td><code>stageType</code></td>
@@ -1694,17 +1900,17 @@
 <tr>
 <td><code>maxSlides</code></td>
 <td><code>number</code></td>
-<td>턴당 최대 슬라이드 횟수</td>
+<td>턴당 최대 슬라이드 횟수. <code>NORMAL</code>·<code>ELITE</code>·<code>BOSS</code> 전용</td>
 </tr>
 <tr>
 <td><code>tileSpawnConfig</code></td>
 <td><code>{ values: number[], weights: number[] }</code></td>
-<td>슬라이드 후 타일 생성 확률 분포. 기본값: <code>{ values: [2], weights: [1] }</code></td>
+<td>슬라이드 후 타일 생성 확률 분포. <code>NORMAL</code>·<code>ELITE</code>·<code>BOSS</code> 전용</td>
 </tr>
 <tr>
 <td><code>monsters</code></td>
 <td><code>{ monsterId: string, position: number }[]</code></td>
-<td>등장 몬스터 목록. <code>position</code> 오름차순이 화면 위→아래이자 행동 처리 순서</td>
+<td>등장 몬스터 목록. <code>NORMAL</code>·<code>ELITE</code>·<code>BOSS</code> 전용. <code>position</code> 오름차순이 화면 위→아래이자 행동 처리 순서</td>
 </tr>
 </tbody>
 </table>
@@ -1745,11 +1951,81 @@
 </tr>
 <tr>
 <td><code>monsters</code></td>
-<td>1개 이상. <code>position</code> 중복 불가</td>
+<td>1개 이상. <code>position</code> 중복 불가. <code>NORMAL</code>·<code>ELITE</code>·<code>BOSS</code> 스테이지만 필수</td>
 </tr>
 <tr>
 <td><code>stageType === 'BOSS'</code></td>
 <td><code>monsters</code> 중 <code>enemyType === 'BOSS'</code>인 항목이 1개 이상 존재</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="storyscene">StoryScene</h3>
+<p>챕터 내 스토리 씬(컷씬·대화) 정의. 발동 시점(<code>triggerType</code>)에 따라 어떤 씬을 재생할지 지정한다.</p>
+<blockquote>
+<p>발동 시점 상세: <a href="../enums/#scenetriggertype">SceneTriggerType</a></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>필드</th>
+<th>타입</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td><code>string</code></td>
+<td>씬 식별자</td>
+</tr>
+<tr>
+<td><code>chapterId</code></td>
+<td><code>string</code></td>
+<td><code>Chapter.id</code> 참조. 어느 챕터에 속한 씬인지</td>
+</tr>
+<tr>
+<td><code>triggerType</code></td>
+<td><a href="../enums/#scenetriggertype"><code>SceneTriggerType</code></a></td>
+<td>발동 시점</td>
+</tr>
+<tr>
+<td><code>sceneAssetId</code></td>
+<td><code>string</code></td>
+<td>실제 재생할 씬 에셋·스크립트 식별자</td>
+</tr>
+<tr>
+<td><code>monsterId</code></td>
+<td><code>string \| undefined</code></td>
+<td><code>BOSS_START</code>·<code>BOSS_CLEAR</code> 트리거 전용. 해당 보스의 <code>Monster.id</code>. 미지정 시 막 보스 전체에 공통 적용</td>
+</tr>
+<tr>
+<td><code>stageId</code></td>
+<td><code>string \| undefined</code></td>
+<td><code>STAGE_START</code> 트리거 전용. 발동할 <code>Stage.id</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>제약 조건</strong></p>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>규칙</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>BOSS_START</code>·<code>BOSS_CLEAR</code></td>
+<td><code>monsterId</code> 미지정 시 해당 막의 모든 보스에 적용. 특정 보스에만 적용하려면 <code>monsterId</code> 지정 필요</td>
+</tr>
+<tr>
+<td><code>STAGE_START</code></td>
+<td><code>stageId</code> 필수. 경로 미선택 시 재생 보장 없음 — 필수 서사 배치 지양</td>
+</tr>
+<tr>
+<td><code>CHAPTER_START</code></td>
+<td><code>monsterId</code>, <code>stageId</code> 모두 불필요</td>
 </tr>
 </tbody>
 </table>
@@ -2164,7 +2440,7 @@
 </blockquote>
 <hr />
 <h3 id="chapterrun">ChapterRun</h3>
-<p>단일 챕터 진행 상태. 챕터 클리어 시 <code>SaveData.chapterRun</code>을 <code>null</code>로 초기화한다.</p>
+<p>단일 챕터 진행 상태. 챕터 클리어 또는 실패 시 <code>SaveData.chapterRun</code>을 <code>null</code>로 초기화한다.</p>
 <table>
 <thead>
 <tr>
@@ -2180,9 +2456,19 @@
 <td>진행 중인 챕터 식별자</td>
 </tr>
 <tr>
+<td><code>currentActNumber</code></td>
+<td><code>number</code></td>
+<td>현재 진행 중인 막 번호</td>
+</tr>
+<tr>
 <td><code>currentStageId</code></td>
-<td><code>string</code></td>
-<td>현재 도달한 <code>Stage.id</code></td>
+<td><code>string \| null</code></td>
+<td>현재 위치한 <code>Stage.id</code>. 스테이지 선택 화면일 때 <code>null</code></td>
+</tr>
+<tr>
+<td><code>clearedStageIds</code></td>
+<td><code>string[]</code></td>
+<td>이번 챕터에서 클리어한 스테이지 ID 목록. 경험치 산정·분기 잠금 해제에 사용</td>
 </tr>
 <tr>
 <td><code>party</code></td>
@@ -2190,14 +2476,19 @@
 <td>출전 3인 상태. 배열 순서 = 화면 표시 순서</td>
 </tr>
 <tr>
+<td><code>gold</code></td>
+<td><code>number</code></td>
+<td>현재 보유 골드. 챕터 종료 시 소멸</td>
+</tr>
+<tr>
 <td><code>passiveIds</code></td>
 <td><code>string[]</code></td>
-<td>선택한 챕터 패시브 식별자 목록. 중복 불가, 최대 챕터 내 레벨업 횟수만큼</td>
+<td>선택한 챕터 패시브 식별자 목록. 중복 불가</td>
 </tr>
 <tr>
 <td><code>relicIds</code></td>
 <td><code>string[]</code></td>
-<td>보유 유물 식별자 목록. 보스 처치마다 1개 추가</td>
+<td>보유 유물 식별자 목록. 보스 처치·미확인 지역 이벤트로 획득</td>
 </tr>
 <tr>
 <td><code>addedCardIds</code></td>
@@ -2222,6 +2513,10 @@
 <tr>
 <td><code>passiveIds</code></td>
 <td>중복 값 불가</td>
+</tr>
+<tr>
+<td><code>gold</code></td>
+<td>0 이상 정수</td>
 </tr>
 </tbody>
 </table>

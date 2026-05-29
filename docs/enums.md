@@ -11,6 +11,7 @@
 | [`TargetType`](#targettype) | `EffectParams.targetType` |
 | [`ActionType`](#actiontype) | `EnemyAction.actionType` |
 | [`TargetMode`](#targetmode) | `EnemyAction.targetMode` |
+| [`SceneTriggerType`](#scenetriggertype) | `StoryScene.triggerType` |
 
 ---
 
@@ -31,13 +32,15 @@
 
 ## StageType
 
-스테이지 유형.
+스테이지 유형. 막(Act) 마지막 위치는 항상 `BOSS`로 고정된다.
 
 | 값 | 설명 |
 |----|------|
-| `NORMAL` | 일반 전투 스테이지 |
-| `ELITE` | 강화 적이 등장하는 스테이지 |
-| `BOSS` | 보스 전투 스테이지. `monsters` 중 `EnemyType.BOSS`가 1개 이상 존재해야 한다 |
+| `NORMAL` | 일반 전투. 일반 몬스터 등장. 스킬카드·골드 보상 |
+| `ELITE` | 엘리트 전투. 엘리트 몬스터 등장. 일반보다 강하고 보상도 고품질 |
+| `BOSS` | 보스 전투. 막 마지막 고정 위치. 챕터 마지막 막의 보스가 최종보스, 그 외는 중간보스로 취급. 클리어 시 유물 획득 |
+| `SUPPLY` | 보급 지역. 전투 없음. 회복·상점·카드 강화 중 하나 선택 |
+| `UNKNOWN` | 미확인 지역. 랜덤 이벤트 발생. 아이템·전투·유물 등 다양한 결과 |
 
 ---
 
@@ -102,3 +105,16 @@
 |----|------|
 | `SINGLE` | 단일 대상 |
 | `ALL` | 전체 대상 |
+
+---
+
+## SceneTriggerType
+
+스토리 씬 발동 시점.
+
+| 값 | 발동 조건 | 보장 여부 |
+|----|-----------|:---------:|
+| `CHAPTER_START` | 챕터 진입 직후 | ✅ 항상 재생 |
+| `BOSS_START` | 보스 전투 시작 직전 | ✅ 항상 재생 |
+| `BOSS_CLEAR` | 보스 처치 직후 | ✅ 항상 재생 |
+| `STAGE_START` | 특정 스테이지 진입 직전 | ⚠️ 경로 미선택 시 미재생 (부가 연출 전용) |

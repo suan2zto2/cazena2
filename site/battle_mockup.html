@@ -85,28 +85,47 @@
     /* party HUD — main area top-left overlay */
     .party-hud {
       position: absolute; top: 10px; left: 10px; z-index: 10;
-      display: flex; flex-direction: column; gap: 5px;
+      display: flex; flex-direction: column; gap: 7px;
       background: rgba(8,8,24,0.82);
       border: 1px solid var(--border2); border-radius: 8px;
       padding: 8px 10px;
       backdrop-filter: blur(4px);
+      min-width: 220px;
     }
-    .hud-char { display: flex; align-items: center; gap: 7px; }
+    /* 팀 체력 바 */
+    .hud-team-hp { display: flex; flex-direction: column; gap: 3px; }
+    .hud-team-label {
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 10px; color: var(--dim);
+    }
+    .hud-team-label span:last-child { color: var(--text); font-weight: 700; }
+    .hud-team-bar {
+      width: 100%; height: 8px;
+      background: #222240; border-radius: 4px; overflow: hidden;
+    }
+    .hud-team-fill { height: 100%; border-radius: 4px; background: var(--success); transition: width .3s; }
+    .hud-team-fill.md { background: var(--warning); }
+    .hud-team-fill.lo { background: var(--danger); }
+    /* 캐릭터 목록 */
+    .hud-chars { display: flex; gap: 8px; }
+    .hud-char { display: flex; align-items: center; gap: 6px; }
     .hud-avatar {
-      width: 30px; height: 30px; border-radius: 50%;
+      width: 32px; height: 32px; border-radius: 50%;
       border: 2px solid var(--accent);
-      display: flex; align-items: center; justify-content: center; font-size: 13px;
+      display: flex; align-items: center; justify-content: center; font-size: 14px;
       flex-shrink: 0;
     }
-    .hud-avatar.dead { border-color: #444; filter: grayscale(1); opacity: .4; }
-    .hud-bars { display: flex; flex-direction: column; gap: 3px; }
-    .hud-name { font-size: 10px; color: var(--dim); }
-    .hud-hp-wrap { width: 80px; height: 6px; background: #222240; border-radius: 3px; overflow: hidden; }
-    .hud-hp { height: 100%; border-radius: 3px; }
+    .hud-info { display: flex; flex-direction: column; gap: 3px; }
+    .hud-name { font-size: 10px; font-weight: 600; color: var(--text); }
+    .hud-tags { display: flex; gap: 3px; }
+    .hud-tag {
+      font-size: 10px; padding: 1px 4px; border-radius: 3px;
+      background: var(--card-bg); border: 1px solid var(--border2);
+      color: var(--dim); white-space: nowrap;
+    }
     .hp-hi  { background: var(--success); }
     .hp-md  { background: var(--warning); }
     .hp-lo  { background: var(--danger); }
-    .hud-hp-text { font-size: 9px; color: var(--dim); }
     .pause-btn {
       width: 34px; height: 34px; border-radius: 6px;
       background: var(--card-bg); border: 1px solid var(--border2);
@@ -412,28 +431,47 @@
 
     <!-- PARTY HUD (top-left overlay) -->
     <div class="party-hud">
-      <div class="hud-char">
-        <div class="hud-avatar">⚔</div>
-        <div class="hud-bars">
-          <div class="hud-name">카인</div>
-          <div class="hud-hp-wrap"><div class="hud-hp hp-hi" style="width:72%"></div></div>
-          <div class="hud-hp-text">72 / 100</div>
+      <!-- 팀 체력 -->
+      <div class="hud-team-hp">
+        <div class="hud-team-label">
+          <span>팀 체력</span>
+          <span>122 / 250</span>
+        </div>
+        <div class="hud-team-bar">
+          <div class="hud-team-fill md" style="width:49%"></div>
         </div>
       </div>
-      <div class="hud-char">
-        <div class="hud-avatar">✦</div>
-        <div class="hud-bars">
-          <div class="hud-name">리나</div>
-          <div class="hud-hp-wrap"><div class="hud-hp hp-md" style="width:45%"></div></div>
-          <div class="hud-hp-text">36 / 80</div>
+      <!-- 캐릭터 목록 -->
+      <div class="hud-chars">
+        <div class="hud-char">
+          <div class="hud-avatar">⚔</div>
+          <div class="hud-info">
+            <div class="hud-name">카인</div>
+            <div class="hud-tags">
+              <span class="hud-tag">⚔ 전사</span>
+              <span class="hud-tag">🔥 화</span>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="hud-char">
-        <div class="hud-avatar">♥</div>
-        <div class="hud-bars">
-          <div class="hud-name">에린</div>
-          <div class="hud-hp-wrap"><div class="hud-hp hp-lo" style="width:20%"></div></div>
-          <div class="hud-hp-text">14 / 70</div>
+        <div class="hud-char">
+          <div class="hud-avatar">✦</div>
+          <div class="hud-info">
+            <div class="hud-name">리나</div>
+            <div class="hud-tags">
+              <span class="hud-tag">🔮 마법사</span>
+              <span class="hud-tag">❄ 빙</span>
+            </div>
+          </div>
+        </div>
+        <div class="hud-char">
+          <div class="hud-avatar">♥</div>
+          <div class="hud-info">
+            <div class="hud-name">에린</div>
+            <div class="hud-tags">
+              <span class="hud-tag">✚ 힐러</span>
+              <span class="hud-tag">🌿 자연</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -446,8 +484,6 @@
         <div class="char-sprite ally-s">⚔</div>
         <div class="char-shadow"></div>
         <div class="char-footer">
-          <div class="char-hp-wrap"><div class="char-hp hp-hi" style="width:72%"></div></div>
-          <div class="char-hp-text">72 / 100</div>
           <div class="char-name-lbl">카인</div>
           <div class="char-status">
             <div class="stag buff" title="방어력 증가">🛡</div>
@@ -460,8 +496,6 @@
         <div class="char-sprite ally-s">✦</div>
         <div class="char-shadow"></div>
         <div class="char-footer">
-          <div class="char-hp-wrap"><div class="char-hp hp-md" style="width:45%"></div></div>
-          <div class="char-hp-text">36 / 80</div>
           <div class="char-name-lbl">리나</div>
           <div class="char-status">
             <div class="stag buff"    title="마법 집중">⚡</div>
@@ -475,8 +509,6 @@
         <div class="char-sprite ally-s hurt">♥</div>
         <div class="char-shadow"></div>
         <div class="char-footer">
-          <div class="char-hp-wrap"><div class="char-hp hp-lo" style="width:20%"></div></div>
-          <div class="char-hp-text">14 / 70</div>
           <div class="char-name-lbl">에린</div>
           <div class="char-status">
             <div class="stag debuff" title="출혈">🩸</div>

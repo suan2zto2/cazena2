@@ -224,7 +224,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../systems/growth/" class="md-tabs__link">
+        <a href="../outgame/" class="md-tabs__link">
           
   
   
@@ -713,6 +713,12 @@
       
         
       
+        
+      
+        
+      
+        
+      
     
     
     
@@ -757,6 +763,90 @@
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../outgame/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    아웃게임 시스템
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../outgame_mockup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    아웃게임 UI 목업
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../systems/stage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    스테이지 진행
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -1513,11 +1603,18 @@ JSON 구조 상세는 <a href="../schema/">schema.md</a>를 참조하십시오.<
   <thead>
     <tr>
       <th>파일</th>
-      <th>포함 테이블</th>
+      <th>포함 시트</th>
       <th style="text-align:center">JSON 만들기</th>
     </tr>
   </thead>
   <tbody>
+    <tr>
+      <td><code>chapters.json</code></td>
+      <td>Chapter, ActConfig</td>
+      <td style="text-align:center">
+        <button id="btn-build-chapters" class="md-button" onclick="buildChaptersJson('btn-build-chapters')">🔄 JSON 만들기</button>
+      </td>
+    </tr>
     <tr>
       <td><code>stages.json</code></td>
       <td>Stage, StageMonster</td>
@@ -1546,6 +1643,13 @@ JSON 구조 상세는 <a href="../schema/">schema.md</a>를 참조하십시오.<
         <button id="btn-build-monsters" class="md-button" onclick="buildMonstersJson('btn-build-monsters')">🔄 JSON 만들기</button>
       </td>
     </tr>
+    <tr>
+      <td><code>story_scenes.json</code></td>
+      <td>StoryScene</td>
+      <td style="text-align:center">
+        <button id="btn-build-scenes" class="md-button" onclick="buildStoryScenesJson('btn-build-scenes')">🔄 JSON 만들기</button>
+      </td>
+    </tr>
   </tbody>
 </table>
 
@@ -1556,7 +1660,7 @@ JSON 구조 상세는 <a href="../schema/">schema.md</a>를 참조하십시오.<
 </code></pre></div>
 <ul>
 <li><strong>시트</strong>: 기획자가 편집하는 소스. 평면(2D) 구조.</li>
-<li><strong>변환 스크립트</strong>: 시트 → JSON 변환. 시트의 분리된 행을 중첩 구조로 조립.</li>
+<li><strong>변환 스크립트</strong>: 시트 → JSON 변환. 분리된 행을 중첩 구조로 조립.</li>
 <li><strong>JSON</strong>: 게임 코드가 읽는 최종 데이터. <a href="../schema/">schema.md</a> 구조를 따름.</li>
 </ul>
 <hr />
@@ -1571,9 +1675,19 @@ JSON 구조 상세는 <a href="../schema/">schema.md</a>를 참조하십시오.<
 </thead>
 <tbody>
 <tr>
+<td><a href="#chapter">Chapter</a></td>
+<td><code>chapters.json</code></td>
+<td>챕터 기본 정보</td>
+</tr>
+<tr>
+<td><a href="#actconfig">ActConfig</a></td>
+<td><code>chapters.json</code> 내 <code>acts[]</code></td>
+<td>Chapter에 병합</td>
+</tr>
+<tr>
 <td><a href="#stage">Stage</a></td>
 <td><code>stages.json</code></td>
-<td>보드 설정·챕터 위치</td>
+<td>전투 스테이지 템플릿</td>
 </tr>
 <tr>
 <td><a href="#stagemonster">StageMonster</a></td>
@@ -1605,11 +1719,17 @@ JSON 구조 상세는 <a href="../schema/">schema.md</a>를 참조하십시오.<
 <td><code>monsters.json</code> 내 <code>phaseThresholds[]</code></td>
 <td>Monster에 병합</td>
 </tr>
+<tr>
+<td><a href="#storyscene">StoryScene</a></td>
+<td><code>story_scenes.json</code></td>
+<td></td>
+</tr>
 </tbody>
 </table>
 <hr />
 <h2 id="_4">시트 상세</h2>
-<h3 id="stage">Stage</h3>
+<h3 id="chapter">Chapter</h3>
+<p>챕터 기본 정보. 메인 스토리와 서브 스토리 모두 이 시트에 등록한다.</p>
 <table>
 <thead>
 <tr>
@@ -1623,38 +1743,230 @@ JSON 구조 상세는 <a href="../schema/">schema.md</a>를 참조하십시오.<
 <tr>
 <td><code>id</code></td>
 <td>string</td>
-<td><code>ch1_stage1</code></td>
+<td><code>ch1</code></td>
+<td>챕터 식별자 (PK)</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td>string</td>
+<td><code>도시의 균열</code></td>
+<td>챕터 표시 제목</td>
+</tr>
+<tr>
+<td><code>storyType</code></td>
+<td>enum</td>
+<td><code>MAIN</code></td>
+<td><code>MAIN</code> / <code>SUB</code></td>
+</tr>
+<tr>
+<td><code>actCount</code></td>
+<td>number</td>
+<td><code>2</code></td>
+<td>막(Act) 수. <code>ActConfig</code> 행 수와 일치해야 함</td>
+</tr>
+</tbody>
+</table>
+<p><strong>예시 행</strong></p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>title</th>
+<th>storyType</th>
+<th style="text-align: center;">actCount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ch1</td>
+<td>도시의 균열</td>
+<td>MAIN</td>
+<td style="text-align: center;">3</td>
+</tr>
+<tr>
+<td>ch8</td>
+<td>최후의 컴파일</td>
+<td>MAIN</td>
+<td style="text-align: center;">3</td>
+</tr>
+<tr>
+<td>sub_kestrel</td>
+<td>케스트럴의 과거</td>
+<td>SUB</td>
+<td style="text-align: center;">1</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="actconfig">ActConfig</h3>
+<p>챕터 내 각 막의 구성 설정. 챕터당 <code>actCount</code>개 행이 존재한다.<br />
+변환 시 <code>chapterId</code>로 그룹화하여 해당 Chapter의 <code>acts[]</code> 배열로 병합된다.</p>
+<table>
+<thead>
+<tr>
+<th>컬럼</th>
+<th>타입</th>
+<th>예시</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>chapterId</code></td>
+<td>string</td>
+<td><code>ch1</code></td>
+<td><code>Chapter.id</code> 참조 (FK)</td>
+</tr>
+<tr>
+<td><code>actNumber</code></td>
+<td>number</td>
+<td><code>1</code></td>
+<td>막 번호. 1부터 시작</td>
+</tr>
+<tr>
+<td><code>stageCount</code></td>
+<td>number</td>
+<td><code>4</code></td>
+<td>이 막의 스테이지 수 (보스 제외)</td>
+</tr>
+<tr>
+<td><code>supplyPositions</code></td>
+<td>string</td>
+<td><code>2,4</code></td>
+<td>보급 지역을 고정 배치할 위치 인덱스. 쉼표 구분. 빈 칸이면 없음</td>
+</tr>
+<tr>
+<td><code>bossMonsterId</code></td>
+<td>string</td>
+<td><code>warden</code></td>
+<td>막 보스로 사용할 <code>Monster.id</code>. <code>enemyType = BOSS</code>여야 함</td>
+</tr>
+</tbody>
+</table>
+<p><strong>예시 행</strong></p>
+<table>
+<thead>
+<tr>
+<th>chapterId</th>
+<th style="text-align: center;">actNumber</th>
+<th style="text-align: center;">stageCount</th>
+<th style="text-align: center;">supplyPositions</th>
+<th>bossMonsterId</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ch1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">4</td>
+<td>field_captain</td>
+</tr>
+<tr>
+<td>ch1</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">4</td>
+<td>warden</td>
+</tr>
+<tr>
+<td>ch1</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;"></td>
+<td>commander</td>
+</tr>
+</tbody>
+</table>
+<p><code>supplyPositions</code>는 보급 지역이 고정 배치될 위치 번호(1-based). 비어 있으면 <code>[]</code>.</p>
+<p><strong>막별 기본 스테이지 패턴</strong></p>
+<table>
+<thead>
+<tr>
+<th>막</th>
+<th>위치 1</th>
+<th>위치 2</th>
+<th>위치 3</th>
+<th>위치 4</th>
+<th>위치 5 (고정)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1막</td>
+<td>NORMAL</td>
+<td>NORMAL</td>
+<td>ELITE</td>
+<td>SUPPLY</td>
+<td>BOSS</td>
+</tr>
+<tr>
+<td>2막</td>
+<td>NORMAL</td>
+<td>NORMAL</td>
+<td>ELITE</td>
+<td>SUPPLY</td>
+<td>BOSS</td>
+</tr>
+<tr>
+<td>3막</td>
+<td>NORMAL</td>
+<td>ELITE</td>
+<td>ELITE</td>
+<td>UNKNOWN</td>
+<td>BOSS</td>
+</tr>
+</tbody>
+</table>
+<p><strong>변환 규칙</strong>: <code>supplyPositions</code> → 쉼표로 분리하여 <code>number[]</code> 배열로 변환. 빈 칸은 <code>[]</code>.</p>
+<hr />
+<h3 id="stage">Stage</h3>
+<p>전투 스테이지 템플릿. <code>SUPPLY</code>·<code>UNKNOWN</code> 유형은 전투가 없으므로 <code>maxSlides</code>, <code>tileValues</code>, <code>tileWeights</code> 컬럼을 비워둔다.</p>
+<table>
+<thead>
+<tr>
+<th>컬럼</th>
+<th>타입</th>
+<th>예시</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td>string</td>
+<td><code>ch1_s01</code></td>
 <td>스테이지 식별자 (PK)</td>
 </tr>
 <tr>
 <td><code>chapterId</code></td>
 <td>string</td>
-<td><code>chapter1</code></td>
-<td>소속 챕터</td>
+<td><code>ch1</code></td>
+<td><code>Chapter.id</code> 참조 (FK)</td>
 </tr>
 <tr>
-<td><code>orderInChapter</code></td>
+<td><code>actNumber</code></td>
 <td>number</td>
 <td><code>1</code></td>
-<td>챕터 내 순서</td>
+<td>소속 막 번호</td>
 </tr>
 <tr>
 <td><code>stageType</code></td>
 <td>enum</td>
 <td><code>NORMAL</code></td>
-<td><code>NORMAL</code> / <code>ELITE</code> / <code>BOSS</code></td>
+<td><code>NORMAL</code> / <code>ELITE</code> / <code>BOSS</code> / <code>SUPPLY</code> / <code>UNKNOWN</code></td>
 </tr>
 <tr>
 <td><code>maxSlides</code></td>
 <td>number</td>
 <td><code>5</code></td>
-<td>턴당 최대 슬라이드 횟수</td>
+<td>턴당 최대 슬라이드 횟수. 전투 스테이지(<code>NORMAL</code>·<code>ELITE</code>·<code>BOSS</code>)만 입력</td>
 </tr>
 <tr>
 <td><code>tileValues</code></td>
 <td>string</td>
 <td><code>2,4</code></td>
-<td>생성 가능한 타일 값. 쉼표 구분</td>
+<td>생성 가능한 타일 값. 쉼표 구분. 전투 스테이지만 입력</td>
 </tr>
 <tr>
 <td><code>tileWeights</code></td>
@@ -1664,13 +1976,14 @@ JSON 구조 상세는 <a href="../schema/">schema.md</a>를 참조하십시오.<
 </tr>
 </tbody>
 </table>
+<p><strong>ID 네이밍 규칙</strong>: <code>{chapterId}_a{actNumber}_s{stageIndex}</code> — 예: <code>ch1_a1_s3</code></p>
 <p><strong>예시 행</strong></p>
 <table>
 <thead>
 <tr>
 <th>id</th>
 <th>chapterId</th>
-<th style="text-align: center;">orderInChapter</th>
+<th style="text-align: center;">actNumber</th>
 <th>stageType</th>
 <th style="text-align: center;">maxSlides</th>
 <th>tileValues</th>
@@ -1679,38 +1992,56 @@ JSON 구조 상세는 <a href="../schema/">schema.md</a>를 참조하십시오.<
 </thead>
 <tbody>
 <tr>
-<td>ch1_stage1</td>
-<td>chapter1</td>
+<td>ch1_a1_s1</td>
+<td>ch1</td>
 <td style="text-align: center;">1</td>
 <td>NORMAL</td>
 <td style="text-align: center;">5</td>
-<td>2</td>
-<td>1</td>
+<td>2,4</td>
+<td>7,3</td>
 </tr>
 <tr>
-<td>ch1_stage2</td>
-<td>chapter1</td>
-<td style="text-align: center;">2</td>
+<td>ch1_a1_s3</td>
+<td>ch1</td>
+<td style="text-align: center;">1</td>
 <td>ELITE</td>
 <td style="text-align: center;">4</td>
 <td>2,4</td>
-<td>3,1</td>
+<td>7,3</td>
 </tr>
 <tr>
-<td>ch1_stage3</td>
-<td>chapter1</td>
-<td style="text-align: center;">3</td>
+<td>ch1_a1_s4</td>
+<td>ch1</td>
+<td style="text-align: center;">1</td>
+<td>SUPPLY</td>
+<td style="text-align: center;"></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>ch1_a1_s5</td>
+<td>ch1</td>
+<td style="text-align: center;">1</td>
 <td>BOSS</td>
-<td style="text-align: center;">5</td>
+<td style="text-align: center;">6</td>
 <td>2,4</td>
-<td>3,1</td>
+<td>5,5</td>
+</tr>
+<tr>
+<td>ch1_a3_s4</td>
+<td>ch1</td>
+<td style="text-align: center;">3</td>
+<td>UNKNOWN</td>
+<td style="text-align: center;"></td>
+<td></td>
+<td></td>
 </tr>
 </tbody>
 </table>
 <p><strong>변환 규칙</strong>: <code>tileValues</code>, <code>tileWeights</code> → 쉼표로 분리하여 <code>tileSpawnConfig.values[]</code>, <code>tileSpawnConfig.weights[]</code> 배열로 변환.</p>
 <hr />
 <h3 id="stagemonster">StageMonster</h3>
-<p>Stage와 Monster를 연결하는 중간 테이블.<br />
+<p>Stage와 Monster를 연결하는 중간 테이블. 전투 스테이지(<code>NORMAL</code>·<code>ELITE</code>·<code>BOSS</code>)에만 등록한다.<br />
 변환 시 <code>stageId</code>로 그룹화하여 해당 Stage의 <code>monsters[]</code> 배열로 병합된다.</p>
 <table>
 <thead>
@@ -1725,13 +2056,13 @@ JSON 구조 상세는 <a href="../schema/">schema.md</a>를 참조하십시오.<
 <tr>
 <td><code>stageId</code></td>
 <td>string</td>
-<td><code>ch1_stage1</code></td>
+<td><code>ch1_s01</code></td>
 <td><code>Stage.id</code> 참조 (FK)</td>
 </tr>
 <tr>
 <td><code>monsterId</code></td>
 <td>string</td>
-<td><code>goblin_01</code></td>
+<td><code>grunt</code></td>
 <td><code>Monster.id</code> 참조 (FK)</td>
 </tr>
 <tr>
@@ -1753,24 +2084,34 @@ JSON 구조 상세는 <a href="../schema/">schema.md</a>를 참조하십시오.<
 </thead>
 <tbody>
 <tr>
-<td>ch1_stage1</td>
-<td>goblin_01</td>
+<td>ch1_a1_s1</td>
+<td>grunt</td>
 <td style="text-align: center;">1</td>
 </tr>
 <tr>
-<td>ch1_stage1</td>
-<td>goblin_02</td>
+<td>ch1_a1_s1</td>
+<td>patrol</td>
 <td style="text-align: center;">2</td>
 </tr>
 <tr>
-<td>ch1_stage2</td>
-<td>orc_mage_01</td>
+<td>ch1_a1_s3</td>
+<td>enforcer</td>
 <td style="text-align: center;">1</td>
 </tr>
 <tr>
-<td>ch1_stage3</td>
-<td>dragon_boss_01</td>
+<td>ch1_a1_s5</td>
+<td>field_captain</td>
 <td style="text-align: center;">1</td>
+</tr>
+<tr>
+<td>ch1_a3_s3</td>
+<td>enforcer</td>
+<td style="text-align: center;">1</td>
+</tr>
+<tr>
+<td>ch1_a3_s3</td>
+<td>enforcer</td>
+<td style="text-align: center;">2</td>
 </tr>
 </tbody>
 </table>
@@ -1789,19 +2130,19 @@ JSON 구조 상세는 <a href="../schema/">schema.md</a>를 참조하십시오.<
 <tr>
 <td><code>id</code></td>
 <td>string</td>
-<td><code>char_a</code></td>
+<td><code>kestrel</code></td>
 <td>캐릭터 식별자 (PK)</td>
 </tr>
 <tr>
 <td><code>name</code></td>
 <td>string</td>
-<td><code>카이</code></td>
+<td><code>케스트럴 (Kestrel)</code></td>
 <td>화면 표시 이름</td>
 </tr>
 <tr>
 <td><code>baseHp</code></td>
 <td>number</td>
-<td><code>80</code></td>
+<td><code>120</code></td>
 <td>최대 체력</td>
 </tr>
 <tr>
@@ -1824,21 +2165,15 @@ JSON 구조 상세는 <a href="../schema/">schema.md</a>를 참조하십시오.<
 </thead>
 <tbody>
 <tr>
-<td>char_a</td>
-<td>카이</td>
-<td style="text-align: center;">80</td>
+<td>kestrel</td>
+<td>케스트럴 (Kestrel)</td>
+<td style="text-align: center;">120</td>
 <td style="text-align: center;">FALSE</td>
 </tr>
 <tr>
-<td>char_b</td>
-<td>레나</td>
-<td style="text-align: center;">60</td>
-<td style="text-align: center;">FALSE</td>
-</tr>
-<tr>
-<td>char_c</td>
-<td>막스</td>
-<td style="text-align: center;">100</td>
+<td>jube</td>
+<td>주베 (Jube)</td>
+<td style="text-align: center;">90</td>
 <td style="text-align: center;">FALSE</td>
 </tr>
 </tbody>
@@ -1858,19 +2193,19 @@ JSON 구조 상세는 <a href="../schema/">schema.md</a>를 참조하십시오.<
 <tr>
 <td><code>id</code></td>
 <td>string</td>
-<td><code>char_a_atk_01</code></td>
+<td><code>kestrel_c01</code></td>
 <td>카드 식별자 (PK)</td>
 </tr>
 <tr>
 <td><code>ownerCharacterId</code></td>
 <td>string</td>
-<td><code>char_a</code></td>
+<td><code>kestrel</code></td>
 <td><code>Character.id</code> 참조 (FK)</td>
 </tr>
 <tr>
 <td><code>name</code></td>
 <td>string</td>
-<td><code>참격</code></td>
+<td><code>방패 강타</code></td>
 <td>카드 표시 이름</td>
 </tr>
 <tr>
@@ -1929,83 +2264,6 @@ JSON 구조 상세는 <a href="../schema/">schema.md</a>를 참조하십시오.<
 </tr>
 </tbody>
 </table>
-<p><strong>예시 행</strong></p>
-<table>
-<thead>
-<tr>
-<th>id</th>
-<th>ownerCharacterId</th>
-<th>name</th>
-<th>tileRank</th>
-<th>effectType</th>
-<th>targetType</th>
-<th style="text-align: center;">damage</th>
-<th style="text-align: center;">healAmount</th>
-<th>buffId</th>
-<th>debuffId</th>
-<th style="text-align: center;">duration</th>
-<th style="text-align: center;">upgradedTileRank</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>char_a_atk_01</td>
-<td>char_a</td>
-<td>참격</td>
-<td>NORMAL</td>
-<td>ATTACK</td>
-<td>SINGLE_ENEMY</td>
-<td style="text-align: center;">12</td>
-<td style="text-align: center;"></td>
-<td></td>
-<td></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-</tr>
-<tr>
-<td>char_a_atk_02</td>
-<td>char_a</td>
-<td>연참</td>
-<td>ENHANCED</td>
-<td>ATTACK</td>
-<td>ALL_ENEMIES</td>
-<td style="text-align: center;">10</td>
-<td style="text-align: center;"></td>
-<td></td>
-<td></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;">NORMAL</td>
-</tr>
-<tr>
-<td>char_b_heal_01</td>
-<td>char_b</td>
-<td>응급처치</td>
-<td>NORMAL</td>
-<td>HEAL</td>
-<td>SINGLE_ALLY</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;">15</td>
-<td></td>
-<td></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-</tr>
-<tr>
-<td>char_c_buff_01</td>
-<td>char_c</td>
-<td>방어 태세</td>
-<td>ENHANCED</td>
-<td>BUFF</td>
-<td>ALL_ALLIES</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td>shield_up</td>
-<td></td>
-<td style="text-align: center;">2</td>
-<td style="text-align: center;"></td>
-</tr>
-</tbody>
-</table>
 <p><strong>변환 규칙</strong>: <code>damage</code>, <code>healAmount</code>, <code>buffId</code>, <code>debuffId</code>, <code>duration</code> → <code>effectParams</code> 객체로 묶음. 빈 칸은 <code>undefined</code>.</p>
 <hr />
 <h3 id="monster">Monster</h3>
@@ -2023,13 +2281,13 @@ JSON 구조 상세는 <a href="../schema/">schema.md</a>를 참조하십시오.<
 <tr>
 <td><code>id</code></td>
 <td>string</td>
-<td><code>goblin_01</code></td>
+<td><code>grunt</code></td>
 <td>적 식별자 (PK)</td>
 </tr>
 <tr>
 <td><code>displayName</code></td>
 <td>string</td>
-<td><code>고블린 검사</code></td>
+<td><code>경비 드론</code></td>
 <td>화면 표시 이름</td>
 </tr>
 <tr>
@@ -2041,7 +2299,7 @@ JSON 구조 상세는 <a href="../schema/">schema.md</a>를 참조하십시오.<
 <tr>
 <td><code>maxHp</code></td>
 <td>number</td>
-<td><code>40</code></td>
+<td><code>50</code></td>
 <td>최대 체력</td>
 </tr>
 <tr>
@@ -2055,45 +2313,6 @@ JSON 구조 상세는 <a href="../schema/">schema.md</a>를 참조하십시오.<
 <td>number</td>
 <td><code>3</code></td>
 <td>페이즈 1 기본 카운트 초기값</td>
-</tr>
-</tbody>
-</table>
-<p><strong>예시 행</strong></p>
-<table>
-<thead>
-<tr>
-<th>id</th>
-<th>displayName</th>
-<th>enemyType</th>
-<th style="text-align: center;">maxHp</th>
-<th style="text-align: center;">initialShield</th>
-<th style="text-align: center;">initialCount</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>goblin_01</td>
-<td>고블린 검사</td>
-<td>NORMAL</td>
-<td style="text-align: center;">40</td>
-<td style="text-align: center;">0</td>
-<td style="text-align: center;">3</td>
-</tr>
-<tr>
-<td>orc_mage_01</td>
-<td>오크 마법사</td>
-<td>ELITE</td>
-<td style="text-align: center;">80</td>
-<td style="text-align: center;">0</td>
-<td style="text-align: center;">2</td>
-</tr>
-<tr>
-<td>dragon_boss_01</td>
-<td>보스 드래곤</td>
-<td>BOSS</td>
-<td style="text-align: center;">500</td>
-<td style="text-align: center;">0</td>
-<td style="text-align: center;">4</td>
 </tr>
 </tbody>
 </table>
@@ -2113,7 +2332,7 @@ JSON 구조 상세는 <a href="../schema/">schema.md</a>를 참조하십시오.<
 <tr>
 <td><code>monsterId</code></td>
 <td>string</td>
-<td><code>dragon_boss_01</code></td>
+<td><code>warden</code></td>
 <td><code>Monster.id</code> 참조 (FK)</td>
 </tr>
 <tr>
@@ -2126,7 +2345,7 @@ JSON 구조 상세는 <a href="../schema/">schema.md</a>를 참조하십시오.<
 <td><code>role</code></td>
 <td>enum</td>
 <td><code>action</code></td>
-<td>행동 역할. 아래 표 참조</td>
+<td><code>action</code> / <code>default</code> / <code>transition</code></td>
 </tr>
 <tr>
 <td><code>orderIndex</code></td>
@@ -2155,13 +2374,13 @@ JSON 구조 상세는 <a href="../schema/">schema.md</a>를 참조하십시오.<
 <tr>
 <td><code>effectId</code></td>
 <td>string</td>
-<td><code>defense_down</code></td>
+<td></td>
 <td><code>DEBUFF</code>·<code>BUFF_SELF</code> 전용. 빈 칸이면 없음</td>
 </tr>
 <tr>
 <td><code>effectDuration</code></td>
 <td>number</td>
-<td><code>2</code></td>
+<td></td>
 <td>효과 지속 횟수. 빈 칸이면 영구</td>
 </tr>
 <tr>
@@ -2173,7 +2392,7 @@ JSON 구조 상세는 <a href="../schema/">schema.md</a>를 참조하십시오.<
 <tr>
 <td><code>scheduledTurns</code></td>
 <td>string</td>
-<td><code>5,10,15</code></td>
+<td></td>
 <td>특정 턴에만 발동. 쉼표 구분. 빈 칸이면 기본 순환에 포함</td>
 </tr>
 </tbody>
@@ -2205,273 +2424,6 @@ JSON 구조 상세는 <a href="../schema/">schema.md</a>를 참조하십시오.<
 </tr>
 </tbody>
 </table>
-<p><strong>예시 행</strong></p>
-<table>
-<thead>
-<tr>
-<th>monsterId</th>
-<th style="text-align: center;">phase</th>
-<th>role</th>
-<th style="text-align: center;">orderIndex</th>
-<th>actionType</th>
-<th style="text-align: center;">targetMode</th>
-<th style="text-align: center;">power</th>
-<th>effectId</th>
-<th style="text-align: center;">effectDuration</th>
-<th style="text-align: center;">resetCount</th>
-<th>scheduledTurns</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>goblin_01</td>
-<td style="text-align: center;">1</td>
-<td>action</td>
-<td style="text-align: center;">0</td>
-<td>ATTACK_SINGLE</td>
-<td style="text-align: center;">SINGLE</td>
-<td style="text-align: center;">8</td>
-<td></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;">3</td>
-<td></td>
-</tr>
-<tr>
-<td>goblin_01</td>
-<td style="text-align: center;">1</td>
-<td>action</td>
-<td style="text-align: center;">1</td>
-<td>ATTACK_SINGLE</td>
-<td style="text-align: center;">SINGLE</td>
-<td style="text-align: center;">8</td>
-<td></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;">3</td>
-<td></td>
-</tr>
-<tr>
-<td>goblin_01</td>
-<td style="text-align: center;">1</td>
-<td>default</td>
-<td style="text-align: center;"></td>
-<td>ATTACK_SINGLE</td>
-<td style="text-align: center;">SINGLE</td>
-<td style="text-align: center;">8</td>
-<td></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;">3</td>
-<td></td>
-</tr>
-<tr>
-<td>orc_mage_01</td>
-<td style="text-align: center;">1</td>
-<td>action</td>
-<td style="text-align: center;">0</td>
-<td>ATTACK_SINGLE</td>
-<td style="text-align: center;">SINGLE</td>
-<td style="text-align: center;">8</td>
-<td></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;">3</td>
-<td></td>
-</tr>
-<tr>
-<td>orc_mage_01</td>
-<td style="text-align: center;">1</td>
-<td>action</td>
-<td style="text-align: center;">1</td>
-<td>ATTACK_SINGLE</td>
-<td style="text-align: center;">SINGLE</td>
-<td style="text-align: center;">8</td>
-<td></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;">3</td>
-<td></td>
-</tr>
-<tr>
-<td>orc_mage_01</td>
-<td style="text-align: center;">1</td>
-<td>action</td>
-<td style="text-align: center;">2</td>
-<td>ATTACK_AOE</td>
-<td style="text-align: center;">ALL</td>
-<td style="text-align: center;">12</td>
-<td></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;">3</td>
-<td></td>
-</tr>
-<tr>
-<td>orc_mage_01</td>
-<td style="text-align: center;">1</td>
-<td>default</td>
-<td style="text-align: center;"></td>
-<td>ATTACK_SINGLE</td>
-<td style="text-align: center;">SINGLE</td>
-<td style="text-align: center;">8</td>
-<td></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;">3</td>
-<td></td>
-</tr>
-<tr>
-<td>orc_mage_01</td>
-<td style="text-align: center;">1</td>
-<td>action</td>
-<td style="text-align: center;"></td>
-<td>DEBUFF</td>
-<td style="text-align: center;">ALL</td>
-<td style="text-align: center;">5</td>
-<td>defense_down</td>
-<td style="text-align: center;">2</td>
-<td style="text-align: center;">3</td>
-<td>5,10,15</td>
-</tr>
-<tr>
-<td>dragon_boss_01</td>
-<td style="text-align: center;">1</td>
-<td>action</td>
-<td style="text-align: center;">0</td>
-<td>ATTACK_SINGLE</td>
-<td style="text-align: center;">SINGLE</td>
-<td style="text-align: center;">20</td>
-<td></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;">4</td>
-<td></td>
-</tr>
-<tr>
-<td>dragon_boss_01</td>
-<td style="text-align: center;">1</td>
-<td>action</td>
-<td style="text-align: center;">1</td>
-<td>ATTACK_AOE</td>
-<td style="text-align: center;">ALL</td>
-<td style="text-align: center;">15</td>
-<td></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;">4</td>
-<td></td>
-</tr>
-<tr>
-<td>dragon_boss_01</td>
-<td style="text-align: center;">1</td>
-<td>action</td>
-<td style="text-align: center;">2</td>
-<td>BUFF_SELF</td>
-<td style="text-align: center;">SINGLE</td>
-<td style="text-align: center;">40</td>
-<td>shield_gain</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;">4</td>
-<td></td>
-</tr>
-<tr>
-<td>dragon_boss_01</td>
-<td style="text-align: center;">1</td>
-<td>default</td>
-<td style="text-align: center;"></td>
-<td>ATTACK_SINGLE</td>
-<td style="text-align: center;">SINGLE</td>
-<td style="text-align: center;">20</td>
-<td></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;">4</td>
-<td></td>
-</tr>
-<tr>
-<td>dragon_boss_01</td>
-<td style="text-align: center;">2</td>
-<td>transition</td>
-<td style="text-align: center;"></td>
-<td>ATTACK_AOE</td>
-<td style="text-align: center;">ALL</td>
-<td style="text-align: center;">30</td>
-<td></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;">3</td>
-<td></td>
-</tr>
-<tr>
-<td>dragon_boss_01</td>
-<td style="text-align: center;">2</td>
-<td>action</td>
-<td style="text-align: center;">0</td>
-<td>ATTACK_AOE</td>
-<td style="text-align: center;">ALL</td>
-<td style="text-align: center;">20</td>
-<td></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;">3</td>
-<td></td>
-</tr>
-<tr>
-<td>dragon_boss_01</td>
-<td style="text-align: center;">2</td>
-<td>action</td>
-<td style="text-align: center;">1</td>
-<td>ATTACK_AOE</td>
-<td style="text-align: center;">ALL</td>
-<td style="text-align: center;">20</td>
-<td>defense_down</td>
-<td style="text-align: center;">2</td>
-<td style="text-align: center;">3</td>
-<td></td>
-</tr>
-<tr>
-<td>dragon_boss_01</td>
-<td style="text-align: center;">2</td>
-<td>default</td>
-<td style="text-align: center;"></td>
-<td>ATTACK_AOE</td>
-<td style="text-align: center;">ALL</td>
-<td style="text-align: center;">20</td>
-<td></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;">3</td>
-<td></td>
-</tr>
-<tr>
-<td>dragon_boss_01</td>
-<td style="text-align: center;">3</td>
-<td>action</td>
-<td style="text-align: center;">0</td>
-<td>ATTACK_AOE</td>
-<td style="text-align: center;">ALL</td>
-<td style="text-align: center;">25</td>
-<td></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;">2</td>
-<td></td>
-</tr>
-<tr>
-<td>dragon_boss_01</td>
-<td style="text-align: center;">3</td>
-<td>action</td>
-<td style="text-align: center;">1</td>
-<td>ATTACK_AOE</td>
-<td style="text-align: center;">ALL</td>
-<td style="text-align: center;">30</td>
-<td></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;">2</td>
-<td></td>
-</tr>
-<tr>
-<td>dragon_boss_01</td>
-<td style="text-align: center;">3</td>
-<td>default</td>
-<td style="text-align: center;"></td>
-<td>ATTACK_AOE</td>
-<td style="text-align: center;">ALL</td>
-<td style="text-align: center;">25</td>
-<td></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;">2</td>
-<td></td>
-</tr>
-</tbody>
-</table>
 <p><strong>변환 규칙</strong></p>
 <div class="highlight"><pre><span></span><code>MonsterAction 행 전체를 monsterId로 그룹화
   → phase = 1인 행: Monster.actionPattern 구성
@@ -2487,8 +2439,7 @@ effectDuration 빈 칸 → undefined (영구 지속 예약)
 <hr />
 <h3 id="bossphase">BossPhase</h3>
 <p>보스 페이즈 전환 조건을 정의한다. <code>enemyType = BOSS</code>인 Monster 전용.<br />
-변환 시 <code>monsterId</code>로 그룹화하여 <code>Monster.phaseThresholds[]</code>에 병합된다.<br />
-<code>initialCount</code>는 각 페이즈의 <code>ActionPattern.initialCount</code>로 사용된다.</p>
+변환 시 <code>monsterId</code>로 그룹화하여 <code>Monster.phaseThresholds[]</code>에 병합된다.</p>
 <table>
 <thead>
 <tr>
@@ -2502,7 +2453,7 @@ effectDuration 빈 칸 → undefined (영구 지속 예약)
 <tr>
 <td><code>monsterId</code></td>
 <td>string</td>
-<td><code>dragon_boss_01</code></td>
+<td><code>warden</code></td>
 <td><code>Monster.id</code> 참조 (FK). <code>enemyType = BOSS</code>만 유효</td>
 </tr>
 <tr>
@@ -2520,8 +2471,61 @@ effectDuration 빈 칸 → undefined (영구 지속 예약)
 <tr>
 <td><code>initialCount</code></td>
 <td>number</td>
-<td><code>3</code></td>
+<td><code>2</code></td>
 <td>이 페이즈의 카운트 초기값</td>
+</tr>
+</tbody>
+</table>
+<p><strong>제약 조건</strong>: <code>triggerValue</code> 내림차순 정렬 권장. <code>phaseNumber</code>는 해당 monsterId의 MonsterAction에 같은 <code>phase</code> 값의 행이 존재해야 한다.</p>
+<hr />
+<h3 id="storyscene">StoryScene</h3>
+<p>챕터 내 스토리 씬(컷씬·대화) 발동 정의. 트리거 시점별로 1행씩 등록한다.<br />
+<code>STAGE_START</code> 트리거는 경로 미선택 시 재생이 보장되지 않으므로 필수 서사 배치를 지양한다.</p>
+<table>
+<thead>
+<tr>
+<th>컬럼</th>
+<th>타입</th>
+<th>예시</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td>string</td>
+<td><code>ch1_intro</code></td>
+<td>씬 식별자 (PK)</td>
+</tr>
+<tr>
+<td><code>chapterId</code></td>
+<td>string</td>
+<td><code>ch1</code></td>
+<td><code>Chapter.id</code> 참조 (FK)</td>
+</tr>
+<tr>
+<td><code>triggerType</code></td>
+<td>enum</td>
+<td><code>CHAPTER_START</code></td>
+<td><code>CHAPTER_START</code> / <code>BOSS_START</code> / <code>BOSS_CLEAR</code> / <code>STAGE_START</code></td>
+</tr>
+<tr>
+<td><code>sceneAssetId</code></td>
+<td>string</td>
+<td><code>scene_ch1_intro</code></td>
+<td>재생할 씬 에셋·스크립트 식별자</td>
+</tr>
+<tr>
+<td><code>monsterId</code></td>
+<td>string</td>
+<td></td>
+<td><code>BOSS_START</code>·<code>BOSS_CLEAR</code> 전용. 특정 보스 지정 시 입력. 빈 칸이면 막 전체 보스에 공통 적용</td>
+</tr>
+<tr>
+<td><code>stageId</code></td>
+<td>string</td>
+<td></td>
+<td><code>STAGE_START</code> 전용. 발동할 <code>Stage.id</code></td>
 </tr>
 </tbody>
 </table>
@@ -2529,46 +2533,78 @@ effectDuration 빈 칸 → undefined (영구 지속 예약)
 <table>
 <thead>
 <tr>
+<th>id</th>
+<th>chapterId</th>
+<th>triggerType</th>
+<th>sceneAssetId</th>
 <th>monsterId</th>
-<th style="text-align: center;">phaseNumber</th>
-<th style="text-align: center;">triggerValue</th>
-<th style="text-align: center;">initialCount</th>
+<th>stageId</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>dragon_boss_01</td>
-<td style="text-align: center;">2</td>
-<td style="text-align: center;">0.5</td>
-<td style="text-align: center;">3</td>
+<td>ch1_intro</td>
+<td>ch1</td>
+<td>CHAPTER_START</td>
+<td>scene_ch1_intro</td>
+<td></td>
+<td></td>
 </tr>
 <tr>
-<td>dragon_boss_01</td>
-<td style="text-align: center;">3</td>
-<td style="text-align: center;">0.25</td>
-<td style="text-align: center;">2</td>
+<td>ch1_boss1_start</td>
+<td>ch1</td>
+<td>BOSS_START</td>
+<td>scene_ch1_warden_start</td>
+<td>warden</td>
+<td></td>
+</tr>
+<tr>
+<td>ch1_boss1_clear</td>
+<td>ch1</td>
+<td>BOSS_CLEAR</td>
+<td>scene_ch1_warden_clear</td>
+<td>warden</td>
+<td></td>
+</tr>
+<tr>
+<td>ch1_final_clear</td>
+<td>ch1</td>
+<td>BOSS_CLEAR</td>
+<td>scene_ch1_ending</td>
+<td>commander</td>
+<td></td>
 </tr>
 </tbody>
 </table>
-<p><strong>제약 조건</strong>: <code>triggerValue</code> 내림차순 정렬 권장. <code>phaseNumber</code>는 해당 monsterId의 MonsterAction에 같은 <code>phase</code> 값의 행이 존재해야 한다.</p>
 <hr />
 <h2 id="_5">변환 스크립트 입출력 요약</h2>
-<div class="highlight"><pre><span></span><code>입력  : 시트 7개 (CSV 또는 Google Sheets API)
-출력  : stages.json / characters.json / cards.json / monsters.json
+<div class="admonition note">
+<p class="admonition-title">시드 스크립트</p>
+<p><code>scripts/seedAllChapters.ts</code> — 8챕터 전체 데이터(Chapter·ActConfig·Stage·StageMonster·Monster·MonsterAction·BossPhase·StoryScene)를 구글 시트에 일괄 입력한다. 기존 데이터를 초기화한 후 재삽입한다.<br />
+<code>scripts/seedData.ts</code> — 캐릭터·카드 등 챕터 독립 데이터 입력용.</p>
+</div>
+<div class="highlight"><pre><span></span><code>입력  : 시트 10개 (CSV 또는 Google Sheets API)
+출력  : chapters.json / stages.json / characters.json / cards.json / monsters.json / story_scenes.json
 
-stages.json    ← Stage + StageMonster 병합
-characters.json← Character
-cards.json     ← Card (effectParams 객체로 조립)
-monsters.json  ← Monster + MonsterAction + BossPhase 병합
+chapters.json    ← Chapter + ActConfig 병합
+stages.json      ← Stage + StageMonster 병합
+characters.json  ← Character
+cards.json       ← Card (effectParams 객체로 조립)
+monsters.json    ← Monster + MonsterAction + BossPhase 병합
+story_scenes.json← StoryScene
 </code></pre></div>
 <p><strong>병합 순서</strong></p>
-<div class="highlight"><pre><span></span><code>1. BossPhase 행을 monsterId로 그룹화 → phaseThresholds[] 초안 구성
-2. MonsterAction 행을 monsterId + phase로 그룹화 → actionPattern 구성
+<div class="highlight"><pre><span></span><code>1. ActConfig 행을 chapterId로 그룹화 → acts[] 구성
+2. Chapter 행 + 위 결과 병합 → chapters.json
+
+3. BossPhase 행을 monsterId로 그룹화 → phaseThresholds[] 초안 구성
+4. MonsterAction 행을 monsterId + phase로 그룹화 → actionPattern 구성
    phase = 1  → Monster.actionPattern
    phase &gt;= 2 → 해당 PhaseThreshold.actionPattern + transitionAction
-3. Monster 행 + 위 결과 병합 → monsters.json
-4. StageMonster 행을 stageId로 그룹화 → Stage.monsters[] 구성
-5. Stage 행 + 위 결과 병합 → stages.json
+5. Monster 행 + 위 결과 병합 → monsters.json
+
+6. StageMonster 행을 stageId로 그룹화 → Stage.monsters[] 구성
+7. Stage 행 + 위 결과 병합 → stages.json
 </code></pre></div>
 
 

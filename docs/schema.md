@@ -13,7 +13,9 @@
 
 | 구조체 | 계층 | 설명 |
 |--------|------|------|
-| [`Stage`](#stage) | 기획 테이블 | 스테이지. 보드 설정·등장 몬스터 포함 |
+| [`Chapter`](#chapter) | 기획 테이블 | 챕터 정의. 막 수·스테이지 구성 설정 |
+| [`Stage`](#stage) | 기획 테이블 | 스테이지. 유형·보드 설정·등장 몬스터 포함 |
+| [`StoryScene`](#storyscene) | 기획 테이블 | 스토리 씬. 챕터 내 발동 시점과 씬 식별자 |
 | [`Character`](#character) | 기획 테이블 | 캐릭터. 체력·DLC 여부 |
 | [`Card`](#card) | 기획 테이블 | 스킬 카드. 발동 숫자·등급·효과 파라미터 내포 |
 | [`Monster`](#monster) | 기획 테이블 | 적. 행동 패턴·보스 페이즈 내포 |
@@ -30,6 +32,19 @@
 
 ```mermaid
 erDiagram
+    Chapter {
+        string id PK
+        string title
+        string storyType
+        number actCount
+    }
+    ActConfig {
+        string chapterId FK
+        number actNumber
+        number stageCount
+        string[] supplyPositions
+        string bossMonsterId FK
+    }
     Character {
         string id PK
         string name
@@ -46,10 +61,10 @@ erDiagram
     }
     Stage {
         string id PK
-        string chapterId
-        number orderInChapter
+        string chapterId FK
+        number actNumber
         string stageType
-        number maxSlides
+        number maxSlides "NORMAL·ELITE·BOSS 전용"
     }
     Monster {
         string id PK
@@ -64,9 +79,24 @@ erDiagram
         number position
     }
 
+    StoryScene {
+        string id PK
+        string chapterId FK
+        string triggerType
+        string sceneAssetId
+        string monsterId "nullable - BOSS 트리거 전용"
+        string stageId "nullable - STAGE_START 전용"
+    }
+
+    Chapter ||--|{ ActConfig : "막 구성"
+    Chapter ||--o{ Stage : "스테이지 템플릿"
+    Chapter ||--o{ StoryScene : "씬 등록"
     Character ||--o{ Card : "소유 (ownerCharacterId)"
-    Stage ||--o{ StageMonster : "등장 몬스터"
+    Stage ||--o{ StageMonster : "등장 몬스터 (전투 스테이지만)"
+    Stage ||--o| StoryScene : "STAGE_START 씬"
     Monster ||--o{ StageMonster : "스테이지 배치"
+    Monster ||--o{ ActConfig : "막 보스 지정"
+    Monster ||--o| StoryScene : "BOSS 씬 연결"
 ```
 
 ### Monster 내부 구조
@@ -120,7 +150,10 @@ erDiagram
     }
     ChapterRun {
         string chapterId
-        string currentStageId
+        number currentActNumber
+        string currentStageId "nullable"
+        string[] clearedStageIds
+        number gold
         string[] passiveIds
         string[] relicIds
         string[] addedCardIds
@@ -139,19 +172,46 @@ erDiagram
 
 ## 기획 테이블
 
-### Stage
+### Chapter
 
-스테이지 정의. 챕터 내 위치, 보드 설정, 등장 몬스터를 포함한다.
+챕터 정의. 메인 스토리와 서브 스토리 모두 이 구조를 사용한다. 막 구성 상세는 `ActConfig` 참조.
 
 | 필드 | 타입 | 설명 |
 |------|------|------|
-| `id` | `string` | 스테이지 식별자. 예: `"ch1_stage2"` |
-| `chapterId` | `string` | 소속 챕터. 예: `"chapter1"` |
-| `orderInChapter` | `number` | 챕터 내 순서. 1부터 시작 |
+| `id` | `string` | 챕터 식별자. 예: `"ch1"`, `"sub_kestrel"` |
+| `title` | `string` | 챕터 표시 제목 |
+| `storyType` | `"MAIN" \| "SUB"` | 메인 스토리 또는 서브 스토리 구분 |
+| `actCount` | `number` | 막 수. 기본 3. `ActConfig` 항목 수와 일치해야 한다 |
+
+### ActConfig
+
+챕터 내 각 막의 구성 설정. 챕터당 `actCount`개 존재한다.
+
+| 필드 | 타입 | 설명 |
+|------|------|------|
+| `chapterId` | `string` | `Chapter.id` 참조 |
+| `actNumber` | `number` | 막 번호. 1부터 시작 |
+| `stageCount` | `number` | 이 막에 배치되는 스테이지 수 (보스 제외) |
+| `supplyPositions` | `number[]` | 보급 지역(SUPPLY)이 고정 배치될 위치 인덱스 목록 |
+| `bossMonsterId` | `string` | 이 막의 보스로 사용할 `Monster.id`. `enemyType === 'BOSS'`여야 함 |
+
+---
+
+### Stage
+
+스테이지 템플릿. 챕터 내 전투 스테이지의 보드 설정과 등장 몬스터를 정의한다. 런타임에 경로 생성 시 풀(pool)로 사용된다.
+
+> `SUPPLY`·`UNKNOWN` 유형은 전투가 없으므로 `maxSlides`, `tileSpawnConfig`, `monsters` 필드를 사용하지 않는다.
+
+| 필드 | 타입 | 설명 |
+|------|------|------|
+| `id` | `string` | 스테이지 식별자. 예: `"ch1_s01"` |
+| `chapterId` | `string` | `Chapter.id` 참조 |
+| `actNumber` | `number` | 소속 막 번호 |
 | `stageType` | [`StageType`](enums.md#stagetype) | 스테이지 유형 |
-| `maxSlides` | `number` | 턴당 최대 슬라이드 횟수 |
-| `tileSpawnConfig` | `{ values: number[], weights: number[] }` | 슬라이드 후 타일 생성 확률 분포. 기본값: `{ values: [2], weights: [1] }` |
-| `monsters` | `{ monsterId: string, position: number }[]` | 등장 몬스터 목록. `position` 오름차순이 화면 위→아래이자 행동 처리 순서 |
+| `maxSlides` | `number` | 턴당 최대 슬라이드 횟수. `NORMAL`·`ELITE`·`BOSS` 전용 |
+| `tileSpawnConfig` | `{ values: number[], weights: number[] }` | 슬라이드 후 타일 생성 확률 분포. `NORMAL`·`ELITE`·`BOSS` 전용 |
+| `monsters` | `{ monsterId: string, position: number }[]` | 등장 몬스터 목록. `NORMAL`·`ELITE`·`BOSS` 전용. `position` 오름차순이 화면 위→아래이자 행동 처리 순서 |
 
 **tileSpawnConfig 예시**
 
@@ -165,8 +225,33 @@ erDiagram
 | 항목 | 규칙 |
 |------|------|
 | `tileSpawnConfig` | `values.length === weights.length`. `weights` 원소는 양의 정수 |
-| `monsters` | 1개 이상. `position` 중복 불가 |
+| `monsters` | 1개 이상. `position` 중복 불가. `NORMAL`·`ELITE`·`BOSS` 스테이지만 필수 |
 | `stageType === 'BOSS'` | `monsters` 중 `enemyType === 'BOSS'`인 항목이 1개 이상 존재 |
+
+---
+
+### StoryScene
+
+챕터 내 스토리 씬(컷씬·대화) 정의. 발동 시점(`triggerType`)에 따라 어떤 씬을 재생할지 지정한다.
+
+> 발동 시점 상세: [SceneTriggerType](enums.md#scenetriggertype)
+
+| 필드 | 타입 | 설명 |
+|------|------|------|
+| `id` | `string` | 씬 식별자 |
+| `chapterId` | `string` | `Chapter.id` 참조. 어느 챕터에 속한 씬인지 |
+| `triggerType` | [`SceneTriggerType`](enums.md#scenetriggertype) | 발동 시점 |
+| `sceneAssetId` | `string` | 실제 재생할 씬 에셋·스크립트 식별자 |
+| `monsterId` | `string \| undefined` | `BOSS_START`·`BOSS_CLEAR` 트리거 전용. 해당 보스의 `Monster.id`. 미지정 시 막 보스 전체에 공통 적용 |
+| `stageId` | `string \| undefined` | `STAGE_START` 트리거 전용. 발동할 `Stage.id` |
+
+**제약 조건**
+
+| 항목 | 규칙 |
+|------|------|
+| `BOSS_START`·`BOSS_CLEAR` | `monsterId` 미지정 시 해당 막의 모든 보스에 적용. 특정 보스에만 적용하려면 `monsterId` 지정 필요 |
+| `STAGE_START` | `stageId` 필수. 경로 미선택 시 재생 보장 없음 — 필수 서사 배치 지양 |
+| `CHAPTER_START` | `monsterId`, `stageId` 모두 불필요 |
 
 ---
 
@@ -346,15 +431,18 @@ const dragonBoss: Monster = {
 
 ### ChapterRun
 
-단일 챕터 진행 상태. 챕터 클리어 시 `SaveData.chapterRun`을 `null`로 초기화한다.
+단일 챕터 진행 상태. 챕터 클리어 또는 실패 시 `SaveData.chapterRun`을 `null`로 초기화한다.
 
 | 필드 | 타입 | 설명 |
 |------|------|------|
 | `chapterId` | `string` | 진행 중인 챕터 식별자 |
-| `currentStageId` | `string` | 현재 도달한 `Stage.id` |
+| `currentActNumber` | `number` | 현재 진행 중인 막 번호 |
+| `currentStageId` | `string \| null` | 현재 위치한 `Stage.id`. 스테이지 선택 화면일 때 `null` |
+| `clearedStageIds` | `string[]` | 이번 챕터에서 클리어한 스테이지 ID 목록. 경험치 산정·분기 잠금 해제에 사용 |
 | `party` | `CharacterState[]` | 출전 3인 상태. 배열 순서 = 화면 표시 순서 |
-| `passiveIds` | `string[]` | 선택한 챕터 패시브 식별자 목록. 중복 불가, 최대 챕터 내 레벨업 횟수만큼 |
-| `relicIds` | `string[]` | 보유 유물 식별자 목록. 보스 처치마다 1개 추가 |
+| `gold` | `number` | 현재 보유 골드. 챕터 종료 시 소멸 |
+| `passiveIds` | `string[]` | 선택한 챕터 패시브 식별자 목록. 중복 불가 |
+| `relicIds` | `string[]` | 보유 유물 식별자 목록. 보스 처치·미확인 지역 이벤트로 획득 |
 | `addedCardIds` | `string[]` | 카드 보상으로 덱에 추가된 `Card.id` 목록 |
 
 **제약 조건**
@@ -363,6 +451,7 @@ const dragonBoss: Monster = {
 |------|------|
 | `party` | 길이 고정 3. 모두 `AccountSave.unlockedCharacterIds`에 포함된 값 |
 | `passiveIds` | 중복 값 불가 |
+| `gold` | 0 이상 정수 |
 
 ---
 

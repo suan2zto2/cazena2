@@ -4,22 +4,37 @@ import * as path from 'path';
 const CREDENTIALS_PATH = path.join(__dirname, '..', 'credentials', 'service-account.json');
 const SPREADSHEET_ID = '1SRpzgAzrPeH7GlxGkBo3hs83RiYDknOo3uXKJkeRubM';
 
-// ─── Stage: id | chapterId | orderInChapter | stageType | maxSlides | tileValues | tileWeights
-// tileValues/tileWeights: 스폰될 타일 숫자 및 확률 가중치 (2→8:2 = 2가 80%, 4가 20%)
+// ─── Chapter: id | title | storyType | actCount
+const CHAPTERS = [
+  ['ch1', '도시의 균열', 'MAIN', 2],
+];
+
+// ─── ActConfig: chapterId | actNumber | stageCount | supplyPositions | bossMonsterId
+// supplyPositions: 보급 지역이 고정 배치될 위치 인덱스 (쉼표 구분, 빈 칸이면 없음)
+const ACT_CONFIGS = [
+  ['ch1', 1, 4, '', 'warden'],     // 1막: 스테이지 4개, 보급 없음, 보스=warden
+  ['ch1', 2, 4, '2', 'commander'], // 2막: 스테이지 4개, 2번 위치 보급, 보스=commander
+];
+
+// ─── Stage: id | chapterId | actNumber | stageType | maxSlides | tileValues | tileWeights
+// SUPPLY/UNKNOWN은 전투 없음 → maxSlides, tileValues, tileWeights 비워둠
 const STAGES = [
-  ['ch1_s01', 'ch1',  1, 'NORMAL', 5, '2,4', '8,2'],
-  ['ch1_s02', 'ch1',  2, 'NORMAL', 5, '2,4', '8,2'],
-  ['ch1_s03', 'ch1',  3, 'NORMAL', 4, '2,4', '7,3'],
-  ['ch1_s04', 'ch1',  4, 'NORMAL', 4, '2,4', '7,3'],
-  ['ch1_s05', 'ch1',  5, 'BOSS',   5, '2,4', '6,4'],  // 1차 보스
-  ['ch1_s06', 'ch1',  6, 'NORMAL', 5, '2,4', '7,3'],
-  ['ch1_s07', 'ch1',  7, 'NORMAL', 4, '2,4', '7,3'],
-  ['ch1_s08', 'ch1',  8, 'ELITE',  4, '2,4', '7,3'],
-  ['ch1_s09', 'ch1',  9, 'ELITE',  4, '2,4', '6,4'],
-  ['ch1_s10', 'ch1', 10, 'BOSS',   6, '2,4', '5,5'],  // 2차 보스
+  // 1막: 일반 4개 + 보스 1개
+  ['ch1_s01', 'ch1', 1, 'NORMAL',  5, '2,4', '8,2'],
+  ['ch1_s02', 'ch1', 1, 'NORMAL',  5, '2,4', '8,2'],
+  ['ch1_s03', 'ch1', 1, 'NORMAL',  4, '2,4', '7,3'],
+  ['ch1_s04', 'ch1', 1, 'ELITE',   4, '2,4', '7,3'],
+  ['ch1_s05', 'ch1', 1, 'BOSS',    5, '2,4', '6,4'],  // 1막 보스: warden
+  // 2막: 일반/엘리트/보급/미확인 4개 + 보스 1개
+  ['ch1_s06', 'ch1', 2, 'NORMAL',  5, '2,4', '7,3'],
+  ['ch1_s07', 'ch1', 2, 'SUPPLY',  '', '', ''],        // 보급 지역 (고정 위치)
+  ['ch1_s08', 'ch1', 2, 'UNKNOWN', '', '', ''],        // 미확인 지역
+  ['ch1_s09', 'ch1', 2, 'ELITE',   4, '2,4', '6,4'],
+  ['ch1_s10', 'ch1', 2, 'BOSS',    6, '2,4', '5,5'],  // 2막 보스(최종): commander
 ];
 
 // ─── StageMonster: stageId | monsterId | position
+// 전투 스테이지(NORMAL·ELITE·BOSS)만 등록. SUPPLY·UNKNOWN은 해당 없음
 const STAGE_MONSTERS = [
   ['ch1_s01', 'grunt',     1],
   ['ch1_s01', 'patrol',    2],
@@ -29,16 +44,12 @@ const STAGE_MONSTERS = [
   ['ch1_s03', 'grunt',     2],
   ['ch1_s03', 'patrol',    3],
   ['ch1_s04', 'enforcer',  1],
-  ['ch1_s05', 'warden',    1],   // 1차 보스
+  ['ch1_s05', 'warden',    1],   // 1막 보스
   ['ch1_s06', 'grunt',     1],
   ['ch1_s06', 'patrol',    2],
-  ['ch1_s07', 'patrol',    1],
-  ['ch1_s07', 'enforcer',  2],
-  ['ch1_s08', 'enforcer',  1],
-  ['ch1_s08', 'grunt',     2],
   ['ch1_s09', 'enforcer',  1],
   ['ch1_s09', 'enforcer',  2],
-  ['ch1_s10', 'commander', 1],   // 2차 보스
+  ['ch1_s10', 'commander', 1],   // 2막 보스(최종)
 ];
 
 // ─── Card: id | ownerCharacterId | name | tileRank | effectType | targetType
@@ -89,7 +100,6 @@ const MONSTERS = [
 
 // ─── MonsterAction: monsterId | phase | role | orderIndex | actionType | targetMode
 //                   | power | effectId | effectDuration | resetCount | scheduledTurns
-// role: 'default' = 기본 행동(패턴 없을 때), 'action' = 순서 행동, 'transition' = 페이즈 전환 즉발
 const MONSTER_ACTIONS = [
   // grunt — 단순 단타
   ['grunt',     '1', 'default', 0, 'ATTACK_SINGLE', 'SINGLE', 12, '',       '', 3, ''],
@@ -105,7 +115,7 @@ const MONSTER_ACTIONS = [
   ['enforcer',  '1', 'action',  0, 'ATTACK_AOE',    'ALL',    10, '',       '', 4, ''],
   ['enforcer',  '1', 'action',  1, 'DEBUFF',        'SINGLE',  0, 'slow',    2, 3, ''],
 
-  // warden (보스1) — 페이즈1: 단타+광역+자강
+  // warden (1막 보스) — 페이즈1: 단타+광역+자강
   ['warden',    '1', 'default',    0, 'ATTACK_SINGLE', 'SINGLE', 22, '',       '', 3, ''],
   ['warden',    '1', 'action',     0, 'ATTACK_SINGLE', 'SINGLE', 22, '',       '', 3, ''],
   ['warden',    '1', 'action',     1, 'ATTACK_AOE',    'ALL',    14, '',       '', 5, ''],
@@ -116,7 +126,7 @@ const MONSTER_ACTIONS = [
   ['warden',    '2', 'action',     1, 'DEBUFF',        'SINGLE',  0, 'blind',   2, 3, ''],
   ['warden',    '2', 'transition', 0, 'ATTACK_AOE',    'ALL',    25, '',       '', 0, ''],
 
-  // commander (보스2) — 페이즈1: 강타+광역+출혈
+  // commander (2막 최종보스) — 페이즈1: 강타+광역+출혈
   ['commander', '1', 'default',    0, 'ATTACK_SINGLE', 'SINGLE', 28, '',       '', 3, ''],
   ['commander', '1', 'action',     0, 'ATTACK_SINGLE', 'SINGLE', 28, '',       '', 3, ''],
   ['commander', '1', 'action',     1, 'ATTACK_AOE',    'ALL',    16, '',       '', 4, ''],
@@ -134,6 +144,21 @@ const BOSS_PHASES = [
   ['commander',  2, 0.5, 2],
 ];
 
+// ─── StoryScene: id | chapterId | triggerType | sceneAssetId | monsterId | stageId
+// triggerType: CHAPTER_START / BOSS_START / BOSS_CLEAR / STAGE_START
+// monsterId: BOSS_START·BOSS_CLEAR 전용 (빈 칸이면 막 전체 보스 공통)
+// stageId: STAGE_START 전용
+const STORY_SCENES: string[][] = [
+  // 챕터 시작 씬
+  ['ch1_intro',        'ch1', 'CHAPTER_START', 'scene_ch1_intro',         '',          ''],
+  // 1막 보스(warden) 씬
+  ['ch1_warden_start', 'ch1', 'BOSS_START',    'scene_ch1_warden_start',  'warden',    ''],
+  ['ch1_warden_clear', 'ch1', 'BOSS_CLEAR',    'scene_ch1_warden_clear',  'warden',    ''],
+  // 2막 최종보스(commander) 씬
+  ['ch1_cmd_start',    'ch1', 'BOSS_START',    'scene_ch1_cmd_start',     'commander', ''],
+  ['ch1_ending',       'ch1', 'BOSS_CLEAR',    'scene_ch1_ending',        'commander', ''],
+];
+
 // ─── 메인 ─────────────────────────────────────────────────────────────────────
 
 async function main() {
@@ -148,23 +173,29 @@ async function main() {
     requestBody: {
       valueInputOption: 'RAW',
       data: [
-        { range: 'Stage!A2',         values: STAGES },
-        { range: 'StageMonster!A2',  values: STAGE_MONSTERS },
-        { range: 'Card!A2',          values: CARDS },
-        { range: 'Monster!A2',       values: MONSTERS },
-        { range: 'MonsterAction!A2', values: MONSTER_ACTIONS },
-        { range: 'BossPhase!A2',     values: BOSS_PHASES },
+        { range: 'Chapter!A2',      values: CHAPTERS },
+        { range: 'ActConfig!A2',    values: ACT_CONFIGS },
+        { range: 'Stage!A2',        values: STAGES },
+        { range: 'StageMonster!A2', values: STAGE_MONSTERS },
+        { range: 'Card!A2',         values: CARDS },
+        { range: 'Monster!A2',      values: MONSTERS },
+        { range: 'MonsterAction!A2',values: MONSTER_ACTIONS },
+        { range: 'BossPhase!A2',    values: BOSS_PHASES },
+        { range: 'StoryScene!A2',   values: STORY_SCENES },
       ],
     },
   });
 
   console.log('✓ 시드 데이터 입력 완료');
+  console.log(`  Chapter      : ${CHAPTERS.length}개`);
+  console.log(`  ActConfig    : ${ACT_CONFIGS.length}개`);
   console.log(`  Stage        : ${STAGES.length}개`);
   console.log(`  StageMonster : ${STAGE_MONSTERS.length}개`);
   console.log(`  Card         : ${CARDS.length}장`);
   console.log(`  Monster      : ${MONSTERS.length}종`);
   console.log(`  MonsterAction: ${MONSTER_ACTIONS.length}행`);
   console.log(`  BossPhase    : ${BOSS_PHASES.length}개`);
+  console.log(`  StoryScene   : ${STORY_SCENES.length}개`);
 }
 
 main().catch(console.error);

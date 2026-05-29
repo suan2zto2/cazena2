@@ -224,7 +224,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../systems/growth/" class="md-tabs__link">
+        <a href="../outgame/" class="md-tabs__link">
           
   
   
@@ -713,6 +713,12 @@
       
         
       
+        
+      
+        
+      
+        
+      
     
     
     
@@ -757,6 +763,90 @@
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../outgame/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    아웃게임 시스템
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../outgame_mockup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    아웃게임 UI 목업
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../systems/stage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    스테이지 진행
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -1050,6 +1140,17 @@
     <span class="md-ellipsis">
       
         TargetMode
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scenetriggertype" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SceneTriggerType
       
     </span>
   </a>
@@ -1541,6 +1642,10 @@
 <td><a href="#targetmode"><code>TargetMode</code></a></td>
 <td><code>EnemyAction.targetMode</code></td>
 </tr>
+<tr>
+<td><a href="#scenetriggertype"><code>SceneTriggerType</code></a></td>
+<td><code>StoryScene.triggerType</code></td>
+</tr>
 </tbody>
 </table>
 <hr />
@@ -1589,7 +1694,7 @@
 </table>
 <hr />
 <h2 id="stagetype">StageType</h2>
-<p>스테이지 유형.</p>
+<p>스테이지 유형. 막(Act) 마지막 위치는 항상 <code>BOSS</code>로 고정된다.</p>
 <table>
 <thead>
 <tr>
@@ -1600,15 +1705,23 @@
 <tbody>
 <tr>
 <td><code>NORMAL</code></td>
-<td>일반 전투 스테이지</td>
+<td>일반 전투. 일반 몬스터 등장. 스킬카드·골드 보상</td>
 </tr>
 <tr>
 <td><code>ELITE</code></td>
-<td>강화 적이 등장하는 스테이지</td>
+<td>엘리트 전투. 엘리트 몬스터 등장. 일반보다 강하고 보상도 고품질</td>
 </tr>
 <tr>
 <td><code>BOSS</code></td>
-<td>보스 전투 스테이지. <code>monsters</code> 중 <code>EnemyType.BOSS</code>가 1개 이상 존재해야 한다</td>
+<td>보스 전투. 막 마지막 고정 위치. 챕터 마지막 막의 보스가 최종보스, 그 외는 중간보스로 취급. 클리어 시 유물 획득</td>
+</tr>
+<tr>
+<td><code>SUPPLY</code></td>
+<td>보급 지역. 전투 없음. 회복·상점·카드 강화 중 하나 선택</td>
+</tr>
+<tr>
+<td><code>UNKNOWN</code></td>
+<td>미확인 지역. 랜덤 이벤트 발생. 아이템·전투·유물 등 다양한 결과</td>
 </tr>
 </tbody>
 </table>
@@ -1749,6 +1862,40 @@
 <tr>
 <td><code>ALL</code></td>
 <td>전체 대상</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="scenetriggertype">SceneTriggerType</h2>
+<p>스토리 씬 발동 시점.</p>
+<table>
+<thead>
+<tr>
+<th>값</th>
+<th>발동 조건</th>
+<th style="text-align: center;">보장 여부</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CHAPTER_START</code></td>
+<td>챕터 진입 직후</td>
+<td style="text-align: center;">✅ 항상 재생</td>
+</tr>
+<tr>
+<td><code>BOSS_START</code></td>
+<td>보스 전투 시작 직전</td>
+<td style="text-align: center;">✅ 항상 재생</td>
+</tr>
+<tr>
+<td><code>BOSS_CLEAR</code></td>
+<td>보스 처치 직후</td>
+<td style="text-align: center;">✅ 항상 재생</td>
+</tr>
+<tr>
+<td><code>STAGE_START</code></td>
+<td>특정 스테이지 진입 직전</td>
+<td style="text-align: center;">⚠️ 경로 미선택 시 미재생 (부가 연출 전용)</td>
 </tr>
 </tbody>
 </table>

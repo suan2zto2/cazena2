@@ -10,7 +10,7 @@ import type {
 // ─── 설정 ─────────────────────────────────────────────────────────────────────
 
 const CREDENTIALS_PATH = path.join(__dirname, '..', 'credentials', 'service-account.json');
-const SPREADSHEET_ID = process.env.SPREADSHEET_ID ?? '';  // 환경변수 또는 직접 입력
+const SPREADSHEET_ID = process.env.SPREADSHEET_ID ?? '';
 const OUTPUT_DIR = path.join(__dirname, '..', 'data');
 
 // ─── 인증 ─────────────────────────────────────────────────────────────────────
@@ -48,6 +48,30 @@ function numArray(v: string): number[] {
 
 // ─── 변환 함수 ────────────────────────────────────────────────────────────────
 
+function buildChapters(
+  chapterRows: Record<string, string>[],
+  actConfigRows: Record<string, string>[],
+) {
+  const actsByChapter = new Map<string, object[]>();
+  for (const r of actConfigRows) {
+    if (!actsByChapter.has(r.chapterId)) actsByChapter.set(r.chapterId, []);
+    actsByChapter.get(r.chapterId)!.push({
+      actNumber: num(r.actNumber),
+      stageCount: num(r.stageCount),
+      supplyPositions: r.supplyPositions.trim() !== '' ? numArray(r.supplyPositions) : [],
+      bossMonsterId: r.bossMonsterId,
+    });
+  }
+
+  return chapterRows.map(r => ({
+    id: r.id,
+    title: r.title,
+    storyType: r.storyType,
+    actCount: num(r.actCount),
+    acts: (actsByChapter.get(r.id) ?? []).sort((a: any, b: any) => a.actNumber - b.actNumber),
+  }));
+}
+
 function buildStages(stageRows: Record<string, string>[], stageMonsterRows: Record<string, string>[]): Stage[] {
   const monstersByStage = new Map<string, { monsterId: string; position: number }[]>();
   for (const r of stageMonsterRows) {
@@ -55,18 +79,24 @@ function buildStages(stageRows: Record<string, string>[], stageMonsterRows: Reco
     monstersByStage.get(r.stageId)!.push({ monsterId: r.monsterId, position: num(r.position) });
   }
 
-  return stageRows.map(r => ({
-    id: r.id,
-    chapterId: r.chapterId,
-    orderInChapter: num(r.orderInChapter),
-    stageType: r.stageType as StageType,
-    maxSlides: num(r.maxSlides),
-    tileSpawnConfig: {
-      values: numArray(r.tileValues),
-      weights: numArray(r.tileWeights),
-    },
-    monsters: (monstersByStage.get(r.id) ?? []).sort((a, b) => a.position - b.position),
-  }));
+  return stageRows.map(r => {
+    const base = {
+      id: r.id,
+      chapterId: r.chapterId,
+      actNumber: num(r.actNumber),
+      stageType: r.stageType as StageType,
+    };
+    if (r.stageType === 'SUPPLY' || r.stageType === 'UNKNOWN') return base as Stage;
+    return {
+      ...base,
+      maxSlides: num(r.maxSlides),
+      tileSpawnConfig: {
+        values: numArray(r.tileValues),
+        weights: numArray(r.tileWeights),
+      },
+      monsters: (monstersByStage.get(r.id) ?? []).sort((a, b) => a.position - b.position),
+    } as Stage;
+  });
 }
 
 function buildCharacters(rows: Record<string, string>[]): Character[] {
@@ -161,6 +191,17 @@ function buildMonsters(
   });
 }
 
+function buildStoryScenes(rows: Record<string, string>[]) {
+  return rows.map(r => ({
+    id: r.id,
+    chapterId: r.chapterId,
+    triggerType: r.triggerType,
+    sceneAssetId: r.sceneAssetId,
+    ...(r.monsterId.trim() !== '' && { monsterId: r.monsterId }),
+    ...(r.stageId.trim()   !== '' && { stageId:   r.stageId }),
+  }));
+}
+
 // ─── 메인 ─────────────────────────────────────────────────────────────────────
 
 async function main() {
@@ -173,34 +214,48 @@ async function main() {
   const sheets = await getSheets();
 
   console.log('시트 읽는 중...');
-  const [stageRows, stageMonsterRows, characterRows, cardRows, monsterRows, actionRows, bossPhaseRows] =
-    await Promise.all([
-      readSheet(sheets, 'Stage'),
-      readSheet(sheets, 'StageMonster'),
-      readSheet(sheets, 'Character'),
-      readSheet(sheets, 'Card'),
-      readSheet(sheets, 'Monster'),
-      readSheet(sheets, 'MonsterAction'),
-      readSheet(sheets, 'BossPhase'),
-    ]);
+  const [
+    chapterRows, actConfigRows,
+    stageRows, stageMonsterRows,
+    characterRows, cardRows,
+    monsterRows, actionRows, bossPhaseRows,
+    storySceneRows,
+  ] = await Promise.all([
+    readSheet(sheets, 'Chapter'),
+    readSheet(sheets, 'ActConfig'),
+    readSheet(sheets, 'Stage'),
+    readSheet(sheets, 'StageMonster'),
+    readSheet(sheets, 'Character'),
+    readSheet(sheets, 'Card'),
+    readSheet(sheets, 'Monster'),
+    readSheet(sheets, 'MonsterAction'),
+    readSheet(sheets, 'BossPhase'),
+    readSheet(sheets, 'StoryScene'),
+  ]);
 
   console.log('JSON 변환 중...');
-  const stages = buildStages(stageRows, stageMonsterRows);
-  const characters = buildCharacters(characterRows);
-  const cards = buildCards(cardRows);
-  const monsters = buildMonsters(monsterRows, actionRows, bossPhaseRows);
+  const chapters    = buildChapters(chapterRows, actConfigRows);
+  const stages      = buildStages(stageRows, stageMonsterRows);
+  const characters  = buildCharacters(characterRows);
+  const cards       = buildCards(cardRows);
+  const monsters    = buildMonsters(monsterRows, actionRows, bossPhaseRows);
+  const storyScenes = buildStoryScenes(storySceneRows);
 
   fs.mkdirSync(OUTPUT_DIR, { recursive: true });
-  fs.writeFileSync(path.join(OUTPUT_DIR, 'stages.json'), JSON.stringify(stages, null, 2));
-  fs.writeFileSync(path.join(OUTPUT_DIR, 'characters.json'), JSON.stringify(characters, null, 2));
-  fs.writeFileSync(path.join(OUTPUT_DIR, 'cards.json'), JSON.stringify(cards, null, 2));
-  fs.writeFileSync(path.join(OUTPUT_DIR, 'monsters.json'), JSON.stringify(monsters, null, 2));
+  fs.writeFileSync(path.join(OUTPUT_DIR, 'chapters.json'),     JSON.stringify(chapters,    null, 2));
+  fs.writeFileSync(path.join(OUTPUT_DIR, 'stages.json'),       JSON.stringify(stages,      null, 2));
+  fs.writeFileSync(path.join(OUTPUT_DIR, 'characters.json'),   JSON.stringify(characters,  null, 2));
+  fs.writeFileSync(path.join(OUTPUT_DIR, 'cards.json'),        JSON.stringify(cards,       null, 2));
+  fs.writeFileSync(path.join(OUTPUT_DIR, 'monsters.json'),     JSON.stringify(monsters,    null, 2));
+  fs.writeFileSync(path.join(OUTPUT_DIR, 'story_scenes.json'), JSON.stringify(storyScenes, null, 2));
 
   console.log(`완료: ${OUTPUT_DIR} 에 저장됨`);
-  console.log(`  stages.json     (${stages.length}개)`);
-  console.log(`  characters.json (${characters.length}개)`);
-  console.log(`  cards.json      (${cards.length}개)`);
-  console.log(`  monsters.json   (${monsters.length}개)`);
+  console.log(`  chapters.json     (${chapters.length}개)`);
+  console.log(`  stages.json       (${stages.length}개)`);
+  console.log(`  characters.json   (${characters.length}개)`);
+  console.log(`  cards.json        (${cards.length}개)`);
+  console.log(`  monsters.json     (${monsters.length}개)`);
+  console.log(`  story_scenes.json (${storyScenes.length}개)`);
 }
 
 main().catch(console.error);

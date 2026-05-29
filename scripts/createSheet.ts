@@ -5,16 +5,19 @@ const CREDENTIALS_PATH = path.join(__dirname, '..', 'credentials', 'service-acco
 const SPREADSHEET_ID = '1SRpzgAzrPeH7GlxGkBo3hs83RiYDknOo3uXKJkeRubM';
 
 const SHEET_HEADERS: Record<string, string[]> = {
-  Stage:        ['id', 'chapterId', 'orderInChapter', 'stageType', 'maxSlides', 'tileValues', 'tileWeights'],
+  Chapter:      ['id', 'title', 'storyType', 'actCount'],
+  ActConfig:    ['chapterId', 'actNumber', 'stageCount', 'supplyPositions', 'bossMonsterId'],
+  Stage:        ['id', 'chapterId', 'actNumber', 'stageType', 'maxSlides', 'tileValues', 'tileWeights'],
   StageMonster: ['stageId', 'monsterId', 'position'],
   Character:    ['id', 'name', 'baseHp', 'isDlc'],
   Card:         ['id', 'ownerCharacterId', 'name', 'tileRank', 'effectType', 'targetType', 'damage', 'healAmount', 'buffId', 'debuffId', 'duration', 'upgradedTileRank'],
   Monster:      ['id', 'displayName', 'enemyType', 'maxHp', 'initialShield', 'initialCount'],
   MonsterAction:['monsterId', 'phase', 'role', 'orderIndex', 'actionType', 'targetMode', 'power', 'effectId', 'effectDuration', 'resetCount', 'scheduledTurns'],
   BossPhase:    ['monsterId', 'phaseNumber', 'triggerValue', 'initialCount'],
+  StoryScene:   ['id', 'chapterId', 'triggerType', 'sceneAssetId', 'monsterId', 'stageId'],
 };
 
-const SHEET_NAMES = ['Stage', 'StageMonster', 'Character', 'Card', 'Monster', 'MonsterAction', 'BossPhase'];
+const SHEET_NAMES = ['Chapter', 'ActConfig', 'Stage', 'StageMonster', 'Character', 'Card', 'Monster', 'MonsterAction', 'BossPhase', 'StoryScene'];
 
 async function main() {
   const auth = new google.auth.GoogleAuth({
