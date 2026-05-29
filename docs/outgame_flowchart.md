@@ -1,6 +1,6 @@
 # 아웃게임 UI 구조
 
-`docs/outgame_flowchart.md`
+<small style="color:#7070a0;font-family:'Roboto Mono',monospace;background:rgba(255,255,255,0.05);padding:2px 12px;border-radius:20px;border:1px solid rgba(255,255,255,0.08);">📄 docs/outgame_flowchart.md</small>
 
 ---
 
