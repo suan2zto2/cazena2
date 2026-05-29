@@ -1,5 +1,7 @@
 # 아웃게임 UI 구조
 
+`docs/outgame_flowchart.md`
+
 ---
 
 ## 흐름 순서도
