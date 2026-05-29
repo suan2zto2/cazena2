@@ -69,3 +69,15 @@
 상단 팀 HP + 캐릭터 초상화 / 다이아몬드 노드 분기 경로 맵 / 노드 종류 (전투·미확인·보급) / 현재 위치 핀
 
 ![로그라이크 맵](assets/references/ref_08_roguelike_map.png)
+
+---
+
+## 9. 전투화면 1
+
+![전투화면 1](assets/references/ref_09_battle_1.png)
+
+---
+
+## 10. 전투화면 2
+
+![전투화면 2](assets/references/ref_10_battle_2.png)
