@@ -36,6 +36,8 @@
 
 ![스테이지 진행](assets/references/ref_04_story_stage.png)
 
+![스테이지 진행 2](assets/references/ref_04b_story_stage.png)
+
 ---
 
 ## 5. 캐릭터 정보 화면
