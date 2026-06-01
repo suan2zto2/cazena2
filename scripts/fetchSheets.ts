@@ -2,9 +2,11 @@ import { google } from 'googleapis';
 import * as fs from 'fs';
 import * as path from 'path';
 import type {
-  Stage, Character, Card, Monster,
+  Chapter, ActConfig, Stage, StoryScene,
+  Character, Card, Monster,
   EnemyAction, ActionPattern, PhaseThreshold,
-  TileRank, StageType, EnemyType, CardEffectType, TargetType, ActionType, TargetMode,
+  TileRank, StageType, StoryType, SceneTriggerType,
+  EnemyType, CardEffectType, TargetType, ActionType, TargetMode,
 } from './types';
 
 // ─── 설정 ─────────────────────────────────────────────────────────────────────
@@ -48,60 +50,60 @@ function numArray(v: string): number[] {
 
 // ─── 변환 함수 ────────────────────────────────────────────────────────────────
 
-function buildChapters(
-  chapterRows: Record<string, string>[],
-  actConfigRows: Record<string, string>[],
-) {
-  const actsByChapter = new Map<string, object[]>();
-  for (const r of actConfigRows) {
-    if (!actsByChapter.has(r.chapterId)) actsByChapter.set(r.chapterId, []);
-    actsByChapter.get(r.chapterId)!.push({
-      actNumber: num(r.actNumber),
-      stageCount: num(r.stageCount),
-      supplyPositions: r.supplyPositions.trim() !== '' ? numArray(r.supplyPositions) : [],
-      bossMonsterId: r.bossMonsterId,
-    });
-  }
-
-  return chapterRows.map(r => ({
-    id: r.id,
+function buildChapters(rows: Record<string, string>[]): Chapter[] {
+  return rows.map(r => ({
+    id: num(r.id),
     title: r.title,
-    storyType: r.storyType,
+    storyType: r.storyType as StoryType,
     actCount: num(r.actCount),
-    acts: (actsByChapter.get(r.id) ?? []).sort((a: any, b: any) => a.actNumber - b.actNumber),
+  }));
+}
+
+function buildActConfigs(rows: Record<string, string>[]): ActConfig[] {
+  return rows.map(r => ({
+    chapterId: num(r.chapterId),
+    actNumber: num(r.actNumber),
+    stageCount: num(r.stageCount),
+    supplyPositions: r.supplyPositions.trim() !== '' ? numArray(r.supplyPositions) : [],
+    bossMonsterId: num(r.bossMonsterId),
   }));
 }
 
 function buildStages(stageRows: Record<string, string>[], stageMonsterRows: Record<string, string>[]): Stage[] {
-  const monstersByStage = new Map<string, { monsterId: string; position: number }[]>();
+  const monstersByStage = new Map<string, { monsterId: number; position: number }[]>();
   for (const r of stageMonsterRows) {
     if (!monstersByStage.has(r.stageId)) monstersByStage.set(r.stageId, []);
-    monstersByStage.get(r.stageId)!.push({ monsterId: r.monsterId, position: num(r.position) });
+    monstersByStage.get(r.stageId)!.push({ monsterId: num(r.monsterId), position: num(r.position) });
   }
 
-  return stageRows.map(r => {
-    const base = {
-      id: r.id,
-      chapterId: r.chapterId,
-      actNumber: num(r.actNumber),
-      stageType: r.stageType as StageType,
-    };
-    if (r.stageType === 'SUPPLY' || r.stageType === 'UNKNOWN') return base as Stage;
-    return {
-      ...base,
-      maxSlides: num(r.maxSlides),
-      tileSpawnConfig: {
-        values: numArray(r.tileValues),
-        weights: numArray(r.tileWeights),
-      },
-      monsters: (monstersByStage.get(r.id) ?? []).sort((a, b) => a.position - b.position),
-    } as Stage;
-  });
+  return stageRows.map(r => ({
+    id: num(r.id),
+    chapterId: num(r.chapterId),
+    actNumber: num(r.actNumber),
+    stageType: r.stageType as StageType,
+    maxSlides: num(r.maxSlides),
+    tileSpawnConfig: {
+      values: numArray(r.tileValues),
+      weights: numArray(r.tileWeights),
+    },
+    monsters: (monstersByStage.get(r.id) ?? []).sort((a, b) => a.position - b.position),
+  }));
+}
+
+function buildStoryScenes(rows: Record<string, string>[]): StoryScene[] {
+  return rows.map(r => ({
+    id: num(r.id),
+    chapterId: num(r.chapterId),
+    triggerType: r.triggerType as SceneTriggerType,
+    sceneAssetId: r.sceneAssetId,
+    monsterId: optional(r.monsterId, num),
+    stageId: optional(r.stageId, num),
+  }));
 }
 
 function buildCharacters(rows: Record<string, string>[]): Character[] {
   return rows.map(r => ({
-    id: r.id,
+    id: num(r.id),
     name: r.name,
     baseHp: num(r.baseHp),
     isDlc: bool(r.isDlc),
@@ -110,8 +112,8 @@ function buildCharacters(rows: Record<string, string>[]): Character[] {
 
 function buildCards(rows: Record<string, string>[]): Card[] {
   return rows.map(r => ({
-    id: r.id,
-    ownerCharacterId: r.ownerCharacterId,
+    id: num(r.id),
+    ownerCharacterId: num(r.ownerCharacterId),
     name: r.name,
     tileRank: r.tileRank as TileRank,
     effectType: r.effectType as CardEffectType,
@@ -180,7 +182,7 @@ function buildMonsters(
     }
 
     return {
-      id: r.id,
+      id: num(r.id),
       displayName: r.displayName,
       enemyType: r.enemyType as EnemyType,
       maxHp: num(r.maxHp),
@@ -189,17 +191,6 @@ function buildMonsters(
       phaseThresholds,
     };
   });
-}
-
-function buildStoryScenes(rows: Record<string, string>[]) {
-  return rows.map(r => ({
-    id: r.id,
-    chapterId: r.chapterId,
-    triggerType: r.triggerType,
-    sceneAssetId: r.sceneAssetId,
-    ...(r.monsterId.trim() !== '' && { monsterId: r.monsterId }),
-    ...(r.stageId.trim()   !== '' && { stageId:   r.stageId }),
-  }));
 }
 
 // ─── 메인 ─────────────────────────────────────────────────────────────────────
@@ -214,48 +205,47 @@ async function main() {
   const sheets = await getSheets();
 
   console.log('시트 읽는 중...');
-  const [
-    chapterRows, actConfigRows,
-    stageRows, stageMonsterRows,
-    characterRows, cardRows,
-    monsterRows, actionRows, bossPhaseRows,
-    storySceneRows,
-  ] = await Promise.all([
-    readSheet(sheets, 'Chapter'),
-    readSheet(sheets, 'ActConfig'),
-    readSheet(sheets, 'Stage'),
-    readSheet(sheets, 'StageMonster'),
-    readSheet(sheets, 'Character'),
-    readSheet(sheets, 'Card'),
-    readSheet(sheets, 'Monster'),
-    readSheet(sheets, 'MonsterAction'),
-    readSheet(sheets, 'BossPhase'),
-    readSheet(sheets, 'StoryScene'),
-  ]);
+  const [chapterRows, actConfigRows, stageRows, stageMonsterRows,
+         storySceneRows, characterRows, cardRows, monsterRows, actionRows, bossPhaseRows] =
+    await Promise.all([
+      readSheet(sheets, 'Chapter'),
+      readSheet(sheets, 'ActConfig'),
+      readSheet(sheets, 'Stage'),
+      readSheet(sheets, 'StageMonster'),
+      readSheet(sheets, 'StoryScene'),
+      readSheet(sheets, 'Character'),
+      readSheet(sheets, 'Card'),
+      readSheet(sheets, 'Monster'),
+      readSheet(sheets, 'MonsterAction'),
+      readSheet(sheets, 'BossPhase'),
+    ]);
 
   console.log('JSON 변환 중...');
-  const chapters    = buildChapters(chapterRows, actConfigRows);
+  const chapters    = buildChapters(chapterRows);
+  const actConfigs  = buildActConfigs(actConfigRows);
   const stages      = buildStages(stageRows, stageMonsterRows);
+  const storyScenes = buildStoryScenes(storySceneRows);
   const characters  = buildCharacters(characterRows);
   const cards       = buildCards(cardRows);
   const monsters    = buildMonsters(monsterRows, actionRows, bossPhaseRows);
-  const storyScenes = buildStoryScenes(storySceneRows);
 
   fs.mkdirSync(OUTPUT_DIR, { recursive: true });
-  fs.writeFileSync(path.join(OUTPUT_DIR, 'chapters.json'),     JSON.stringify(chapters,    null, 2));
-  fs.writeFileSync(path.join(OUTPUT_DIR, 'stages.json'),       JSON.stringify(stages,      null, 2));
-  fs.writeFileSync(path.join(OUTPUT_DIR, 'characters.json'),   JSON.stringify(characters,  null, 2));
-  fs.writeFileSync(path.join(OUTPUT_DIR, 'cards.json'),        JSON.stringify(cards,       null, 2));
-  fs.writeFileSync(path.join(OUTPUT_DIR, 'monsters.json'),     JSON.stringify(monsters,    null, 2));
-  fs.writeFileSync(path.join(OUTPUT_DIR, 'story_scenes.json'), JSON.stringify(storyScenes, null, 2));
+  fs.writeFileSync(path.join(OUTPUT_DIR, 'chapters.json'),    JSON.stringify(chapters,    null, 2));
+  fs.writeFileSync(path.join(OUTPUT_DIR, 'actConfigs.json'),  JSON.stringify(actConfigs,  null, 2));
+  fs.writeFileSync(path.join(OUTPUT_DIR, 'stages.json'),      JSON.stringify(stages,      null, 2));
+  fs.writeFileSync(path.join(OUTPUT_DIR, 'storyScenes.json'), JSON.stringify(storyScenes, null, 2));
+  fs.writeFileSync(path.join(OUTPUT_DIR, 'characters.json'),  JSON.stringify(characters,  null, 2));
+  fs.writeFileSync(path.join(OUTPUT_DIR, 'cards.json'),       JSON.stringify(cards,       null, 2));
+  fs.writeFileSync(path.join(OUTPUT_DIR, 'monsters.json'),    JSON.stringify(monsters,    null, 2));
 
   console.log(`완료: ${OUTPUT_DIR} 에 저장됨`);
-  console.log(`  chapters.json     (${chapters.length}개)`);
-  console.log(`  stages.json       (${stages.length}개)`);
-  console.log(`  characters.json   (${characters.length}개)`);
-  console.log(`  cards.json        (${cards.length}개)`);
-  console.log(`  monsters.json     (${monsters.length}개)`);
-  console.log(`  story_scenes.json (${storyScenes.length}개)`);
+  console.log(`  chapters.json    (${chapters.length}개)`);
+  console.log(`  actConfigs.json  (${actConfigs.length}개)`);
+  console.log(`  stages.json      (${stages.length}개)`);
+  console.log(`  storyScenes.json (${storyScenes.length}개)`);
+  console.log(`  characters.json  (${characters.length}개)`);
+  console.log(`  cards.json       (${cards.length}개)`);
+  console.log(`  monsters.json    (${monsters.length}개)`);
 }
 
 main().catch(console.error);

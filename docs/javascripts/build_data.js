@@ -49,23 +49,22 @@ const nums = v => v.split(',').map(s => Number(s.trim())).filter(n => !isNaN(n))
 
 // ── 변환 함수 (fetchSheets.ts 와 동일 로직) ──────────────────────────────────
 
-function buildChapters(chapterRows, actConfigRows) {
-  const actsByChapter = new Map();
-  for (const r of actConfigRows) {
-    if (!actsByChapter.has(r.chapterId)) actsByChapter.set(r.chapterId, []);
-    actsByChapter.get(r.chapterId).push({
-      actNumber: num(r.actNumber),
-      stageCount: num(r.stageCount),
-      supplyPositions: r.supplyPositions.trim() !== '' ? nums(r.supplyPositions) : [],
-      bossMonsterId: r.bossMonsterId,
-    });
-  }
-  return chapterRows.map(r => ({
-    id: r.id,
+function buildChapters(rows) {
+  return rows.map(r => ({
+    id: num(r.id),
     title: r.title,
     storyType: r.storyType,
     actCount: num(r.actCount),
-    acts: (actsByChapter.get(r.id) ?? []).sort((a, b) => a.actNumber - b.actNumber),
+  }));
+}
+
+function buildActConfigs(rows) {
+  return rows.map(r => ({
+    chapterId: num(r.chapterId),
+    actNumber: num(r.actNumber),
+    stageCount: num(r.stageCount),
+    supplyPositions: r.supplyPositions.trim() !== '' ? nums(r.supplyPositions) : [],
+    bossMonsterId: num(r.bossMonsterId),
   }));
 }
 
@@ -73,39 +72,38 @@ function buildStages(stageRows, smRows) {
   const byStage = new Map();
   for (const r of smRows) {
     if (!byStage.has(r.stageId)) byStage.set(r.stageId, []);
-    byStage.get(r.stageId).push({ monsterId: r.monsterId, position: num(r.position) });
+    byStage.get(r.stageId).push({ monsterId: num(r.monsterId), position: num(r.position) });
   }
-  return stageRows.map(r => {
-    const base = { id: r.id, chapterId: r.chapterId, actNumber: num(r.actNumber), stageType: r.stageType };
-    if (r.stageType === 'SUPPLY' || r.stageType === 'UNKNOWN') return base;
-    return {
-      ...base,
-      maxSlides: num(r.maxSlides),
-      tileSpawnConfig: { values: nums(r.tileValues), weights: nums(r.tileWeights) },
-      monsters: (byStage.get(r.id) ?? []).sort((a, b) => a.position - b.position),
-    };
-  });
+  return stageRows.map(r => ({
+    id: num(r.id),
+    chapterId: num(r.chapterId),
+    actNumber: num(r.actNumber),
+    stageType: r.stageType,
+    maxSlides: num(r.maxSlides),
+    tileSpawnConfig: { values: nums(r.tileValues), weights: nums(r.tileWeights) },
+    monsters: (byStage.get(r.id) ?? []).sort((a, b) => a.position - b.position),
+  }));
 }
 
 function buildStoryScenes(rows) {
   return rows.map(r => ({
-    id: r.id,
-    chapterId: r.chapterId,
+    id: num(r.id),
+    chapterId: num(r.chapterId),
     triggerType: r.triggerType,
     sceneAssetId: r.sceneAssetId,
-    ...opt(r.monsterId, v => ({ monsterId: v })),
-    ...opt(r.stageId,   v => ({ stageId:   v })),
+    ...opt(r.monsterId, v => ({ monsterId: num(v) })),
+    ...opt(r.stageId,   v => ({ stageId:   num(v) })),
   }));
 }
 
 function buildCharacters(rows) {
-  return rows.map(r => ({ id: r.id, name: r.name, baseHp: num(r.baseHp), isDlc: bool(r.isDlc) }));
+  return rows.map(r => ({ id: num(r.id), name: r.name, baseHp: num(r.baseHp), isDlc: bool(r.isDlc) }));
 }
 
 function buildCards(rows) {
   return rows.map(r => ({
-    id: r.id,
-    ownerCharacterId: r.ownerCharacterId,
+    id: num(r.id),
+    ownerCharacterId: num(r.ownerCharacterId),
     name: r.name,
     tileRank: r.tileRank,
     effectType: r.effectType,
@@ -160,9 +158,13 @@ function buildMonsters(monsterRows, actionRows, bossPhaseRows) {
         });
 
     return {
-      id: r.id, displayName: r.displayName, enemyType: r.enemyType,
-      maxHp: num(r.maxHp), initialShield: num(r.initialShield),
-      actionPattern, ...phaseThresholds && { phaseThresholds },
+      id: num(r.id),
+      displayName: r.displayName,
+      enemyType: r.enemyType,
+      maxHp: num(r.maxHp),
+      initialShield: num(r.initialShield),
+      actionPattern,
+      ...phaseThresholds && { phaseThresholds },
     };
   });
 }
@@ -199,8 +201,8 @@ async function buildChaptersJson(btnId) {
   withBtn(btnId, '🔄 JSON 만들기', async (set) => {
     await loadJSZip();
     set('⏳ 시트 읽는 중...');
-    const [chapterRows, actConfigRows] = await Promise.all([fetchSheet('Chapter'), fetchSheet('ActConfig')]);
-    const data = JSON.stringify(buildChapters(chapterRows, actConfigRows), null, 2);
+    const [chRows, acRows] = await Promise.all([fetchSheet('Chapter'), fetchSheet('ActConfig')]);
+    const data = JSON.stringify({ chapters: buildChapters(chRows), actConfigs: buildActConfigs(acRows) }, null, 2);
     downloadBlob(new Blob([data], { type: 'application/json' }), 'chapters.json');
   });
 }
@@ -245,43 +247,28 @@ async function buildMonstersJson(btnId) {
   });
 }
 
-async function buildStoryScenesJson(btnId) {
-  withBtn(btnId, '🔄 JSON 만들기', async (set) => {
-    await loadJSZip();
-    set('⏳ 시트 읽는 중...');
-    const data = JSON.stringify(buildStoryScenes(await fetchSheet('StoryScene')), null, 2);
-    downloadBlob(new Blob([data], { type: 'application/json' }), 'story_scenes.json');
-  });
-}
-
 // ── 전체 빌드 핸들러 ─────────────────────────────────────────────────────────
 
 async function buildAndDownloadData() {
   withBtn('btn-build-data', '🔄 구글 시트에서 JSON 만들기 (전체)', async (set) => {
     await loadJSZip();
     set('⏳ 시트 읽는 중...');
-    const [
-      chapterRows, actConfigRows,
-      stageRows, smRows,
-      charRows, cardRows,
-      monRows, actRows, bpRows,
-      sceneRows,
-    ] = await Promise.all([
-      fetchSheet('Chapter'), fetchSheet('ActConfig'),
-      fetchSheet('Stage'), fetchSheet('StageMonster'),
-      fetchSheet('Character'), fetchSheet('Card'),
-      fetchSheet('Monster'), fetchSheet('MonsterAction'), fetchSheet('BossPhase'),
-      fetchSheet('StoryScene'),
-    ]);
+    const [chRows, acRows, stageRows, smRows, ssRows, charRows, cardRows, monRows, actRows, bpRows] =
+      await Promise.all([
+        fetchSheet('Chapter'), fetchSheet('ActConfig'),
+        fetchSheet('Stage'), fetchSheet('StageMonster'), fetchSheet('StoryScene'),
+        fetchSheet('Character'), fetchSheet('Card'),
+        fetchSheet('Monster'), fetchSheet('MonsterAction'), fetchSheet('BossPhase'),
+      ]);
 
     set('⏳ JSON 변환 중...');
     const zip = new JSZip();
-    zip.file('chapters.json',     JSON.stringify(buildChapters(chapterRows, actConfigRows), null, 2));
-    zip.file('stages.json',       JSON.stringify(buildStages(stageRows, smRows),            null, 2));
-    zip.file('characters.json',   JSON.stringify(buildCharacters(charRows),                 null, 2));
-    zip.file('cards.json',        JSON.stringify(buildCards(cardRows),                      null, 2));
-    zip.file('monsters.json',     JSON.stringify(buildMonsters(monRows, actRows, bpRows),   null, 2));
-    zip.file('story_scenes.json', JSON.stringify(buildStoryScenes(sceneRows),               null, 2));
+    zip.file('chapters.json',    JSON.stringify({ chapters: buildChapters(chRows), actConfigs: buildActConfigs(acRows) }, null, 2));
+    zip.file('stages.json',      JSON.stringify(buildStages(stageRows, smRows),          null, 2));
+    zip.file('storyScenes.json', JSON.stringify(buildStoryScenes(ssRows),                null, 2));
+    zip.file('characters.json',  JSON.stringify(buildCharacters(charRows),               null, 2));
+    zip.file('cards.json',       JSON.stringify(buildCards(cardRows),                    null, 2));
+    zip.file('monsters.json',    JSON.stringify(buildMonsters(monRows, actRows, bpRows), null, 2));
 
     downloadBlob(await zip.generateAsync({ type: 'blob' }), 'tessera_weaver_data.zip');
   });

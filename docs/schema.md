@@ -180,7 +180,7 @@ erDiagram
 
 | 필드 | 타입 | 설명 |
 |------|------|------|
-| `id` | `string` | 챕터 식별자. 예: `"ch1"`, `"sub_kestrel"` |
+| `id` | `number` | 챕터 식별자. 순번 그대로. 예: `1`, `8` |
 | `title` | `string` | 챕터 표시 제목 |
 | `storyType` | `"MAIN" \| "SUB"` | 메인 스토리 또는 서브 스토리 구분 |
 | `actCount` | `number` | 막 수. 기본 3. `ActConfig` 항목 수와 일치해야 한다 |
@@ -191,11 +191,11 @@ erDiagram
 
 | 필드 | 타입 | 설명 |
 |------|------|------|
-| `chapterId` | `string` | `Chapter.id` 참조 |
+| `chapterId` | `number` | `Chapter.id` 참조. 예: `1` |
 | `actNumber` | `number` | 막 번호. 1부터 시작 |
 | `stageCount` | `number` | 이 막에 배치되는 스테이지 수 (보스 제외) |
 | `supplyPositions` | `number[]` | 보급 지역(SUPPLY)이 고정 배치될 위치 인덱스 목록 |
-| `bossMonsterId` | `string` | 이 막의 보스로 사용할 `Monster.id`. `enemyType === 'BOSS'`여야 함 |
+| `bossMonsterId` | `number` | 이 막의 보스로 사용할 `Monster.id`. `enemyType === 'BOSS'`여야 함. 예: `2301` |
 
 ---
 
@@ -207,13 +207,13 @@ erDiagram
 
 | 필드 | 타입 | 설명 |
 |------|------|------|
-| `id` | `string` | 스테이지 식별자. 예: `"ch1_s01"` |
-| `chapterId` | `string` | `Chapter.id` 참조 |
+| `id` | `number` | 스테이지 식별자. 인코딩: `챕터(1자리) + 막(1자리) + 순번(2자리)`. 예: `10101`=ch1/act1/s1, `80305`=ch8/act3/s5 |
+| `chapterId` | `number` | `Chapter.id` 참조. 예: `1` |
 | `actNumber` | `number` | 소속 막 번호 |
 | `stageType` | [`StageType`](enums.md#stagetype) | 스테이지 유형 |
 | `maxSlides` | `number` | 턴당 최대 슬라이드 횟수. `NORMAL`·`ELITE`·`BOSS` 전용 |
 | `tileSpawnConfig` | `{ values: number[], weights: number[] }` | 슬라이드 후 타일 생성 확률 분포. `NORMAL`·`ELITE`·`BOSS` 전용 |
-| `monsters` | `{ monsterId: string, position: number }[]` | 등장 몬스터 목록. `NORMAL`·`ELITE`·`BOSS` 전용. `position` 오름차순이 화면 위→아래이자 행동 처리 순서 |
+| `monsters` | `{ monsterId: number, position: number }[]` | 등장 몬스터 목록. `NORMAL`·`ELITE`·`BOSS` 전용. `position` 오름차순이 화면 위→아래이자 행동 처리 순서 |
 
 **tileSpawnConfig 예시**
 
@@ -240,12 +240,12 @@ erDiagram
 
 | 필드 | 타입 | 설명 |
 |------|------|------|
-| `id` | `string` | 씬 식별자 |
-| `chapterId` | `string` | `Chapter.id` 참조. 어느 챕터에 속한 씬인지 |
+| `id` | `number` | 씬 식별자. 인코딩: `4 + 챕터(1자리) + 순번(2자리)`. 예: `4101`=ch1의 첫 씬 |
+| `chapterId` | `number` | `Chapter.id` 참조. 예: `1` |
 | `triggerType` | [`SceneTriggerType`](enums.md#scenetriggertype) | 발동 시점 |
 | `sceneAssetId` | `string` | 실제 재생할 씬 에셋·스크립트 식별자 |
-| `monsterId` | `string \| undefined` | `BOSS_START`·`BOSS_CLEAR` 트리거 전용. 해당 보스의 `Monster.id`. 미지정 시 막 보스 전체에 공통 적용 |
-| `stageId` | `string \| undefined` | `STAGE_START` 트리거 전용. 발동할 `Stage.id` |
+| `monsterId` | `number \| undefined` | `BOSS_START`·`BOSS_CLEAR` 트리거 전용. 해당 보스의 `Monster.id`. 예: `2301` |
+| `stageId` | `number \| undefined` | `STAGE_START` 트리거 전용. 발동할 `Stage.id`. 예: `10101` |
 
 **제약 조건**
 
@@ -265,7 +265,7 @@ erDiagram
 
 | 필드 | 타입 | 설명 |
 |------|------|------|
-| `id` | `string` | 캐릭터 식별자. 예: `"char_a"` |
+| `id` | `number` | 캐릭터 식별자. 인코딩: `1 + 순번(3자리)`. 예: `1001`~`1005` |
 | `name` | `string` | 화면 표시 이름 |
 | `baseHp` | `number` | 최대 체력 |
 | `isDlc` | `boolean` | DLC 캐릭터 여부 |
@@ -280,8 +280,8 @@ erDiagram
 
 | 필드 | 타입 | 설명 |
 |------|------|------|
-| `id` | `string` | 카드 식별자. 예: `"char_a_attack_01"` |
-| `ownerCharacterId` | `string` | `Character.id` 참조. 해당 캐릭터가 출전하지 않으면 이 카드는 덱에 포함되지 않는다 |
+| `id` | `number` | 카드 식별자. 인코딩: `3 + 캐릭터순번(1자리) + 카드순번(2자리)`. 예: `3101`=케스트럴 1번 카드, `3201`=주베 1번 카드 |
+| `ownerCharacterId` | `number` | `Character.id` 참조. 예: `1001` |
 | `name` | `string` | 카드 표시 이름 |
 | `tileRank` | [`TileRank`](enums.md#tilerank) | 발동에 필요한 타일 숫자 등급. 실제 타일 숫자는 `TileRank` 정의에서 파생 |
 | `effectType` | [`CardEffectType`](enums.md#cardeffecttype) | 카드 효과 분류 |
@@ -309,7 +309,7 @@ erDiagram
 
 | 필드 | 타입 | 설명 |
 |------|------|------|
-| `id` | `string` | 적 식별자. 예: `"goblin_swordsman_01"` |
+| `id` | `number` | 적 식별자. 인코딩: `2 + 타입(1자리: 1=NORMAL/2=ELITE/3=BOSS) + 순번(2자리)`. 예: `2101`=일반1, `2201`=정예1, `2301`=보스1 |
 | `displayName` | `string` | 화면 표시 이름 |
 | `enemyType` | [`EnemyType`](enums.md#enemytype) | 적 유형 |
 | `maxHp` | `number` | 최대 체력 |
@@ -354,7 +354,7 @@ erDiagram
 
 ```typescript
 const dragonBoss: Monster = {
-  id: "dragon_boss_01",
+  id: 2399,
   displayName: "보스 드래곤",
   enemyType: "BOSS",
   maxHp: 500,
@@ -424,8 +424,8 @@ const dragonBoss: Monster = {
 |------|------|------|
 | `userLevel` | `number` | 유저 레벨. 챕터 플레이 경험치로 상승 |
 | `userXp` | `number` | 현재 누적 경험치 |
-| `unlockedCharacterIds` | `string[]` | 보유(해금)한 `Character.id` 목록. 기본 5인 + DLC |
-| `clearedChapterIds` | `string[]` | 클리어한 챕터 `id` 목록. 영구 해금 트래킹 |
+| `unlockedCharacterIds` | `number[]` | 보유(해금)한 `Character.id` 목록. 예: `[1001, 1002, 1003]` |
+| `clearedChapterIds` | `number[]` | 클리어한 챕터 `id` 목록. 예: `[1, 2]` |
 
 > **[미결]** 장비(`Equipment`) 구조 미정. 아웃게임 상점·뽑기 시스템 설계 후 `AccountSave`에 `equipments` 필드 추가 예정.
 
@@ -437,15 +437,15 @@ const dragonBoss: Monster = {
 
 | 필드 | 타입 | 설명 |
 |------|------|------|
-| `chapterId` | `string` | 진행 중인 챕터 식별자 |
+| `chapterId` | `number` | 진행 중인 챕터 식별자. 예: `1` |
 | `currentActNumber` | `number` | 현재 진행 중인 막 번호 |
-| `currentStageId` | `string \| null` | 현재 위치한 `Stage.id`. 스테이지 선택 화면일 때 `null` |
-| `clearedStageIds` | `string[]` | 이번 챕터에서 클리어한 스테이지 ID 목록. 경험치 산정·분기 잠금 해제에 사용 |
+| `currentStageId` | `number \| null` | 현재 위치한 `Stage.id`. 예: `10203`. 스테이지 선택 화면일 때 `null` |
+| `clearedStageIds` | `number[]` | 이번 챕터에서 클리어한 스테이지 ID 목록. 예: `[10101, 10102]` |
 | `party` | `CharacterState[]` | 출전 3인 상태. 배열 순서 = 화면 표시 순서 |
 | `gold` | `number` | 현재 보유 골드. 챕터 종료 시 소멸 |
 | `passiveIds` | `string[]` | 선택한 챕터 패시브 식별자 목록. 중복 불가 |
 | `relicIds` | `string[]` | 보유 유물 식별자 목록. 보스 처치·미확인 지역 이벤트로 획득 |
-| `addedCardIds` | `string[]` | 카드 보상으로 덱에 추가된 `Card.id` 목록 |
+| `addedCardIds` | `number[]` | 카드 보상으로 덱에 추가된 `Card.id` 목록. 예: `[3101, 3202]` |
 
 **제약 조건**
 
@@ -463,7 +463,7 @@ const dragonBoss: Monster = {
 
 | 필드 | 타입 | 설명 |
 |------|------|------|
-| `characterId` | `string` | `Character.id` 참조 |
+| `characterId` | `number` | `Character.id` 참조. 예: `1001` |
 | `currentHp` | `number` | 현재 체력. `0`이면 사망. `Character.baseHp` 이하 |
 
 ---
