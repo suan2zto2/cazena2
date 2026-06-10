@@ -1195,32 +1195,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#json" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        JSON 익스포트 다운로드
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#json_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        JSON 파일 목록
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
-        파이프라인
+        시트 구성 개요
       
     </span>
   </a>
@@ -1228,10 +1206,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#stringtbl-uid" class="md-nav__link">
     <span class="md-ellipsis">
       
-        시트 목록
+        StringTBL UID 범위
       
     </span>
   </a>
@@ -1239,10 +1217,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
+  <a href="#tilerank" class="md-nav__link">
     <span class="md-ellipsis">
       
-        시트 상세
+        TileRank 값 대응표
       
     </span>
   </a>
@@ -1250,10 +1228,54 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
+  <a href="#1" class="md-nav__link">
     <span class="md-ellipsis">
       
-        변환 스크립트 입출력 요약
+        1. 문자열
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 카드 시스템
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 캐릭터·적
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 맵·이벤트
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. 공통
       
     </span>
   </a>
@@ -1682,1028 +1704,2654 @@
 <h1 id="_1">기획 테이블 시트</h1>
 <p><small style="color:#7070a0;font-family:'Roboto Mono',monospace;background:rgba(255,255,255,0.05);padding:2px 12px;border-radius:20px;border:1px solid rgba(255,255,255,0.08);">📄 docs/data_sheet.md</small></p>
 <p><a class="md-button md-button--primary" href="https://docs.google.com/spreadsheets/d/1SRpzgAzrPeH7GlxGkBo3hs83RiYDknOo3uXKJkeRubM/edit" target="_blank">📋 구글 시트 열기</a></p>
-<blockquote>
-<p>Google Sheets로 게임 데이터를 편집하고, 변환 스크립트로 JSON을 생성하는 파이프라인을 정의합니다.<br />
-JSON 구조 상세는 <a href="../schema/">schema.md</a>를 참조하십시오.</p>
-</blockquote>
-<hr />
-<h2 id="json">JSON 익스포트 다운로드</h2>
-<p>구글 시트에서 변환한 최신 JSON 파일입니다. 게임 코드에서 직접 로드하거나 로컬에 저장해 사용하세요.</p>
-<p><button id="btn-build-data" class="md-button md-button--primary" onclick="buildAndDownloadData()">🔄 구글 시트에서 JSON 만들기 (전체)</button></p>
-<div class="admonition warning">
-<p class="admonition-title">사용 조건</p>
-<p>구글 시트가 <strong>"링크가 있는 사람 모두 — 뷰어"</strong> 로 공유되어 있어야 합니다.<br />
-시트 우측 상단 <strong>공유 → 링크 복사 → 뷰어</strong> 로 설정하세요.</p>
-</div>
-<hr />
-<h2 id="json_1">JSON 파일 목록</h2>
-<table>
-  <thead>
-    <tr>
-      <th>파일</th>
-      <th>포함 시트</th>
-      <th style="text-align:center">JSON 만들기</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><code>chapters.json</code></td>
-      <td>Chapter, ActConfig</td>
-      <td style="text-align:center">
-        <button id="btn-build-chapters" class="md-button" onclick="buildChaptersJson('btn-build-chapters')">🔄 JSON 만들기</button>
-      </td>
-    </tr>
-    <tr>
-      <td><code>stages.json</code></td>
-      <td>Stage, StageMonster</td>
-      <td style="text-align:center">
-        <button id="btn-build-stages" class="md-button" onclick="buildStagesJson('btn-build-stages')">🔄 JSON 만들기</button>
-      </td>
-    </tr>
-    <tr>
-      <td><code>characters.json</code></td>
-      <td>Character</td>
-      <td style="text-align:center">
-        <button id="btn-build-characters" class="md-button" onclick="buildCharactersJson('btn-build-characters')">🔄 JSON 만들기</button>
-      </td>
-    </tr>
-    <tr>
-      <td><code>cards.json</code></td>
-      <td>Card</td>
-      <td style="text-align:center">
-        <button id="btn-build-cards" class="md-button" onclick="buildCardsJson('btn-build-cards')">🔄 JSON 만들기</button>
-      </td>
-    </tr>
-    <tr>
-      <td><code>monsters.json</code></td>
-      <td>Monster, MonsterAction, BossPhase</td>
-      <td style="text-align:center">
-        <button id="btn-build-monsters" class="md-button" onclick="buildMonstersJson('btn-build-monsters')">🔄 JSON 만들기</button>
-      </td>
-    </tr>
-    <tr>
-      <td><code>story_scenes.json</code></td>
-      <td>StoryScene</td>
-      <td style="text-align:center">
-        <button id="btn-build-scenes" class="md-button" onclick="buildStoryScenesJson('btn-build-scenes')">🔄 JSON 만들기</button>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-<hr />
-<h2 id="_2">파이프라인</h2>
-<div class="highlight"><pre><span></span><code>Google Sheets  ──변환 스크립트──▶  JSON 파일  ──로드──▶  게임
-  (편집 소스)                      (게임 데이터)
-</code></pre></div>
-<ul>
-<li><strong>시트</strong>: 기획자가 편집하는 소스. 평면(2D) 구조.</li>
-<li><strong>변환 스크립트</strong>: 시트 → JSON 변환. 분리된 행을 중첩 구조로 조립.</li>
-<li><strong>JSON</strong>: 게임 코드가 읽는 최종 데이터. <a href="../schema/">schema.md</a> 구조를 따름.</li>
-</ul>
-<hr />
-<h2 id="_3">시트 목록</h2>
+<p><button id="btn-build-data" class="md-button" onclick="buildAndDownloadData()">📦 JSON 전체 다운로드</button></p>
+<h3 id="json">JSON 파일 구성</h3>
+<p>다운로드 버튼은 아래 8개 파일을 <code>gamedata.zip</code>으로 압축 제공한다.</p>
 <table>
 <thead>
 <tr>
-<th>시트 탭</th>
-<th>대응 JSON</th>
+<th>JSON 파일</th>
+<th>원본 시트</th>
+<th>JSON 키</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>strings.json</code></td>
+<td><code>StringTBL_KR</code></td>
+<td>(배열)</td>
+</tr>
+<tr>
+<td><code>metadata.json</code></td>
+<td><code>CardTraitTBL</code>, <code>CardTeamTBL</code>, <code>CardRarityTBL</code>, <code>CardIntentTBL</code></td>
+<td><code>traits</code>, <code>teams</code>, <code>rarities</code>, <code>intents</code></td>
+</tr>
+<tr>
+<td><code>abilities.json</code></td>
+<td><code>CardAbilityTBL</code></td>
+<td>(배열)</td>
+</tr>
+<tr>
+<td><code>statuses.json</code></td>
+<td><code>CardStatusTBL</code></td>
+<td>(배열)</td>
+</tr>
+<tr>
+<td><code>cards.json</code></td>
+<td><code>CardTBL</code></td>
+<td>(배열)</td>
+</tr>
+<tr>
+<td><code>champions.json</code></td>
+<td><code>ChampionTBL</code></td>
+<td>(배열)</td>
+</tr>
+<tr>
+<td><code>enemies.json</code></td>
+<td><code>EnemyTBL</code>, <code>StartCardDeckTBL</code></td>
+<td><code>enemies</code>, <code>decks</code></td>
+</tr>
+<tr>
+<td><code>maps.json</code></td>
+<td><code>MapTBL</code>, <code>MapRandomEventTBL</code>, <code>MapFixedWidthTBL</code>, <code>MapFixedEventTBL</code>, <code>MapEvent_BattleTBL</code>, <code>ExtraEnemyTBL</code>, <code>MapEvent_ChoiceTBL</code>, <code>MapEvent_TradeTBL</code>, <code>MapEvent_EffectTBL</code>, <code>MapEvent_OtherTBL</code>, <code>MapEvent_ShopTBL</code></td>
+<td><code>maps</code>, <code>randomEvents</code>, <code>fixedWidths</code>, <code>fixedEvents</code>, <code>battleEvents</code>, <code>extraEnemies</code>, <code>choiceEvents</code>, <code>tradeEvents</code>, <code>effectEvents</code>, <code>otherEvents</code>, <code>shopEvents</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="_2">시트 구성 개요</h2>
+<p>Google Sheets 내 <strong>22개 시트(테이블)</strong>를 5개 그룹으로 분류한다. 각 시트는 하나의 데이터 테이블이다.</p>
+<table>
+<thead>
+<tr>
+<th>그룹</th>
+<th style="text-align: center;">시트 수</th>
+<th>시트 목록</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="#1-문자열">문자열</a></td>
+<td style="text-align: center;">1</td>
+<td><code>StringTBL_KR</code></td>
+</tr>
+<tr>
+<td><a href="#2-카드-시스템">카드 시스템</a></td>
+<td style="text-align: center;">7</td>
+<td><code>CardAbilityTBL</code>, <code>CardStatusTBL</code>, <code>CardTraitTBL</code>, <code>CardTeamTBL</code>, <code>CardRarityTBL</code>, <code>CardIntentTBL</code>, <code>CardTBL</code></td>
+</tr>
+<tr>
+<td><a href="#3-캐릭터적">캐릭터·적</a></td>
+<td style="text-align: center;">3</td>
+<td><code>ChampionTBL</code>, <code>EnemyTBL</code>, <code>DeckTBL</code></td>
+</tr>
+<tr>
+<td><a href="#4-맵이벤트">맵·이벤트</a></td>
+<td style="text-align: center;">10</td>
+<td><code>MapTBL</code>, <code>MapRandomEventTBL</code>, <code>MapFixedEventTBL</code>, <code>MapEvent_BattleTBL</code>, <code>MapEvent_ChoiceTBL</code>, <code>MapEvent_TradeTBL</code>, <code>MapEvent_EffectTBL</code>, <code>MapEvent_OtherTBL</code>, <code>MapEvent_ShopTBL</code>, <code>ExtraEnemyTBL</code></td>
+</tr>
+<tr>
+<td><a href="#5-공통">공통</a></td>
+<td style="text-align: center;">1</td>
+<td><code>GlobalEnum</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="_3">테이블 정의</h3>
+<table>
+<thead>
+<tr>
+<th>테이블</th>
+<th>정의</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>StringTBL_KR</code></td>
+<td>게임 내 모든 화면 표시 텍스트를 UID 키로 보관하는 문자열 사전. 다국어 확장 시 <code>StringTBL_EN</code> 등을 동일 UID로 추가한다.</td>
+</tr>
+<tr>
+<td><code>CardAbilityTBL</code></td>
+<td>카드 또는 적이 발동하는 개별 효과 단위 정의. 트리거·대상·조건·효과를 선언적으로 기술하며, 하나의 카드는 최대 4개 어빌리티를 참조할 수 있다.</td>
+</tr>
+<tr>
+<td><code>CardStatusTBL</code></td>
+<td>버프·디버프 상태이상 정의. 효과 종류(StatusEffect enum), 지속 방식(StatusDuration enum), 표시 정보를 관리한다.</td>
+</tr>
+<tr>
+<td><code>CardTraitTBL</code></td>
+<td>카드에 붙는 태그 특성 정의. 시너지 조건이나 어빌리티 트리거 필터(<code>is_skill</code>, <code>is_attack</code> 등)에서 참조된다.</td>
+</tr>
+<tr>
+<td><code>CardTeamTBL</code></td>
+<td>카드와 챔피언이 속하는 진영(팀) 정의. 팀별 시너지 발동 및 덱 구성 제약의 기준 단위.</td>
+</tr>
+<tr>
+<td><code>CardRarityTBL</code></td>
+<td>카드 희귀도 등급 정의. 상점 진열 확률(<code>probability</code>)과 보상 카드 필터링에 사용된다.</td>
+</tr>
+<tr>
+<td><code>CardIntentTBL</code></td>
+<td>적이 카드를 사용할 때 플레이어에게 보여주는 행동 예고(의도) 아이콘 정의. 우선순위와 표시 여부를 제어한다.</td>
+</tr>
+<tr>
+<td><code>CardTBL</code></td>
+<td>플레이어·적이 사용하는 카드 전체 정의. 2048 전용 필드 <code>tileRank</code>·<code>upgradedTileRank</code>로 발동에 필요한 타일 등급을 지정한다.</td>
+</tr>
+<tr>
+<td><code>ChampionTBL</code></td>
+<td>플레이어가 파티에 편성하는 챔피언 정의. HP·Speed·Hand·Energy 4종 스탯과 레벨업 증분값, 시작 덱을 포함한다.</td>
+</tr>
+<tr>
+<td><code>EnemyTBL</code></td>
+<td>전투에 등장하는 적 정의. 챔피언과 동일한 스탯 구조를 사용하며, <code>cardDeck</code>으로 행동 카드 덱을 참조한다.</td>
+</tr>
+<tr>
+<td><code>DeckTBL</code></td>
+<td>챔피언 시작 덱 또는 적 행동 덱을 정의. 최대 10개 슬롯에 카드 ID를 배치하며, 빈 슬롯은 덱에 포함되지 않는다.</td>
+</tr>
+<tr>
+<td><code>MapTBL</code></td>
+<td>로그라이트 런에서 생성되는 맵의 구조 파라미터(깊이·너비·분기 확률) 및 이벤트 풀 연결 정의.</td>
+</tr>
+<tr>
+<td><code>MapRandomEventTBL</code></td>
+<td>맵 노드에 랜덤 배치될 이벤트 풀 목록. 동일 맵 내 이벤트 중복 방지를 위해 풀 방식으로 관리한다.</td>
+</tr>
+<tr>
+<td><code>MapFixedEventTBL</code></td>
+<td>특정 깊이(층)에 강제 배치되는 고정 이벤트 정의. 보스 방·중요 이벤트 위치를 고정할 때 사용한다.</td>
+</tr>
+<tr>
+<td><code>MapEvent_BattleTBL</code></td>
+<td>전투 이벤트 정의. 등장 적 구성·레벨·보상(골드·경험치·카드)을 포함한다.</td>
+</tr>
+<tr>
+<td><code>MapEvent_ChoiceTBL</code></td>
+<td>선택지 이벤트 정의. 최대 4개 선택지를 제공하며, 각 선택은 <code>MapEvent_TradeTBL</code>이나 <code>MapEvent_EffectTBL</code>로 연결된다.</td>
+</tr>
+<tr>
+<td><code>MapEvent_TradeTBL</code></td>
+<td>골드·체력을 소비하고 골드·경험치·회복을 얻는 교역 이벤트 단위 정의.</td>
+</tr>
+<tr>
+<td><code>MapEvent_EffectTBL</code></td>
+<td>즉시 효과를 발동하는 이벤트 단위 정의. 선택지 결과나 고정 이벤트에서 연계 호출되는 경우가 많다.</td>
+</tr>
+<tr>
+<td><code>MapEvent_OtherTBL</code></td>
+<td>전투·선택·교역·효과에 해당하지 않는 특수 이벤트(보상 획득, 세계 상태 변경, 상점, 카드 강화 등) 정의.</td>
+</tr>
+<tr>
+<td><code>MapEvent_ShopTBL</code></td>
+<td>카드·아이템을 사고파는 상점 노드 정의. 구매·판매 배율과 진열 수량을 제어한다.</td>
+</tr>
+<tr>
+<td><code>ExtraEnemyTBL</code></td>
+<td>전투 이벤트에서 파티 인원 수에 따라 조건부로 추가되는 보조 적 세트 정의.</td>
+</tr>
+<tr>
+<td><code>GlobalEnum</code></td>
+<td>코드와 시트가 공유하는 숫자 enum 값 일람. <code>AbilityTrigger</code>, <code>AbilityTarget</code>, <code>StatusEffect</code>, <code>MapEventType</code>, <code>TileRank</code> 등 모든 enum 그룹을 단일 테이블로 관리한다.</td>
+</tr>
+</tbody>
+</table>
+<p>스키마 타입 정의 상세는 <a href="../schema/">스키마 설계</a>를 참조한다.</p>
+<hr />
+<h2 id="stringtbl-uid">StringTBL UID 범위</h2>
+<table>
+<thead>
+<tr>
+<th>범위</th>
+<th>용도</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>10000~</code></td>
+<td>상태이상 이름·설명 / 특성 이름·설명 / 팀 이름 / 희귀도 이름 / 의도 이름·설명</td>
+</tr>
+<tr>
+<td><code>200000~</code></td>
+<td>카드 이름 및 설명</td>
+</tr>
+<tr>
+<td><code>260000~</code></td>
+<td>챔피언(플레이어 캐릭터) 이름</td>
+</tr>
+<tr>
+<td><code>261000~</code></td>
+<td>적 이름</td>
+</tr>
+<tr>
+<td><code>270000~</code></td>
+<td>이벤트 설명 문자열 (선택지·교역·효과 이벤트 등)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="tilerank">TileRank 값 대응표</h2>
+<p>카드 발동에 요구되는 2048 보드 타일 숫자. <code>CardTBL.tileRank</code> 및 <code>CardTBL.upgradedTileRank</code>에 사용한다.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">TileRank</th>
+<th style="text-align: center;">타일 숫자</th>
 <th>비고</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><a href="#chapter">Chapter</a></td>
-<td><code>chapters.json</code></td>
-<td>챕터 기본 정보</td>
+<td style="text-align: center;"><code>A</code></td>
+<td style="text-align: center;"><strong>2</strong></td>
+<td>초기 생성 타일. 모든 보드에서 기본 등장</td>
 </tr>
 <tr>
-<td><a href="#actconfig">ActConfig</a></td>
-<td><code>chapters.json</code> 내 <code>acts[]</code></td>
-<td>Chapter에 병합</td>
+<td style="text-align: center;"><code>B</code></td>
+<td style="text-align: center;"><strong>4</strong></td>
+<td>기본 카드 발동 등급</td>
 </tr>
 <tr>
-<td><a href="#stage">Stage</a></td>
-<td><code>stages.json</code></td>
-<td>전투 스테이지 템플릿</td>
+<td style="text-align: center;"><code>C</code></td>
+<td style="text-align: center;"><strong>8</strong></td>
+<td>일반 전투 주력 등급</td>
 </tr>
 <tr>
-<td><a href="#stagemonster">StageMonster</a></td>
-<td><code>stages.json</code> 내 <code>monsters[]</code></td>
-<td>Stage에 병합</td>
+<td style="text-align: center;"><code>D</code></td>
+<td style="text-align: center;"><strong>16</strong></td>
+<td>강화 카드 등급</td>
 </tr>
 <tr>
-<td><a href="#character">Character</a></td>
-<td><code>characters.json</code></td>
-<td></td>
+<td style="text-align: center;"><code>E</code></td>
+<td style="text-align: center;"><strong>32</strong></td>
+<td>강력 카드 등급</td>
 </tr>
 <tr>
-<td><a href="#card">Card</a></td>
-<td><code>cards.json</code></td>
-<td></td>
-</tr>
-<tr>
-<td><a href="#monster">Monster</a></td>
-<td><code>monsters.json</code></td>
-<td>기본 스탯만</td>
-</tr>
-<tr>
-<td><a href="#monsteraction">MonsterAction</a></td>
-<td><code>monsters.json</code> 내 <code>actionPattern</code>, <code>phaseThresholds[].actionPattern</code></td>
-<td>Monster에 병합</td>
-</tr>
-<tr>
-<td><a href="#bossphase">BossPhase</a></td>
-<td><code>monsters.json</code> 내 <code>phaseThresholds[]</code></td>
-<td>Monster에 병합</td>
-</tr>
-<tr>
-<td><a href="#storyscene">StoryScene</a></td>
-<td><code>story_scenes.json</code></td>
-<td></td>
+<td style="text-align: center;"><code>F</code></td>
+<td style="text-align: center;"><strong>64</strong></td>
+<td>필살 카드 등급. 보드 최적화 필요</td>
 </tr>
 </tbody>
 </table>
 <hr />
-<h2 id="_4">시트 상세</h2>
-<h3 id="chapter">Chapter</h3>
-<p>챕터 기본 정보. 메인 스토리와 서브 스토리 모두 이 시트에 등록한다.</p>
+<h2 id="1">1. 문자열</h2>
+<h3 id="stringtbl_kr">StringTBL_KR</h3>
+<p>모든 화면 표시 텍스트를 UID로 참조한다. 다국어 대응 시 <code>StringTBL_EN</code> 등을 동일 UID로 추가한다.</p>
+<p><strong>컬럼</strong></p>
 <table>
 <thead>
 <tr>
 <th>컬럼</th>
 <th>타입</th>
-<th>예시</th>
 <th>설명</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>id</code></td>
-<td>string</td>
-<td><code>ch1</code></td>
-<td>챕터 식별자 (PK)</td>
+<td><code>Name</code></td>
+<td><code>string</code></td>
+<td>시트 행 식별자</td>
 </tr>
 <tr>
-<td><code>title</code></td>
-<td>string</td>
-<td><code>도시의 균열</code></td>
-<td>챕터 표시 제목</td>
+<td><code>UID</code></td>
+<td><code>number</code></td>
+<td>문자열 고유 식별자. 범위별 용도 구분 (위 UID 범위표 참조)</td>
 </tr>
 <tr>
-<td><code>storyType</code></td>
-<td>enum</td>
-<td><code>MAIN</code></td>
-<td><code>MAIN</code> / <code>SUB</code></td>
-</tr>
-<tr>
-<td><code>actCount</code></td>
-<td>number</td>
-<td><code>2</code></td>
-<td>막(Act) 수. <code>ActConfig</code> 행 수와 일치해야 함</td>
+<td><code>KR</code></td>
+<td><code>string</code></td>
+<td>한국어 문자열</td>
 </tr>
 </tbody>
 </table>
-<p><strong>예시 행</strong></p>
+<p><strong>참조 관계</strong></p>
+<ul>
+<li>카드·챔피언·적·상태이상·특성·팀·희귀도·의도·이벤트 모든 시트의 <code>titleStringId</code>, <code>descStringId</code>에서 참조</li>
+</ul>
+<p><strong>예시</strong></p>
 <table>
 <thead>
 <tr>
-<th>id</th>
-<th>title</th>
-<th>storyType</th>
-<th style="text-align: center;">actCount</th>
+<th>Name</th>
+<th>UID</th>
+<th>KR</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>ch1</td>
-<td>도시의 균열</td>
-<td>MAIN</td>
-<td style="text-align: center;">3</td>
+<td>str_status_vulnerable_title</td>
+<td>10001</td>
+<td>취약</td>
 </tr>
 <tr>
-<td>ch8</td>
-<td>최후의 컴파일</td>
-<td>MAIN</td>
-<td style="text-align: center;">3</td>
+<td>str_status_vulnerable_desc</td>
+<td>10002</td>
+<td>받는 피해가 50% 증가합니다</td>
 </tr>
 <tr>
-<td>sub_kestrel</td>
-<td>케스트럴의 과거</td>
-<td>SUB</td>
-<td style="text-align: center;">1</td>
+<td>str_trait_swift_title</td>
+<td>10101</td>
+<td>신속</td>
+</tr>
+<tr>
+<td>str_card_shield_strike_title</td>
+<td>200001</td>
+<td>방패 강타</td>
+</tr>
+<tr>
+<td>str_card_shield_strike_desc</td>
+<td>200002</td>
+<td>적에게 22의 피해를 입히고 아군 전체에게 방어막 4를 부여합니다</td>
+</tr>
+<tr>
+<td>str_champion_kestrel</td>
+<td>260001</td>
+<td>케스트럴 (Kestrel)</td>
+</tr>
+<tr>
+<td>str_enemy_warden</td>
+<td>261001</td>
+<td>제1감시자</td>
+</tr>
+<tr>
+<td>str_event_ruin_encounter</td>
+<td>270001</td>
+<td>폐허에서 낡은 상자를 발견했다. 열어볼까?</td>
 </tr>
 </tbody>
 </table>
 <hr />
-<h3 id="actconfig">ActConfig</h3>
-<p>챕터 내 각 막의 구성 설정. 챕터당 <code>actCount</code>개 행이 존재한다.<br />
-변환 시 <code>chapterId</code>로 그룹화하여 해당 Chapter의 <code>acts[]</code> 배열로 병합된다.</p>
+<h2 id="2">2. 카드 시스템</h2>
+<h3 id="cardabilitytbl">CardAbilityTBL</h3>
+<p>카드 또는 적이 사용하는 개별 효과 단위. 하나의 카드는 <code>ability1~4</code>를 통해 최대 4개의 어빌리티를 참조할 수 있다.</p>
+<p><strong>컬럼</strong></p>
 <table>
 <thead>
 <tr>
 <th>컬럼</th>
 <th>타입</th>
-<th>예시</th>
 <th>설명</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>chapterId</code></td>
-<td>string</td>
-<td><code>ch1</code></td>
-<td><code>Chapter.id</code> 참조 (FK)</td>
+<td><code>Name</code></td>
+<td><code>string</code></td>
+<td>어빌리티 식별자 PK. 예: <code>kestrel_shield_strike</code></td>
 </tr>
 <tr>
-<td><code>actNumber</code></td>
-<td>number</td>
-<td><code>1</code></td>
-<td>막 번호. 1부터 시작</td>
+<td><code>Type</code></td>
+<td><code>string</code></td>
+<td><code>Attacks</code> | <code>Heals</code> | <code>Buffs</code> | <code>Debuffs</code> | <code>Passives</code> | <code>Enemy</code></td>
 </tr>
 <tr>
-<td><code>stageCount</code></td>
-<td>number</td>
-<td><code>4</code></td>
-<td>이 막의 스테이지 수 (보스 제외)</td>
+<td><code>ID</code></td>
+<td><code>number</code></td>
+<td>고유 ID</td>
 </tr>
 <tr>
-<td><code>supplyPositions</code></td>
-<td>string</td>
-<td><code>2,4</code></td>
-<td>보급 지역을 고정 배치할 위치 인덱스. 쉼표 구분. 빈 칸이면 없음</td>
+<td><code>selectTrigger</code></td>
+<td><code>string</code></td>
+<td>트리거 레이블. GlobalEnum.AbilityTrigger 참조</td>
 </tr>
 <tr>
-<td><code>bossMonsterId</code></td>
-<td>string</td>
-<td><code>warden</code></td>
-<td>막 보스로 사용할 <code>Monster.id</code>. <code>enemyType = BOSS</code>여야 함</td>
+<td><code>trigger</code></td>
+<td><code>number</code></td>
+<td>트리거 enum 값</td>
+</tr>
+<tr>
+<td><code>trigCond1~3</code></td>
+<td><code>string?</code></td>
+<td>트리거 발동 추가 조건</td>
+</tr>
+<tr>
+<td><code>selectTarget</code></td>
+<td><code>string</code></td>
+<td>대상 레이블. GlobalEnum.AbilityTarget 참조</td>
+</tr>
+<tr>
+<td><code>target</code></td>
+<td><code>number</code></td>
+<td>대상 enum 값</td>
+</tr>
+<tr>
+<td><code>tgtCond1~3</code></td>
+<td><code>string?</code></td>
+<td>대상 필터 조건</td>
+</tr>
+<tr>
+<td><code>effect1</code></td>
+<td><code>string?</code></td>
+<td>주 효과. 예: <code>damage</code>, <code>heal</code>, <code>add_shield</code></td>
+</tr>
+<tr>
+<td><code>effect2</code></td>
+<td><code>string?</code></td>
+<td>보조 효과</td>
+</tr>
+<tr>
+<td><code>status1</code></td>
+<td><code>string?</code></td>
+<td>적용 상태이상. <code>CardStatusTBL.Name</code> 참조</td>
+</tr>
+<tr>
+<td><code>status2</code></td>
+<td><code>string?</code></td>
+<td>두 번째 상태이상</td>
+</tr>
+<tr>
+<td><code>effectValue</code></td>
+<td><code>number?</code></td>
+<td>효과 수치</td>
+</tr>
+<tr>
+<td><code>upgradeValue</code></td>
+<td><code>number?</code></td>
+<td>강화 시 effectValue 증가량</td>
+</tr>
+<tr>
+<td><code>selectUpBonus</code></td>
+<td><code>string?</code></td>
+<td>강화 보너스 타입 레이블</td>
+</tr>
+<tr>
+<td><code>upgradeBonus</code></td>
+<td><code>number?</code></td>
+<td>강화 보너스 수치</td>
+</tr>
+<tr>
+<td><code>chainAbility</code></td>
+<td><code>string?</code></td>
+<td>연쇄 발동 어빌리티 <code>Name</code></td>
+</tr>
+<tr>
+<td><code>targetFx</code></td>
+<td><code>string?</code></td>
+<td>효과 연출 키. 예: <code>SlashFX</code>, <code>AoeFX</code>, <code>CurseFX</code></td>
 </tr>
 </tbody>
 </table>
-<p><strong>예시 행</strong></p>
+<p><strong>참조 관계</strong></p>
+<ul>
+<li><code>status1</code>, <code>status2</code> → <code>CardStatusTBL.Name</code></li>
+<li><code>chainAbility</code> → <code>CardAbilityTBL.Name</code> (자기 참조)</li>
+<li><code>CardTBL.ability1~4</code>에서 참조됨</li>
+<li><code>EnemyTBL.ability1</code>에서 참조됨</li>
+</ul>
+<p><strong>예시</strong></p>
 <table>
 <thead>
 <tr>
-<th>chapterId</th>
-<th style="text-align: center;">actNumber</th>
-<th style="text-align: center;">stageCount</th>
-<th style="text-align: center;">supplyPositions</th>
-<th>bossMonsterId</th>
+<th>Name</th>
+<th>Type</th>
+<th>ID</th>
+<th>selectTrigger</th>
+<th>trigger</th>
+<th>selectTarget</th>
+<th>target</th>
+<th>tgtCond1</th>
+<th>effect1</th>
+<th style="text-align: center;">effectValue</th>
+<th style="text-align: center;">upgradeValue</th>
+<th>status1</th>
+<th>targetFx</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>ch1</td>
-<td style="text-align: center;">1</td>
-<td style="text-align: center;">4</td>
-<td style="text-align: center;">4</td>
-<td>field_captain</td>
+<td>kestrel_shield_strike</td>
+<td>Attacks</td>
+<td>1001</td>
+<td>OnPlay</td>
+<td>10</td>
+<td>PlayTarget</td>
+<td>20</td>
+<td>is_not_allied</td>
+<td>damage</td>
+<td style="text-align: center;">22</td>
+<td style="text-align: center;">3</td>
+<td></td>
+<td>SlashFX</td>
 </tr>
 <tr>
-<td>ch1</td>
-<td style="text-align: center;">2</td>
+<td>kestrel_rally</td>
+<td>Buffs</td>
+<td>1002</td>
+<td>OnPlay</td>
+<td>10</td>
+<td>AllCharacters</td>
+<td>7</td>
+<td>is_allied</td>
+<td>add_shield</td>
 <td style="text-align: center;">4</td>
-<td style="text-align: center;">4</td>
+<td style="text-align: center;">1</td>
+<td></td>
+<td>ShieldFX</td>
+</tr>
+<tr>
+<td>cipher_vuln_analysis</td>
+<td>Debuffs</td>
+<td>1014</td>
+<td>OnPlay</td>
+<td>10</td>
+<td>PlayTarget</td>
+<td>20</td>
+<td>is_not_allied</td>
+<td></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td>vulnerable</td>
+<td>CurseFX</td>
+</tr>
+<tr>
+<td>enemy_atk_warden_s22</td>
+<td>Enemy</td>
+<td>2001</td>
+<td>OnPlay</td>
+<td>10</td>
+<td>PlayTarget</td>
+<td>20</td>
+<td>is_character</td>
+<td>damage</td>
+<td style="text-align: center;">22</td>
+<td style="text-align: center;"></td>
+<td></td>
+<td>SlashFX</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="cardstatustbl">CardStatusTBL</h3>
+<p>버프·디버프 상태이상 정의. 각 상태이상의 효과 종류, 지속 방식, 표시 정보를 관리한다.</p>
+<p><strong>컬럼</strong></p>
+<table>
+<thead>
+<tr>
+<th>컬럼</th>
+<th>타입</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Name</code></td>
+<td><code>string</code></td>
+<td>상태이상 식별자 PK. 예: <code>vulnerable</code>, <code>slow</code></td>
+</tr>
+<tr>
+<td><code>ID</code></td>
+<td><code>number</code></td>
+<td>고유 ID</td>
+</tr>
+<tr>
+<td><code>selectEffect</code></td>
+<td><code>string</code></td>
+<td>GlobalEnum.StatusEffect 레이블</td>
+</tr>
+<tr>
+<td><code>statusEffect</code></td>
+<td><code>number</code></td>
+<td>StatusEffect enum 값</td>
+</tr>
+<tr>
+<td><code>selectDuration</code></td>
+<td><code>string</code></td>
+<td>GlobalEnum.StatusDuration 레이블</td>
+</tr>
+<tr>
+<td><code>statusDuration</code></td>
+<td><code>number</code></td>
+<td><code>Persistant=0</code>, <code>OneTurn=2</code>, <code>AutoReduce=10</code></td>
+</tr>
+<tr>
+<td><code>isNegative</code></td>
+<td><code>boolean</code></td>
+<td><code>TRUE</code>=디버프, <code>FALSE</code>=버프</td>
+</tr>
+<tr>
+<td><code>titleStringId</code></td>
+<td><code>number</code></td>
+<td>StringTBL UID (10000~)</td>
+</tr>
+<tr>
+<td><code>descStringId</code></td>
+<td><code>number</code></td>
+<td>StringTBL UID (10000~)</td>
+</tr>
+<tr>
+<td><code>icon</code></td>
+<td><code>string</code></td>
+<td>아이콘 에셋 키</td>
+</tr>
+<tr>
+<td><code>fx</code></td>
+<td><code>string?</code></td>
+<td>적용 연출 키</td>
+</tr>
+<tr>
+<td><code>animation</code></td>
+<td><code>string?</code></td>
+<td>적용 애니메이션 키</td>
+</tr>
+</tbody>
+</table>
+<p><strong>참조 관계</strong></p>
+<ul>
+<li><code>titleStringId</code>, <code>descStringId</code> → <code>StringTBL_KR.UID</code></li>
+<li><code>CardAbilityTBL.status1</code>, <code>status2</code>에서 참조됨</li>
+</ul>
+<p><strong>예시</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>ID</th>
+<th>selectEffect</th>
+<th style="text-align: center;">statusEffect</th>
+<th>selectDuration</th>
+<th style="text-align: center;">statusDuration</th>
+<th style="text-align: center;">isNegative</th>
+<th style="text-align: center;">titleStringId</th>
+<th style="text-align: center;">descStringId</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>attack_power</td>
+<td>101</td>
+<td>AttackPower</td>
+<td style="text-align: center;">10</td>
+<td>Persistant</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">FALSE</td>
+<td style="text-align: center;">10001</td>
+<td style="text-align: center;">10002</td>
+</tr>
+<tr>
+<td>armor</td>
+<td>102</td>
+<td>Armor</td>
+<td style="text-align: center;">15</td>
+<td>Persistant</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">FALSE</td>
+<td style="text-align: center;">10003</td>
+<td style="text-align: center;">10004</td>
+</tr>
+<tr>
+<td>vulnerable</td>
+<td>201</td>
+<td>Vulnerable</td>
+<td style="text-align: center;">32</td>
+<td>AutoReduce</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">TRUE</td>
+<td style="text-align: center;">10011</td>
+<td style="text-align: center;">10012</td>
+</tr>
+<tr>
+<td>slow</td>
+<td>202</td>
+<td>SlowDown</td>
+<td style="text-align: center;">70</td>
+<td>AutoReduce</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">TRUE</td>
+<td style="text-align: center;">10021</td>
+<td style="text-align: center;">10022</td>
+</tr>
+<tr>
+<td>bleed</td>
+<td>203</td>
+<td>Bleed</td>
+<td style="text-align: center;">44</td>
+<td>AutoReduce</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">TRUE</td>
+<td style="text-align: center;">10031</td>
+<td style="text-align: center;">10032</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="cardtraittbl">CardTraitTBL</h3>
+<p>카드의 특성 태그. 특정 시너지 조건이나 상호작용 트리거에 사용한다.</p>
+<p><strong>컬럼</strong></p>
+<table>
+<thead>
+<tr>
+<th>컬럼</th>
+<th>타입</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Name</code></td>
+<td><code>string</code></td>
+<td>특성 식별자. 예: <code>swift</code>, <code>heavy</code>, <code>arcane</code></td>
+</tr>
+<tr>
+<td><code>ID</code></td>
+<td><code>number</code></td>
+<td>고유 ID</td>
+</tr>
+<tr>
+<td><code>titleStringId</code></td>
+<td><code>number</code></td>
+<td>StringTBL UID (10000~). 특성 표시 이름</td>
+</tr>
+<tr>
+<td><code>descStringId</code></td>
+<td><code>number</code></td>
+<td>StringTBL UID (10000~). 특성 설명</td>
+</tr>
+<tr>
+<td><code>icon</code></td>
+<td><code>string</code></td>
+<td>아이콘 에셋 키</td>
+</tr>
+</tbody>
+</table>
+<p><strong>참조 관계</strong></p>
+<ul>
+<li><code>titleStringId</code>, <code>descStringId</code> → <code>StringTBL_KR.UID</code></li>
+<li><code>CardTBL.trait1</code>, <code>trait2</code>에서 참조됨</li>
+<li><code>EnemyTBL.trait1</code>에서 참조됨</li>
+</ul>
+<p><strong>예시</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>ID</th>
+<th style="text-align: center;">titleStringId</th>
+<th style="text-align: center;">descStringId</th>
+<th>icon</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>swift</td>
+<td>101</td>
+<td style="text-align: center;">10101</td>
+<td style="text-align: center;">10102</td>
+<td>icon_trait_swift</td>
+</tr>
+<tr>
+<td>heavy</td>
+<td>102</td>
+<td style="text-align: center;">10103</td>
+<td style="text-align: center;">10104</td>
+<td>icon_trait_heavy</td>
+</tr>
+<tr>
+<td>arcane</td>
+<td>103</td>
+<td style="text-align: center;">10105</td>
+<td style="text-align: center;">10106</td>
+<td>icon_trait_arcane</td>
+</tr>
+<tr>
+<td>sentinel</td>
+<td>104</td>
+<td style="text-align: center;">10107</td>
+<td style="text-align: center;">10108</td>
+<td>icon_trait_sentinel</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="cardteamtbl">CardTeamTBL</h3>
+<p>카드 및 챔피언이 속한 팀(진영). 팀별로 시너지나 제약이 발동될 수 있다.</p>
+<p><strong>컬럼</strong></p>
+<table>
+<thead>
+<tr>
+<th>컬럼</th>
+<th>타입</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Name</code></td>
+<td><code>string</code></td>
+<td>팀 식별자. 예: <code>vanguard</code>, <code>cipher</code>, <code>wanderer</code></td>
+</tr>
+<tr>
+<td><code>ID</code></td>
+<td><code>number</code></td>
+<td>고유 ID</td>
+</tr>
+<tr>
+<td><code>titleStringId</code></td>
+<td><code>number</code></td>
+<td>StringTBL UID (10000~). 팀 표시 이름</td>
+</tr>
+<tr>
+<td><code>icon</code></td>
+<td><code>string</code></td>
+<td>팀 아이콘 에셋 키</td>
+</tr>
+<tr>
+<td><code>color</code></td>
+<td><code>string</code></td>
+<td>팀 대표 색상. 16진수 코드. 예: <code>#4A90D9</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>참조 관계</strong></p>
+<ul>
+<li><code>titleStringId</code> → <code>StringTBL_KR.UID</code></li>
+<li><code>CardTBL.team</code>, <code>ChampionTBL.team</code>에서 참조됨</li>
+</ul>
+<p><strong>예시</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>ID</th>
+<th style="text-align: center;">titleStringId</th>
+<th>icon</th>
+<th>color</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>vanguard</td>
+<td>101</td>
+<td style="text-align: center;">10201</td>
+<td>icon_team_vanguard</td>
+<td>#4A90D9</td>
+</tr>
+<tr>
+<td>cipher</td>
+<td>102</td>
+<td style="text-align: center;">10202</td>
+<td>icon_team_cipher</td>
+<td>#9B59B6</td>
+</tr>
+<tr>
+<td>wanderer</td>
+<td>103</td>
+<td style="text-align: center;">10203</td>
+<td>icon_team_wanderer</td>
+<td>#E67E22</td>
+</tr>
+<tr>
 <td>warden</td>
+<td>104</td>
+<td style="text-align: center;">10204</td>
+<td>icon_team_warden</td>
+<td>#C0392B</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="cardraritytbl">CardRarityTBL</h3>
+<p>카드 희귀도 등급. 상점 출현 확률과 UI 표시에 사용한다.</p>
+<p><strong>컬럼</strong></p>
+<table>
+<thead>
+<tr>
+<th>컬럼</th>
+<th>타입</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Name</code></td>
+<td><code>string</code></td>
+<td>희귀도 식별자. 예: <code>common</code>, <code>rare</code>, <code>epic</code></td>
 </tr>
 <tr>
-<td>ch1</td>
+<td><code>ID</code></td>
+<td><code>number</code></td>
+<td>고유 ID</td>
+</tr>
+<tr>
+<td><code>titleStringId</code></td>
+<td><code>number</code></td>
+<td>StringTBL UID (10000~). 희귀도 표시 이름</td>
+</tr>
+<tr>
+<td><code>icon</code></td>
+<td><code>string</code></td>
+<td>희귀도 아이콘 에셋 키</td>
+</tr>
+<tr>
+<td><code>probability</code></td>
+<td><code>number</code></td>
+<td>카드 보상 선택지 등장 가중치 (0.0~1.0)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>참조 관계</strong></p>
+<ul>
+<li><code>titleStringId</code> → <code>StringTBL_KR.UID</code></li>
+<li><code>CardTBL.rarity</code>에서 참조됨</li>
+<li><code>MapEvent_BattleTBL.cardRarity</code>에서 참조됨</li>
+</ul>
+<p><strong>예시</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>ID</th>
+<th style="text-align: center;">titleStringId</th>
+<th>icon</th>
+<th style="text-align: center;">probability</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>common</td>
+<td>101</td>
+<td style="text-align: center;">10301</td>
+<td>icon_rarity_common</td>
+<td style="text-align: center;">0.60</td>
+</tr>
+<tr>
+<td>rare</td>
+<td>102</td>
+<td style="text-align: center;">10302</td>
+<td>icon_rarity_rare</td>
+<td style="text-align: center;">0.30</td>
+</tr>
+<tr>
+<td>epic</td>
+<td>103</td>
+<td style="text-align: center;">10303</td>
+<td>icon_rarity_epic</td>
+<td style="text-align: center;">0.08</td>
+</tr>
+<tr>
+<td>legendary</td>
+<td>104</td>
+<td style="text-align: center;">10304</td>
+<td>icon_rarity_legendary</td>
+<td style="text-align: center;">0.02</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="cardintenttbl">CardIntentTBL</h3>
+<p>적 카드 사용 시 플레이어에게 표시되는 행동 예고(의도) 아이콘 정의.</p>
+<p><strong>컬럼</strong></p>
+<table>
+<thead>
+<tr>
+<th>컬럼</th>
+<th>타입</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Name</code></td>
+<td><code>string</code></td>
+<td>의도 식별자. 예: <code>intent_attack</code>, <code>intent_defend</code>, <code>intent_buff</code></td>
+</tr>
+<tr>
+<td><code>ID</code></td>
+<td><code>number</code></td>
+<td>고유 ID</td>
+</tr>
+<tr>
+<td><code>isShow</code></td>
+<td><code>boolean</code></td>
+<td>UI에 의도 표시 여부. <code>FALSE</code>이면 숨김 (기습 공격 등)</td>
+</tr>
+<tr>
+<td><code>priority</code></td>
+<td><code>number</code></td>
+<td>복수 의도 충돌 시 표시 우선순위. 값이 낮을수록 우선</td>
+</tr>
+<tr>
+<td><code>titleStringId</code></td>
+<td><code>number</code></td>
+<td>StringTBL UID (10000~). 의도 이름</td>
+</tr>
+<tr>
+<td><code>descStringId</code></td>
+<td><code>number</code></td>
+<td>StringTBL UID (10000~). 의도 설명</td>
+</tr>
+<tr>
+<td><code>icon</code></td>
+<td><code>string</code></td>
+<td>의도 아이콘 에셋 키</td>
+</tr>
+</tbody>
+</table>
+<p><strong>참조 관계</strong></p>
+<ul>
+<li><code>titleStringId</code>, <code>descStringId</code> → <code>StringTBL_KR.UID</code></li>
+<li><code>CardTBL.intent</code>에서 참조됨</li>
+</ul>
+<p><strong>예시</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>ID</th>
+<th style="text-align: center;">isShow</th>
+<th style="text-align: center;">priority</th>
+<th style="text-align: center;">titleStringId</th>
+<th style="text-align: center;">descStringId</th>
+<th>icon</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>intent_attack</td>
+<td>101</td>
+<td style="text-align: center;">TRUE</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">10401</td>
+<td style="text-align: center;">10402</td>
+<td>icon_intent_attack</td>
+</tr>
+<tr>
+<td>intent_attack_heavy</td>
+<td>102</td>
+<td style="text-align: center;">TRUE</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">10403</td>
+<td style="text-align: center;">10404</td>
+<td>icon_intent_attack_heavy</td>
+</tr>
+<tr>
+<td>intent_defend</td>
+<td>103</td>
+<td style="text-align: center;">TRUE</td>
+<td style="text-align: center;">20</td>
+<td style="text-align: center;">10405</td>
+<td style="text-align: center;">10406</td>
+<td>icon_intent_defend</td>
+</tr>
+<tr>
+<td>intent_buff</td>
+<td>104</td>
+<td style="text-align: center;">TRUE</td>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">10407</td>
+<td style="text-align: center;">10408</td>
+<td>icon_intent_buff</td>
+</tr>
+<tr>
+<td>intent_unknown</td>
+<td>105</td>
+<td style="text-align: center;">FALSE</td>
+<td style="text-align: center;">99</td>
+<td style="text-align: center;">10409</td>
+<td style="text-align: center;">10410</td>
+<td>icon_intent_unknown</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="cardtbl">CardTBL</h3>
+<p>플레이어와 적이 사용하는 카드 전체를 정의한다. <code>tileRank</code>와 <code>upgradedTileRank</code>는 2048 보드 메커니즘 전용 필드이다.</p>
+<p><strong>컬럼</strong></p>
+<table>
+<thead>
+<tr>
+<th>컬럼</th>
+<th>타입</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Name</code></td>
+<td><code>string</code></td>
+<td>카드 식별자 PK. 예: <code>kestrel_shield_strike</code></td>
+</tr>
+<tr>
+<td><code>ID</code></td>
+<td><code>number</code></td>
+<td>고유 ID</td>
+</tr>
+<tr>
+<td><code>titleStringId</code></td>
+<td><code>number</code></td>
+<td>StringTBL UID (200000~). 카드 표시 이름</td>
+</tr>
+<tr>
+<td><code>descStringId</code></td>
+<td><code>number</code></td>
+<td>StringTBL UID (200000~). 카드 설명</td>
+</tr>
+<tr>
+<td><code>cardType</code></td>
+<td><code>string</code></td>
+<td><code>Skill</code> — 발동 후 덱 반환 / <code>Power</code> — 영구 패시브</td>
+</tr>
+<tr>
+<td><code>team</code></td>
+<td><code>string</code></td>
+<td><code>CardTeamTBL.Name</code> 참조</td>
+</tr>
+<tr>
+<td><code>rarity</code></td>
+<td><code>string</code></td>
+<td><code>CardRarityTBL.Name</code> 참조</td>
+</tr>
+<tr>
+<td><code>mana</code></td>
+<td><code>number</code></td>
+<td>발동 마나 비용</td>
+</tr>
+<tr>
+<td><code>trait1</code></td>
+<td><code>string?</code></td>
+<td><code>CardTraitTBL.Name</code> 참조. 첫 번째 특성</td>
+</tr>
+<tr>
+<td><code>trait2</code></td>
+<td><code>string?</code></td>
+<td><code>CardTraitTBL.Name</code> 참조. 두 번째 특성. 공란 가능</td>
+</tr>
+<tr>
+<td><code>ability1</code></td>
+<td><code>string</code></td>
+<td><code>CardAbilityTBL.Name</code> 참조. 주 효과</td>
+</tr>
+<tr>
+<td><code>ability2~4</code></td>
+<td><code>string?</code></td>
+<td>추가 어빌리티. 공란 가능</td>
+</tr>
+<tr>
+<td><code>upgradeMax</code></td>
+<td><code>number</code></td>
+<td>최대 강화 횟수</td>
+</tr>
+<tr>
+<td><code>upgradeMana</code></td>
+<td><code>number?</code></td>
+<td>강화 후 마나 비용. 공란이면 기존 유지</td>
+</tr>
+<tr>
+<td><code>shopCost</code></td>
+<td><code>number</code></td>
+<td>상점 구매 가격 (골드)</td>
+</tr>
+<tr>
+<td><code>intent</code></td>
+<td><code>string?</code></td>
+<td><code>CardIntentTBL.Name</code> 참조. 적 사용 시 표시할 의도</td>
+</tr>
+<tr>
+<td><code>tileRank</code></td>
+<td><code>TileRank</code></td>
+<td>발동 필요 타일 등급 (A~F). <strong>2048 전용</strong></td>
+</tr>
+<tr>
+<td><code>upgradedTileRank</code></td>
+<td><code>TileRank?</code></td>
+<td>강화 후 요구 타일 등급. 공란이면 유지. <strong>2048 전용</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>참조 관계</strong></p>
+<ul>
+<li><code>team</code> → <code>CardTeamTBL.Name</code></li>
+<li><code>rarity</code> → <code>CardRarityTBL.Name</code></li>
+<li><code>trait1</code>, <code>trait2</code> → <code>CardTraitTBL.Name</code></li>
+<li><code>ability1~4</code> → <code>CardAbilityTBL.Name</code></li>
+<li><code>intent</code> → <code>CardIntentTBL.Name</code></li>
+<li><code>DeckTBL.slot1~10</code>에서 참조됨</li>
+<li><code>ChampionTBL.rewardCard1</code>, <code>rewardCard2</code>에서 참조됨</li>
+</ul>
+<p><strong>예시</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>ID</th>
+<th style="text-align: center;">titleStringId</th>
+<th>cardType</th>
+<th>team</th>
+<th>rarity</th>
+<th style="text-align: center;">mana</th>
+<th>trait1</th>
+<th>ability1</th>
+<th>ability2</th>
+<th style="text-align: center;">upgradeMax</th>
+<th style="text-align: center;">shopCost</th>
+<th>intent</th>
+<th style="text-align: center;">tileRank</th>
+<th style="text-align: center;">upgradedTileRank</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>kestrel_shield_strike</td>
+<td>3001</td>
+<td style="text-align: center;">200001</td>
+<td>Skill</td>
+<td>vanguard</td>
+<td>common</td>
+<td style="text-align: center;">1</td>
+<td>heavy</td>
+<td>kestrel_shield_strike</td>
+<td>kestrel_rally</td>
 <td style="text-align: center;">3</td>
-<td style="text-align: center;">4</td>
-<td style="text-align: center;"></td>
-<td>commander</td>
-</tr>
-</tbody>
-</table>
-<p><code>supplyPositions</code>는 보급 지역이 고정 배치될 위치 번호(1-based). 비어 있으면 <code>[]</code>.</p>
-<p><strong>막별 기본 스테이지 패턴</strong></p>
-<table>
-<thead>
-<tr>
-<th>막</th>
-<th>위치 1</th>
-<th>위치 2</th>
-<th>위치 3</th>
-<th>위치 4</th>
-<th>위치 5 (고정)</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1막</td>
-<td>NORMAL</td>
-<td>NORMAL</td>
-<td>ELITE</td>
-<td>SUPPLY</td>
-<td>BOSS</td>
-</tr>
-<tr>
-<td>2막</td>
-<td>NORMAL</td>
-<td>NORMAL</td>
-<td>ELITE</td>
-<td>SUPPLY</td>
-<td>BOSS</td>
-</tr>
-<tr>
-<td>3막</td>
-<td>NORMAL</td>
-<td>ELITE</td>
-<td>ELITE</td>
-<td>UNKNOWN</td>
-<td>BOSS</td>
-</tr>
-</tbody>
-</table>
-<p><strong>변환 규칙</strong>: <code>supplyPositions</code> → 쉼표로 분리하여 <code>number[]</code> 배열로 변환. 빈 칸은 <code>[]</code>.</p>
-<hr />
-<h3 id="stage">Stage</h3>
-<p>전투 스테이지 템플릿. <code>SUPPLY</code>·<code>UNKNOWN</code> 유형은 전투가 없으므로 <code>maxSlides</code>, <code>tileValues</code>, <code>tileWeights</code> 컬럼을 비워둔다.</p>
-<table>
-<thead>
-<tr>
-<th>컬럼</th>
-<th>타입</th>
-<th>예시</th>
-<th>설명</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>id</code></td>
-<td>string</td>
-<td><code>ch1_s01</code></td>
-<td>스테이지 식별자 (PK)</td>
-</tr>
-<tr>
-<td><code>chapterId</code></td>
-<td>string</td>
-<td><code>ch1</code></td>
-<td><code>Chapter.id</code> 참조 (FK)</td>
-</tr>
-<tr>
-<td><code>actNumber</code></td>
-<td>number</td>
-<td><code>1</code></td>
-<td>소속 막 번호</td>
-</tr>
-<tr>
-<td><code>stageType</code></td>
-<td>enum</td>
-<td><code>NORMAL</code></td>
-<td><code>NORMAL</code> / <code>ELITE</code> / <code>BOSS</code> / <code>SUPPLY</code> / <code>UNKNOWN</code></td>
-</tr>
-<tr>
-<td><code>maxSlides</code></td>
-<td>number</td>
-<td><code>5</code></td>
-<td>턴당 최대 슬라이드 횟수. 전투 스테이지(<code>NORMAL</code>·<code>ELITE</code>·<code>BOSS</code>)만 입력</td>
-</tr>
-<tr>
-<td><code>tileValues</code></td>
-<td>string</td>
-<td><code>2,4</code></td>
-<td>생성 가능한 타일 값. 쉼표 구분. 전투 스테이지만 입력</td>
-</tr>
-<tr>
-<td><code>tileWeights</code></td>
-<td>string</td>
-<td><code>3,1</code></td>
-<td>각 타일 값의 생성 가중치. 쉼표 구분. <code>tileValues</code>와 길이 동일</td>
-</tr>
-</tbody>
-</table>
-<p><strong>ID 네이밍 규칙</strong>: <code>{chapterId}_a{actNumber}_s{stageIndex}</code> — 예: <code>ch1_a1_s3</code></p>
-<p><strong>예시 행</strong></p>
-<table>
-<thead>
-<tr>
-<th>id</th>
-<th>chapterId</th>
-<th style="text-align: center;">actNumber</th>
-<th>stageType</th>
-<th style="text-align: center;">maxSlides</th>
-<th>tileValues</th>
-<th>tileWeights</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>ch1_a1_s1</td>
-<td>ch1</td>
-<td style="text-align: center;">1</td>
-<td>NORMAL</td>
-<td style="text-align: center;">5</td>
-<td>2,4</td>
-<td>7,3</td>
-</tr>
-<tr>
-<td>ch1_a1_s3</td>
-<td>ch1</td>
-<td style="text-align: center;">1</td>
-<td>ELITE</td>
-<td style="text-align: center;">4</td>
-<td>2,4</td>
-<td>7,3</td>
-</tr>
-<tr>
-<td>ch1_a1_s4</td>
-<td>ch1</td>
-<td style="text-align: center;">1</td>
-<td>SUPPLY</td>
-<td style="text-align: center;"></td>
+<td style="text-align: center;">50</td>
 <td></td>
+<td style="text-align: center;">C</td>
+<td style="text-align: center;">B</td>
+</tr>
+<tr>
+<td>kestrel_iron_wall</td>
+<td>3002</td>
+<td style="text-align: center;">200003</td>
+<td>Skill</td>
+<td>vanguard</td>
+<td>rare</td>
+<td style="text-align: center;">2</td>
+<td>sentinel</td>
+<td>kestrel_iron_wall</td>
 <td></td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">80</td>
+<td></td>
+<td style="text-align: center;">D</td>
+<td style="text-align: center;">C</td>
 </tr>
 <tr>
-<td>ch1_a1_s5</td>
-<td>ch1</td>
+<td>cipher_vuln_analysis</td>
+<td>3101</td>
+<td style="text-align: center;">200011</td>
+<td>Skill</td>
+<td>cipher</td>
+<td>common</td>
 <td style="text-align: center;">1</td>
-<td>BOSS</td>
-<td style="text-align: center;">6</td>
-<td>2,4</td>
-<td>5,5</td>
-</tr>
-<tr>
-<td>ch1_a3_s4</td>
-<td>ch1</td>
+<td>arcane</td>
+<td>cipher_vuln_analysis</td>
+<td></td>
 <td style="text-align: center;">3</td>
-<td>UNKNOWN</td>
-<td style="text-align: center;"></td>
+<td style="text-align: center;">50</td>
 <td></td>
+<td style="text-align: center;">B</td>
+<td style="text-align: center;">A</td>
+</tr>
+<tr>
+<td>cipher_data_burst</td>
+<td>3102</td>
+<td style="text-align: center;">200013</td>
+<td>Skill</td>
+<td>cipher</td>
+<td>rare</td>
+<td style="text-align: center;">2</td>
+<td>arcane</td>
+<td>cipher_data_burst</td>
+<td>cipher_draw</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">80</td>
 <td></td>
+<td style="text-align: center;">E</td>
+<td style="text-align: center;">D</td>
 </tr>
 </tbody>
 </table>
-<p><strong>변환 규칙</strong>: <code>tileValues</code>, <code>tileWeights</code> → 쉼표로 분리하여 <code>tileSpawnConfig.values[]</code>, <code>tileSpawnConfig.weights[]</code> 배열로 변환.</p>
 <hr />
-<h3 id="stagemonster">StageMonster</h3>
-<p>Stage와 Monster를 연결하는 중간 테이블. 전투 스테이지(<code>NORMAL</code>·<code>ELITE</code>·<code>BOSS</code>)에만 등록한다.<br />
-변환 시 <code>stageId</code>로 그룹화하여 해당 Stage의 <code>monsters[]</code> 배열로 병합된다.</p>
+<h2 id="3">3. 캐릭터·적</h2>
+<h3 id="championtbl">ChampionTBL</h3>
+<p>플레이어가 파티에 편성하는 챔피언 캐릭터. 스탯 체계는 HP·Speed·Hand·Energy 4종으로 구성되며, 레벨업 시 <code>lvUp*</code> 값만큼 증가한다.</p>
+<p><strong>컬럼</strong></p>
 <table>
 <thead>
 <tr>
 <th>컬럼</th>
 <th>타입</th>
-<th>예시</th>
 <th>설명</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>stageId</code></td>
-<td>string</td>
-<td><code>ch1_s01</code></td>
-<td><code>Stage.id</code> 참조 (FK)</td>
+<td><code>Name</code></td>
+<td><code>string</code></td>
+<td>챔피언 식별자 PK</td>
 </tr>
 <tr>
-<td><code>monsterId</code></td>
-<td>string</td>
-<td><code>grunt</code></td>
-<td><code>Monster.id</code> 참조 (FK)</td>
+<td><code>ID</code></td>
+<td><code>number</code></td>
+<td>고유 ID</td>
 </tr>
 <tr>
-<td><code>position</code></td>
-<td>number</td>
-<td><code>1</code></td>
-<td>화면 위→아래 순서이자 행동 처리 순서. 오름차순, 중복 불가</td>
-</tr>
-</tbody>
-</table>
-<p><strong>예시 행</strong></p>
-<table>
-<thead>
-<tr>
-<th>stageId</th>
-<th>monsterId</th>
-<th style="text-align: center;">position</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>ch1_a1_s1</td>
-<td>grunt</td>
-<td style="text-align: center;">1</td>
+<td><code>titleStringId</code></td>
+<td><code>number</code></td>
+<td>StringTBL UID (260000~). 챔피언 표시 이름</td>
 </tr>
 <tr>
-<td>ch1_a1_s1</td>
-<td>patrol</td>
-<td style="text-align: center;">2</td>
+<td><code>hp</code></td>
+<td><code>number</code></td>
+<td>초기 최대 체력</td>
 </tr>
 <tr>
-<td>ch1_a1_s3</td>
-<td>enforcer</td>
-<td style="text-align: center;">1</td>
+<td><code>speed</code></td>
+<td><code>number</code></td>
+<td>초기 행동 속도. 낮을수록 먼저 행동</td>
 </tr>
 <tr>
-<td>ch1_a1_s5</td>
-<td>field_captain</td>
-<td style="text-align: center;">1</td>
+<td><code>hand</code></td>
+<td><code>number</code></td>
+<td>초기 손패 최대 장수</td>
 </tr>
 <tr>
-<td>ch1_a3_s3</td>
-<td>enforcer</td>
-<td style="text-align: center;">1</td>
+<td><code>energy</code></td>
+<td><code>number</code></td>
+<td>초기 턴당 최대 에너지</td>
 </tr>
 <tr>
-<td>ch1_a3_s3</td>
-<td>enforcer</td>
-<td style="text-align: center;">2</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h3 id="character">Character</h3>
-<table>
-<thead>
-<tr>
-<th>컬럼</th>
-<th>타입</th>
-<th>예시</th>
-<th>설명</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>id</code></td>
-<td>string</td>
-<td><code>kestrel</code></td>
-<td>캐릭터 식별자 (PK)</td>
+<td><code>lvUpHp</code></td>
+<td><code>number</code></td>
+<td>레벨업당 체력 증가량</td>
 </tr>
 <tr>
-<td><code>name</code></td>
-<td>string</td>
-<td><code>케스트럴 (Kestrel)</code></td>
-<td>화면 표시 이름</td>
+<td><code>lvUpSpeed</code></td>
+<td><code>number</code></td>
+<td>레벨업당 속도 증가량</td>
 </tr>
 <tr>
-<td><code>baseHp</code></td>
-<td>number</td>
-<td><code>120</code></td>
-<td>최대 체력</td>
+<td><code>lvUpHand</code></td>
+<td><code>number</code></td>
+<td>레벨업당 손패 증가량</td>
 </tr>
 <tr>
-<td><code>isDlc</code></td>
-<td>boolean</td>
-<td><code>FALSE</code></td>
-<td>DLC 캐릭터 여부</td>
+<td><code>lvUpEnergy</code></td>
+<td><code>number</code></td>
+<td>레벨업당 에너지 증가량</td>
+</tr>
+<tr>
+<td><code>team</code></td>
+<td><code>string</code></td>
+<td><code>CardTeamTBL.Name</code> 참조. 소속 팀</td>
+</tr>
+<tr>
+<td><code>startDeck</code></td>
+<td><code>string</code></td>
+<td><code>DeckTBL.Name</code> 참조. 런 시작 초기 덱</td>
+</tr>
+<tr>
+<td><code>rewardCard1</code></td>
+<td><code>string?</code></td>
+<td><code>CardTBL.Name</code> 참조. 전투 후 보상 카드 후보 1</td>
+</tr>
+<tr>
+<td><code>rewardCard2</code></td>
+<td><code>string?</code></td>
+<td><code>CardTBL.Name</code> 참조. 전투 후 보상 카드 후보 2</td>
 </tr>
 </tbody>
 </table>
-<p><strong>예시 행</strong></p>
+<p><strong>참조 관계</strong></p>
+<ul>
+<li><code>titleStringId</code> → <code>StringTBL_KR.UID</code></li>
+<li><code>team</code> → <code>CardTeamTBL.Name</code></li>
+<li><code>startDeck</code> → <code>DeckTBL.Name</code></li>
+<li><code>rewardCard1</code>, <code>rewardCard2</code> → <code>CardTBL.Name</code></li>
+</ul>
+<p><strong>예시</strong></p>
 <table>
 <thead>
 <tr>
-<th>id</th>
-<th>name</th>
-<th style="text-align: center;">baseHp</th>
-<th style="text-align: center;">isDlc</th>
+<th>Name</th>
+<th>ID</th>
+<th style="text-align: center;">titleStringId</th>
+<th style="text-align: center;">hp</th>
+<th style="text-align: center;">speed</th>
+<th style="text-align: center;">hand</th>
+<th style="text-align: center;">energy</th>
+<th style="text-align: center;">lvUpHp</th>
+<th style="text-align: center;">lvUpSpeed</th>
+<th style="text-align: center;">lvUpHand</th>
+<th style="text-align: center;">lvUpEnergy</th>
+<th>team</th>
+<th>startDeck</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>kestrel</td>
-<td>케스트럴 (Kestrel)</td>
-<td style="text-align: center;">120</td>
-<td style="text-align: center;">FALSE</td>
+<td>1001</td>
+<td style="text-align: center;">260001</td>
+<td style="text-align: center;">80</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+<td>vanguard</td>
+<td>deck_kestrel_start</td>
 </tr>
 <tr>
-<td>jube</td>
-<td>주베 (Jube)</td>
-<td style="text-align: center;">90</td>
-<td style="text-align: center;">FALSE</td>
+<td>cipher</td>
+<td>1002</td>
+<td style="text-align: center;">260002</td>
+<td style="text-align: center;">60</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0</td>
+<td>cipher</td>
+<td>deck_cipher_start</td>
+</tr>
+<tr>
+<td>wanderer</td>
+<td>1003</td>
+<td style="text-align: center;">260003</td>
+<td style="text-align: center;">70</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td>wanderer</td>
+<td>deck_wanderer_start</td>
 </tr>
 </tbody>
 </table>
 <hr />
-<h3 id="card">Card</h3>
+<h3 id="enemytbl">EnemyTBL</h3>
+<p>전투에 등장하는 적. 챔피언과 동일한 스탯 구조를 사용하며, <code>cardDeck</code>을 통해 행동 카드를 참조한다.</p>
+<p><strong>컬럼</strong></p>
 <table>
 <thead>
 <tr>
 <th>컬럼</th>
 <th>타입</th>
-<th>예시</th>
 <th>설명</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>id</code></td>
-<td>string</td>
-<td><code>kestrel_c01</code></td>
-<td>카드 식별자 (PK)</td>
+<td><code>Name</code></td>
+<td><code>string</code></td>
+<td>적 식별자 PK</td>
 </tr>
 <tr>
-<td><code>ownerCharacterId</code></td>
-<td>string</td>
-<td><code>kestrel</code></td>
-<td><code>Character.id</code> 참조 (FK)</td>
+<td><code>ID</code></td>
+<td><code>number</code></td>
+<td>고유 ID</td>
 </tr>
 <tr>
-<td><code>name</code></td>
-<td>string</td>
-<td><code>방패 강타</code></td>
-<td>카드 표시 이름</td>
+<td><code>titleStringId</code></td>
+<td><code>number</code></td>
+<td>StringTBL UID (261000~). 적 표시 이름</td>
 </tr>
 <tr>
-<td><code>tileRank</code></td>
-<td>enum</td>
-<td><code>ENHANCED</code></td>
-<td>발동 타일 등급. <code>BASIC</code> / <code>NORMAL</code> / <code>ENHANCED</code> / <code>POWERFUL</code> / <code>LETHAL</code> / <code>TRANSCENDENT</code></td>
-</tr>
-<tr>
-<td><code>effectType</code></td>
-<td>enum</td>
-<td><code>ATTACK</code></td>
-<td><code>ATTACK</code> / <code>HEAL</code> / <code>BUFF</code> / <code>DEBUFF</code></td>
-</tr>
-<tr>
-<td><code>targetType</code></td>
-<td>enum</td>
-<td><code>SINGLE_ENEMY</code></td>
-<td><code>SINGLE_ENEMY</code> / <code>ALL_ENEMIES</code> / <code>SINGLE_ALLY</code> / <code>ALL_ALLIES</code></td>
-</tr>
-<tr>
-<td><code>damage</code></td>
-<td>number</td>
-<td><code>25</code></td>
-<td><code>ATTACK</code> 전용. 피해량</td>
-</tr>
-<tr>
-<td><code>healAmount</code></td>
-<td>number</td>
-<td></td>
-<td><code>HEAL</code> 전용. 회복량</td>
-</tr>
-<tr>
-<td><code>buffId</code></td>
-<td>string</td>
-<td></td>
-<td><code>BUFF</code> 전용. 버프 식별자</td>
-</tr>
-<tr>
-<td><code>debuffId</code></td>
-<td>string</td>
-<td></td>
-<td><code>DEBUFF</code> 전용. 디버프 식별자</td>
-</tr>
-<tr>
-<td><code>duration</code></td>
-<td>number</td>
-<td></td>
-<td><code>BUFF</code>/<code>DEBUFF</code> 전용. 지속 액션 버튼 횟수. 빈 칸이면 영구</td>
-</tr>
-<tr>
-<td><code>upgradedTileRank</code></td>
-<td>enum</td>
-<td><code>NORMAL</code></td>
-<td>강화 후 대체 등급. 반드시 <code>tileRank</code>보다 낮은 등급. 빈 칸이면 미강화 상태</td>
-</tr>
-</tbody>
-</table>
-<p><strong>변환 규칙</strong>: <code>damage</code>, <code>healAmount</code>, <code>buffId</code>, <code>debuffId</code>, <code>duration</code> → <code>effectParams</code> 객체로 묶음. 빈 칸은 <code>undefined</code>.</p>
-<hr />
-<h3 id="monster">Monster</h3>
-<p>행동 패턴은 <a href="#monsteraction">MonsterAction</a> 시트에 별도 입력하며 변환 시 병합된다.</p>
-<table>
-<thead>
-<tr>
-<th>컬럼</th>
-<th>타입</th>
-<th>예시</th>
-<th>설명</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>id</code></td>
-<td>string</td>
-<td><code>grunt</code></td>
-<td>적 식별자 (PK)</td>
-</tr>
-<tr>
-<td><code>displayName</code></td>
-<td>string</td>
-<td><code>경비 드론</code></td>
-<td>화면 표시 이름</td>
-</tr>
-<tr>
-<td><code>enemyType</code></td>
-<td>enum</td>
-<td><code>NORMAL</code></td>
-<td><code>NORMAL</code> / <code>ELITE</code> / <code>BOSS</code></td>
-</tr>
-<tr>
-<td><code>maxHp</code></td>
-<td>number</td>
-<td><code>50</code></td>
+<td><code>hp</code></td>
+<td><code>number</code></td>
 <td>최대 체력</td>
 </tr>
 <tr>
-<td><code>initialShield</code></td>
-<td>number</td>
-<td><code>0</code></td>
-<td>전투 시작 방어막. <code>0</code>이면 없음</td>
+<td><code>speed</code></td>
+<td><code>number</code></td>
+<td>행동 속도</td>
 </tr>
 <tr>
-<td><code>initialCount</code></td>
-<td>number</td>
-<td><code>3</code></td>
-<td>페이즈 1 기본 카운트 초기값</td>
+<td><code>hand</code></td>
+<td><code>number</code></td>
+<td>손패 최대 장수</td>
+</tr>
+<tr>
+<td><code>energy</code></td>
+<td><code>number</code></td>
+<td>턴당 최대 에너지</td>
+</tr>
+<tr>
+<td><code>lvUpMax</code></td>
+<td><code>number</code></td>
+<td>최대 레벨업 횟수. 전투 이벤트 <code>enemyLevel</code>에 따라 적용</td>
+</tr>
+<tr>
+<td><code>lvUpHp</code></td>
+<td><code>number</code></td>
+<td>레벨업당 체력 증가량</td>
+</tr>
+<tr>
+<td><code>lvUpSpeed</code></td>
+<td><code>number</code></td>
+<td>레벨업당 속도 증가량</td>
+</tr>
+<tr>
+<td><code>lvUpHand</code></td>
+<td><code>number</code></td>
+<td>레벨업당 손패 증가량</td>
+</tr>
+<tr>
+<td><code>lvUpEnergy</code></td>
+<td><code>number</code></td>
+<td>레벨업당 에너지 증가량</td>
+</tr>
+<tr>
+<td><code>behavior</code></td>
+<td><code>string</code></td>
+<td>행동 AI 패턴 식별자</td>
+</tr>
+<tr>
+<td><code>trait1</code></td>
+<td><code>string?</code></td>
+<td><code>CardTraitTBL.Name</code> 참조. 특성 태그</td>
+</tr>
+<tr>
+<td><code>ability1</code></td>
+<td><code>string?</code></td>
+<td><code>CardAbilityTBL.Name</code> 참조. 고유 패시브 어빌리티</td>
+</tr>
+<tr>
+<td><code>cardDeck</code></td>
+<td><code>string</code></td>
+<td><code>DeckTBL.Name</code> 참조. 행동에 사용하는 카드 덱</td>
+</tr>
+<tr>
+<td><code>rewardGold</code></td>
+<td><code>number</code></td>
+<td>처치 시 획득 골드</td>
+</tr>
+<tr>
+<td><code>rewardXP</code></td>
+<td><code>number</code></td>
+<td>처치 시 획득 경험치</td>
+</tr>
+<tr>
+<td><code>spawnFx</code></td>
+<td><code>string?</code></td>
+<td>전투 등장 연출 키</td>
+</tr>
+</tbody>
+</table>
+<p><strong>참조 관계</strong></p>
+<ul>
+<li><code>titleStringId</code> → <code>StringTBL_KR.UID</code></li>
+<li><code>trait1</code> → <code>CardTraitTBL.Name</code></li>
+<li><code>ability1</code> → <code>CardAbilityTBL.Name</code></li>
+<li><code>cardDeck</code> → <code>DeckTBL.Name</code></li>
+<li><code>MapEvent_BattleTBL.enemy1~4</code>에서 참조됨</li>
+</ul>
+<p><strong>예시</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>ID</th>
+<th style="text-align: center;">titleStringId</th>
+<th style="text-align: center;">hp</th>
+<th style="text-align: center;">speed</th>
+<th style="text-align: center;">hand</th>
+<th style="text-align: center;">energy</th>
+<th style="text-align: center;">lvUpMax</th>
+<th style="text-align: center;">lvUpHp</th>
+<th>behavior</th>
+<th>cardDeck</th>
+<th style="text-align: center;">rewardGold</th>
+<th style="text-align: center;">rewardXP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>drone_guard</td>
+<td>2001</td>
+<td style="text-align: center;">261001</td>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">5</td>
+<td>ai_aggressive</td>
+<td>deck_drone_guard</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">15</td>
+</tr>
+<tr>
+<td>warden_1st</td>
+<td>2101</td>
+<td style="text-align: center;">261101</td>
+<td style="text-align: center;">120</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">20</td>
+<td>ai_boss_phase</td>
+<td>deck_warden_1st</td>
+<td style="text-align: center;">50</td>
+<td style="text-align: center;">100</td>
 </tr>
 </tbody>
 </table>
 <hr />
-<h3 id="monsteraction">MonsterAction</h3>
-<p>적의 모든 행동을 정의한다. 변환 시 <code>monsterId</code> + <code>phase</code>로 그룹화하여 <code>actionPattern</code>을 구성하고, <code>Monster</code> JSON에 병합된다.</p>
+<h3 id="decktbl">DeckTBL</h3>
+<p>챔피언 시작 덱 또는 적 행동 카드 덱을 정의한다. 슬롯은 최대 10개이며, 공란 슬롯은 덱에 포함되지 않는다.</p>
+<p><strong>컬럼</strong></p>
 <table>
 <thead>
 <tr>
 <th>컬럼</th>
 <th>타입</th>
-<th>예시</th>
 <th>설명</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>monsterId</code></td>
-<td>string</td>
-<td><code>warden</code></td>
-<td><code>Monster.id</code> 참조 (FK)</td>
+<td><code>Name</code></td>
+<td><code>string</code></td>
+<td>덱 식별자 PK</td>
 </tr>
 <tr>
-<td><code>phase</code></td>
-<td>number</td>
-<td><code>1</code></td>
-<td>소속 페이즈. <code>1</code> = 기본 패턴, <code>2 이상</code> = 해당 BossPhase 패턴</td>
+<td><code>Type</code></td>
+<td><code>string</code></td>
+<td><code>Champion</code> — 챔피언 시작 덱 / <code>Allies</code> — 아군 지원 덱</td>
 </tr>
 <tr>
-<td><code>role</code></td>
-<td>enum</td>
-<td><code>action</code></td>
-<td><code>action</code> / <code>default</code> / <code>transition</code></td>
+<td><code>ID</code></td>
+<td><code>number</code></td>
+<td>고유 ID</td>
 </tr>
 <tr>
-<td><code>orderIndex</code></td>
-<td>number</td>
-<td><code>0</code></td>
-<td><code>role = action</code>일 때 순환 순서. 0부터 시작. 나머지 role은 빈 칸</td>
-</tr>
-<tr>
-<td><code>actionType</code></td>
-<td>enum</td>
-<td><code>ATTACK_AOE</code></td>
-<td><code>ATTACK_SINGLE</code> / <code>ATTACK_AOE</code> / <code>DEBUFF</code> / <code>BUFF_SELF</code></td>
-</tr>
-<tr>
-<td><code>targetMode</code></td>
-<td>enum</td>
-<td><code>ALL</code></td>
-<td><code>SINGLE</code> / <code>ALL</code>. <code>ATTACK_AOE</code>·<code>BUFF_SELF</code>는 무시됨</td>
-</tr>
-<tr>
-<td><code>power</code></td>
-<td>number</td>
-<td><code>15</code></td>
-<td>피해량 또는 효과 수치</td>
-</tr>
-<tr>
-<td><code>effectId</code></td>
-<td>string</td>
-<td></td>
-<td><code>DEBUFF</code>·<code>BUFF_SELF</code> 전용. 빈 칸이면 없음</td>
-</tr>
-<tr>
-<td><code>effectDuration</code></td>
-<td>number</td>
-<td></td>
-<td>효과 지속 횟수. 빈 칸이면 영구</td>
-</tr>
-<tr>
-<td><code>resetCount</code></td>
-<td>number</td>
-<td><code>4</code></td>
-<td>이 행동 실행 후 카운트 리셋값</td>
-</tr>
-<tr>
-<td><code>scheduledTurns</code></td>
-<td>string</td>
-<td></td>
-<td>특정 턴에만 발동. 쉼표 구분. 빈 칸이면 기본 순환에 포함</td>
+<td><code>slot1~slot10</code></td>
+<td><code>string?</code></td>
+<td><code>CardTBL.Name</code> 참조. 각 슬롯의 카드. 공란이면 슬롯 없음</td>
 </tr>
 </tbody>
 </table>
-<p><strong>role 종류</strong></p>
+<p><strong>참조 관계</strong></p>
+<ul>
+<li><code>slot1~10</code> → <code>CardTBL.Name</code></li>
+<li><code>ChampionTBL.startDeck</code>에서 참조됨</li>
+<li><code>EnemyTBL.cardDeck</code>에서 참조됨</li>
+</ul>
+<p><strong>예시</strong></p>
 <table>
 <thead>
 <tr>
-<th>값</th>
-<th>설명</th>
-<th style="text-align: center;"><code>orderIndex</code></th>
+<th>Name</th>
+<th>Type</th>
+<th>ID</th>
+<th>slot1</th>
+<th>slot2</th>
+<th>slot3</th>
+<th>slot4</th>
+<th>slot5</th>
+<th>slot6</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>action</code></td>
-<td>순환 목록의 일반 행동</td>
-<td style="text-align: center;">필수</td>
+<td>deck_kestrel_start</td>
+<td>Champion</td>
+<td>5001</td>
+<td>kestrel_shield_strike</td>
+<td>kestrel_shield_strike</td>
+<td>kestrel_iron_wall</td>
+<td>kestrel_rally</td>
+<td>kestrel_basic_atk</td>
+<td></td>
 </tr>
 <tr>
-<td><code>default</code></td>
-<td>스킬 없는 턴의 기본 행동</td>
-<td style="text-align: center;">빈 칸</td>
+<td>deck_cipher_start</td>
+<td>Champion</td>
+<td>5002</td>
+<td>cipher_vuln_analysis</td>
+<td>cipher_vuln_analysis</td>
+<td>cipher_data_burst</td>
+<td>cipher_observe</td>
+<td>cipher_basic_atk</td>
+<td></td>
 </tr>
 <tr>
-<td><code>transition</code></td>
-<td>페이즈 전환 즉시 발동 행동 (<code>phase 2</code> 이상에서만 유효)</td>
-<td style="text-align: center;">빈 칸</td>
+<td>deck_drone_guard</td>
+<td>Allies</td>
+<td>6001</td>
+<td>enemy_atk_drone_s12</td>
+<td>enemy_atk_drone_s12</td>
+<td>enemy_buff_drone</td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 </tbody>
 </table>
-<p><strong>변환 규칙</strong></p>
-<div class="highlight"><pre><span></span><code>MonsterAction 행 전체를 monsterId로 그룹화
-  → phase = 1인 행: Monster.actionPattern 구성
-      role = &#39;action&#39;  → orderIndex 오름차순 정렬 → actionPattern.actions[]
-      role = &#39;default&#39; → actionPattern.defaultAction
-  → phase &gt;= 2인 행: 해당 phase의 BossPhase.actionPattern 구성
-      role = &#39;action&#39;      → actionPattern.actions[]
-      role = &#39;default&#39;     → actionPattern.defaultAction
-      role = &#39;transition&#39;  → PhaseThreshold.transitionAction
-scheduledTurns 쉼표 문자열 → number[] 배열로 변환. 빈 칸이면 undefined
-effectDuration 빈 칸 → undefined (영구 지속 예약)
-</code></pre></div>
 <hr />
-<h3 id="bossphase">BossPhase</h3>
-<p>보스 페이즈 전환 조건을 정의한다. <code>enemyType = BOSS</code>인 Monster 전용.<br />
-변환 시 <code>monsterId</code>로 그룹화하여 <code>Monster.phaseThresholds[]</code>에 병합된다.</p>
+<h2 id="4">4. 맵·이벤트</h2>
+<h3 id="maptbl">MapTBL</h3>
+<p>로그라이크 런에서 생성되는 맵의 구조 파라미터를 정의한다.</p>
+<p><strong>컬럼</strong></p>
 <table>
 <thead>
 <tr>
 <th>컬럼</th>
 <th>타입</th>
-<th>예시</th>
 <th>설명</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>monsterId</code></td>
-<td>string</td>
-<td><code>warden</code></td>
-<td><code>Monster.id</code> 참조 (FK). <code>enemyType = BOSS</code>만 유효</td>
+<td><code>Name</code></td>
+<td><code>string</code></td>
+<td>맵 식별자 PK</td>
 </tr>
 <tr>
-<td><code>phaseNumber</code></td>
-<td>number</td>
-<td><code>2</code></td>
-<td>페이즈 번호. 2 이상 (1은 Monster 기본 패턴)</td>
+<td><code>ID</code></td>
+<td><code>number</code></td>
+<td>고유 ID</td>
 </tr>
 <tr>
-<td><code>triggerValue</code></td>
-<td>number</td>
-<td><code>0.5</code></td>
-<td>전환 트리거 체력 비율. <code>0.0 초과 ~ 1.0 미만</code></td>
+<td><code>titleStringId</code></td>
+<td><code>number</code></td>
+<td>StringTBL UID. 맵 표시 이름</td>
 </tr>
 <tr>
-<td><code>initialCount</code></td>
-<td>number</td>
-<td><code>2</code></td>
-<td>이 페이즈의 카운트 초기값</td>
+<td><code>depth</code></td>
+<td><code>number</code></td>
+<td>맵 세로 깊이 (층 수)</td>
+</tr>
+<tr>
+<td><code>widthMin</code></td>
+<td><code>number</code></td>
+<td>층당 최소 노드 수</td>
+</tr>
+<tr>
+<td><code>widthMax</code></td>
+<td><code>number</code></td>
+<td>층당 최대 노드 수</td>
+</tr>
+<tr>
+<td><code>forkProbability</code></td>
+<td><code>number</code></td>
+<td>경로 분기 확률 (0.0~1.0)</td>
+</tr>
+<tr>
+<td><code>randomEventId</code></td>
+<td><code>string</code></td>
+<td><code>MapRandomEventTBL.Name</code> 참조</td>
+</tr>
+<tr>
+<td><code>fixedEventId</code></td>
+<td><code>string?</code></td>
+<td><code>MapFixedEventTBL.Name</code> 참조. 공란이면 고정 이벤트 없음</td>
 </tr>
 </tbody>
 </table>
-<p><strong>제약 조건</strong>: <code>triggerValue</code> 내림차순 정렬 권장. <code>phaseNumber</code>는 해당 monsterId의 MonsterAction에 같은 <code>phase</code> 값의 행이 존재해야 한다.</p>
+<p><strong>참조 관계</strong></p>
+<ul>
+<li><code>randomEventId</code> → <code>MapRandomEventTBL.Name</code></li>
+<li><code>fixedEventId</code> → <code>MapFixedEventTBL.Name</code></li>
+</ul>
+<p><strong>예시</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>ID</th>
+<th style="text-align: center;">depth</th>
+<th style="text-align: center;">widthMin</th>
+<th style="text-align: center;">widthMax</th>
+<th style="text-align: center;">forkProbability</th>
+<th>randomEventId</th>
+<th>fixedEventId</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>map_chapter1</td>
+<td>7001</td>
+<td style="text-align: center;">12</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">0.35</td>
+<td>random_ch1</td>
+<td>fixed_ch1</td>
+</tr>
+<tr>
+<td>map_chapter1_hard</td>
+<td>7002</td>
+<td style="text-align: center;">14</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">0.40</td>
+<td>random_ch1_hard</td>
+<td>fixed_ch1</td>
+</tr>
+</tbody>
+</table>
 <hr />
-<h3 id="storyscene">StoryScene</h3>
-<p>챕터 내 스토리 씬(컷씬·대화) 발동 정의. 트리거 시점별로 1행씩 등록한다.<br />
-<code>STAGE_START</code> 트리거는 경로 미선택 시 재생이 보장되지 않으므로 필수 서사 배치를 지양한다.</p>
+<h3 id="maprandomeventtbl">MapRandomEventTBL</h3>
+<p>맵 노드에 랜덤 배치될 이벤트 풀을 정의한다. 동일 맵 내에서 같은 이벤트가 중복 배치되지 않도록 풀 방식으로 관리한다.</p>
+<p><strong>컬럼</strong></p>
 <table>
 <thead>
 <tr>
 <th>컬럼</th>
 <th>타입</th>
-<th>예시</th>
 <th>설명</th>
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><code>Name</code></td>
+<td><code>string</code></td>
+<td>랜덤 이벤트 풀 식별자</td>
+</tr>
+<tr>
+<td><code>ID</code></td>
+<td><code>number</code></td>
+<td>고유 ID</td>
+</tr>
+<tr>
+<td><code>selectType</code></td>
+<td><code>string</code></td>
+<td>이벤트 유형 레이블. GlobalEnum.MapEventType 참조</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>이벤트 유형 enum 값</td>
+</tr>
+<tr>
+<td><code>eventId</code></td>
+<td><code>string</code></td>
+<td>해당 유형의 이벤트 <code>Name</code> 참조</td>
+</tr>
+</tbody>
+</table>
+<p><strong>참조 관계</strong></p>
+<ul>
+<li><code>eventId</code> → 유형에 따라 <code>MapEvent_BattleTBL</code>, <code>MapEvent_ChoiceTBL</code>, <code>MapEvent_TradeTBL</code>, <code>MapEvent_EffectTBL</code>, <code>MapEvent_ShopTBL</code>, <code>MapEvent_OtherTBL</code> 중 하나의 <code>Name</code></li>
+<li><code>MapTBL.randomEventId</code>에서 참조됨</li>
+</ul>
+<hr />
+<h3 id="mapfixedeventtbl">MapFixedEventTBL</h3>
+<p>특정 깊이(층)에 고정 배치되는 이벤트를 정의한다. 보스 방이나 중요 이벤트 위치를 강제 고정할 때 사용한다.</p>
+<p><strong>컬럼</strong></p>
+<table>
+<thead>
+<tr>
+<th>컬럼</th>
+<th>타입</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Name</code></td>
+<td><code>string</code></td>
+<td>고정 이벤트 세트 식별자</td>
+</tr>
+<tr>
+<td><code>ID</code></td>
+<td><code>number</code></td>
+<td>고유 ID</td>
+</tr>
+<tr>
+<td><code>depth</code></td>
+<td><code>number</code></td>
+<td>배치 깊이(층)</td>
+</tr>
+<tr>
+<td><code>indexMin</code></td>
+<td><code>number</code></td>
+<td>배치 가능한 최소 노드 인덱스</td>
+</tr>
+<tr>
+<td><code>indexMax</code></td>
+<td><code>number</code></td>
+<td>배치 가능한 최대 노드 인덱스</td>
+</tr>
+<tr>
+<td><code>eventId</code></td>
+<td><code>string</code></td>
+<td>배치할 이벤트 <code>Name</code> 참조</td>
+</tr>
+</tbody>
+</table>
+<p><strong>참조 관계</strong></p>
+<ul>
+<li><code>eventId</code> → 유형에 따라 각 <code>MapEvent_*TBL.Name</code></li>
+<li><code>MapTBL.fixedEventId</code>에서 참조됨</li>
+</ul>
+<hr />
+<h3 id="mapevent_battletbl">MapEvent_BattleTBL</h3>
+<p>전투 이벤트. 등장 적 구성, 난이도(enemyLevel), 보상을 정의한다.</p>
+<p><strong>컬럼</strong></p>
+<table>
+<thead>
+<tr>
+<th>컬럼</th>
+<th>타입</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Name</code></td>
+<td><code>string</code></td>
+<td>전투 이벤트 식별자 PK</td>
+</tr>
+<tr>
+<td><code>ID</code></td>
+<td><code>number</code></td>
+<td>고유 ID</td>
+</tr>
+<tr>
+<td><code>depthMin</code></td>
+<td><code>number</code></td>
+<td>등장 가능 최소 깊이</td>
+</tr>
+<tr>
+<td><code>depthMax</code></td>
+<td><code>number</code></td>
+<td>등장 가능 최대 깊이</td>
+</tr>
+<tr>
+<td><code>enemyLevel</code></td>
+<td><code>number</code></td>
+<td>적 레벨 오프셋. <code>EnemyTBL.lvUpMax</code> 범위 내</td>
+</tr>
+<tr>
+<td><code>enemy1~4</code></td>
+<td><code>string?</code></td>
+<td><code>EnemyTBL.Name</code> 참조. 등장 적. 공란이면 해당 슬롯 없음</td>
+</tr>
+<tr>
+<td><code>extraEnemy</code></td>
+<td><code>string?</code></td>
+<td><code>ExtraEnemyTBL.Name</code> 참조. 조건부 추가 적</td>
+</tr>
+<tr>
+<td><code>rewardGold</code></td>
+<td><code>number</code></td>
+<td>클리어 시 추가 골드 (적 처치 보상과 별개)</td>
+</tr>
+<tr>
+<td><code>rewardXP</code></td>
+<td><code>number</code></td>
+<td>클리어 시 경험치</td>
+</tr>
+<tr>
+<td><code>isRewardCards</code></td>
+<td><code>boolean</code></td>
+<td>카드 보상 제공 여부</td>
+</tr>
+<tr>
+<td><code>cardRarity</code></td>
+<td><code>string?</code></td>
+<td><code>CardRarityTBL.Name</code> 참조. 카드 보상 희귀도 필터</td>
+</tr>
+<tr>
+<td><code>winEvent</code></td>
+<td><code>string?</code></td>
+<td>승리 시 연계 발동할 이벤트 <code>Name</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>참조 관계</strong></p>
+<ul>
+<li><code>enemy1~4</code> → <code>EnemyTBL.Name</code></li>
+<li><code>extraEnemy</code> → <code>ExtraEnemyTBL.Name</code></li>
+<li><code>cardRarity</code> → <code>CardRarityTBL.Name</code></li>
+</ul>
+<p><strong>예시</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>ID</th>
+<th style="text-align: center;">depthMin</th>
+<th style="text-align: center;">depthMax</th>
+<th style="text-align: center;">enemyLevel</th>
+<th>enemy1</th>
+<th>enemy2</th>
+<th style="text-align: center;">rewardGold</th>
+<th style="text-align: center;">rewardXP</th>
+<th style="text-align: center;">isRewardCards</th>
+<th>cardRarity</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>battle_ch1_normal_1</td>
+<td>8001</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">0</td>
+<td>drone_guard</td>
+<td>drone_guard</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">20</td>
+<td style="text-align: center;">TRUE</td>
+<td>common</td>
+</tr>
+<tr>
+<td>battle_ch1_elite_1</td>
+<td>8011</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">9</td>
+<td style="text-align: center;">1</td>
+<td>drone_guard</td>
+<td>drone_guard</td>
+<td style="text-align: center;">15</td>
+<td style="text-align: center;">40</td>
+<td style="text-align: center;">TRUE</td>
+<td>rare</td>
+</tr>
+<tr>
+<td>battle_ch1_boss</td>
+<td>8021</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">12</td>
+<td style="text-align: center;">0</td>
+<td>warden_1st</td>
+<td></td>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">80</td>
+<td style="text-align: center;">TRUE</td>
+<td>epic</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="mapevent_choicetbl">MapEvent_ChoiceTBL</h3>
+<p>플레이어가 선택지를 고르는 이벤트. 선택에 따라 <code>MapEvent_EffectTBL</code>이나 다른 이벤트가 연계된다.</p>
+<p><strong>컬럼</strong></p>
+<table>
+<thead>
+<tr>
+<th>컬럼</th>
+<th>타입</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Name</code></td>
+<td><code>string</code></td>
+<td>선택지 이벤트 식별자</td>
+</tr>
+<tr>
+<td><code>ID</code></td>
+<td><code>number</code></td>
+<td>고유 ID</td>
+</tr>
+<tr>
+<td><code>depthMin</code></td>
+<td><code>number</code></td>
+<td>등장 가능 최소 깊이</td>
+</tr>
+<tr>
+<td><code>depthMax</code></td>
+<td><code>number</code></td>
+<td>등장 가능 최대 깊이</td>
+</tr>
+<tr>
+<td><code>descStringId</code></td>
+<td><code>number</code></td>
+<td>StringTBL UID (270000~). 이벤트 설명</td>
+</tr>
+<tr>
+<td><code>choice1Title</code></td>
+<td><code>string</code></td>
+<td>선택지 1 제목</td>
+</tr>
+<tr>
+<td><code>choice1Desc</code></td>
+<td><code>string?</code></td>
+<td>선택지 1 설명</td>
+</tr>
+<tr>
+<td><code>choice1Effect</code></td>
+<td><code>string</code></td>
+<td>선택지 1 발동 효과. <code>MapEvent_EffectTBL.Name</code> 참조</td>
+</tr>
+<tr>
+<td><code>choice2~4Title/Desc/Effect</code></td>
+<td><code>string?</code></td>
+<td>선택지 2~4. 공란이면 해당 선택지 없음</td>
+</tr>
+</tbody>
+</table>
+<p><strong>참조 관계</strong></p>
+<ul>
+<li><code>descStringId</code> → <code>StringTBL_KR.UID</code></li>
+<li><code>choice*Effect</code> → <code>MapEvent_EffectTBL.Name</code></li>
+</ul>
+<p><strong>예시</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>ID</th>
+<th style="text-align: center;">depthMin</th>
+<th style="text-align: center;">depthMax</th>
+<th style="text-align: center;">descStringId</th>
+<th>choice1Title</th>
+<th>choice1Effect</th>
+<th>choice2Title</th>
+<th>choice2Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>choice_ruin_box</td>
+<td>9001</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">12</td>
+<td style="text-align: center;">270001</td>
+<td>열어본다</td>
+<td>effect_ruin_box_open</td>
+<td>그냥 지나친다</td>
+<td>effect_nothing</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="mapevent_tradetbl">MapEvent_TradeTBL</h3>
+<p>골드나 체력을 소비하고 이득을 얻는 교역 이벤트.</p>
+<p><strong>컬럼</strong></p>
+<table>
+<thead>
+<tr>
+<th>컬럼</th>
+<th>타입</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Name</code></td>
+<td><code>string</code></td>
+<td>교역 이벤트 식별자</td>
+</tr>
+<tr>
+<td><code>ID</code></td>
+<td><code>number</code></td>
+<td>고유 ID</td>
+</tr>
+<tr>
+<td><code>selectEventTarget</code></td>
+<td><code>string</code></td>
+<td>대상 레이블</td>
+</tr>
+<tr>
+<td><code>eventTarget</code></td>
+<td><code>string</code></td>
+<td>이벤트 대상 식별자</td>
+</tr>
+<tr>
+<td><code>spendGold</code></td>
+<td><code>number</code></td>
+<td>소비 골드. <code>0</code>이면 없음</td>
+</tr>
+<tr>
+<td><code>spendHp</code></td>
+<td><code>number</code></td>
+<td>소비 체력. <code>0</code>이면 없음</td>
+</tr>
+<tr>
+<td><code>gainGold</code></td>
+<td><code>number</code></td>
+<td>획득 골드</td>
+</tr>
+<tr>
+<td><code>gainXp</code></td>
+<td><code>number</code></td>
+<td>획득 경험치</td>
+</tr>
+<tr>
+<td><code>gainHeal</code></td>
+<td><code>number</code></td>
+<td>회복량. <code>0</code>이면 없음</td>
+</tr>
+<tr>
+<td><code>descStringId</code></td>
+<td><code>number</code></td>
+<td>StringTBL UID (270000~). 이벤트 설명</td>
+</tr>
+</tbody>
+</table>
+<p><strong>예시</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>ID</th>
+<th style="text-align: center;">spendGold</th>
+<th style="text-align: center;">spendHp</th>
+<th style="text-align: center;">gainGold</th>
+<th style="text-align: center;">gainXp</th>
+<th style="text-align: center;">gainHeal</th>
+<th style="text-align: center;">descStringId</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>trade_gold_for_heal</td>
+<td>9101</td>
+<td style="text-align: center;">20</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">15</td>
+<td style="text-align: center;">270101</td>
+</tr>
+<tr>
+<td>trade_hp_for_gold</td>
+<td>9102</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">25</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">270102</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="mapevent_effecttbl">MapEvent_EffectTBL</h3>
+<p>직접적인 효과를 발동하는 이벤트 단위. 다른 이벤트의 결과로 연계 호출되는 경우가 많다.</p>
+<p><strong>컬럼</strong></p>
+<table>
+<thead>
+<tr>
+<th>컬럼</th>
+<th>타입</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Name</code></td>
+<td><code>string</code></td>
+<td>효과 이벤트 식별자</td>
+</tr>
+<tr>
+<td><code>ID</code></td>
+<td><code>number</code></td>
+<td>고유 ID</td>
+</tr>
+<tr>
+<td><code>selectEventTarget</code></td>
+<td><code>string</code></td>
+<td>대상 레이블</td>
+</tr>
+<tr>
+<td><code>eventTarget</code></td>
+<td><code>string</code></td>
+<td>이벤트 대상 식별자</td>
+</tr>
+<tr>
+<td><code>effect1</code></td>
+<td><code>string?</code></td>
+<td>주 효과</td>
+</tr>
+<tr>
+<td><code>effect2</code></td>
+<td><code>string?</code></td>
+<td>보조 효과</td>
+</tr>
+<tr>
+<td><code>value</code></td>
+<td><code>number?</code></td>
+<td>효과 수치</td>
+</tr>
+<tr>
+<td><code>chainEventId</code></td>
+<td><code>string?</code></td>
+<td>연쇄 발동할 이벤트 <code>Name</code></td>
+</tr>
+<tr>
+<td><code>descStringId</code></td>
+<td><code>number?</code></td>
+<td>StringTBL UID (270000~). 결과 설명 텍스트</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="mapevent_othertbl">MapEvent_OtherTBL</h3>
+<p>전투·선택지·교역에 해당하지 않는 특수 이벤트 (보물 상자, 세계 상태 변경 등).</p>
+<p><strong>컬럼</strong></p>
+<table>
+<thead>
+<tr>
+<th>컬럼</th>
+<th>타입</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Name</code></td>
+<td><code>string</code></td>
+<td>이벤트 식별자</td>
+</tr>
+<tr>
+<td><code>ID</code></td>
+<td><code>number</code></td>
+<td>고유 ID</td>
+</tr>
+<tr>
+<td><code>selectType</code></td>
+<td><code>string</code></td>
+<td>이벤트 유형 레이블. GlobalEnum.MapEventType 참조</td>
+</tr>
+<tr>
+<td><code>eventType</code></td>
+<td><code>string</code></td>
+<td>이벤트 유형 enum 값</td>
+</tr>
+<tr>
+<td><code>icon</code></td>
+<td><code>string</code></td>
+<td>노드 표시 아이콘 에셋 키</td>
+</tr>
+<tr>
+<td><code>rarity</code></td>
+<td><code>string?</code></td>
+<td>희귀도. 이벤트 보상 등급에 영향</td>
+</tr>
+<tr>
+<td><code>worldState</code></td>
+<td><code>string?</code></td>
+<td>GlobalEnum.WorldState 참조. 이벤트 출현 조건 플래그</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="mapevent_shoptbl">MapEvent_ShopTBL</h3>
+<p>상점 이벤트. 카드와 아이템 구매가 가능한 상점 노드를 정의한다.</p>
+<p><strong>컬럼</strong></p>
+<table>
+<thead>
+<tr>
+<th>컬럼</th>
+<th>타입</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Name</code></td>
+<td><code>string</code></td>
+<td>상점 이벤트 식별자</td>
+</tr>
+<tr>
+<td><code>ID</code></td>
+<td><code>number</code></td>
+<td>고유 ID</td>
+</tr>
+<tr>
+<td><code>depthMin</code></td>
+<td><code>number</code></td>
+<td>등장 가능 최소 깊이</td>
+</tr>
+<tr>
+<td><code>depthMax</code></td>
+<td><code>number</code></td>
+<td>등장 가능 최대 깊이</td>
+</tr>
+<tr>
+<td><code>buyMult</code></td>
+<td><code>number</code></td>
+<td>구매 가격 배율. 기본값 <code>1.0</code></td>
+</tr>
+<tr>
+<td><code>sellyMult</code></td>
+<td><code>number</code></td>
+<td>판매 가격 배율. 기본값 <code>0.5</code></td>
+</tr>
+<tr>
+<td><code>cardsRand</code></td>
+<td><code>number</code></td>
+<td>상점에 진열되는 카드 수 (랜덤 선택)</td>
+</tr>
+<tr>
+<td><code>itemsRand</code></td>
+<td><code>number</code></td>
+<td>상점에 진열되는 아이템 수 (랜덤 선택)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="extraenemytbl">ExtraEnemyTBL</h3>
+<p>전투 이벤트에서 조건부로 추가 등장하는 적 세트. 파티 규모(챔피언 수)에 따라 적 수를 조절할 때 사용한다.</p>
+<p><strong>컬럼</strong></p>
+<table>
+<thead>
+<tr>
+<th>컬럼</th>
+<th>타입</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Name</code></td>
+<td><code>string</code></td>
+<td>추가 적 세트 식별자</td>
+</tr>
+<tr>
+<td><code>ID</code></td>
+<td><code>number</code></td>
+<td>고유 ID</td>
+</tr>
+<tr>
+<td><code>championMin</code></td>
+<td><code>number</code></td>
+<td>이 세트가 등장하는 최소 파티 챔피언 수</td>
+</tr>
+<tr>
+<td><code>enemy1~4</code></td>
+<td><code>string?</code></td>
+<td><code>EnemyTBL.Name</code> 참조. 추가 등장 적</td>
+</tr>
+</tbody>
+</table>
+<p><strong>참조 관계</strong></p>
+<ul>
+<li><code>enemy1~4</code> → <code>EnemyTBL.Name</code></li>
+<li><code>MapEvent_BattleTBL.extraEnemy</code>에서 참조됨</li>
+</ul>
+<hr />
+<h2 id="5">5. 공통</h2>
+<h3 id="globalenum">GlobalEnum</h3>
+<p>코드와 시트 간의 숫자 enum 값을 단일 테이블로 관리한다. 모든 <code>select*</code> 컬럼의 레이블과 실제 enum 숫자값이 이 시트에서 정의된다.</p>
+<p><strong>컬럼</strong></p>
+<table>
+<thead>
+<tr>
+<th>컬럼</th>
+<th>타입</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>group</code></td>
+<td><code>string</code></td>
+<td>enum 그룹. 예: <code>TileRank</code>, <code>AbilityTrigger</code></td>
+</tr>
 <tr>
 <td><code>id</code></td>
-<td>string</td>
-<td><code>ch1_intro</code></td>
-<td>씬 식별자 (PK)</td>
+<td><code>number</code></td>
+<td>숫자 enum 값</td>
 </tr>
 <tr>
-<td><code>chapterId</code></td>
-<td>string</td>
-<td><code>ch1</code></td>
-<td><code>Chapter.id</code> 참조 (FK)</td>
+<td><code>enum</code></td>
+<td><code>string</code></td>
+<td>enum 레이블. 예: <code>OnPlay</code>, <code>Vulnerable</code></td>
 </tr>
 <tr>
-<td><code>triggerType</code></td>
-<td>enum</td>
-<td><code>CHAPTER_START</code></td>
-<td><code>CHAPTER_START</code> / <code>BOSS_START</code> / <code>BOSS_CLEAR</code> / <code>STAGE_START</code></td>
-</tr>
-<tr>
-<td><code>sceneAssetId</code></td>
-<td>string</td>
-<td><code>scene_ch1_intro</code></td>
-<td>재생할 씬 에셋·스크립트 식별자</td>
-</tr>
-<tr>
-<td><code>monsterId</code></td>
-<td>string</td>
-<td></td>
-<td><code>BOSS_START</code>·<code>BOSS_CLEAR</code> 전용. 특정 보스 지정 시 입력. 빈 칸이면 막 전체 보스에 공통 적용</td>
-</tr>
-<tr>
-<td><code>stageId</code></td>
-<td>string</td>
-<td></td>
-<td><code>STAGE_START</code> 전용. 발동할 <code>Stage.id</code></td>
+<td><code>desc</code></td>
+<td><code>string</code></td>
+<td>설명</td>
 </tr>
 </tbody>
 </table>
-<p><strong>예시 행</strong></p>
+<p><strong>참조 관계</strong></p>
+<ul>
+<li>참조를 받는 방향. 모든 시트의 <code>select*</code> 컬럼이 이 시트를 참조함</li>
+<li>직접 외래키 제약은 없으나, 빌드 시 검증 단계에서 값 일치 여부 확인</li>
+</ul>
+<p><strong>주요 그룹 요약</strong></p>
 <table>
 <thead>
 <tr>
-<th>id</th>
-<th>chapterId</th>
-<th>triggerType</th>
-<th>sceneAssetId</th>
-<th>monsterId</th>
-<th>stageId</th>
+<th>group</th>
+<th>주요 값</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>ch1_intro</td>
-<td>ch1</td>
-<td>CHAPTER_START</td>
-<td>scene_ch1_intro</td>
-<td></td>
-<td></td>
+<td><code>TileRank</code></td>
+<td><code>A=2, B=4, C=8, D=16, E=32, F=64</code></td>
 </tr>
 <tr>
-<td>ch1_boss1_start</td>
-<td>ch1</td>
-<td>BOSS_START</td>
-<td>scene_ch1_warden_start</td>
-<td>warden</td>
-<td></td>
+<td><code>AbilityTrigger</code></td>
+<td><code>None=0, Passive=2, OnPlay=10, StartOfTurn=20, EndOfTurn=22, OnTileMerge=30, OnDamaged=42</code></td>
 </tr>
 <tr>
-<td>ch1_boss1_clear</td>
-<td>ch1</td>
-<td>BOSS_CLEAR</td>
-<td>scene_ch1_warden_clear</td>
-<td>warden</td>
-<td></td>
+<td><code>AbilityTarget</code></td>
+<td><code>None=0, CharacterSelf=4, AllCharacters=7, PlayTarget=20, AllEnemies=25, RandomEnemy=26</code></td>
 </tr>
 <tr>
-<td>ch1_final_clear</td>
-<td>ch1</td>
-<td>BOSS_CLEAR</td>
-<td>scene_ch1_ending</td>
-<td>commander</td>
-<td></td>
+<td><code>StatusEffect</code></td>
+<td><code>AttackPower=10, Armor=15, Stunned=20, Vulnerable=32, Blind=35, Poisoned=40, Bleed=44, SlowDown=70</code></td>
+</tr>
+<tr>
+<td><code>StatusDuration</code></td>
+<td><code>Persistant=0, OneTurn=2, AutoReduce=10</code></td>
+</tr>
+<tr>
+<td><code>CardType</code></td>
+<td><code>Skill=1, Power=2</code></td>
+</tr>
+<tr>
+<td><code>MapEventType</code></td>
+<td><code>Battle=1, Choice=2, Trade=3, Effect=4, Shop=5, Other=9</code></td>
+</tr>
+<tr>
+<td><code>WorldState</code></td>
+<td>런 진행 상황·해금 조건 플래그 (값은 런타임 조건에 따라 확장)</td>
 </tr>
 </tbody>
 </table>
-<hr />
-<h2 id="_5">변환 스크립트 입출력 요약</h2>
-<div class="admonition note">
-<p class="admonition-title">시드 스크립트</p>
-<p><code>scripts/seedAllChapters.ts</code> — 8챕터 전체 데이터(Chapter·ActConfig·Stage·StageMonster·Monster·MonsterAction·BossPhase·StoryScene)를 구글 시트에 일괄 입력한다. 기존 데이터를 초기화한 후 재삽입한다.<br />
-<code>scripts/seedData.ts</code> — 캐릭터·카드 등 챕터 독립 데이터 입력용.</p>
-</div>
-<div class="highlight"><pre><span></span><code>입력  : 시트 10개 (CSV 또는 Google Sheets API)
-출력  : chapters.json / stages.json / characters.json / cards.json / monsters.json / story_scenes.json
-
-chapters.json    ← Chapter + ActConfig 병합
-stages.json      ← Stage + StageMonster 병합
-characters.json  ← Character
-cards.json       ← Card (effectParams 객체로 조립)
-monsters.json    ← Monster + MonsterAction + BossPhase 병합
-story_scenes.json← StoryScene
-</code></pre></div>
-<p><strong>병합 순서</strong></p>
-<div class="highlight"><pre><span></span><code>1. ActConfig 행을 chapterId로 그룹화 → acts[] 구성
-2. Chapter 행 + 위 결과 병합 → chapters.json
-
-3. BossPhase 행을 monsterId로 그룹화 → phaseThresholds[] 초안 구성
-4. MonsterAction 행을 monsterId + phase로 그룹화 → actionPattern 구성
-   phase = 1  → Monster.actionPattern
-   phase &gt;= 2 → 해당 PhaseThreshold.actionPattern + transitionAction
-5. Monster 행 + 위 결과 병합 → monsters.json
-
-6. StageMonster 행을 stageId로 그룹화 → Stage.monsters[] 구성
-7. Stage 행 + 위 결과 병합 → stages.json
-</code></pre></div>
+<p><strong>예시</strong></p>
+<table>
+<thead>
+<tr>
+<th>group</th>
+<th>id</th>
+<th>enum</th>
+<th>desc</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TileRank</td>
+<td>2</td>
+<td>A</td>
+<td>2048 보드 타일 숫자 2</td>
+</tr>
+<tr>
+<td>TileRank</td>
+<td>4</td>
+<td>B</td>
+<td>2048 보드 타일 숫자 4</td>
+</tr>
+<tr>
+<td>TileRank</td>
+<td>8</td>
+<td>C</td>
+<td>2048 보드 타일 숫자 8</td>
+</tr>
+<tr>
+<td>TileRank</td>
+<td>16</td>
+<td>D</td>
+<td>2048 보드 타일 숫자 16</td>
+</tr>
+<tr>
+<td>TileRank</td>
+<td>32</td>
+<td>E</td>
+<td>2048 보드 타일 숫자 32</td>
+</tr>
+<tr>
+<td>TileRank</td>
+<td>64</td>
+<td>F</td>
+<td>2048 보드 타일 숫자 64</td>
+</tr>
+<tr>
+<td>AbilityTrigger</td>
+<td>10</td>
+<td>OnPlay</td>
+<td>카드가 손패에서 발동될 때</td>
+</tr>
+<tr>
+<td>AbilityTrigger</td>
+<td>20</td>
+<td>StartOfTurn</td>
+<td>턴 시작 시</td>
+</tr>
+<tr>
+<td>AbilityTrigger</td>
+<td>30</td>
+<td>OnTileMerge</td>
+<td>보드에서 타일이 병합될 때</td>
+</tr>
+<tr>
+<td>AbilityTarget</td>
+<td>20</td>
+<td>PlayTarget</td>
+<td>플레이어가 선택한 대상</td>
+</tr>
+<tr>
+<td>AbilityTarget</td>
+<td>7</td>
+<td>AllCharacters</td>
+<td>전체 캐릭터 (아군+적군)</td>
+</tr>
+<tr>
+<td>StatusEffect</td>
+<td>32</td>
+<td>Vulnerable</td>
+<td>취약 상태. 받는 피해 증가</td>
+</tr>
+<tr>
+<td>StatusDuration</td>
+<td>10</td>
+<td>AutoReduce</td>
+<td>매 턴 스택 1 감소</td>
+</tr>
+<tr>
+<td>MapEventType</td>
+<td>1</td>
+<td>Battle</td>
+<td>전투 이벤트</td>
+</tr>
+<tr>
+<td>MapEventType</td>
+<td>2</td>
+<td>Choice</td>
+<td>선택지 이벤트</td>
+</tr>
+</tbody>
+</table>
 
 
 

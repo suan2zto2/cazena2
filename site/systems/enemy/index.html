@@ -2018,7 +2018,7 @@ nextAction = actions[currentActionIndex]  (다음 예고 등록)
 <hr />
 <h2 id="5">5. 행동 유형 정의</h2>
 <h3 id="5-1-attack_single">5-1. 단일 공격 (<code>ATTACK_SINGLE</code>)</h3>
-<p>파티원 1명에게 피해를 입힌다.</p>
+<p>출전 캐릭터에게 피해를 입힌다.</p>
 <table>
 <thead>
 <tr>
@@ -2036,14 +2036,14 @@ nextAction = actions[currentActionIndex]  (다음 예고 등록)
 <tr>
 <td>대상 선택</td>
 <td><code>targetMode</code></td>
-<td>대상을 결정하는 방식 (아래 참고)</td>
+<td>1인 전투이므로 항상 출전 캐릭터</td>
 </tr>
 </tbody>
 </table>
 <p><strong>피해 적용 순서</strong>:
-1. 대상 파티원의 <code>shield &gt; 0</code>이면 피해를 <code>shield</code>에서 먼저 차감
-2. <code>shield</code>가 0이 되면 남은 피해를 팀 체력에서 차감
-3. 팀 체력이 0 이하가 되면 전투 패배 판정</p>
+1. 캐릭터의 <code>shield &gt; 0</code>이면 피해를 <code>shield</code>에서 먼저 차감
+2. <code>shield</code>가 0이 되면 남은 피해를 캐릭터 체력에서 차감
+3. 캐릭터 체력이 0 이하가 되면 전투 패배 판정</p>
 <blockquote>
 <p><strong>[미결 C-6]</strong> 단일 공격의 대상 선택 방식이 미결 상태다.
 - <strong>(a) 항상 첫 번째 생존 파티원</strong>: 파티원 목록의 가장 앞 순서(인덱스 0번부터)에서 생존한 캐릭터를 선택. 구현 최단순. 플레이어가 대상을 완전히 예측 가능.
@@ -2053,7 +2053,7 @@ nextAction = actions[currentActionIndex]  (다음 예고 등록)
 <p>확정 전에는 <strong>(a) 첫 번째 생존 파티원</strong> 기준으로 구현한다. (d) 채택 시 <code>TargetMode</code> 열거형에 <code>FIRST</code> / <code>LOWEST_HP</code> / <code>RANDOM</code>을 추가한다.</p>
 </blockquote>
 <h3 id="5-2-attack_aoe">5-2. 광역 공격 (<code>ATTACK_AOE</code>)</h3>
-<p>생존한 파티원 전원에게 동일한 피해를 입힌다.</p>
+<p>출전 캐릭터에게 피해를 입힌다. 1인 전투이므로 단일 공격과 동일하게 동작한다.</p>
 <table>
 <thead>
 <tr>
@@ -2066,23 +2066,16 @@ nextAction = actions[currentActionIndex]  (다음 예고 등록)
 <tr>
 <td>피해량</td>
 <td><code>power</code></td>
-<td>각 파티원에게 적용할 기본 피해 수치</td>
+<td>캐릭터에게 적용할 기본 피해 수치</td>
 </tr>
 <tr>
 <td>대상</td>
 <td>—</td>
-<td>항상 생존한 파티원 전원. <code>targetMode</code> 무시</td>
+<td>항상 출전 캐릭터. <code>targetMode</code> 무시</td>
 </tr>
 </tbody>
 </table>
-<p><strong>피해 적용 순서</strong>: 파티원 목록 인덱스 순서대로 순차 적용. 각 파티원에 §5-1과 동일한 방어막 우선 소모 규칙이 적용된다.</p>
-<p><strong>광역 공격 적용 예시</strong>:</p>
-<div class="highlight"><pre><span></span><code>전체 공격 12 실행
-    ↓
-파티원 A: shield 5 → shield 0, hp -7
-파티원 B: shield 0 → hp -12
-파티원 C: shield 20 → shield 8
-</code></pre></div>
+<p><strong>피해 적용 순서</strong>: §5-1과 동일한 방어막 우선 소모 규칙이 적용된다.</p>
 <h3 id="5-3-debuff">5-3. 디버프 (<code>DEBUFF</code>)</h3>
 <p>파티원 1명 또는 전체에게 부정적 상태이상을 부여한다.</p>
 <table>

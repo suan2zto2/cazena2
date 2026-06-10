@@ -15,7 +15,7 @@
 
 ```
 전투 시작
-    └─ 파티 전체 카드를 합산 → 셔플 → 대기덱 구성
+    └─ 선택 캐릭터의 카드를 셔플 → 대기덱 구성
            └─ 5장 드로우 → 핸드덱 구성
                   ↓
            [슬라이드 페이즈] 보드에 타일 준비
@@ -41,7 +41,7 @@
 |--------|------|------|
 | `id` | `string` | 카드 고유 식별자 (예: `"char_a_attack_01"`) |
 | `name` | `string` | 카드 표시 이름 (예: "참격") |
-| `ownerCharacterId` | `string` | 이 카드를 소유하는 캐릭터 ID. 3인 파티 공용 덱에서 소유자 추적에 사용 |
+| `ownerCharacterId` | `string` | 이 카드를 소유하는 캐릭터 ID. 소유 캐릭터 식별에 사용 |
 | `triggerNumber` | `int` | 발동에 필요한 보드 타일 숫자. 허용값: 4·8·16·32·64·128 |
 | `grade` | `CardGrade` | 발동 숫자로 결정되는 등급 열거형 (§2-3 참고) |
 | `effectType` | `CardEffectType` | 카드 효과 분류 열거형 (§2-2 참고) |
@@ -52,7 +52,7 @@
 - `triggerNumber`는 반드시 {4, 8, 16, 32, 64, 128} 집합에 속해야 한다.
 - `upgradedTriggerNumber`가 존재하는 경우, 반드시 `triggerNumber`보다 작아야 한다.
 - `upgradeLevel`이 0이면 `upgradedTriggerNumber`는 `null`이다.
-- `ownerCharacterId`는 현재 전투에 출전한 캐릭터 ID 목록에 포함되어야 한다. 미출전 캐릭터의 카드는 덱에 포함되지 않는다.
+- `ownerCharacterId`는 현재 전투에 출전한 캐릭터의 ID와 일치해야 한다. 미출전 캐릭터의 카드는 덱에 포함되지 않는다.
 
 #### 런타임에서의 발동 숫자 결정
 

@@ -1142,7 +1142,7 @@
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
-        구조체 목록
+        테이블 연결 구조
       
     </span>
   </a>
@@ -1161,21 +1161,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
+  <a href="#globalenum" class="md-nav__link">
     <span class="md-ellipsis">
       
-        기획 테이블
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_6" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        세이브 데이터
+        GlobalEnum
       
     </span>
   </a>
@@ -1186,7 +1175,29 @@
   <a href="#_7" class="md-nav__link">
     <span class="md-ellipsis">
       
-        미결 사항
+        타입 정의
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        단순 룩업 테이블
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        세이브 데이터
       
     </span>
   </a>
@@ -1684,800 +1695,1658 @@
 <tbody>
 <tr>
 <td><strong>기획 테이블</strong></td>
-<td>기획자가 정의하는 콘텐츠 데이터</td>
-<td>릴리즈 시점에 확정. 게임 중 변하지 않음</td>
+<td>기획자가 Google Sheets에서 정의하는 콘텐츠 데이터. 빌드 시 JSON으로 내보내 번들에 포함</td>
+<td>릴리즈 시점에 확정. 게임 플레이 중 변하지 않음</td>
 </tr>
 <tr>
 <td><strong>세이브 데이터</strong></td>
-<td>플레이어별로 생성·변경되는 진행 데이터</td>
+<td>플레이어별로 생성·변경되는 진행 데이터. <code>ChapterRun</code>은 챕터 클리어/실패 시 초기화</td>
 <td>로컬 저장소에 유지. 세션 사이에 보존</td>
 </tr>
 </tbody>
 </table>
+<p>기획 테이블 시트 구성 상세는 <a href="../data_sheet/">기획 테이블 시트</a>를 참조한다.</p>
 <hr />
-<h2 id="_2">구조체 목록</h2>
+<h2 id="_2">테이블 연결 구조</h2>
+<p>각 테이블이 어떤 테이블을 참조하는지 나타낸다. <code>?</code>는 선택적 참조(빈 값 허용).</p>
+<h3 id="_3">카드</h3>
 <table>
 <thead>
 <tr>
-<th>구조체</th>
-<th>계층</th>
-<th>설명</th>
+<th>테이블</th>
+<th>참조 컬럼</th>
+<th>참조 대상</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><a href="#chapter"><code>Chapter</code></a></td>
-<td>기획 테이블</td>
-<td>챕터 정의. 막 수·스테이지 구성 설정</td>
+<td><code>CardAbilityTBL</code></td>
+<td><code>Status1</code>, <code>Status2?</code></td>
+<td><code>CardStatusTBL</code></td>
 </tr>
 <tr>
-<td><a href="#stage"><code>Stage</code></a></td>
-<td>기획 테이블</td>
-<td>스테이지. 유형·보드 설정·등장 몬스터 포함</td>
+<td><code>CardAbilityTBL</code></td>
+<td><code>Chain_Ability?</code></td>
+<td><code>CardAbilityTBL</code> (자기 참조)</td>
 </tr>
 <tr>
-<td><a href="#storyscene"><code>StoryScene</code></a></td>
-<td>기획 테이블</td>
-<td>스토리 씬. 챕터 내 발동 시점과 씬 식별자</td>
+<td><code>CardTBL</code></td>
+<td><code>Ability1</code>, <code>Ability2~4?</code></td>
+<td><code>CardAbilityTBL</code></td>
 </tr>
 <tr>
-<td><a href="#character"><code>Character</code></a></td>
-<td>기획 테이블</td>
-<td>캐릭터. 체력·DLC 여부</td>
+<td><code>CardTBL</code></td>
+<td><code>Team</code></td>
+<td><code>CardTeamTBL</code></td>
 </tr>
 <tr>
-<td><a href="#card"><code>Card</code></a></td>
-<td>기획 테이블</td>
-<td>스킬 카드. 발동 숫자·등급·효과 파라미터 내포</td>
+<td><code>CardTBL</code></td>
+<td><code>Rarity</code></td>
+<td><code>CardRarityTBL</code></td>
 </tr>
 <tr>
-<td><a href="#monster"><code>Monster</code></a></td>
-<td>기획 테이블</td>
-<td>적. 행동 패턴·보스 페이즈 내포</td>
+<td><code>CardTBL</code></td>
+<td><code>Trait1?</code>, <code>Trait2?</code></td>
+<td><code>CardTraitTBL</code></td>
 </tr>
 <tr>
-<td><a href="#savedata"><code>SaveData</code></a></td>
-<td>세이브 데이터</td>
-<td>루트 저장 구조체. 영구 계정 데이터와 챕터 진행 상태 포함</td>
+<td><code>CardTBL</code></td>
+<td><code>Intent?</code></td>
+<td><code>CardIntentTBL</code></td>
 </tr>
 <tr>
-<td><a href="#accountsave"><code>AccountSave</code></a></td>
-<td>세이브 데이터</td>
-<td>챕터 리셋과 무관한 영구 성장 데이터</td>
+<td><code>CardTBL</code></td>
+<td><code>TitleStringID</code>, <code>DescStringID</code></td>
+<td><code>StringTBL_KR</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="_4">캐릭터</h3>
+<table>
+<thead>
+<tr>
+<th>테이블</th>
+<th>참조 컬럼</th>
+<th>참조 대상</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>StartCardDeckTBL</code></td>
+<td><code>slot1~10?</code></td>
+<td><code>CardTBL</code></td>
 </tr>
 <tr>
-<td><a href="#chapterrun"><code>ChapterRun</code></a></td>
-<td>세이브 데이터</td>
-<td>챕터 클리어 시 삭제되는 단일 챕터 진행 상태</td>
+<td><code>ChampionTBL</code></td>
+<td><code>StartDeck</code></td>
+<td><code>StartCardDeckTBL</code></td>
 </tr>
 <tr>
-<td><a href="#characterstate"><code>CharacterState</code></a></td>
-<td>세이브 데이터</td>
-<td>챕터 진행 중 파티원 체력 등 상태</td>
+<td><code>ChampionTBL</code></td>
+<td><code>Team</code></td>
+<td><code>CardTeamTBL</code></td>
+</tr>
+<tr>
+<td><code>ChampionTBL</code></td>
+<td><code>Reward_Card1?</code>, <code>Reward_Card2?</code></td>
+<td><code>CardTBL</code></td>
+</tr>
+<tr>
+<td><code>ChampionTBL</code></td>
+<td><code>TitleStringID</code></td>
+<td><code>StringTBL_KR</code></td>
+</tr>
+<tr>
+<td><code>EnemyTBL</code></td>
+<td><code>CardDeck</code></td>
+<td><code>StartCardDeckTBL</code></td>
+</tr>
+<tr>
+<td><code>EnemyTBL</code></td>
+<td><code>Trait1?</code></td>
+<td><code>CardTraitTBL</code></td>
+</tr>
+<tr>
+<td><code>EnemyTBL</code></td>
+<td><code>Ability1?</code></td>
+<td><code>CardAbilityTBL</code></td>
+</tr>
+<tr>
+<td><code>EnemyTBL</code></td>
+<td><code>TitleStringID</code></td>
+<td><code>StringTBL_KR</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="_5">맵</h3>
+<table>
+<thead>
+<tr>
+<th>테이블</th>
+<th>참조 컬럼</th>
+<th>참조 대상</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>MapTBL</code></td>
+<td><code>RandomEventID</code></td>
+<td><code>MapRandomEventTBL</code></td>
+</tr>
+<tr>
+<td><code>MapTBL</code></td>
+<td><code>FixedWidthID?</code></td>
+<td><code>MapFixedWidthTBL</code></td>
+</tr>
+<tr>
+<td><code>MapTBL</code></td>
+<td><code>FixedEventID?</code></td>
+<td><code>MapFixedEventTBL</code></td>
+</tr>
+<tr>
+<td><code>MapTBL</code></td>
+<td><code>TitleStringID</code></td>
+<td><code>StringTBL_KR</code></td>
+</tr>
+<tr>
+<td><code>MapRandomEventTBL</code></td>
+<td><code>EventID</code></td>
+<td>이벤트 테이블 (<code>Type</code> 값에 따라 결정)</td>
+</tr>
+<tr>
+<td><code>MapFixedEventTBL</code></td>
+<td><code>EventID</code></td>
+<td>이벤트 테이블 (<code>Type</code> 값에 따라 결정)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_6">맵 이벤트</h3>
+<table>
+<thead>
+<tr>
+<th>테이블</th>
+<th>참조 컬럼</th>
+<th>참조 대상</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>MapEvent_BattleTBL</code></td>
+<td><code>Enemy1~4?</code></td>
+<td><code>EnemyTBL</code></td>
+</tr>
+<tr>
+<td><code>MapEvent_BattleTBL</code></td>
+<td><code>ExtraEnemy?</code></td>
+<td><code>ExtraEnemyTBL</code></td>
+</tr>
+<tr>
+<td><code>MapEvent_BattleTBL</code></td>
+<td><code>Win_Event?</code></td>
+<td>이벤트 테이블</td>
+</tr>
+<tr>
+<td><code>ExtraEnemyTBL</code></td>
+<td><code>Enemy1~4?</code> × 2세트</td>
+<td><code>EnemyTBL</code></td>
+</tr>
+<tr>
+<td><code>MapEvent_ChoiceTBL</code></td>
+<td><code>DescStringID</code></td>
+<td><code>StringTBL_KR</code></td>
+</tr>
+<tr>
+<td><code>MapEvent_TradeTBL</code></td>
+<td><code>DescStringID</code></td>
+<td><code>StringTBL_KR</code></td>
+</tr>
+<tr>
+<td><code>MapEvent_EffectTBL</code></td>
+<td><code>ChainEventID?</code></td>
+<td>이벤트 테이블</td>
+</tr>
+<tr>
+<td><code>MapEvent_EffectTBL</code></td>
+<td><code>DescStringID</code></td>
+<td><code>StringTBL_KR</code></td>
 </tr>
 </tbody>
 </table>
 <hr />
 <h2 id="erd">ERD</h2>
-<h3 id="_3">기획 테이블</h3>
 <pre class="mermaid"><code>erDiagram
-    Chapter {
-        string id PK
-        string title
-        string storyType
-        number actCount
+    StringTBL_KR {
+        number UID PK
+        string KR
     }
-    ActConfig {
-        string chapterId FK
-        number actNumber
-        number stageCount
-        string[] supplyPositions
-        string bossMonsterId FK
+    CardTBL {
+        string Type
+        number ID PK
+        number TitleStringID FK
+        number DescStringID FK
+        string ArtIcon
+        string ArtFull
+        string S_CardType
+        number CardType
+        string S_ItemType
+        number ItemType
+        number Team FK
+        number Rarity FK
+        number Mana
+        number Trait1 FK
+        number Trait2 FK
+        number Ability1 FK
+        number Ability2 FK
+        number Ability3 FK
+        number Ability4 FK
+        number UpgradeMax
+        number UpgradeMana
+        number ShopCost
+        number Intent FK
+        string SpawnFx
+        string SpawnAudio
+        string CasterAnim
+        string TargetAnim
+        string SelectAvailability
+        number Availability
     }
-    Character {
-        string id PK
-        string name
-        number baseHp
-        boolean isDlc
+    CardAbilityTBL {
+        string Type
+        number ID PK
+        string selectTtrigger
+        number trigger
+        string T_trigCond1
+        string T_trigCond2
+        string T_trigCond3
+        string selectTarget
+        number Target
+        string T_tgtCond1
+        string T_tgtCond2
+        string T_tgtCond3
+        string Effect1
+        string Effect2
+        number Status1 FK
+        number Status2 FK
+        number EffectValue
+        number UpgradeValue
+        string SelectUpBonus
+        number UpgradeBonus
+        number Chain_Ability FK
+        string Target_Fx
     }
-    Card {
-        string id PK
-        string ownerCharacterId FK
-        string name
-        string tileRank
-        string effectType
-        string upgradedTileRank "nullable"
+    CardStatusTBL {
+        number ID PK
+        string selectEffect
+        number StatusEffect
+        string selectDuration
+        number StatusDuration
+        boolean IsNegative
+        number TitleStringID FK
+        number DescStringID FK
+        string Icon
+        string Fx
+        string Animation
     }
-    Stage {
-        string id PK
-        string chapterId FK
-        number actNumber
-        string stageType
-        number maxSlides "NORMAL·ELITE·BOSS 전용"
+    CardTraitTBL {
+        number ID PK
+        number TitleStringID FK
+        number DescStringID FK
+        string Icon
     }
-    Monster {
-        string id PK
-        string displayName
-        string enemyType
-        number maxHp
-        number initialShield
+    CardTeamTBL {
+        number ID PK
+        number TitleStringID FK
+        string Icon
+        string Color
     }
-    StageMonster {
-        string stageId FK
-        string monsterId FK
-        number position
+    CardRarityTBL {
+        number ID PK
+        number TitleStringID FK
+        string Icon
+        number Probability
+    }
+    CardIntentTBL {
+        number ID PK
+        boolean IsShow
+        number Priority
+        number TitleStringID FK
+        number DescStringID FK
+        string Icon
+    }
+    ChampionTBL {
+        number ID PK
+        number TitleStringID FK
+        string ArtFull
+        string ArtPortrait
+        string Prefab
+        number HP
+        number Speed
+        number Hand
+        number Energy
+        number LvUp_HP
+        number LvUp_Speed
+        number LvUp_Hand
+        number LvUp_Energy
+        number Team FK
+        number StartDeck FK
+        number Reward_Card1 FK
+        number Reward_Card2 FK
+    }
+    EnemyTBL {
+        number ID PK
+        number TitleStringID FK
+        string ArtFull
+        string ArtPortrait
+        string Prefab
+        number HP
+        number Speed
+        number Hand
+        number Energy
+        number LvUp_Max
+        number LvUp_HP
+        number LvUp_Speed
+        number LvUp_Hand
+        number LvUp_Energy
+        string Behavior
+        number Trait1 FK
+        number Ability1 FK
+        number CardDeck FK
+        number Reward_Gold
+        number Reward_XP
+        string Spawn_Fx
+    }
+    StartCardDeckTBL {
+        string Type
+        number ID PK
+        number slot1 FK
+        number slot2 FK
+        number slot3 FK
+        number slot4 FK
+        number slot5 FK
+        number slot6 FK
+        number slot7 FK
+        number slot8 FK
+        number slot9 FK
+        number slot10 FK
+    }
+    MapTBL {
+        number ID PK
+        number TitleStringID FK
+        string MapScene
+        string BattleScene
+        number Depth
+        number Width_min
+        number Width_max
+        number Fork_probability
+        number RandomEventID FK
+        number FixedWidthID FK
+        number FixedEventID FK
+        string Map_tutorial
+    }
+    MapRandomEventTBL {
+        number ID PK
+        string Select_type
+        number Type
+        number EventID FK
+    }
+    MapFixedWidthTBL {
+        number ID PK
+        number Depth1
+        number Depth2
+        number Depth3
+        number Depth4
+        number Depth5
+        number Depth6
+        number Depth7
+        number Depth8
+        number Depth9
+        number Depth10
+        number Depth11
+        number Depth12
+    }
+    MapFixedEventTBL {
+        number ID PK
+        number Depth
+        number Index_min
+        number Index_max
+        number EventID FK
+    }
+    MapEvent_BattleTBL {
+        number ID PK
+        number Depth_Min
+        number Depth_Max
+        string Icon
+        number EnemyLevel
+        number Enemy1 FK
+        number Enemy2 FK
+        number Enemy3 FK
+        number Enemy4 FK
+        number ExtraEnemy FK
+        number RewardGold
+        number RewardXP
+        boolean IsRewardCards
+        string CardRarity
+        boolean IsRewardItem
+        string ItemRarity
+        string ItemTeam
+        string Tutorial
+        number Win_Event FK
+    }
+    ExtraEnemyTBL {
+        number ID PK
+        number ChampionMin_A
+        number Enemy1_A FK
+        number Enemy2_A FK
+        number Enemy3_A FK
+        number Enemy4_A FK
+        number ChampionMin_B
+        number Enemy1_B FK
+        number Enemy2_B FK
+        number Enemy3_B FK
+        number Enemy4_B FK
+    }
+    MapEvent_ChoiceTBL {
+        number ID PK
+        number Depth_Min
+        number Depth_Max
+        string Icon
+        number DescStringID FK
+        string Choise1_Title
+        string Choise1_Desc
+        string Choise1_Effect
+        string Choise2_Title
+        string Choise2_Desc
+        string Choise2_Effect
+        string Choise3_Title
+        string Choise3_Desc
+        string Choise3_Effect
+        string Choise4_Title
+        string Choise4_Desc
+        string Choise4_Effect
+    }
+    MapEvent_TradeTBL {
+        number ID PK
+        string Icon
+        string SelectEventTarget
+        string EventTarget
+        string SpendItem
+        number SpendGold
+        number SpendHp
+        string GainItem1
+        string GainItem2
+        string GainItem3
+        string GainAlly
+        number GainGold
+        number GainXp
+        number GainHeal
+        number DescStringID FK
+    }
+    MapEvent_EffectTBL {
+        number ID PK
+        string Icon
+        string Condition1
+        string SelectEventTarget
+        string EventTarget
+        string Effect1
+        string Effect2
+        number value
+        number ChainEventID FK
+        number DescStringID FK
+    }
+    MapEvent_OtherTBL {
+        number ID PK
+        string SelectType
+        string EventType
+        string Icon
+        string Rarity
+        string SelectWorldState
+        string WorldState
+        boolean FreeUpgrade
+    }
+    MapEvent_ShopTBL {
+        number ID PK
+        number Depth_Min
+        number Depth_Max
+        string Icon
+        number Buy_mult
+        number Selly_mult
+        string Item1
+        string Item2
+        string Item3
+        number Cards_Rand
+        number Items_Rand
+        string ItemRand_Slot1
+        string ItemRand_Slot2
+        string ItemRand_Slot3
+        string ItemRand_Slot4
     }
 
-    StoryScene {
-        string id PK
-        string chapterId FK
-        string triggerType
-        string sceneAssetId
-        string monsterId "nullable - BOSS 트리거 전용"
-        string stageId "nullable - STAGE_START 전용"
-    }
-
-    Chapter ||--|{ ActConfig : "막 구성"
-    Chapter ||--o{ Stage : "스테이지 템플릿"
-    Chapter ||--o{ StoryScene : "씬 등록"
-    Character ||--o{ Card : "소유 (ownerCharacterId)"
-    Stage ||--o{ StageMonster : "등장 몬스터 (전투 스테이지만)"
-    Stage ||--o| StoryScene : "STAGE_START 씬"
-    Monster ||--o{ StageMonster : "스테이지 배치"
-    Monster ||--o{ ActConfig : "막 보스 지정"
-    Monster ||--o| StoryScene : "BOSS 씬 연결"</code></pre>
-<h3 id="monster">Monster 내부 구조</h3>
-<pre class="mermaid"><code>erDiagram
-    Monster {
-        string id PK
-        string enemyType
-        number maxHp
-        number initialShield
-    }
-    ActionPattern {
-        number initialCount
-    }
-    EnemyAction {
-        string actionType
-        string targetMode
-        number power
-        string effectId
-        number effectDuration
-        number resetCount
-        string scheduledTurns
-    }
-    PhaseThreshold {
-        number phaseNumber
-        number triggerValue
-    }
-
-    Monster ||--|| ActionPattern : "actionPattern (페이즈1)"
-    Monster ||--o{ PhaseThreshold : "phaseThresholds (BOSS 전용)"
-    ActionPattern ||--o{ EnemyAction : "actions[ ]"
-    ActionPattern ||--|| EnemyAction : "defaultAction"
-    PhaseThreshold ||--|| ActionPattern : "actionPattern"
-    PhaseThreshold ||--o| EnemyAction : "transitionAction"</code></pre>
-<h3 id="_4">세이브 데이터</h3>
-<pre class="mermaid"><code>erDiagram
-    SaveData {
-        AccountSave account
-        ChapterRun chapterRun "nullable"
-    }
-    AccountSave {
-        number userLevel
-        number userXp
-        string[] unlockedCharacterIds
-        string[] clearedChapterIds
-    }
-    ChapterRun {
-        string chapterId
-        number currentActNumber
-        string currentStageId "nullable"
-        string[] clearedStageIds
-        number gold
-        string[] passiveIds
-        string[] relicIds
-        string[] addedCardIds
-    }
-    CharacterState {
-        string characterId FK
-        number currentHp
-    }
-
-    SaveData ||--|| AccountSave : "account"
-    SaveData ||--o| ChapterRun : "chapterRun (챕터 진행 중만 존재)"
-    ChapterRun ||--|{ CharacterState : "party (출전 3인)"</code></pre>
+    StringTBL_KR ||--o{ CardTBL : "TitleStringID / DescStringID"
+    StringTBL_KR ||--o{ CardAbilityTBL : "(없음 — 직접 참조 없음)"
+    StringTBL_KR ||--o{ CardStatusTBL : "TitleStringID / DescStringID"
+    StringTBL_KR ||--o{ CardTraitTBL : "TitleStringID / DescStringID"
+    StringTBL_KR ||--o{ CardTeamTBL : "TitleStringID"
+    StringTBL_KR ||--o{ CardRarityTBL : "TitleStringID"
+    StringTBL_KR ||--o{ CardIntentTBL : "TitleStringID / DescStringID"
+    StringTBL_KR ||--o{ ChampionTBL : "TitleStringID"
+    StringTBL_KR ||--o{ EnemyTBL : "TitleStringID"
+    StringTBL_KR ||--o{ MapTBL : "TitleStringID"
+    StringTBL_KR ||--o{ MapEvent_ChoiceTBL : "DescStringID"
+    StringTBL_KR ||--o{ MapEvent_TradeTBL : "DescStringID"
+    StringTBL_KR ||--o{ MapEvent_EffectTBL : "DescStringID"
+    CardTeamTBL ||--o{ CardTBL : "Team"
+    CardTeamTBL ||--o{ ChampionTBL : "Team"
+    CardRarityTBL ||--o{ CardTBL : "Rarity"
+    CardTraitTBL ||--o{ CardTBL : "Trait1 / Trait2"
+    CardTraitTBL ||--o{ EnemyTBL : "Trait1"
+    CardIntentTBL ||--o{ CardTBL : "Intent"
+    CardAbilityTBL ||--o{ CardTBL : "Ability1~4"
+    CardAbilityTBL ||--o{ EnemyTBL : "Ability1"
+    CardAbilityTBL ||--o{ CardAbilityTBL : "Chain_Ability (자기참조)"
+    CardStatusTBL ||--o{ CardAbilityTBL : "Status1 / Status2"
+    StartCardDeckTBL ||--o{ CardTBL : "slot1~10"
+    ChampionTBL ||--o{ StartCardDeckTBL : "StartDeck"
+    EnemyTBL ||--o{ StartCardDeckTBL : "CardDeck"
+    CardTBL ||--o{ ChampionTBL : "Reward_Card1 / Reward_Card2"
+    MapTBL ||--o{ MapRandomEventTBL : "RandomEventID"
+    MapTBL ||--o{ MapFixedWidthTBL : "FixedWidthID"
+    MapTBL ||--o{ MapFixedEventTBL : "FixedEventID"
+    MapEvent_BattleTBL ||--o{ EnemyTBL : "Enemy1~4"
+    MapEvent_BattleTBL ||--o{ ExtraEnemyTBL : "ExtraEnemy"
+    ExtraEnemyTBL ||--o{ EnemyTBL : "Enemy1~4 (세트 A/B)"</code></pre>
 <hr />
-<h2 id="_5">기획 테이블</h2>
-<h3 id="chapter">Chapter</h3>
-<p>챕터 정의. 메인 스토리와 서브 스토리 모두 이 구조를 사용한다. 막 구성 상세는 <code>ActConfig</code> 참조.</p>
+<h2 id="globalenum">GlobalEnum</h2>
+<p>공용 열거형 전체 정의는 <a href="../enums/">docs/enums.md</a>를 참조한다.</p>
+<hr />
+<h2 id="_7">타입 정의</h2>
+<h3 id="stringtbl_kr">StringTBL_KR — 문자열 테이블</h3>
 <table>
 <thead>
 <tr>
-<th>필드</th>
+<th>컬럼</th>
 <th>타입</th>
 <th>설명</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>id</code></td>
-<td><code>string</code></td>
-<td>챕터 식별자. 예: <code>"ch1"</code>, <code>"sub_kestrel"</code></td>
-</tr>
-<tr>
-<td><code>title</code></td>
-<td><code>string</code></td>
-<td>챕터 표시 제목</td>
-</tr>
-<tr>
-<td><code>storyType</code></td>
-<td><code>"MAIN" \| "SUB"</code></td>
-<td>메인 스토리 또는 서브 스토리 구분</td>
-</tr>
-<tr>
-<td><code>actCount</code></td>
+<td><code>UID</code></td>
 <td><code>number</code></td>
-<td>막 수. 기본 3. <code>ActConfig</code> 항목 수와 일치해야 한다</td>
+<td>문자열 고유 식별 ID (PK). 테이블 종류별 대역 분리</td>
 </tr>
-</tbody>
-</table>
-<h3 id="actconfig">ActConfig</h3>
-<p>챕터 내 각 막의 구성 설정. 챕터당 <code>actCount</code>개 존재한다.</p>
-<table>
-<thead>
 <tr>
-<th>필드</th>
-<th>타입</th>
-<th>설명</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>chapterId</code></td>
+<td><code>KR</code></td>
 <td><code>string</code></td>
-<td><code>Chapter.id</code> 참조</td>
-</tr>
-<tr>
-<td><code>actNumber</code></td>
-<td><code>number</code></td>
-<td>막 번호. 1부터 시작</td>
-</tr>
-<tr>
-<td><code>stageCount</code></td>
-<td><code>number</code></td>
-<td>이 막에 배치되는 스테이지 수 (보스 제외)</td>
-</tr>
-<tr>
-<td><code>supplyPositions</code></td>
-<td><code>number[]</code></td>
-<td>보급 지역(SUPPLY)이 고정 배치될 위치 인덱스 목록</td>
-</tr>
-<tr>
-<td><code>bossMonsterId</code></td>
-<td><code>string</code></td>
-<td>이 막의 보스로 사용할 <code>Monster.id</code>. <code>enemyType === 'BOSS'</code>여야 함</td>
+<td>한국어 표시 문자열</td>
 </tr>
 </tbody>
 </table>
 <hr />
-<h3 id="stage">Stage</h3>
-<p>스테이지 템플릿. 챕터 내 전투 스테이지의 보드 설정과 등장 몬스터를 정의한다. 런타임에 경로 생성 시 풀(pool)로 사용된다.</p>
+<h3 id="cardtbl">CardTBL — 카드</h3>
+<p>플레이어가 손패에서 사용하거나 덱에 편성하는 카드. 발동 조건·연출·상점 가격 등 카드 전반 속성을 정의한다.</p>
 <blockquote>
-<p><code>SUPPLY</code>·<code>UNKNOWN</code> 유형은 전투가 없으므로 <code>maxSlides</code>, <code>tileSpawnConfig</code>, <code>monsters</code> 필드를 사용하지 않는다.</p>
+<p><code>S_*</code> 및 <code>Select*</code> 접두어 컬럼은 Google Sheets 드롭다운 레이블 전용 컬럼이다. 런타임에는 사용하지 않으며, 옆에 있는 숫자 컬럼(예: <code>CardType</code>, <code>ItemType</code>, <code>Availability</code>)이 실제 enum 값이다.</p>
 </blockquote>
 <table>
 <thead>
 <tr>
-<th>필드</th>
+<th>컬럼</th>
 <th>타입</th>
 <th>설명</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>id</code></td>
+<td><code>Type</code></td>
 <td><code>string</code></td>
-<td>스테이지 식별자. 예: <code>"ch1_s01"</code></td>
+<td>시트 분류 레이블. 시트 내 행 그룹 식별자</td>
 </tr>
 <tr>
-<td><code>chapterId</code></td>
+<td><code>ID</code></td>
+<td><code>number</code></td>
+<td>카드 고유 ID (PK)</td>
+</tr>
+<tr>
+<td><code>TitleStringID</code></td>
+<td><code>number</code></td>
+<td><code>StringTBL_KR.UID</code> 참조. 카드 표시 이름</td>
+</tr>
+<tr>
+<td><code>DescStringID</code></td>
+<td><code>number</code></td>
+<td><code>StringTBL_KR.UID</code> 참조. 카드 설명 텍스트</td>
+</tr>
+<tr>
+<td><code>ArtIcon</code></td>
 <td><code>string</code></td>
-<td><code>Chapter.id</code> 참조</td>
+<td>손패 아이콘 에셋 키</td>
 </tr>
 <tr>
-<td><code>actNumber</code></td>
+<td><code>ArtFull</code></td>
+<td><code>string</code></td>
+<td>카드 전체 일러스트 에셋 키</td>
+</tr>
+<tr>
+<td><code>S_CardType</code></td>
+<td><code>string</code></td>
+<td><code>CardType</code> 드롭다운 레이블 (시트 편집용)</td>
+</tr>
+<tr>
+<td><code>CardType</code></td>
 <td><code>number</code></td>
-<td>소속 막 번호</td>
+<td><code>GlobalEnum.CardType</code> 참조 (<code>Skill=20</code>, <code>Power=30</code>)</td>
 </tr>
 <tr>
-<td><code>stageType</code></td>
-<td><a href="../enums/#stagetype"><code>StageType</code></a></td>
-<td>스테이지 유형</td>
+<td><code>S_ItemType</code></td>
+<td><code>string</code></td>
+<td><code>ItemType</code> 드롭다운 레이블 (시트 편집용)</td>
 </tr>
 <tr>
-<td><code>maxSlides</code></td>
+<td><code>ItemType</code></td>
 <td><code>number</code></td>
-<td>턴당 최대 슬라이드 횟수. <code>NORMAL</code>·<code>ELITE</code>·<code>BOSS</code> 전용</td>
+<td><code>GlobalEnum.ItemType</code> 참조. 카드가 아이템으로 쓰일 때의 유형</td>
 </tr>
 <tr>
-<td><code>tileSpawnConfig</code></td>
-<td><code>{ values: number[], weights: number[] }</code></td>
-<td>슬라이드 후 타일 생성 확률 분포. <code>NORMAL</code>·<code>ELITE</code>·<code>BOSS</code> 전용</td>
+<td><code>Team</code></td>
+<td><code>number</code></td>
+<td><code>CardTeamTBL.ID</code> 참조. 카드가 속한 팀(진영)</td>
 </tr>
 <tr>
-<td><code>monsters</code></td>
-<td><code>{ monsterId: string, position: number }[]</code></td>
-<td>등장 몬스터 목록. <code>NORMAL</code>·<code>ELITE</code>·<code>BOSS</code> 전용. <code>position</code> 오름차순이 화면 위→아래이자 행동 처리 순서</td>
-</tr>
-</tbody>
-</table>
-<p><strong>tileSpawnConfig 예시</strong></p>
-<table>
-<thead>
-<tr>
-<th><code>values</code></th>
-<th><code>weights</code></th>
-<th>동작</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>[2]</code></td>
-<td><code>[1]</code></td>
-<td>항상 <code>2</code> 생성 (초기 구현 기본값)</td>
+<td><code>Rarity</code></td>
+<td><code>number</code></td>
+<td><code>CardRarityTBL.ID</code> 참조. 희귀도 등급</td>
 </tr>
 <tr>
-<td><code>[2, 4]</code></td>
-<td><code>[3, 1]</code></td>
-<td><code>2</code> 75%, <code>4</code> 25%</td>
-</tr>
-</tbody>
-</table>
-<p><strong>제약 조건</strong></p>
-<table>
-<thead>
-<tr>
-<th>항목</th>
-<th>규칙</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>tileSpawnConfig</code></td>
-<td><code>values.length === weights.length</code>. <code>weights</code> 원소는 양의 정수</td>
+<td><code>Mana</code></td>
+<td><code>number</code></td>
+<td>카드 발동 비용 (마나)</td>
 </tr>
 <tr>
-<td><code>monsters</code></td>
-<td>1개 이상. <code>position</code> 중복 불가. <code>NORMAL</code>·<code>ELITE</code>·<code>BOSS</code> 스테이지만 필수</td>
+<td><code>Trait1</code></td>
+<td><code>number?</code></td>
+<td><code>CardTraitTBL.ID</code> 참조. 첫 번째 특성 태그</td>
 </tr>
 <tr>
-<td><code>stageType === 'BOSS'</code></td>
-<td><code>monsters</code> 중 <code>enemyType === 'BOSS'</code>인 항목이 1개 이상 존재</td>
+<td><code>Trait2</code></td>
+<td><code>number?</code></td>
+<td><code>CardTraitTBL.ID</code> 참조. 두 번째 특성 태그. 공란 가능</td>
+</tr>
+<tr>
+<td><code>Ability1</code></td>
+<td><code>number</code></td>
+<td><code>CardAbilityTBL.ID</code> 참조. 주 효과 어빌리티</td>
+</tr>
+<tr>
+<td><code>Ability2</code></td>
+<td><code>number?</code></td>
+<td>두 번째 어빌리티. 공란 가능</td>
+</tr>
+<tr>
+<td><code>Ability3</code></td>
+<td><code>number?</code></td>
+<td>세 번째 어빌리티. 공란 가능</td>
+</tr>
+<tr>
+<td><code>Ability4</code></td>
+<td><code>number?</code></td>
+<td>네 번째 어빌리티. 공란 가능</td>
+</tr>
+<tr>
+<td><code>UpgradeMax</code></td>
+<td><code>number</code></td>
+<td>최대 강화 횟수</td>
+</tr>
+<tr>
+<td><code>UpgradeMana</code></td>
+<td><code>number?</code></td>
+<td>강화 후 변경될 마나 비용. 공란이면 기존 마나 유지</td>
+</tr>
+<tr>
+<td><code>ShopCost</code></td>
+<td><code>number</code></td>
+<td>상점 구매 가격 (골드)</td>
+</tr>
+<tr>
+<td><code>Intent</code></td>
+<td><code>number?</code></td>
+<td><code>CardIntentTBL.ID</code> 참조. 적 의도 표시 정보</td>
+</tr>
+<tr>
+<td><code>SpawnFx</code></td>
+<td><code>string?</code></td>
+<td>카드 소환 파티클 에셋 키</td>
+</tr>
+<tr>
+<td><code>SpawnAudio</code></td>
+<td><code>string?</code></td>
+<td>카드 소환 사운드 에셋 키</td>
+</tr>
+<tr>
+<td><code>CasterAnim</code></td>
+<td><code>string?</code></td>
+<td>카드를 사용하는 캐릭터 애니메이션 키</td>
+</tr>
+<tr>
+<td><code>TargetAnim</code></td>
+<td><code>string?</code></td>
+<td>카드 효과를 받는 대상 애니메이션 키</td>
+</tr>
+<tr>
+<td><code>SelectAvailability</code></td>
+<td><code>string</code></td>
+<td><code>Availability</code> 드롭다운 레이블 (시트 편집용)</td>
+</tr>
+<tr>
+<td><code>Availability</code></td>
+<td><code>number</code></td>
+<td><code>GlobalEnum.CardAvailability</code> 참조. 카드 획득·출현 가능 조건</td>
 </tr>
 </tbody>
 </table>
 <hr />
-<h3 id="storyscene">StoryScene</h3>
-<p>챕터 내 스토리 씬(컷씬·대화) 정의. 발동 시점(<code>triggerType</code>)에 따라 어떤 씬을 재생할지 지정한다.</p>
+<h3 id="cardabilitytbl">CardAbilityTBL — 어빌리티</h3>
+<p>카드 또는 적이 사용하는 개별 효과 단위. <code>trigger → 조건 → target → 조건 → effects</code> 구조로 동작한다.</p>
 <blockquote>
-<p>발동 시점 상세: <a href="../enums/#scenetriggertype">SceneTriggerType</a></p>
+<p><code>T_conditions_1~3</code> 컬럼명이 <strong>트리거 조건</strong>과 <strong>대상 조건</strong> 양쪽에 동일하게 사용된다. 시트 상에서 물리적으로 두 번 등장하며, 첫 번째 세트는 트리거 발동 조건, 두 번째 세트는 대상 필터 조건이다.</p>
+<p><code>selectTtrigger</code>, <code>selectTarget</code> 등 <code>select*</code> / <code>Select*</code> 접두어 컬럼은 드롭다운 레이블 전용이며, 옆의 숫자 컬럼이 실제 enum 값이다.</p>
 </blockquote>
 <table>
 <thead>
 <tr>
-<th>필드</th>
+<th>컬럼</th>
 <th>타입</th>
 <th>설명</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>id</code></td>
+<td><code>Type</code></td>
 <td><code>string</code></td>
-<td>씬 식별자</td>
+<td>시트 분류 레이블</td>
 </tr>
 <tr>
-<td><code>chapterId</code></td>
+<td><code>ID</code></td>
+<td><code>number</code></td>
+<td>어빌리티 고유 ID (PK)</td>
+</tr>
+<tr>
+<td><code>selectTtrigger</code></td>
 <td><code>string</code></td>
-<td><code>Chapter.id</code> 참조. 어느 챕터에 속한 씬인지</td>
+<td><code>trigger</code> 드롭다운 레이블 (시트 편집용, 오타 원본 유지)</td>
 </tr>
 <tr>
-<td><code>triggerType</code></td>
-<td><a href="../enums/#scenetriggertype"><code>SceneTriggerType</code></a></td>
-<td>발동 시점</td>
+<td><code>trigger</code></td>
+<td><code>number</code></td>
+<td><code>GlobalEnum.AbilityTrigger</code> 참조. 발동 시점 enum 값</td>
 </tr>
 <tr>
-<td><code>sceneAssetId</code></td>
+<td><code>T_conditions_1</code> (트리거)</td>
+<td><code>string?</code></td>
+<td>트리거 발동 추가 조건 1</td>
+</tr>
+<tr>
+<td><code>T_conditions_2</code> (트리거)</td>
+<td><code>string?</code></td>
+<td>트리거 발동 추가 조건 2</td>
+</tr>
+<tr>
+<td><code>T_conditions_3</code> (트리거)</td>
+<td><code>string?</code></td>
+<td>트리거 발동 추가 조건 3</td>
+</tr>
+<tr>
+<td><code>selectTarget</code></td>
 <td><code>string</code></td>
-<td>실제 재생할 씬 에셋·스크립트 식별자</td>
+<td><code>Target</code> 드롭다운 레이블 (시트 편집용)</td>
 </tr>
 <tr>
-<td><code>monsterId</code></td>
-<td><code>string \| undefined</code></td>
-<td><code>BOSS_START</code>·<code>BOSS_CLEAR</code> 트리거 전용. 해당 보스의 <code>Monster.id</code>. 미지정 시 막 보스 전체에 공통 적용</td>
+<td><code>Target</code></td>
+<td><code>number</code></td>
+<td><code>GlobalEnum.AbilityTarget</code> 참조. 효과 적용 대상 enum 값</td>
 </tr>
 <tr>
-<td><code>stageId</code></td>
-<td><code>string \| undefined</code></td>
-<td><code>STAGE_START</code> 트리거 전용. 발동할 <code>Stage.id</code></td>
-</tr>
-</tbody>
-</table>
-<p><strong>제약 조건</strong></p>
-<table>
-<thead>
-<tr>
-<th>항목</th>
-<th>규칙</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>BOSS_START</code>·<code>BOSS_CLEAR</code></td>
-<td><code>monsterId</code> 미지정 시 해당 막의 모든 보스에 적용. 특정 보스에만 적용하려면 <code>monsterId</code> 지정 필요</td>
+<td><code>T_conditions_1</code> (대상)</td>
+<td><code>string?</code></td>
+<td>대상 필터 조건 1. 예: <code>is_allied</code>, <code>is_not_allied</code></td>
 </tr>
 <tr>
-<td><code>STAGE_START</code></td>
-<td><code>stageId</code> 필수. 경로 미선택 시 재생 보장 없음 — 필수 서사 배치 지양</td>
+<td><code>T_conditions_2</code> (대상)</td>
+<td><code>string?</code></td>
+<td>대상 필터 조건 2</td>
 </tr>
 <tr>
-<td><code>CHAPTER_START</code></td>
-<td><code>monsterId</code>, <code>stageId</code> 모두 불필요</td>
+<td><code>T_conditions_3</code> (대상)</td>
+<td><code>string?</code></td>
+<td>대상 필터 조건 3</td>
+</tr>
+<tr>
+<td><code>Effect1</code></td>
+<td><code>string?</code></td>
+<td>주 효과. 예: <code>damage</code>, <code>heal</code>, <code>add_shield</code></td>
+</tr>
+<tr>
+<td><code>Effect2</code></td>
+<td><code>string?</code></td>
+<td>보조 효과</td>
+</tr>
+<tr>
+<td><code>Status1</code></td>
+<td><code>number?</code></td>
+<td><code>CardStatusTBL.ID</code> 참조. 첫 번째 적용 상태이상</td>
+</tr>
+<tr>
+<td><code>Status2</code></td>
+<td><code>number?</code></td>
+<td><code>CardStatusTBL.ID</code> 참조. 두 번째 적용 상태이상</td>
+</tr>
+<tr>
+<td><code>EffectValue</code></td>
+<td><code>number?</code></td>
+<td>효과 수치 (피해량·회복량·쉴드량 등)</td>
+</tr>
+<tr>
+<td><code>UpgradeValue</code></td>
+<td><code>number?</code></td>
+<td>강화 시 <code>EffectValue</code> 증가량</td>
+</tr>
+<tr>
+<td><code>SelectUpBonus</code></td>
+<td><code>string?</code></td>
+<td>강화 보너스 타입 드롭다운 레이블 (시트 편집용)</td>
+</tr>
+<tr>
+<td><code>UpgradeBonus</code></td>
+<td><code>number?</code></td>
+<td>강화 보너스 수치</td>
+</tr>
+<tr>
+<td><code>Chain_Ability</code></td>
+<td><code>number?</code></td>
+<td><code>CardAbilityTBL.ID</code> 자기 참조. 이 효과 발동 후 연쇄 발동할 어빌리티</td>
+</tr>
+<tr>
+<td><code>Target_Fx</code></td>
+<td><code>string?</code></td>
+<td>효과 연출 에셋 키. 예: <code>SlashFX</code>, <code>AoeFX</code></td>
 </tr>
 </tbody>
 </table>
 <hr />
-<h3 id="character">Character</h3>
-<p>플레이어가 출전시킬 수 있는 캐릭터 정의.</p>
-<blockquote>
-<p><code>Card.ownerCharacterId</code>가 이 <code>id</code>를 참조한다. 전투 시작 시 출전한 3인의 카드가 합산되어 덱을 구성한다.</p>
-</blockquote>
+<h3 id="cardstatustbl">CardStatusTBL — 상태이상</h3>
+<p>버프·디버프 정의 테이블.</p>
 <table>
 <thead>
 <tr>
-<th>필드</th>
+<th>컬럼</th>
 <th>타입</th>
 <th>설명</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>id</code></td>
-<td><code>string</code></td>
-<td>캐릭터 식별자. 예: <code>"char_a"</code></td>
-</tr>
-<tr>
-<td><code>name</code></td>
-<td><code>string</code></td>
-<td>화면 표시 이름</td>
-</tr>
-<tr>
-<td><code>baseHp</code></td>
+<td><code>ID</code></td>
 <td><code>number</code></td>
-<td>최대 체력</td>
+<td>상태이상 고유 ID (PK)</td>
 </tr>
 <tr>
-<td><code>isDlc</code></td>
+<td><code>selectEffect</code></td>
+<td><code>string</code></td>
+<td><code>StatusEffect</code> 드롭다운 레이블 (시트 편집용)</td>
+</tr>
+<tr>
+<td><code>StatusEffect</code></td>
+<td><code>number</code></td>
+<td><code>GlobalEnum.StatusEffect</code> 참조. 상태이상 종류 enum 값</td>
+</tr>
+<tr>
+<td><code>selectDuration</code></td>
+<td><code>string</code></td>
+<td><code>StatusDuration</code> 드롭다운 레이블 (시트 편집용)</td>
+</tr>
+<tr>
+<td><code>StatusDuration</code></td>
+<td><code>number</code></td>
+<td><code>GlobalEnum.StatusDuration</code> 참조. 지속 방식 enum 값</td>
+</tr>
+<tr>
+<td><code>IsNegative</code></td>
 <td><code>boolean</code></td>
-<td>DLC 캐릭터 여부</td>
+<td><code>true</code>=디버프, <code>false</code>=버프</td>
+</tr>
+<tr>
+<td><code>TitleStringID</code></td>
+<td><code>number</code></td>
+<td><code>StringTBL_KR.UID</code> 참조. 상태이상 표시 이름</td>
+</tr>
+<tr>
+<td><code>DescStringID</code></td>
+<td><code>number</code></td>
+<td><code>StringTBL_KR.UID</code> 참조. 상태이상 설명 텍스트</td>
+</tr>
+<tr>
+<td><code>Icon</code></td>
+<td><code>string</code></td>
+<td>상태이상 아이콘 에셋 키</td>
+</tr>
+<tr>
+<td><code>Fx</code></td>
+<td><code>string?</code></td>
+<td>적용 파티클 에셋 키</td>
+</tr>
+<tr>
+<td><code>Animation</code></td>
+<td><code>string?</code></td>
+<td>적용 애니메이션 키</td>
 </tr>
 </tbody>
 </table>
 <hr />
-<h3 id="card">Card</h3>
-<p>캐릭터의 스킬 카드 정의. 효과 파라미터(<code>effectParams</code>)를 내포한다.</p>
-<blockquote>
-<p>카드 발동 흐름: <a href="../systems/card/">card.md §5</a></p>
-</blockquote>
+<h3 id="championtbl">ChampionTBL — 챔피언 (플레이어 캐릭터)</h3>
+<p>플레이어가 파티에 편성하는 캐릭터. 초기 스탯과 레벨업 증가량, 시작 덱, 보상 카드 후보를 정의한다.</p>
 <table>
 <thead>
 <tr>
-<th>필드</th>
+<th>컬럼</th>
 <th>타입</th>
 <th>설명</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>id</code></td>
+<td><code>ID</code></td>
+<td><code>number</code></td>
+<td>챔피언 고유 ID (PK)</td>
+</tr>
+<tr>
+<td><code>TitleStringID</code></td>
+<td><code>number</code></td>
+<td><code>StringTBL_KR.UID</code> 참조. 캐릭터 표시 이름</td>
+</tr>
+<tr>
+<td><code>ArtFull</code></td>
 <td><code>string</code></td>
-<td>카드 식별자. 예: <code>"char_a_attack_01"</code></td>
+<td>전신 일러스트 에셋 키</td>
 </tr>
 <tr>
-<td><code>ownerCharacterId</code></td>
+<td><code>ArtPortrait</code></td>
 <td><code>string</code></td>
-<td><code>Character.id</code> 참조. 해당 캐릭터가 출전하지 않으면 이 카드는 덱에 포함되지 않는다</td>
+<td>초상화(버스트) 에셋 키</td>
 </tr>
 <tr>
-<td><code>name</code></td>
+<td><code>Prefab</code></td>
 <td><code>string</code></td>
-<td>카드 표시 이름</td>
+<td>전투 배치 프리팹 키</td>
 </tr>
 <tr>
-<td><code>tileRank</code></td>
-<td><a href="../enums/#tilerank"><code>TileRank</code></a></td>
-<td>발동에 필요한 타일 숫자 등급. 실제 타일 숫자는 <code>TileRank</code> 정의에서 파생</td>
+<td><code>HP</code></td>
+<td><code>number</code></td>
+<td>초기 최대 체력</td>
 </tr>
 <tr>
-<td><code>effectType</code></td>
-<td><a href="../enums/#cardeffecttype"><code>CardEffectType</code></a></td>
-<td>카드 효과 분류</td>
+<td><code>Speed</code></td>
+<td><code>number</code></td>
+<td>초기 행동 속도. 값이 낮을수록 먼저 행동</td>
 </tr>
 <tr>
-<td><code>effectParams</code></td>
-<td><code>EffectParams</code></td>
-<td>효과 실행 파라미터 (아래 참조)</td>
+<td><code>Hand</code></td>
+<td><code>number</code></td>
+<td>초기 손패 최대 장수</td>
 </tr>
 <tr>
-<td><code>upgradedTileRank</code></td>
-<td><a href="../enums/#tilerank"><code>TileRank</code></a><code>\| undefined</code></td>
-<td>강화 후 대체 등급. 반드시 <code>tileRank</code>보다 낮은 등급이어야 한다</td>
-</tr>
-</tbody>
-</table>
-<p><strong>EffectParams</strong></p>
-<table>
-<thead>
-<tr>
-<th>필드</th>
-<th>타입</th>
-<th>사용 <code>effectType</code></th>
-<th>설명</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>targetType</code></td>
-<td><a href="../enums/#targettype"><code>TargetType</code></a></td>
-<td>전체</td>
-<td>효과 적용 대상</td>
+<td><code>Energy</code></td>
+<td><code>number</code></td>
+<td>초기 턴당 최대 에너지</td>
 </tr>
 <tr>
-<td><code>damage</code></td>
-<td><code>number \| undefined</code></td>
-<td><code>ATTACK</code></td>
-<td>피해량</td>
+<td><code>LvUp_HP</code></td>
+<td><code>number</code></td>
+<td>레벨업당 체력 증가량</td>
 </tr>
 <tr>
-<td><code>healAmount</code></td>
-<td><code>number \| undefined</code></td>
-<td><code>HEAL</code></td>
-<td>회복량</td>
+<td><code>LvUp_Speed</code></td>
+<td><code>number</code></td>
+<td>레벨업당 속도 증가량</td>
 </tr>
 <tr>
-<td><code>buffId</code></td>
-<td><code>string \| undefined</code></td>
-<td><code>BUFF</code></td>
-<td>부여할 버프 식별자</td>
+<td><code>LvUp_Hand</code></td>
+<td><code>number</code></td>
+<td>레벨업당 손패 증가량</td>
 </tr>
 <tr>
-<td><code>debuffId</code></td>
-<td><code>string \| undefined</code></td>
-<td><code>DEBUFF</code></td>
-<td>부여할 디버프 식별자</td>
+<td><code>LvUp_Energy</code></td>
+<td><code>number</code></td>
+<td>레벨업당 에너지 증가량</td>
 </tr>
 <tr>
-<td><code>duration</code></td>
-<td><code>number \| undefined</code></td>
-<td><code>BUFF</code>, <code>DEBUFF</code></td>
-<td>효과 지속 액션 버튼 횟수. <code>0</code>은 영구 지속 예약값 (미결 C-5)</td>
+<td><code>Team</code></td>
+<td><code>number</code></td>
+<td><code>CardTeamTBL.ID</code> 참조. 소속 팀(진영)</td>
+</tr>
+<tr>
+<td><code>StartDeck</code></td>
+<td><code>number</code></td>
+<td><code>StartCardDeckTBL.ID</code> 참조. 챕터 시작 시 초기 덱</td>
+</tr>
+<tr>
+<td><code>Reward_Card1</code></td>
+<td><code>number?</code></td>
+<td><code>CardTBL.ID</code> 참조. 전투 보상 카드 후보 1</td>
+</tr>
+<tr>
+<td><code>Reward_Card2</code></td>
+<td><code>number?</code></td>
+<td><code>CardTBL.ID</code> 참조. 전투 보상 카드 후보 2</td>
 </tr>
 </tbody>
 </table>
 <hr />
-<h3 id="monster_1">Monster</h3>
-<p>전투에 등장하는 적 정의. 행동 패턴과 보스 페이즈를 내포한다.</p>
-<blockquote>
-<p>적 AI 시스템 전체 규칙: <a href="../systems/enemy/">enemy.md</a></p>
-</blockquote>
+<h3 id="enemytbl">EnemyTBL — 적</h3>
+<p>전투에 등장하는 적 캐릭터. 챔피언과 동일한 스탯 체계를 사용하며, <code>CardDeck</code>으로 지정된 덱으로 행동한다.</p>
 <table>
 <thead>
 <tr>
-<th>필드</th>
+<th>컬럼</th>
 <th>타입</th>
 <th>설명</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>id</code></td>
+<td><code>ID</code></td>
+<td><code>number</code></td>
+<td>적 고유 ID (PK)</td>
+</tr>
+<tr>
+<td><code>TitleStringID</code></td>
+<td><code>number</code></td>
+<td><code>StringTBL_KR.UID</code> 참조. 적 표시 이름</td>
+</tr>
+<tr>
+<td><code>ArtFull</code></td>
 <td><code>string</code></td>
-<td>적 식별자. 예: <code>"goblin_swordsman_01"</code></td>
+<td>전신 일러스트 에셋 키</td>
 </tr>
 <tr>
-<td><code>displayName</code></td>
+<td><code>ArtPortrait</code></td>
 <td><code>string</code></td>
-<td>화면 표시 이름</td>
+<td>초상화 에셋 키</td>
 </tr>
 <tr>
-<td><code>enemyType</code></td>
-<td><a href="../enums/#enemytype"><code>EnemyType</code></a></td>
-<td>적 유형</td>
+<td><code>Prefab</code></td>
+<td><code>string</code></td>
+<td>전투 배치 프리팹 키</td>
 </tr>
 <tr>
-<td><code>maxHp</code></td>
+<td><code>HP</code></td>
 <td><code>number</code></td>
 <td>최대 체력</td>
 </tr>
 <tr>
-<td><code>initialShield</code></td>
+<td><code>Speed</code></td>
 <td><code>number</code></td>
-<td>전투 시작 시 방어막. <code>0</code>이면 없음</td>
+<td>행동 속도</td>
 </tr>
 <tr>
-<td><code>actionPattern</code></td>
-<td><code>ActionPattern</code></td>
-<td>기본 행동 패턴 (아래 참조)</td>
+<td><code>Hand</code></td>
+<td><code>number</code></td>
+<td>손패 최대 장수</td>
 </tr>
 <tr>
-<td><code>phaseThresholds</code></td>
-<td><code>PhaseThreshold[] \| undefined</code></td>
-<td>페이즈 전환 조건. <strong>BOSS 전용</strong></td>
+<td><code>Energy</code></td>
+<td><code>number</code></td>
+<td>턴당 최대 에너지</td>
+</tr>
+<tr>
+<td><code>LvUp_Max</code></td>
+<td><code>number</code></td>
+<td>최대 레벨업 횟수</td>
+</tr>
+<tr>
+<td><code>LvUp_HP</code></td>
+<td><code>number</code></td>
+<td>레벨업당 체력 증가량</td>
+</tr>
+<tr>
+<td><code>LvUp_Speed</code></td>
+<td><code>number</code></td>
+<td>레벨업당 속도 증가량</td>
+</tr>
+<tr>
+<td><code>LvUp_Hand</code></td>
+<td><code>number</code></td>
+<td>레벨업당 손패 증가량</td>
+</tr>
+<tr>
+<td><code>LvUp_Energy</code></td>
+<td><code>number</code></td>
+<td>레벨업당 에너지 증가량</td>
+</tr>
+<tr>
+<td><code>Behavior</code></td>
+<td><code>string</code></td>
+<td>행동 AI 패턴 식별자</td>
+</tr>
+<tr>
+<td><code>Trait1</code></td>
+<td><code>number?</code></td>
+<td><code>CardTraitTBL.ID</code> 참조. 특성 태그</td>
+</tr>
+<tr>
+<td><code>Ability1</code></td>
+<td><code>number?</code></td>
+<td><code>CardAbilityTBL.ID</code> 참조. 고유 패시브 어빌리티</td>
+</tr>
+<tr>
+<td><code>CardDeck</code></td>
+<td><code>number</code></td>
+<td><code>StartCardDeckTBL.ID</code> 참조. 행동에 사용할 카드 덱</td>
+</tr>
+<tr>
+<td><code>Reward_Gold</code></td>
+<td><code>number</code></td>
+<td>처치 시 획득 골드</td>
+</tr>
+<tr>
+<td><code>Reward_XP</code></td>
+<td><code>number</code></td>
+<td>처치 시 획득 경험치</td>
+</tr>
+<tr>
+<td><code>Spawn_Fx</code></td>
+<td><code>string?</code></td>
+<td>등장 파티클 에셋 키</td>
 </tr>
 </tbody>
 </table>
-<h4 id="actionpattern">ActionPattern</h4>
+<hr />
+<h3 id="startcarddecktbl">StartCardDeckTBL — 시작 덱</h3>
+<p>챔피언의 초기 덱 또는 적의 행동 카드 덱. <code>Type</code> 필드로 소유자 구분.</p>
 <table>
 <thead>
 <tr>
-<th>필드</th>
+<th>컬럼</th>
 <th>타입</th>
 <th>설명</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>initialCount</code></td>
+<td><code>Type</code></td>
+<td><code>string</code></td>
+<td>덱 분류 레이블. 예: <code>Champion</code>, <code>Enemy</code></td>
+</tr>
+<tr>
+<td><code>ID</code></td>
 <td><code>number</code></td>
-<td>전투 시작·행동 실행 후 리셋 시 카운트 기본값</td>
+<td>덱 고유 ID (PK)</td>
 </tr>
 <tr>
-<td><code>actions</code></td>
-<td><code>EnemyAction[]</code></td>
-<td>행동 목록. 고정 순환 방식 기준 인덱스 0부터 반복 (미결 C-2)</td>
+<td><code>slot1</code></td>
+<td><code>number?</code></td>
+<td><code>CardTBL.ID</code> 참조. 덱 슬롯 1. 공란이면 해당 슬롯 없음</td>
 </tr>
 <tr>
-<td><code>defaultAction</code></td>
-<td><code>EnemyAction</code></td>
-<td>해당 턴에 <code>scheduledTurns</code> 스킬이 없을 때 발동하는 기본 행동</td>
+<td><code>slot2</code></td>
+<td><code>number?</code></td>
+<td><code>CardTBL.ID</code> 참조. 덱 슬롯 2</td>
+</tr>
+<tr>
+<td><code>slot3</code></td>
+<td><code>number?</code></td>
+<td><code>CardTBL.ID</code> 참조. 덱 슬롯 3</td>
+</tr>
+<tr>
+<td><code>slot4</code></td>
+<td><code>number?</code></td>
+<td><code>CardTBL.ID</code> 참조. 덱 슬롯 4</td>
+</tr>
+<tr>
+<td><code>slot5</code></td>
+<td><code>number?</code></td>
+<td><code>CardTBL.ID</code> 참조. 덱 슬롯 5</td>
+</tr>
+<tr>
+<td><code>slot6</code></td>
+<td><code>number?</code></td>
+<td><code>CardTBL.ID</code> 참조. 덱 슬롯 6</td>
+</tr>
+<tr>
+<td><code>slot7</code></td>
+<td><code>number?</code></td>
+<td><code>CardTBL.ID</code> 참조. 덱 슬롯 7</td>
+</tr>
+<tr>
+<td><code>slot8</code></td>
+<td><code>number?</code></td>
+<td><code>CardTBL.ID</code> 참조. 덱 슬롯 8</td>
+</tr>
+<tr>
+<td><code>slot9</code></td>
+<td><code>number?</code></td>
+<td><code>CardTBL.ID</code> 참조. 덱 슬롯 9</td>
+</tr>
+<tr>
+<td><code>slot10</code></td>
+<td><code>number?</code></td>
+<td><code>CardTBL.ID</code> 참조. 덱 슬롯 10</td>
 </tr>
 </tbody>
 </table>
-<h4 id="enemyaction">EnemyAction</h4>
+<hr />
+<h3 id="maptbl">MapTBL — 맵</h3>
+<p>로그라이크 런에서 진행하는 맵 구조 정의. 노드 분기 확률, 씬 키, 이벤트 배치 규칙을 포함한다.</p>
 <table>
 <thead>
 <tr>
-<th>필드</th>
+<th>컬럼</th>
 <th>타입</th>
 <th>설명</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>actionType</code></td>
-<td><a href="../enums/#actiontype"><code>ActionType</code></a></td>
-<td>행동 유형</td>
-</tr>
-<tr>
-<td><code>targetMode</code></td>
-<td><a href="../enums/#targetmode"><code>TargetMode</code></a></td>
-<td>대상 범위. <code>ATTACK_AOE</code>·<code>BUFF_SELF</code>는 무시됨</td>
-</tr>
-<tr>
-<td><code>power</code></td>
+<td><code>ID</code></td>
 <td><code>number</code></td>
-<td>피해량 또는 효과 수치</td>
+<td>맵 고유 ID (PK)</td>
 </tr>
 <tr>
-<td><code>effectId</code></td>
-<td><code>string \| undefined</code></td>
-<td><code>DEBUFF</code>·<code>BUFF_SELF</code> 전용. 적용할 효과 식별자</td>
-</tr>
-<tr>
-<td><code>effectDuration</code></td>
-<td><code>number \| undefined</code></td>
-<td>효과 지속 횟수. <code>0</code>은 영구 지속 예약값 (미결 C-5)</td>
-</tr>
-<tr>
-<td><code>resetCount</code></td>
+<td><code>TitleStringID</code></td>
 <td><code>number</code></td>
-<td>이 행동 실행 후 <code>actionCount</code> 리셋값. 현재 <code>actionPattern.initialCount</code>와 동일값 사용 (미결 C-1)</td>
+<td><code>StringTBL_KR.UID</code> 참조. 맵 표시 이름</td>
 </tr>
 <tr>
-<td><code>scheduledTurns</code></td>
-<td><code>number[] \| undefined</code></td>
-<td>지정 턴(액션 버튼 누적 횟수)에만 발동. <code>undefined</code>이면 기본 순환에 포함</td>
+<td><code>MapScene</code></td>
+<td><code>string</code></td>
+<td>맵 화면 씬 에셋 키</td>
+</tr>
+<tr>
+<td><code>BattleScene</code></td>
+<td><code>string</code></td>
+<td>이 맵 내 전투에 사용할 배틀 씬 에셋 키</td>
+</tr>
+<tr>
+<td><code>Depth</code></td>
+<td><code>number</code></td>
+<td>맵 세로 깊이 (총 층 수)</td>
+</tr>
+<tr>
+<td><code>Width_min</code></td>
+<td><code>number</code></td>
+<td>층당 최소 노드 수</td>
+</tr>
+<tr>
+<td><code>Width_max</code></td>
+<td><code>number</code></td>
+<td>층당 최대 노드 수</td>
+</tr>
+<tr>
+<td><code>Fork_probability</code></td>
+<td><code>number</code></td>
+<td>경로 분기 확률 (0.0~1.0)</td>
+</tr>
+<tr>
+<td><code>RandomEventID</code></td>
+<td><code>number</code></td>
+<td><code>MapRandomEventTBL.ID</code> 참조. 랜덤 이벤트 풀</td>
+</tr>
+<tr>
+<td><code>FixedWidthID</code></td>
+<td><code>number?</code></td>
+<td><code>MapFixedWidthTBL.ID</code> 참조. 층별 고정 너비 규칙</td>
+</tr>
+<tr>
+<td><code>FixedEventID</code></td>
+<td><code>number?</code></td>
+<td><code>MapFixedEventTBL.ID</code> 참조. 고정 이벤트 배치 규칙</td>
+</tr>
+<tr>
+<td><code>Map_tutorial</code></td>
+<td><code>string?</code></td>
+<td>이 맵 진입 시 표시할 튜토리얼 키</td>
 </tr>
 </tbody>
 </table>
-<h4 id="phasethreshold-boss">PhaseThreshold (BOSS 전용)</h4>
+<hr />
+<h3 id="mapevent_battletbl">MapEvent_BattleTBL — 전투 이벤트</h3>
+<p>맵 노드에 배치되는 전투 이벤트. 등장 적 구성, 레벨, 보상을 정의한다.</p>
+<table>
+<thead>
+<tr>
+<th>컬럼</th>
+<th>타입</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ID</code></td>
+<td><code>number</code></td>
+<td>이벤트 고유 ID (PK)</td>
+</tr>
+<tr>
+<td><code>Depth_Min</code></td>
+<td><code>number</code></td>
+<td>등장 가능 최소 깊이</td>
+</tr>
+<tr>
+<td><code>Depth_Max</code></td>
+<td><code>number</code></td>
+<td>등장 가능 최대 깊이</td>
+</tr>
+<tr>
+<td><code>Icon</code></td>
+<td><code>string</code></td>
+<td>맵 노드 아이콘 에셋 키</td>
+</tr>
+<tr>
+<td><code>EnemyLevel</code></td>
+<td><code>number</code></td>
+<td>적 레벨 오프셋</td>
+</tr>
+<tr>
+<td><code>Enemy1</code></td>
+<td><code>number?</code></td>
+<td><code>EnemyTBL.ID</code> 참조. 등장 적 슬롯 1</td>
+</tr>
+<tr>
+<td><code>Enemy2</code></td>
+<td><code>number?</code></td>
+<td><code>EnemyTBL.ID</code> 참조. 등장 적 슬롯 2</td>
+</tr>
+<tr>
+<td><code>Enemy3</code></td>
+<td><code>number?</code></td>
+<td><code>EnemyTBL.ID</code> 참조. 등장 적 슬롯 3</td>
+</tr>
+<tr>
+<td><code>Enemy4</code></td>
+<td><code>number?</code></td>
+<td><code>EnemyTBL.ID</code> 참조. 등장 적 슬롯 4</td>
+</tr>
+<tr>
+<td><code>ExtraEnemy</code></td>
+<td><code>number?</code></td>
+<td><code>ExtraEnemyTBL.ID</code> 참조. 파티 챔피언 수에 따라 추가되는 적 구성</td>
+</tr>
+<tr>
+<td><code>RewardGold</code></td>
+<td><code>number</code></td>
+<td>전투 클리어 시 고정 골드</td>
+</tr>
+<tr>
+<td><code>RewardXP</code></td>
+<td><code>number</code></td>
+<td>전투 클리어 시 경험치</td>
+</tr>
+<tr>
+<td><code>IsRewardCards</code></td>
+<td><code>boolean</code></td>
+<td>카드 보상 지급 여부</td>
+</tr>
+<tr>
+<td><code>CardRarity</code></td>
+<td><code>string?</code></td>
+<td>카드 보상 희귀도 필터</td>
+</tr>
+<tr>
+<td><code>IsRewardItem</code></td>
+<td><code>boolean</code></td>
+<td>아이템 보상 지급 여부</td>
+</tr>
+<tr>
+<td><code>ItemRarity</code></td>
+<td><code>string?</code></td>
+<td>아이템 보상 희귀도 필터</td>
+</tr>
+<tr>
+<td><code>ItemTeam</code></td>
+<td><code>string?</code></td>
+<td>아이템 보상 팀(진영) 필터</td>
+</tr>
+<tr>
+<td><code>Tutorial</code></td>
+<td><code>string?</code></td>
+<td>전투 시작 시 표시할 튜토리얼 키</td>
+</tr>
+<tr>
+<td><code>Win_Event</code></td>
+<td><code>number?</code></td>
+<td>승리 시 연쇄 발동 이벤트 ID</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="mapevent_choicetbl">MapEvent_ChoiceTBL — 선택지 이벤트</h3>
+<p>플레이어가 선택지를 고르는 이벤트 노드. 최대 4개 선택지를 지원하며, 사용하지 않는 선택지 컬럼은 공란으로 둔다.</p>
 <blockquote>
-<p>페이즈 전환 처리 흐름: <a href="../systems/enemy/">enemy.md §6</a></p>
+<p><code>Choise</code>는 엑셀 원본의 오타를 그대로 유지한다.</p>
 </blockquote>
 <table>
 <thead>
 <tr>
-<th>필드</th>
+<th>컬럼</th>
 <th>타입</th>
 <th>설명</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>phaseNumber</code></td>
+<td><code>ID</code></td>
 <td><code>number</code></td>
-<td>전환될 페이즈 번호. 2 이상 (페이즈 1은 <code>Monster.actionPattern</code>이 담당)</td>
+<td>이벤트 고유 ID (PK)</td>
 </tr>
 <tr>
-<td><code>triggerValue</code></td>
+<td><code>Depth_Min</code></td>
 <td><code>number</code></td>
-<td><code>currentHp / maxHp ≤ 이 값</code>일 때 전환. <code>0.0 ~ 1.0</code> 체력 비율 (미결 C-4)</td>
+<td>등장 가능 최소 깊이</td>
 </tr>
 <tr>
-<td><code>actionPattern</code></td>
-<td><code>ActionPattern</code></td>
-<td>해당 페이즈의 행동 패턴</td>
+<td><code>Depth_Max</code></td>
+<td><code>number</code></td>
+<td>등장 가능 최대 깊이</td>
 </tr>
 <tr>
-<td><code>transitionAction</code></td>
-<td><code>EnemyAction \| undefined</code></td>
-<td>페이즈 전환 즉시 발동하는 특수 행동</td>
+<td><code>Icon</code></td>
+<td><code>string</code></td>
+<td>맵 노드 아이콘 에셋 키</td>
+</tr>
+<tr>
+<td><code>DescStringID</code></td>
+<td><code>number</code></td>
+<td><code>StringTBL_KR.UID</code> 참조. 이벤트 설명 텍스트</td>
+</tr>
+<tr>
+<td><code>Choise1_Title</code></td>
+<td><code>string</code></td>
+<td>선택지 1 제목</td>
+</tr>
+<tr>
+<td><code>Choise1_Desc</code></td>
+<td><code>string?</code></td>
+<td>선택지 1 설명</td>
+</tr>
+<tr>
+<td><code>Choise1_Effect</code></td>
+<td><code>string</code></td>
+<td>선택지 1 효과. <code>MapEvent_EffectTBL.ID</code> 또는 인라인 효과 문자열</td>
+</tr>
+<tr>
+<td><code>Choise2_Title</code></td>
+<td><code>string?</code></td>
+<td>선택지 2 제목. 공란이면 해당 선택지 없음</td>
+</tr>
+<tr>
+<td><code>Choise2_Desc</code></td>
+<td><code>string?</code></td>
+<td>선택지 2 설명</td>
+</tr>
+<tr>
+<td><code>Choise2_Effect</code></td>
+<td><code>string?</code></td>
+<td>선택지 2 효과</td>
+</tr>
+<tr>
+<td><code>Choise3_Title</code></td>
+<td><code>string?</code></td>
+<td>선택지 3 제목</td>
+</tr>
+<tr>
+<td><code>Choise3_Desc</code></td>
+<td><code>string?</code></td>
+<td>선택지 3 설명</td>
+</tr>
+<tr>
+<td><code>Choise3_Effect</code></td>
+<td><code>string?</code></td>
+<td>선택지 3 효과</td>
+</tr>
+<tr>
+<td><code>Choise4_Title</code></td>
+<td><code>string?</code></td>
+<td>선택지 4 제목</td>
+</tr>
+<tr>
+<td><code>Choise4_Desc</code></td>
+<td><code>string?</code></td>
+<td>선택지 4 설명</td>
+</tr>
+<tr>
+<td><code>Choise4_Effect</code></td>
+<td><code>string?</code></td>
+<td>선택지 4 효과</td>
 </tr>
 </tbody>
 </table>
-<p><strong>제약 조건</strong>: <code>phaseThresholds</code>는 <code>triggerValue</code> 내림차순 정렬 권장. <code>triggerValue</code>는 <code>0.0</code> 초과 <code>1.0</code> 미만.</p>
-<p><strong>보스 데이터 예시</strong></p>
-<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">dragonBoss</span><span class="o">:</span><span class="w"> </span><span class="kt">Monster</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;dragon_boss_01&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nx">displayName</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;보스 드래곤&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nx">enemyType</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;BOSS&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nx">maxHp</span><span class="o">:</span><span class="w"> </span><span class="kt">500</span><span class="p">,</span>
-<span class="w">  </span><span class="nx">initialShield</span><span class="o">:</span><span class="w"> </span><span class="kt">0</span><span class="p">,</span>
-<span class="w">  </span><span class="nx">actionPattern</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nx">initialCount</span><span class="o">:</span><span class="w"> </span><span class="kt">4</span><span class="p">,</span>
-<span class="w">    </span><span class="nx">actions</span><span class="o">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">      </span><span class="p">{</span><span class="w"> </span><span class="nx">actionType</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;ATTACK_SINGLE&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">targetMode</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;SINGLE&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">power</span><span class="o">:</span><span class="w"> </span><span class="kt">20</span><span class="p">,</span><span class="w"> </span><span class="nx">resetCount</span><span class="o">:</span><span class="w"> </span><span class="kt">4</span><span class="w"> </span><span class="p">},</span>
-<span class="w">      </span><span class="p">{</span><span class="w"> </span><span class="nx">actionType</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;ATTACK_AOE&quot;</span><span class="p">,</span><span class="w">    </span><span class="nx">targetMode</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;ALL&quot;</span><span class="p">,</span><span class="w">    </span><span class="nx">power</span><span class="o">:</span><span class="w"> </span><span class="kt">15</span><span class="p">,</span><span class="w"> </span><span class="nx">resetCount</span><span class="o">:</span><span class="w"> </span><span class="kt">4</span><span class="w"> </span><span class="p">},</span>
-<span class="w">      </span><span class="p">{</span><span class="w"> </span><span class="nx">actionType</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;BUFF_SELF&quot;</span><span class="p">,</span><span class="w">     </span><span class="nx">targetMode</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;SINGLE&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">power</span><span class="o">:</span><span class="w"> </span><span class="kt">40</span><span class="p">,</span><span class="w"> </span><span class="nx">effectId</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;shield_gain&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">resetCount</span><span class="o">:</span><span class="w"> </span><span class="kt">4</span><span class="w"> </span><span class="p">},</span>
-<span class="w">    </span><span class="p">],</span>
-<span class="w">    </span><span class="nx">defaultAction</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">actionType</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;ATTACK_SINGLE&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">targetMode</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;SINGLE&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">power</span><span class="o">:</span><span class="w"> </span><span class="kt">20</span><span class="p">,</span><span class="w"> </span><span class="nx">resetCount</span><span class="o">:</span><span class="w"> </span><span class="kt">4</span><span class="w"> </span><span class="p">},</span>
-<span class="w">  </span><span class="p">},</span>
-<span class="w">  </span><span class="nx">phaseThresholds</span><span class="o">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nx">phaseNumber</span><span class="o">:</span><span class="w"> </span><span class="kt">2</span><span class="p">,</span>
-<span class="w">      </span><span class="nx">triggerValue</span><span class="o">:</span><span class="w"> </span><span class="kt">0.5</span><span class="p">,</span>
-<span class="w">      </span><span class="nx">transitionAction</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">actionType</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;ATTACK_AOE&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">targetMode</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;ALL&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">power</span><span class="o">:</span><span class="w"> </span><span class="kt">30</span><span class="p">,</span><span class="w"> </span><span class="nx">resetCount</span><span class="o">:</span><span class="w"> </span><span class="kt">3</span><span class="w"> </span><span class="p">},</span>
-<span class="w">      </span><span class="nx">actionPattern</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nx">initialCount</span><span class="o">:</span><span class="w"> </span><span class="kt">3</span><span class="p">,</span>
-<span class="w">        </span><span class="nx">actions</span><span class="o">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">          </span><span class="p">{</span><span class="w"> </span><span class="nx">actionType</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;ATTACK_AOE&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">targetMode</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;ALL&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">power</span><span class="o">:</span><span class="w"> </span><span class="kt">20</span><span class="p">,</span><span class="w"> </span><span class="nx">resetCount</span><span class="o">:</span><span class="w"> </span><span class="kt">3</span><span class="w"> </span><span class="p">},</span>
-<span class="w">          </span><span class="p">{</span><span class="w"> </span><span class="nx">actionType</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;ATTACK_AOE&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">targetMode</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;ALL&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">power</span><span class="o">:</span><span class="w"> </span><span class="kt">20</span><span class="p">,</span><span class="w"> </span><span class="nx">effectId</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;defense_down&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">effectDuration</span><span class="o">:</span><span class="w"> </span><span class="kt">2</span><span class="p">,</span><span class="w"> </span><span class="nx">resetCount</span><span class="o">:</span><span class="w"> </span><span class="kt">3</span><span class="w"> </span><span class="p">},</span>
-<span class="w">        </span><span class="p">],</span>
-<span class="w">        </span><span class="nx">defaultAction</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">actionType</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;ATTACK_AOE&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">targetMode</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;ALL&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">power</span><span class="o">:</span><span class="w"> </span><span class="kt">20</span><span class="p">,</span><span class="w"> </span><span class="nx">resetCount</span><span class="o">:</span><span class="w"> </span><span class="kt">3</span><span class="w"> </span><span class="p">},</span>
-<span class="w">      </span><span class="p">},</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nx">phaseNumber</span><span class="o">:</span><span class="w"> </span><span class="kt">3</span><span class="p">,</span>
-<span class="w">      </span><span class="nx">triggerValue</span><span class="o">:</span><span class="w"> </span><span class="kt">0.25</span><span class="p">,</span>
-<span class="w">      </span><span class="nx">transitionAction</span><span class="o">:</span><span class="w"> </span><span class="kt">undefined</span><span class="p">,</span>
-<span class="w">      </span><span class="nx">actionPattern</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nx">initialCount</span><span class="o">:</span><span class="w"> </span><span class="kt">2</span><span class="p">,</span>
-<span class="w">        </span><span class="nx">actions</span><span class="o">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">          </span><span class="p">{</span><span class="w"> </span><span class="nx">actionType</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;ATTACK_AOE&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">targetMode</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;ALL&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">power</span><span class="o">:</span><span class="w"> </span><span class="kt">25</span><span class="p">,</span><span class="w"> </span><span class="nx">resetCount</span><span class="o">:</span><span class="w"> </span><span class="kt">2</span><span class="w"> </span><span class="p">},</span>
-<span class="w">          </span><span class="p">{</span><span class="w"> </span><span class="nx">actionType</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;ATTACK_AOE&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">targetMode</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;ALL&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">power</span><span class="o">:</span><span class="w"> </span><span class="kt">30</span><span class="p">,</span><span class="w"> </span><span class="nx">resetCount</span><span class="o">:</span><span class="w"> </span><span class="kt">2</span><span class="w"> </span><span class="p">},</span>
-<span class="w">        </span><span class="p">],</span>
-<span class="w">        </span><span class="nx">defaultAction</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">actionType</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;ATTACK_AOE&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">targetMode</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;ALL&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">power</span><span class="o">:</span><span class="w"> </span><span class="kt">25</span><span class="p">,</span><span class="w"> </span><span class="nx">resetCount</span><span class="o">:</span><span class="w"> </span><span class="kt">2</span><span class="w"> </span><span class="p">},</span>
-<span class="w">      </span><span class="p">},</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">  </span><span class="p">],</span>
-<span class="p">}</span>
-</code></pre></div>
 <hr />
-<h2 id="_6">세이브 데이터</h2>
-<p>로컬 저장소에 유지된다. 세션 사이에 보존되며 챕터 클리어 또는 영구 성장 두 라이프사이클로 관리된다.</p>
+<h3 id="mapevent_tradetbl">MapEvent_TradeTBL — 교역 이벤트</h3>
+<p>아이템·골드·체력을 소비하고 보상을 얻는 이벤트.</p>
+<table>
+<thead>
+<tr>
+<th>컬럼</th>
+<th>타입</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ID</code></td>
+<td><code>number</code></td>
+<td>이벤트 고유 ID (PK)</td>
+</tr>
+<tr>
+<td><code>Icon</code></td>
+<td><code>string</code></td>
+<td>맵 노드 아이콘 에셋 키</td>
+</tr>
+<tr>
+<td><code>SelectEventTarget</code></td>
+<td><code>string</code></td>
+<td><code>EventTarget</code> 드롭다운 레이블 (시트 편집용)</td>
+</tr>
+<tr>
+<td><code>EventTarget</code></td>
+<td><code>string</code></td>
+<td>이벤트 효과 대상 식별자</td>
+</tr>
+<tr>
+<td><code>SpendItem</code></td>
+<td><code>string?</code></td>
+<td>소비할 아이템 식별자. 공란이면 아이템 소비 없음</td>
+</tr>
+<tr>
+<td><code>SpendGold</code></td>
+<td><code>number</code></td>
+<td>소비 골드. <code>0</code>이면 골드 소비 없음</td>
+</tr>
+<tr>
+<td><code>SpendHp</code></td>
+<td><code>number</code></td>
+<td>소비 체력. <code>0</code>이면 체력 소비 없음</td>
+</tr>
+<tr>
+<td><code>GainItem1</code></td>
+<td><code>string?</code></td>
+<td>획득 아이템 1 식별자</td>
+</tr>
+<tr>
+<td><code>GainItem2</code></td>
+<td><code>string?</code></td>
+<td>획득 아이템 2 식별자</td>
+</tr>
+<tr>
+<td><code>GainItem3</code></td>
+<td><code>string?</code></td>
+<td>획득 아이템 3 식별자</td>
+</tr>
+<tr>
+<td><code>GainAlly</code></td>
+<td><code>string?</code></td>
+<td>획득 아군 유닛 식별자</td>
+</tr>
+<tr>
+<td><code>GainGold</code></td>
+<td><code>number</code></td>
+<td>획득 골드. <code>0</code>이면 골드 획득 없음</td>
+</tr>
+<tr>
+<td><code>GainXp</code></td>
+<td><code>number</code></td>
+<td>획득 경험치. <code>0</code>이면 경험치 획득 없음</td>
+</tr>
+<tr>
+<td><code>GainHeal</code></td>
+<td><code>number</code></td>
+<td>회복량. <code>0</code>이면 회복 없음</td>
+</tr>
+<tr>
+<td><code>DescStringID</code></td>
+<td><code>number</code></td>
+<td><code>StringTBL_KR.UID</code> 참조. 이벤트 설명 텍스트</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="_8">단순 룩업 테이블</h2>
+<p>아래 테이블은 다른 테이블에서 참조되는 단순 분류 정의 테이블이다. 컬럼 목록만 표기한다.</p>
+<h3 id="cardtraittbl">CardTraitTBL — 특성</h3>
+<p><code>ID</code>, <code>TitleStringID</code>, <code>DescStringID</code>, <code>Icon</code></p>
+<h3 id="cardteamtbl">CardTeamTBL — 팀(진영)</h3>
+<p><code>ID</code>, <code>TitleStringID</code>, <code>Icon</code>, <code>Color</code></p>
+<h3 id="cardraritytbl">CardRarityTBL — 희귀도</h3>
+<p><code>ID</code>, <code>TitleStringID</code>, <code>Icon</code>, <code>Probability</code></p>
+<h3 id="cardintenttbl">CardIntentTBL — 적 의도</h3>
+<p><code>ID</code>, <code>IsShow</code>, <code>Priority</code>, <code>TitleStringID</code>, <code>DescStringID</code>, <code>Icon</code></p>
+<h3 id="maprandomeventtbl">MapRandomEventTBL — 랜덤 이벤트 풀</h3>
+<p><code>ID</code>, <code>Select_type</code>, <code>Type</code>, <code>EventID</code></p>
+<blockquote>
+<p><code>Type</code> → <code>GlobalEnum.MapEventType</code> 참조. <code>EventID</code>는 해당 타입 이벤트 테이블의 ID를 가리킨다.</p>
+</blockquote>
+<h3 id="mapfixedwidthtbl">MapFixedWidthTBL — 층별 고정 너비</h3>
+<p><code>ID</code>, <code>Depth1</code> ~ <code>Depth12</code></p>
+<blockquote>
+<p>각 <code>DepthN</code> 컬럼은 N번째 층의 고정 노드 수. 공란이면 <code>MapTBL.Width_min~max</code> 범위 내 랜덤 적용.</p>
+</blockquote>
+<h3 id="mapfixedeventtbl">MapFixedEventTBL — 고정 이벤트 배치</h3>
+<p><code>ID</code>, <code>Depth</code>, <code>Index_min</code>, <code>Index_max</code>, <code>EventID</code></p>
+<h3 id="mapevent_effecttbl">MapEvent_EffectTBL — 효과 이벤트</h3>
+<p><code>ID</code>, <code>Icon</code>, <code>Condition1</code>, <code>SelectEventTarget</code>, <code>EventTarget</code>, <code>Effect1</code>, <code>Effect2</code>, <code>value</code>, <code>ChainEventID</code>, <code>DescStringID</code></p>
+<h3 id="mapevent_othertbl">MapEvent_OtherTBL — 기타 이벤트</h3>
+<p><code>ID</code>, <code>SelectType</code>, <code>EventType</code>, <code>Icon</code>, <code>Rarity</code>, <code>SelectWorldState</code>, <code>WorldState</code>, <code>FreeUpgrade</code></p>
+<blockquote>
+<p><code>WorldState</code> → <code>GlobalEnum.WorldState</code> 참조. 특정 런 상태 조건에서만 이벤트 출현.</p>
+</blockquote>
+<h3 id="mapevent_shoptbl">MapEvent_ShopTBL — 상점 이벤트</h3>
+<p><code>ID</code>, <code>Depth_Min</code>, <code>Depth_Max</code>, <code>Icon</code>, <code>Buy_mult</code>, <code>Selly_mult</code>, <code>Item1</code>, <code>Item2</code>, <code>Item3</code>, <code>Cards_Rand</code>, <code>Items_Rand</code>, <code>ItemRand_Slot1</code> ~ <code>ItemRand_Slot4</code></p>
+<h3 id="extraenemytbl">ExtraEnemyTBL — 추가 적 구성</h3>
+<p><code>ID</code>, <code>Champion_Min</code>, <code>Enemy1</code>, <code>Enemy2</code>, <code>Enemy3</code>, <code>Enemy4</code> (세트 A), <code>Champion_Min</code>, <code>Enemy1</code>, <code>Enemy2</code>, <code>Enemy3</code>, <code>Enemy4</code> (세트 B)</p>
+<blockquote>
+<p><code>Champion_Min·Enemy1~4</code> 세트가 <strong>2쌍</strong> 존재한다. 세트 A는 파티 챔피언 수가 A 조건일 때, 세트 B는 B 조건일 때 적용되는 추가 적 구성이다. 두 세트 모두 <code>MapEvent_BattleTBL.ExtraEnemy</code>가 이 테이블을 참조하며, 런타임에 현재 챔피언 수와 각 세트의 <code>Champion_Min</code>을 비교해 적절한 세트를 선택한다.</p>
+</blockquote>
+<hr />
+<h2 id="_9">세이브 데이터</h2>
+<p>세이브 데이터는 기획 테이블과 별도로 로컬 저장소에 관리된다. 기획 테이블 데이터는 세이브에 복사하지 않고, <code>ID</code>로만 참조한다.</p>
 <h3 id="savedata">SaveData</h3>
-<p>세이브 파일의 루트 구조체.</p>
 <table>
 <thead>
 <tr>
@@ -2490,18 +3359,16 @@
 <tr>
 <td><code>account</code></td>
 <td><code>AccountSave</code></td>
-<td>챕터 리셋과 무관한 영구 데이터</td>
+<td>런 초기화와 무관한 영구 성장 데이터</td>
 </tr>
 <tr>
-<td><code>chapterRun</code></td>
-<td><code>ChapterRun \| null</code></td>
-<td>현재 진행 중인 챕터 상태. 챕터 미진행 시 <code>null</code></td>
+<td><code>currentRun</code></td>
+<td><code>RunSave \| null</code></td>
+<td>진행 중인 런. 런 종료 시 <code>null</code>로 초기화</td>
 </tr>
 </tbody>
 </table>
-<hr />
 <h3 id="accountsave">AccountSave</h3>
-<p>챕터 클리어 후에도 유지되는 영구 성장 데이터.</p>
 <table>
 <thead>
 <tr>
@@ -2514,7 +3381,7 @@
 <tr>
 <td><code>userLevel</code></td>
 <td><code>number</code></td>
-<td>유저 레벨. 챕터 플레이 경험치로 상승</td>
+<td>유저 레벨</td>
 </tr>
 <tr>
 <td><code>userXp</code></td>
@@ -2522,23 +3389,24 @@
 <td>현재 누적 경험치</td>
 </tr>
 <tr>
-<td><code>unlockedCharacterIds</code></td>
-<td><code>string[]</code></td>
-<td>보유(해금)한 <code>Character.id</code> 목록. 기본 5인 + DLC</td>
+<td><code>unlockedChampionIds</code></td>
+<td><code>number[]</code></td>
+<td>해금된 챔피언 ID 목록</td>
 </tr>
 <tr>
-<td><code>clearedChapterIds</code></td>
+<td><code>clearedMapIds</code></td>
+<td><code>number[]</code></td>
+<td>클리어한 맵 ID 목록</td>
+</tr>
+<tr>
+<td><code>collectedCardNames</code></td>
 <td><code>string[]</code></td>
-<td>클리어한 챕터 <code>id</code> 목록. 영구 해금 트래킹</td>
+<td>수집한 카드 <code>Name</code> 목록 (도감 진행도)</td>
 </tr>
 </tbody>
 </table>
-<blockquote>
-<p><strong>[미결]</strong> 장비(<code>Equipment</code>) 구조 미정. 아웃게임 상점·뽑기 시스템 설계 후 <code>AccountSave</code>에 <code>equipments</code> 필드 추가 예정.</p>
-</blockquote>
-<hr />
-<h3 id="chapterrun">ChapterRun</h3>
-<p>단일 챕터 진행 상태. 챕터 클리어 또는 실패 시 <code>SaveData.chapterRun</code>을 <code>null</code>로 초기화한다.</p>
+<h3 id="runsave">RunSave</h3>
+<p>단일 로그라이크 런의 진행 상태. 런 클리어 또는 실패 시 초기화된다.</p>
 <table>
 <thead>
 <tr>
@@ -2549,78 +3417,48 @@
 </thead>
 <tbody>
 <tr>
-<td><code>chapterId</code></td>
-<td><code>string</code></td>
-<td>진행 중인 챕터 식별자</td>
-</tr>
-<tr>
-<td><code>currentActNumber</code></td>
+<td><code>mapId</code></td>
 <td><code>number</code></td>
-<td>현재 진행 중인 막 번호</td>
+<td>진행 중인 <code>MapTBL.ID</code></td>
 </tr>
 <tr>
-<td><code>currentStageId</code></td>
-<td><code>string \| null</code></td>
-<td>현재 위치한 <code>Stage.id</code>. 스테이지 선택 화면일 때 <code>null</code></td>
+<td><code>currentDepth</code></td>
+<td><code>number</code></td>
+<td>현재 깊이(층). 0부터 시작</td>
 </tr>
 <tr>
-<td><code>clearedStageIds</code></td>
-<td><code>string[]</code></td>
-<td>이번 챕터에서 클리어한 스테이지 ID 목록. 경험치 산정·분기 잠금 해제에 사용</td>
+<td><code>currentNodeIndex</code></td>
+<td><code>number \| null</code></td>
+<td>현재 노드 인덱스. 경로 선택 중이면 <code>null</code></td>
 </tr>
 <tr>
 <td><code>party</code></td>
-<td><code>CharacterState[]</code></td>
-<td>출전 3인 상태. 배열 순서 = 화면 표시 순서</td>
+<td><code>CharacterRunState[]</code></td>
+<td>출전 챔피언 상태. 최대 3인</td>
 </tr>
 <tr>
 <td><code>gold</code></td>
 <td><code>number</code></td>
-<td>현재 보유 골드. 챕터 종료 시 소멸</td>
+<td>현재 보유 골드. 런 종료 시 소멸</td>
 </tr>
 <tr>
-<td><code>passiveIds</code></td>
+<td><code>deckCardNames</code></td>
 <td><code>string[]</code></td>
-<td>선택한 챕터 패시브 식별자 목록. 중복 불가</td>
+<td>덱에 추가된 카드 <code>Name</code> 목록 (보상 카드 포함)</td>
 </tr>
 <tr>
-<td><code>relicIds</code></td>
+<td><code>relicNames</code></td>
 <td><code>string[]</code></td>
-<td>보유 유물 식별자 목록. 보스 처치·미확인 지역 이벤트로 획득</td>
+<td>보유 유물 <code>Name</code> 목록</td>
 </tr>
 <tr>
-<td><code>addedCardIds</code></td>
+<td><code>passiveNames</code></td>
 <td><code>string[]</code></td>
-<td>카드 보상으로 덱에 추가된 <code>Card.id</code> 목록</td>
+<td>활성화된 패시브 <code>Name</code> 목록</td>
 </tr>
 </tbody>
 </table>
-<p><strong>제약 조건</strong></p>
-<table>
-<thead>
-<tr>
-<th>항목</th>
-<th>규칙</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>party</code></td>
-<td>길이 고정 3. 모두 <code>AccountSave.unlockedCharacterIds</code>에 포함된 값</td>
-</tr>
-<tr>
-<td><code>passiveIds</code></td>
-<td>중복 값 불가</td>
-</tr>
-<tr>
-<td><code>gold</code></td>
-<td>0 이상 정수</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h3 id="characterstate">CharacterState</h3>
-<p>챕터 진행 중 파티원별 가변 상태.</p>
+<h3 id="characterrunstate">CharacterRunState</h3>
 <table>
 <thead>
 <tr>
@@ -2631,65 +3469,19 @@
 </thead>
 <tbody>
 <tr>
-<td><code>characterId</code></td>
-<td><code>string</code></td>
-<td><code>Character.id</code> 참조</td>
+<td><code>championId</code></td>
+<td><code>number</code></td>
+<td><code>ChampionTBL.ID</code> 참조</td>
 </tr>
 <tr>
 <td><code>currentHp</code></td>
 <td><code>number</code></td>
-<td>현재 체력. <code>0</code>이면 사망. <code>Character.baseHp</code> 이하</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h2 id="_7">미결 사항</h2>
-<p>기획 테이블 구조에 영향을 주는 항목만 정리. 전체 미결 목록은 각 시스템 문서 참조.</p>
-<table>
-<thead>
-<tr>
-<th>번호</th>
-<th>항목</th>
-<th>영향 필드</th>
-<th style="text-align: center;">결정 필요 시점</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>A-1</strong></td>
-<td>카드 효과 타입 확장 (<code>SHIELD</code>·<code>DRAW</code> 등)</td>
-<td><code>CardEffectType</code>, <code>EffectParams</code></td>
-<td style="text-align: center;">2단계 착수 전</td>
+<td>현재 체력. <code>0</code>이면 전투 불능 상태</td>
 </tr>
 <tr>
-<td><strong>C-1</strong></td>
-<td>카운트 리셋값 방식 (고정 vs 행동별 가변)</td>
-<td><code>EnemyAction.resetCount</code> 사용 방식</td>
-<td style="text-align: center;">4단계 착수 전</td>
-</tr>
-<tr>
-<td><strong>C-2</strong></td>
-<td>행동 패턴 구조 확장 (<code>RANDOM_WEIGHTED</code>·<code>CONDITIONAL</code>)</td>
-<td><code>ActionPattern.actions</code> 항목 필드</td>
-<td style="text-align: center;">4단계 착수 전</td>
-</tr>
-<tr>
-<td><strong>C-4</strong></td>
-<td>보스 페이즈 트리거 (체력 비율 vs 절대값)</td>
-<td><code>PhaseThreshold.triggerValue</code> 타입·해석</td>
-<td style="text-align: center;">4단계 착수 전</td>
-</tr>
-<tr>
-<td><strong>C-5</strong></td>
-<td>효과 지속 방식 (N턴 vs 영구)</td>
-<td><code>EnemyAction.effectDuration</code>, <code>EffectParams.duration</code></td>
-<td style="text-align: center;">4단계 착수 전</td>
-</tr>
-<tr>
-<td><strong>C-6</strong></td>
-<td>단일 공격 대상 선택 방식</td>
-<td><code>EnemyAction.targetMode</code> 적용 로직</td>
-<td style="text-align: center;">4단계 착수 전</td>
+<td><code>level</code></td>
+<td><code>number</code></td>
+<td>현재 레벨. 레벨업 시 스탯 증가</td>
 </tr>
 </tbody>
 </table>

@@ -429,49 +429,27 @@
   <!-- ── MAIN AREA (battlefield) ── -->
   <div class="main-area">
 
-    <!-- PARTY HUD (top-left overlay) -->
+    <!-- CHARACTER HUD (top-left overlay) -->
     <div class="party-hud">
-      <!-- 팀 체력 -->
-      <div class="hud-team-hp">
-        <div class="hud-team-label">
-          <span>팀 체력</span>
-          <span>122 / 250</span>
-        </div>
-        <div class="hud-team-bar">
-          <div class="hud-team-fill md" style="width:49%"></div>
+      <!-- 캐릭터 아이콘 + 이름 + 태그 -->
+      <div class="hud-char">
+        <div class="hud-avatar">⚔</div>
+        <div class="hud-info">
+          <div class="hud-name">카인</div>
+          <div class="hud-tags">
+            <span class="hud-tag">⚔ 전사</span>
+            <span class="hud-tag">🔥 화</span>
+          </div>
         </div>
       </div>
-      <!-- 캐릭터 목록 -->
-      <div class="hud-chars">
-        <div class="hud-char">
-          <div class="hud-avatar">⚔</div>
-          <div class="hud-info">
-            <div class="hud-name">카인</div>
-            <div class="hud-tags">
-              <span class="hud-tag">⚔ 전사</span>
-              <span class="hud-tag">🔥 화</span>
-            </div>
-          </div>
+      <!-- 체력 바 -->
+      <div class="hud-team-hp">
+        <div class="hud-team-label">
+          <span>체력</span>
+          <span>122 / 200</span>
         </div>
-        <div class="hud-char">
-          <div class="hud-avatar">✦</div>
-          <div class="hud-info">
-            <div class="hud-name">리나</div>
-            <div class="hud-tags">
-              <span class="hud-tag">🔮 마법사</span>
-              <span class="hud-tag">❄ 빙</span>
-            </div>
-          </div>
-        </div>
-        <div class="hud-char">
-          <div class="hud-avatar">♥</div>
-          <div class="hud-info">
-            <div class="hud-name">에린</div>
-            <div class="hud-tags">
-              <span class="hud-tag">✚ 힐러</span>
-              <span class="hud-tag">🌿 자연</span>
-            </div>
-          </div>
+        <div class="hud-team-bar">
+          <div class="hud-team-fill md" style="width:61%"></div>
         </div>
       </div>
     </div>
@@ -487,32 +465,6 @@
           <div class="char-name-lbl">카인</div>
           <div class="char-status">
             <div class="stag buff" title="방어력 증가">🛡</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 리나 -->
-      <div class="char-unit">
-        <div class="char-sprite ally-s">✦</div>
-        <div class="char-shadow"></div>
-        <div class="char-footer">
-          <div class="char-name-lbl">리나</div>
-          <div class="char-status">
-            <div class="stag buff"    title="마법 집중">⚡</div>
-            <div class="stag neutral" title="침묵">🔇</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 에린 (부상) -->
-      <div class="char-unit">
-        <div class="char-sprite ally-s hurt">♥</div>
-        <div class="char-shadow"></div>
-        <div class="char-footer">
-          <div class="char-name-lbl">에린</div>
-          <div class="char-status">
-            <div class="stag debuff" title="출혈">🩸</div>
-            <div class="stag debuff" title="화상">🔥</div>
           </div>
         </div>
       </div>
@@ -635,7 +587,7 @@
 
       <div class="card playable">
         <div class="card-strip s8"></div>
-        <div class="card-owner">에린</div>
+        <div class="card-owner">카인</div>
         <div class="card-num">8</div>
         <div class="card-name">치유의 손길</div>
         <div class="card-eff">아군 회복 12</div>
@@ -643,7 +595,7 @@
 
       <div class="card playable">
         <div class="card-strip s16"></div>
-        <div class="card-owner">리나</div>
+        <div class="card-owner">카인</div>
         <div class="card-num">16</div>
         <div class="card-name">파이어볼</div>
         <div class="card-eff">광역 공격 18</div>
@@ -659,7 +611,7 @@
 
       <div class="card dim">
         <div class="card-strip s64"></div>
-        <div class="card-owner">리나</div>
+        <div class="card-owner">카인</div>
         <div class="card-num">64</div>
         <div class="card-name">메테오</div>
         <div class="card-eff">광역 공격 60</div>

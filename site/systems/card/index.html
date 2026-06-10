@@ -1712,7 +1712,7 @@
 <p>카드 시스템은 출전 캐릭터의 스킬 카드를 <strong>대기덱·핸드덱·소모덱</strong> 세 영역으로 통합 관리하는 구조다. 각 카드에는 보드에서 소모해야 하는 <strong>발동 숫자</strong>(4·8·16·32·64·128)가 지정되어 있으며, 숫자가 높을수록 강력한 효과를 제공한다.</p>
 <h3 id="_2">카드 시스템의 흐름 요약</h3>
 <div class="highlight"><pre><span></span><code>전투 시작
-    └─ 파티 전체 카드를 합산 → 셔플 → 대기덱 구성
+    └─ 선택 캐릭터의 카드를 셔플 → 대기덱 구성
            └─ 5장 드로우 → 핸드덱 구성
                   ↓
            [슬라이드 페이즈] 보드에 타일 준비
@@ -1752,7 +1752,7 @@
 <tr>
 <td><code>ownerCharacterId</code></td>
 <td><code>string</code></td>
-<td>이 카드를 소유하는 캐릭터 ID. 3인 파티 공용 덱에서 소유자 추적에 사용</td>
+<td>이 카드를 소유하는 캐릭터 ID. 소유 캐릭터 식별에 사용</td>
 </tr>
 <tr>
 <td><code>triggerNumber</code></td>
@@ -1781,7 +1781,7 @@
 <li><code>triggerNumber</code>는 반드시 {4, 8, 16, 32, 64, 128} 집합에 속해야 한다.</li>
 <li><code>upgradedTriggerNumber</code>가 존재하는 경우, 반드시 <code>triggerNumber</code>보다 작아야 한다.</li>
 <li><code>upgradeLevel</code>이 0이면 <code>upgradedTriggerNumber</code>는 <code>null</code>이다.</li>
-<li><code>ownerCharacterId</code>는 현재 전투에 출전한 캐릭터 ID 목록에 포함되어야 한다. 미출전 캐릭터의 카드는 덱에 포함되지 않는다.</li>
+<li><code>ownerCharacterId</code>는 현재 전투에 출전한 캐릭터의 ID와 일치해야 한다. 미출전 캐릭터의 카드는 덱에 포함되지 않는다.</li>
 </ul>
 <h4 id="_4">런타임에서의 발동 숫자 결정</h4>
 <div class="highlight"><pre><span></span><code>effectiveTriggerNumber = (upgradeLevel &gt;= 1 &amp;&amp; upgradedTriggerNumber != null)

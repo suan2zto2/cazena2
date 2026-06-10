@@ -4,391 +4,803 @@
 
 [📋 구글 시트 열기](https://docs.google.com/spreadsheets/d/1SRpzgAzrPeH7GlxGkBo3hs83RiYDknOo3uXKJkeRubM/edit){ .md-button .md-button--primary target="_blank" }
 
-> Google Sheets로 게임 데이터를 편집하고, 변환 스크립트로 JSON을 생성하는 파이프라인을 정의합니다.  
-> JSON 구조 상세는 [schema.md](schema.md)를 참조하십시오.
+<button id="btn-build-data" class="md-button" onclick="buildAndDownloadData()">📦 JSON 전체 다운로드</button>
+
+### JSON 파일 구성
+
+다운로드 버튼은 아래 8개 파일을 `gamedata.zip`으로 압축 제공한다.
+
+| JSON 파일 | 원본 시트 | JSON 키 |
+|-----------|-----------|---------|
+| `strings.json` | `StringTBL_KR` | (배열) |
+| `metadata.json` | `CardTraitTBL`, `CardTeamTBL`, `CardRarityTBL`, `CardIntentTBL` | `traits`, `teams`, `rarities`, `intents` |
+| `abilities.json` | `CardAbilityTBL` | (배열) |
+| `statuses.json` | `CardStatusTBL` | (배열) |
+| `cards.json` | `CardTBL` | (배열) |
+| `champions.json` | `ChampionTBL` | (배열) |
+| `enemies.json` | `EnemyTBL`, `StartCardDeckTBL` | `enemies`, `decks` |
+| `maps.json` | `MapTBL`, `MapRandomEventTBL`, `MapFixedWidthTBL`, `MapFixedEventTBL`, `MapEvent_BattleTBL`, `ExtraEnemyTBL`, `MapEvent_ChoiceTBL`, `MapEvent_TradeTBL`, `MapEvent_EffectTBL`, `MapEvent_OtherTBL`, `MapEvent_ShopTBL` | `maps`, `randomEvents`, `fixedWidths`, `fixedEvents`, `battleEvents`, `extraEnemies`, `choiceEvents`, `tradeEvents`, `effectEvents`, `otherEvents`, `shopEvents` |
 
 ---
 
-## JSON 익스포트 다운로드
+## 시트 구성 개요
 
-구글 시트에서 변환한 최신 JSON 파일입니다. 게임 코드에서 직접 로드하거나 로컬에 저장해 사용하세요.
+Google Sheets 내 **22개 시트(테이블)**를 5개 그룹으로 분류한다. 각 시트는 하나의 데이터 테이블이다.
 
-<button id="btn-build-data" class="md-button md-button--primary" onclick="buildAndDownloadData()">🔄 구글 시트에서 JSON 만들기 (전체)</button>
+| 그룹 | 시트 수 | 시트 목록 |
+|------|:-------:|-----------|
+| [문자열](#1-문자열) | 1 | `StringTBL_KR` |
+| [카드 시스템](#2-카드-시스템) | 7 | `CardAbilityTBL`, `CardStatusTBL`, `CardTraitTBL`, `CardTeamTBL`, `CardRarityTBL`, `CardIntentTBL`, `CardTBL` |
+| [캐릭터·적](#3-캐릭터적) | 3 | `ChampionTBL`, `EnemyTBL`, `DeckTBL` |
+| [맵·이벤트](#4-맵이벤트) | 10 | `MapTBL`, `MapRandomEventTBL`, `MapFixedEventTBL`, `MapEvent_BattleTBL`, `MapEvent_ChoiceTBL`, `MapEvent_TradeTBL`, `MapEvent_EffectTBL`, `MapEvent_OtherTBL`, `MapEvent_ShopTBL`, `ExtraEnemyTBL` |
+| [공통](#5-공통) | 1 | `GlobalEnum` |
 
-!!! warning "사용 조건"
-    구글 시트가 **"링크가 있는 사람 모두 — 뷰어"** 로 공유되어 있어야 합니다.  
-    시트 우측 상단 **공유 → 링크 복사 → 뷰어** 로 설정하세요.
+### 테이블 정의
 
----
+| 테이블 | 정의 |
+|--------|------|
+| `StringTBL_KR` | 게임 내 모든 화면 표시 텍스트를 UID 키로 보관하는 문자열 사전. 다국어 확장 시 `StringTBL_EN` 등을 동일 UID로 추가한다. |
+| `CardAbilityTBL` | 카드 또는 적이 발동하는 개별 효과 단위 정의. 트리거·대상·조건·효과를 선언적으로 기술하며, 하나의 카드는 최대 4개 어빌리티를 참조할 수 있다. |
+| `CardStatusTBL` | 버프·디버프 상태이상 정의. 효과 종류(StatusEffect enum), 지속 방식(StatusDuration enum), 표시 정보를 관리한다. |
+| `CardTraitTBL` | 카드에 붙는 태그 특성 정의. 시너지 조건이나 어빌리티 트리거 필터(`is_skill`, `is_attack` 등)에서 참조된다. |
+| `CardTeamTBL` | 카드와 챔피언이 속하는 진영(팀) 정의. 팀별 시너지 발동 및 덱 구성 제약의 기준 단위. |
+| `CardRarityTBL` | 카드 희귀도 등급 정의. 상점 진열 확률(`probability`)과 보상 카드 필터링에 사용된다. |
+| `CardIntentTBL` | 적이 카드를 사용할 때 플레이어에게 보여주는 행동 예고(의도) 아이콘 정의. 우선순위와 표시 여부를 제어한다. |
+| `CardTBL` | 플레이어·적이 사용하는 카드 전체 정의. 2048 전용 필드 `tileRank`·`upgradedTileRank`로 발동에 필요한 타일 등급을 지정한다. |
+| `ChampionTBL` | 플레이어가 파티에 편성하는 챔피언 정의. HP·Speed·Hand·Energy 4종 스탯과 레벨업 증분값, 시작 덱을 포함한다. |
+| `EnemyTBL` | 전투에 등장하는 적 정의. 챔피언과 동일한 스탯 구조를 사용하며, `cardDeck`으로 행동 카드 덱을 참조한다. |
+| `DeckTBL` | 챔피언 시작 덱 또는 적 행동 덱을 정의. 최대 10개 슬롯에 카드 ID를 배치하며, 빈 슬롯은 덱에 포함되지 않는다. |
+| `MapTBL` | 로그라이트 런에서 생성되는 맵의 구조 파라미터(깊이·너비·분기 확률) 및 이벤트 풀 연결 정의. |
+| `MapRandomEventTBL` | 맵 노드에 랜덤 배치될 이벤트 풀 목록. 동일 맵 내 이벤트 중복 방지를 위해 풀 방식으로 관리한다. |
+| `MapFixedEventTBL` | 특정 깊이(층)에 강제 배치되는 고정 이벤트 정의. 보스 방·중요 이벤트 위치를 고정할 때 사용한다. |
+| `MapEvent_BattleTBL` | 전투 이벤트 정의. 등장 적 구성·레벨·보상(골드·경험치·카드)을 포함한다. |
+| `MapEvent_ChoiceTBL` | 선택지 이벤트 정의. 최대 4개 선택지를 제공하며, 각 선택은 `MapEvent_TradeTBL`이나 `MapEvent_EffectTBL`로 연결된다. |
+| `MapEvent_TradeTBL` | 골드·체력을 소비하고 골드·경험치·회복을 얻는 교역 이벤트 단위 정의. |
+| `MapEvent_EffectTBL` | 즉시 효과를 발동하는 이벤트 단위 정의. 선택지 결과나 고정 이벤트에서 연계 호출되는 경우가 많다. |
+| `MapEvent_OtherTBL` | 전투·선택·교역·효과에 해당하지 않는 특수 이벤트(보상 획득, 세계 상태 변경, 상점, 카드 강화 등) 정의. |
+| `MapEvent_ShopTBL` | 카드·아이템을 사고파는 상점 노드 정의. 구매·판매 배율과 진열 수량을 제어한다. |
+| `ExtraEnemyTBL` | 전투 이벤트에서 파티 인원 수에 따라 조건부로 추가되는 보조 적 세트 정의. |
+| `GlobalEnum` | 코드와 시트가 공유하는 숫자 enum 값 일람. `AbilityTrigger`, `AbilityTarget`, `StatusEffect`, `MapEventType`, `TileRank` 등 모든 enum 그룹을 단일 테이블로 관리한다. |
 
-## JSON 파일 목록
-
-<table>
-  <thead>
-    <tr>
-      <th>파일</th>
-      <th>포함 시트</th>
-      <th style="text-align:center">JSON 만들기</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><code>chapters.json</code></td>
-      <td>Chapter, ActConfig</td>
-      <td style="text-align:center">
-        <button id="btn-build-chapters" class="md-button" onclick="buildChaptersJson('btn-build-chapters')">🔄 JSON 만들기</button>
-      </td>
-    </tr>
-    <tr>
-      <td><code>stages.json</code></td>
-      <td>Stage, StageMonster</td>
-      <td style="text-align:center">
-        <button id="btn-build-stages" class="md-button" onclick="buildStagesJson('btn-build-stages')">🔄 JSON 만들기</button>
-      </td>
-    </tr>
-    <tr>
-      <td><code>characters.json</code></td>
-      <td>Character</td>
-      <td style="text-align:center">
-        <button id="btn-build-characters" class="md-button" onclick="buildCharactersJson('btn-build-characters')">🔄 JSON 만들기</button>
-      </td>
-    </tr>
-    <tr>
-      <td><code>cards.json</code></td>
-      <td>Card</td>
-      <td style="text-align:center">
-        <button id="btn-build-cards" class="md-button" onclick="buildCardsJson('btn-build-cards')">🔄 JSON 만들기</button>
-      </td>
-    </tr>
-    <tr>
-      <td><code>monsters.json</code></td>
-      <td>Monster, MonsterAction, BossPhase</td>
-      <td style="text-align:center">
-        <button id="btn-build-monsters" class="md-button" onclick="buildMonstersJson('btn-build-monsters')">🔄 JSON 만들기</button>
-      </td>
-    </tr>
-    <tr>
-      <td><code>story_scenes.json</code></td>
-      <td>StoryScene</td>
-      <td style="text-align:center">
-        <button id="btn-build-scenes" class="md-button" onclick="buildStoryScenesJson('btn-build-scenes')">🔄 JSON 만들기</button>
-      </td>
-    </tr>
-  </tbody>
-</table>
+스키마 타입 정의 상세는 [스키마 설계](schema.md)를 참조한다.
 
 ---
 
-## 파이프라인
+## StringTBL UID 범위
 
-```
-Google Sheets  ──변환 스크립트──▶  JSON 파일  ──로드──▶  게임
-  (편집 소스)                      (게임 데이터)
-```
-
-- **시트**: 기획자가 편집하는 소스. 평면(2D) 구조.
-- **변환 스크립트**: 시트 → JSON 변환. 분리된 행을 중첩 구조로 조립.
-- **JSON**: 게임 코드가 읽는 최종 데이터. [schema.md](schema.md) 구조를 따름.
-
----
-
-## 시트 목록
-
-| 시트 탭 | 대응 JSON | 비고 |
-|---------|-----------|------|
-| [Chapter](#chapter) | `chapters.json` | 챕터 기본 정보 |
-| [ActConfig](#actconfig) | `chapters.json` 내 `acts[]` | Chapter에 병합 |
-| [Stage](#stage) | `stages.json` | 전투 스테이지 템플릿 |
-| [StageMonster](#stagemonster) | `stages.json` 내 `monsters[]` | Stage에 병합 |
-| [Character](#character) | `characters.json` | |
-| [Card](#card) | `cards.json` | |
-| [Monster](#monster) | `monsters.json` | 기본 스탯만 |
-| [MonsterAction](#monsteraction) | `monsters.json` 내 `actionPattern`, `phaseThresholds[].actionPattern` | Monster에 병합 |
-| [BossPhase](#bossphase) | `monsters.json` 내 `phaseThresholds[]` | Monster에 병합 |
-| [StoryScene](#storyscene) | `story_scenes.json` | |
+| 범위 | 용도 |
+|------|------|
+| `10000~` | 상태이상 이름·설명 / 특성 이름·설명 / 팀 이름 / 희귀도 이름 / 의도 이름·설명 |
+| `200000~` | 카드 이름 및 설명 |
+| `260000~` | 챔피언(플레이어 캐릭터) 이름 |
+| `261000~` | 적 이름 |
+| `270000~` | 이벤트 설명 문자열 (선택지·교역·효과 이벤트 등) |
 
 ---
 
-## 시트 상세
+## TileRank 값 대응표
 
-### Chapter
+카드 발동에 요구되는 2048 보드 타일 숫자. `CardTBL.tileRank` 및 `CardTBL.upgradedTileRank`에 사용한다.
 
-챕터 기본 정보. 메인 스토리와 서브 스토리 모두 이 시트에 등록한다.
-
-| 컬럼 | 타입 | 예시 | 설명 |
-|------|------|------|------|
-| `id` | string | `ch1` | 챕터 식별자 (PK) |
-| `title` | string | `도시의 균열` | 챕터 표시 제목 |
-| `storyType` | enum | `MAIN` | `MAIN` / `SUB` |
-| `actCount` | number | `2` | 막(Act) 수. `ActConfig` 행 수와 일치해야 함 |
-
-**예시 행**
-
-| id | title | storyType | actCount |
-|----|-------|-----------|:--------:|
-| ch1 | 도시의 균열 | MAIN | 3 |
-| ch8 | 최후의 컴파일 | MAIN | 3 |
-| sub_kestrel | 케스트럴의 과거 | SUB | 1 |
+| TileRank | 타일 숫자 | 비고 |
+|:--------:|:---------:|------|
+| `A` | **2** | 초기 생성 타일. 모든 보드에서 기본 등장 |
+| `B` | **4** | 기본 카드 발동 등급 |
+| `C` | **8** | 일반 전투 주력 등급 |
+| `D` | **16** | 강화 카드 등급 |
+| `E` | **32** | 강력 카드 등급 |
+| `F` | **64** | 필살 카드 등급. 보드 최적화 필요 |
 
 ---
 
-### ActConfig
+## 1. 문자열
 
-챕터 내 각 막의 구성 설정. 챕터당 `actCount`개 행이 존재한다.  
-변환 시 `chapterId`로 그룹화하여 해당 Chapter의 `acts[]` 배열로 병합된다.
+### StringTBL_KR
 
-| 컬럼 | 타입 | 예시 | 설명 |
-|------|------|------|------|
-| `chapterId` | string | `ch1` | `Chapter.id` 참조 (FK) |
-| `actNumber` | number | `1` | 막 번호. 1부터 시작 |
-| `stageCount` | number | `4` | 이 막의 스테이지 수 (보스 제외) |
-| `supplyPositions` | string | `2,4` | 보급 지역을 고정 배치할 위치 인덱스. 쉼표 구분. 빈 칸이면 없음 |
-| `bossMonsterId` | string | `warden` | 막 보스로 사용할 `Monster.id`. `enemyType = BOSS`여야 함 |
+모든 화면 표시 텍스트를 UID로 참조한다. 다국어 대응 시 `StringTBL_EN` 등을 동일 UID로 추가한다.
 
-**예시 행**
+**컬럼**
 
-| chapterId | actNumber | stageCount | supplyPositions | bossMonsterId |
-|-----------|:---------:|:----------:|:---------------:|---------------|
-| ch1 | 1 | 4 | 4 | field_captain |
-| ch1 | 2 | 4 | 4 | warden |
-| ch1 | 3 | 4 | | commander |
+| 컬럼 | 타입 | 설명 |
+|------|------|------|
+| `Name` | `string` | 시트 행 식별자 |
+| `UID` | `number` | 문자열 고유 식별자. 범위별 용도 구분 (위 UID 범위표 참조) |
+| `KR` | `string` | 한국어 문자열 |
 
-`supplyPositions`는 보급 지역이 고정 배치될 위치 번호(1-based). 비어 있으면 `[]`.
+**참조 관계**
 
-**막별 기본 스테이지 패턴**
+- 카드·챔피언·적·상태이상·특성·팀·희귀도·의도·이벤트 모든 시트의 `titleStringId`, `descStringId`에서 참조
 
-| 막 | 위치 1 | 위치 2 | 위치 3 | 위치 4 | 위치 5 (고정) |
-|----|--------|--------|--------|--------|---------------|
-| 1막 | NORMAL | NORMAL | ELITE | SUPPLY | BOSS |
-| 2막 | NORMAL | NORMAL | ELITE | SUPPLY | BOSS |
-| 3막 | NORMAL | ELITE | ELITE | UNKNOWN | BOSS |
+**예시**
 
-**변환 규칙**: `supplyPositions` → 쉼표로 분리하여 `number[]` 배열로 변환. 빈 칸은 `[]`.
+| Name | UID | KR |
+|------|-----|----|
+| str_status_vulnerable_title | 10001 | 취약 |
+| str_status_vulnerable_desc | 10002 | 받는 피해가 50% 증가합니다 |
+| str_trait_swift_title | 10101 | 신속 |
+| str_card_shield_strike_title | 200001 | 방패 강타 |
+| str_card_shield_strike_desc | 200002 | 적에게 22의 피해를 입히고 아군 전체에게 방어막 4를 부여합니다 |
+| str_champion_kestrel | 260001 | 케스트럴 (Kestrel) |
+| str_enemy_warden | 261001 | 제1감시자 |
+| str_event_ruin_encounter | 270001 | 폐허에서 낡은 상자를 발견했다. 열어볼까? |
 
 ---
 
-### Stage
+## 2. 카드 시스템
 
-전투 스테이지 템플릿. `SUPPLY`·`UNKNOWN` 유형은 전투가 없으므로 `maxSlides`, `tileValues`, `tileWeights` 컬럼을 비워둔다.
+### CardAbilityTBL
 
-| 컬럼 | 타입 | 예시 | 설명 |
-|------|------|------|------|
-| `id` | string | `ch1_s01` | 스테이지 식별자 (PK) |
-| `chapterId` | string | `ch1` | `Chapter.id` 참조 (FK) |
-| `actNumber` | number | `1` | 소속 막 번호 |
-| `stageType` | enum | `NORMAL` | `NORMAL` / `ELITE` / `BOSS` / `SUPPLY` / `UNKNOWN` |
-| `maxSlides` | number | `5` | 턴당 최대 슬라이드 횟수. 전투 스테이지(`NORMAL`·`ELITE`·`BOSS`)만 입력 |
-| `tileValues` | string | `2,4` | 생성 가능한 타일 값. 쉼표 구분. 전투 스테이지만 입력 |
-| `tileWeights` | string | `3,1` | 각 타일 값의 생성 가중치. 쉼표 구분. `tileValues`와 길이 동일 |
+카드 또는 적이 사용하는 개별 효과 단위. 하나의 카드는 `ability1~4`를 통해 최대 4개의 어빌리티를 참조할 수 있다.
 
-**ID 네이밍 규칙**: `{chapterId}_a{actNumber}_s{stageIndex}` — 예: `ch1_a1_s3`
+**컬럼**
 
-**예시 행**
+| 컬럼 | 타입 | 설명 |
+|------|------|------|
+| `Name` | `string` | 어빌리티 식별자 PK. 예: `kestrel_shield_strike` |
+| `Type` | `string` | `Attacks` \| `Heals` \| `Buffs` \| `Debuffs` \| `Passives` \| `Enemy` |
+| `ID` | `number` | 고유 ID |
+| `selectTrigger` | `string` | 트리거 레이블. GlobalEnum.AbilityTrigger 참조 |
+| `trigger` | `number` | 트리거 enum 값 |
+| `trigCond1~3` | `string?` | 트리거 발동 추가 조건 |
+| `selectTarget` | `string` | 대상 레이블. GlobalEnum.AbilityTarget 참조 |
+| `target` | `number` | 대상 enum 값 |
+| `tgtCond1~3` | `string?` | 대상 필터 조건 |
+| `effect1` | `string?` | 주 효과. 예: `damage`, `heal`, `add_shield` |
+| `effect2` | `string?` | 보조 효과 |
+| `status1` | `string?` | 적용 상태이상. `CardStatusTBL.Name` 참조 |
+| `status2` | `string?` | 두 번째 상태이상 |
+| `effectValue` | `number?` | 효과 수치 |
+| `upgradeValue` | `number?` | 강화 시 effectValue 증가량 |
+| `selectUpBonus` | `string?` | 강화 보너스 타입 레이블 |
+| `upgradeBonus` | `number?` | 강화 보너스 수치 |
+| `chainAbility` | `string?` | 연쇄 발동 어빌리티 `Name` |
+| `targetFx` | `string?` | 효과 연출 키. 예: `SlashFX`, `AoeFX`, `CurseFX` |
 
-| id | chapterId | actNumber | stageType | maxSlides | tileValues | tileWeights |
-|----|-----------|:---------:|-----------|:---------:|-----------|------------|
-| ch1_a1_s1 | ch1 | 1 | NORMAL | 5 | 2,4 | 7,3 |
-| ch1_a1_s3 | ch1 | 1 | ELITE | 4 | 2,4 | 7,3 |
-| ch1_a1_s4 | ch1 | 1 | SUPPLY | | | |
-| ch1_a1_s5 | ch1 | 1 | BOSS | 6 | 2,4 | 5,5 |
-| ch1_a3_s4 | ch1 | 3 | UNKNOWN | | | |
+**참조 관계**
 
-**변환 규칙**: `tileValues`, `tileWeights` → 쉼표로 분리하여 `tileSpawnConfig.values[]`, `tileSpawnConfig.weights[]` 배열로 변환.
+- `status1`, `status2` → `CardStatusTBL.Name`
+- `chainAbility` → `CardAbilityTBL.Name` (자기 참조)
+- `CardTBL.ability1~4`에서 참조됨
+- `EnemyTBL.ability1`에서 참조됨
 
----
+**예시**
 
-### StageMonster
-
-Stage와 Monster를 연결하는 중간 테이블. 전투 스테이지(`NORMAL`·`ELITE`·`BOSS`)에만 등록한다.  
-변환 시 `stageId`로 그룹화하여 해당 Stage의 `monsters[]` 배열로 병합된다.
-
-| 컬럼 | 타입 | 예시 | 설명 |
-|------|------|------|------|
-| `stageId` | string | `ch1_s01` | `Stage.id` 참조 (FK) |
-| `monsterId` | string | `grunt` | `Monster.id` 참조 (FK) |
-| `position` | number | `1` | 화면 위→아래 순서이자 행동 처리 순서. 오름차순, 중복 불가 |
-
-**예시 행**
-
-| stageId | monsterId | position |
-|---------|-----------|:--------:|
-| ch1_a1_s1 | grunt | 1 |
-| ch1_a1_s1 | patrol | 2 |
-| ch1_a1_s3 | enforcer | 1 |
-| ch1_a1_s5 | field_captain | 1 |
-| ch1_a3_s3 | enforcer | 1 |
-| ch1_a3_s3 | enforcer | 2 |
+| Name | Type | ID | selectTrigger | trigger | selectTarget | target | tgtCond1 | effect1 | effectValue | upgradeValue | status1 | targetFx |
+|------|------|----|---------------|---------|--------------|--------|----------|---------|:-----------:|:------------:|---------|---------|
+| kestrel_shield_strike | Attacks | 1001 | OnPlay | 10 | PlayTarget | 20 | is_not_allied | damage | 22 | 3 | | SlashFX |
+| kestrel_rally | Buffs | 1002 | OnPlay | 10 | AllCharacters | 7 | is_allied | add_shield | 4 | 1 | | ShieldFX |
+| cipher_vuln_analysis | Debuffs | 1014 | OnPlay | 10 | PlayTarget | 20 | is_not_allied | | | | vulnerable | CurseFX |
+| enemy_atk_warden_s22 | Enemy | 2001 | OnPlay | 10 | PlayTarget | 20 | is_character | damage | 22 | | | SlashFX |
 
 ---
 
-### Character
+### CardStatusTBL
 
-| 컬럼 | 타입 | 예시 | 설명 |
-|------|------|------|------|
-| `id` | string | `kestrel` | 캐릭터 식별자 (PK) |
-| `name` | string | `케스트럴 (Kestrel)` | 화면 표시 이름 |
-| `baseHp` | number | `120` | 최대 체력 |
-| `isDlc` | boolean | `FALSE` | DLC 캐릭터 여부 |
+버프·디버프 상태이상 정의. 각 상태이상의 효과 종류, 지속 방식, 표시 정보를 관리한다.
 
-**예시 행**
+**컬럼**
 
-| id | name | baseHp | isDlc |
-|----|------|:------:|:-----:|
-| kestrel | 케스트럴 (Kestrel) | 120 | FALSE |
-| jube | 주베 (Jube) | 90 | FALSE |
+| 컬럼 | 타입 | 설명 |
+|------|------|------|
+| `Name` | `string` | 상태이상 식별자 PK. 예: `vulnerable`, `slow` |
+| `ID` | `number` | 고유 ID |
+| `selectEffect` | `string` | GlobalEnum.StatusEffect 레이블 |
+| `statusEffect` | `number` | StatusEffect enum 값 |
+| `selectDuration` | `string` | GlobalEnum.StatusDuration 레이블 |
+| `statusDuration` | `number` | `Persistant=0`, `OneTurn=2`, `AutoReduce=10` |
+| `isNegative` | `boolean` | `TRUE`=디버프, `FALSE`=버프 |
+| `titleStringId` | `number` | StringTBL UID (10000~) |
+| `descStringId` | `number` | StringTBL UID (10000~) |
+| `icon` | `string` | 아이콘 에셋 키 |
+| `fx` | `string?` | 적용 연출 키 |
+| `animation` | `string?` | 적용 애니메이션 키 |
 
----
+**참조 관계**
 
-### Card
+- `titleStringId`, `descStringId` → `StringTBL_KR.UID`
+- `CardAbilityTBL.status1`, `status2`에서 참조됨
 
-| 컬럼 | 타입 | 예시 | 설명 |
-|------|------|------|------|
-| `id` | string | `kestrel_c01` | 카드 식별자 (PK) |
-| `ownerCharacterId` | string | `kestrel` | `Character.id` 참조 (FK) |
-| `name` | string | `방패 강타` | 카드 표시 이름 |
-| `tileRank` | enum | `ENHANCED` | 발동 타일 등급. `BASIC` / `NORMAL` / `ENHANCED` / `POWERFUL` / `LETHAL` / `TRANSCENDENT` |
-| `effectType` | enum | `ATTACK` | `ATTACK` / `HEAL` / `BUFF` / `DEBUFF` |
-| `targetType` | enum | `SINGLE_ENEMY` | `SINGLE_ENEMY` / `ALL_ENEMIES` / `SINGLE_ALLY` / `ALL_ALLIES` |
-| `damage` | number | `25` | `ATTACK` 전용. 피해량 |
-| `healAmount` | number | | `HEAL` 전용. 회복량 |
-| `buffId` | string | | `BUFF` 전용. 버프 식별자 |
-| `debuffId` | string | | `DEBUFF` 전용. 디버프 식별자 |
-| `duration` | number | | `BUFF`/`DEBUFF` 전용. 지속 액션 버튼 횟수. 빈 칸이면 영구 |
-| `upgradedTileRank` | enum | `NORMAL` | 강화 후 대체 등급. 반드시 `tileRank`보다 낮은 등급. 빈 칸이면 미강화 상태 |
+**예시**
 
-**변환 규칙**: `damage`, `healAmount`, `buffId`, `debuffId`, `duration` → `effectParams` 객체로 묶음. 빈 칸은 `undefined`.
-
----
-
-### Monster
-
-행동 패턴은 [MonsterAction](#monsteraction) 시트에 별도 입력하며 변환 시 병합된다.
-
-| 컬럼 | 타입 | 예시 | 설명 |
-|------|------|------|------|
-| `id` | string | `grunt` | 적 식별자 (PK) |
-| `displayName` | string | `경비 드론` | 화면 표시 이름 |
-| `enemyType` | enum | `NORMAL` | `NORMAL` / `ELITE` / `BOSS` |
-| `maxHp` | number | `50` | 최대 체력 |
-| `initialShield` | number | `0` | 전투 시작 방어막. `0`이면 없음 |
-| `initialCount` | number | `3` | 페이즈 1 기본 카운트 초기값 |
+| Name | ID | selectEffect | statusEffect | selectDuration | statusDuration | isNegative | titleStringId | descStringId |
+|------|----|--------------|:------------:|----------------|:--------------:|:----------:|:-------------:|:------------:|
+| attack_power | 101 | AttackPower | 10 | Persistant | 0 | FALSE | 10001 | 10002 |
+| armor | 102 | Armor | 15 | Persistant | 0 | FALSE | 10003 | 10004 |
+| vulnerable | 201 | Vulnerable | 32 | AutoReduce | 10 | TRUE | 10011 | 10012 |
+| slow | 202 | SlowDown | 70 | AutoReduce | 10 | TRUE | 10021 | 10022 |
+| bleed | 203 | Bleed | 44 | AutoReduce | 10 | TRUE | 10031 | 10032 |
 
 ---
 
-### MonsterAction
+### CardTraitTBL
 
-적의 모든 행동을 정의한다. 변환 시 `monsterId` + `phase`로 그룹화하여 `actionPattern`을 구성하고, `Monster` JSON에 병합된다.
+카드의 특성 태그. 특정 시너지 조건이나 상호작용 트리거에 사용한다.
 
-| 컬럼 | 타입 | 예시 | 설명 |
-|------|------|------|------|
-| `monsterId` | string | `warden` | `Monster.id` 참조 (FK) |
-| `phase` | number | `1` | 소속 페이즈. `1` = 기본 패턴, `2 이상` = 해당 BossPhase 패턴 |
-| `role` | enum | `action` | `action` / `default` / `transition` |
-| `orderIndex` | number | `0` | `role = action`일 때 순환 순서. 0부터 시작. 나머지 role은 빈 칸 |
-| `actionType` | enum | `ATTACK_AOE` | `ATTACK_SINGLE` / `ATTACK_AOE` / `DEBUFF` / `BUFF_SELF` |
-| `targetMode` | enum | `ALL` | `SINGLE` / `ALL`. `ATTACK_AOE`·`BUFF_SELF`는 무시됨 |
-| `power` | number | `15` | 피해량 또는 효과 수치 |
-| `effectId` | string | | `DEBUFF`·`BUFF_SELF` 전용. 빈 칸이면 없음 |
-| `effectDuration` | number | | 효과 지속 횟수. 빈 칸이면 영구 |
-| `resetCount` | number | `4` | 이 행동 실행 후 카운트 리셋값 |
-| `scheduledTurns` | string | | 특정 턴에만 발동. 쉼표 구분. 빈 칸이면 기본 순환에 포함 |
+**컬럼**
 
-**role 종류**
+| 컬럼 | 타입 | 설명 |
+|------|------|------|
+| `Name` | `string` | 특성 식별자. 예: `swift`, `heavy`, `arcane` |
+| `ID` | `number` | 고유 ID |
+| `titleStringId` | `number` | StringTBL UID (10000~). 특성 표시 이름 |
+| `descStringId` | `number` | StringTBL UID (10000~). 특성 설명 |
+| `icon` | `string` | 아이콘 에셋 키 |
 
-| 값 | 설명 | `orderIndex` |
-|----|------|:------------:|
-| `action` | 순환 목록의 일반 행동 | 필수 |
-| `default` | 스킬 없는 턴의 기본 행동 | 빈 칸 |
-| `transition` | 페이즈 전환 즉시 발동 행동 (`phase 2` 이상에서만 유효) | 빈 칸 |
+**참조 관계**
 
-**변환 규칙**
+- `titleStringId`, `descStringId` → `StringTBL_KR.UID`
+- `CardTBL.trait1`, `trait2`에서 참조됨
+- `EnemyTBL.trait1`에서 참조됨
 
-```
-MonsterAction 행 전체를 monsterId로 그룹화
-  → phase = 1인 행: Monster.actionPattern 구성
-      role = 'action'  → orderIndex 오름차순 정렬 → actionPattern.actions[]
-      role = 'default' → actionPattern.defaultAction
-  → phase >= 2인 행: 해당 phase의 BossPhase.actionPattern 구성
-      role = 'action'      → actionPattern.actions[]
-      role = 'default'     → actionPattern.defaultAction
-      role = 'transition'  → PhaseThreshold.transitionAction
-scheduledTurns 쉼표 문자열 → number[] 배열로 변환. 빈 칸이면 undefined
-effectDuration 빈 칸 → undefined (영구 지속 예약)
-```
+**예시**
+
+| Name | ID | titleStringId | descStringId | icon |
+|------|----|:-------------:|:------------:|------|
+| swift | 101 | 10101 | 10102 | icon_trait_swift |
+| heavy | 102 | 10103 | 10104 | icon_trait_heavy |
+| arcane | 103 | 10105 | 10106 | icon_trait_arcane |
+| sentinel | 104 | 10107 | 10108 | icon_trait_sentinel |
 
 ---
 
-### BossPhase
+### CardTeamTBL
 
-보스 페이즈 전환 조건을 정의한다. `enemyType = BOSS`인 Monster 전용.  
-변환 시 `monsterId`로 그룹화하여 `Monster.phaseThresholds[]`에 병합된다.
+카드 및 챔피언이 속한 팀(진영). 팀별로 시너지나 제약이 발동될 수 있다.
 
-| 컬럼 | 타입 | 예시 | 설명 |
-|------|------|------|------|
-| `monsterId` | string | `warden` | `Monster.id` 참조 (FK). `enemyType = BOSS`만 유효 |
-| `phaseNumber` | number | `2` | 페이즈 번호. 2 이상 (1은 Monster 기본 패턴) |
-| `triggerValue` | number | `0.5` | 전환 트리거 체력 비율. `0.0 초과 ~ 1.0 미만` |
-| `initialCount` | number | `2` | 이 페이즈의 카운트 초기값 |
+**컬럼**
 
-**제약 조건**: `triggerValue` 내림차순 정렬 권장. `phaseNumber`는 해당 monsterId의 MonsterAction에 같은 `phase` 값의 행이 존재해야 한다.
+| 컬럼 | 타입 | 설명 |
+|------|------|------|
+| `Name` | `string` | 팀 식별자. 예: `vanguard`, `cipher`, `wanderer` |
+| `ID` | `number` | 고유 ID |
+| `titleStringId` | `number` | StringTBL UID (10000~). 팀 표시 이름 |
+| `icon` | `string` | 팀 아이콘 에셋 키 |
+| `color` | `string` | 팀 대표 색상. 16진수 코드. 예: `#4A90D9` |
 
----
+**참조 관계**
 
-### StoryScene
+- `titleStringId` → `StringTBL_KR.UID`
+- `CardTBL.team`, `ChampionTBL.team`에서 참조됨
 
-챕터 내 스토리 씬(컷씬·대화) 발동 정의. 트리거 시점별로 1행씩 등록한다.  
-`STAGE_START` 트리거는 경로 미선택 시 재생이 보장되지 않으므로 필수 서사 배치를 지양한다.
+**예시**
 
-| 컬럼 | 타입 | 예시 | 설명 |
-|------|------|------|------|
-| `id` | string | `ch1_intro` | 씬 식별자 (PK) |
-| `chapterId` | string | `ch1` | `Chapter.id` 참조 (FK) |
-| `triggerType` | enum | `CHAPTER_START` | `CHAPTER_START` / `BOSS_START` / `BOSS_CLEAR` / `STAGE_START` |
-| `sceneAssetId` | string | `scene_ch1_intro` | 재생할 씬 에셋·스크립트 식별자 |
-| `monsterId` | string | | `BOSS_START`·`BOSS_CLEAR` 전용. 특정 보스 지정 시 입력. 빈 칸이면 막 전체 보스에 공통 적용 |
-| `stageId` | string | | `STAGE_START` 전용. 발동할 `Stage.id` |
-
-**예시 행**
-
-| id | chapterId | triggerType | sceneAssetId | monsterId | stageId |
-|----|-----------|-------------|--------------|-----------|---------|
-| ch1_intro | ch1 | CHAPTER_START | scene_ch1_intro | | |
-| ch1_boss1_start | ch1 | BOSS_START | scene_ch1_warden_start | warden | |
-| ch1_boss1_clear | ch1 | BOSS_CLEAR | scene_ch1_warden_clear | warden | |
-| ch1_final_clear | ch1 | BOSS_CLEAR | scene_ch1_ending | commander | |
+| Name | ID | titleStringId | icon | color |
+|------|----|:-------------:|------|-------|
+| vanguard | 101 | 10201 | icon_team_vanguard | #4A90D9 |
+| cipher | 102 | 10202 | icon_team_cipher | #9B59B6 |
+| wanderer | 103 | 10203 | icon_team_wanderer | #E67E22 |
+| warden | 104 | 10204 | icon_team_warden | #C0392B |
 
 ---
 
-## 변환 스크립트 입출력 요약
+### CardRarityTBL
 
-!!! note "시드 스크립트"
-    `scripts/seedAllChapters.ts` — 8챕터 전체 데이터(Chapter·ActConfig·Stage·StageMonster·Monster·MonsterAction·BossPhase·StoryScene)를 구글 시트에 일괄 입력한다. 기존 데이터를 초기화한 후 재삽입한다.  
-    `scripts/seedData.ts` — 캐릭터·카드 등 챕터 독립 데이터 입력용.
+카드 희귀도 등급. 상점 출현 확률과 UI 표시에 사용한다.
 
-```
-입력  : 시트 10개 (CSV 또는 Google Sheets API)
-출력  : chapters.json / stages.json / characters.json / cards.json / monsters.json / story_scenes.json
+**컬럼**
 
-chapters.json    ← Chapter + ActConfig 병합
-stages.json      ← Stage + StageMonster 병합
-characters.json  ← Character
-cards.json       ← Card (effectParams 객체로 조립)
-monsters.json    ← Monster + MonsterAction + BossPhase 병합
-story_scenes.json← StoryScene
-```
+| 컬럼 | 타입 | 설명 |
+|------|------|------|
+| `Name` | `string` | 희귀도 식별자. 예: `common`, `rare`, `epic` |
+| `ID` | `number` | 고유 ID |
+| `titleStringId` | `number` | StringTBL UID (10000~). 희귀도 표시 이름 |
+| `icon` | `string` | 희귀도 아이콘 에셋 키 |
+| `probability` | `number` | 카드 보상 선택지 등장 가중치 (0.0~1.0) |
 
-**병합 순서**
+**참조 관계**
 
-```
-1. ActConfig 행을 chapterId로 그룹화 → acts[] 구성
-2. Chapter 행 + 위 결과 병합 → chapters.json
+- `titleStringId` → `StringTBL_KR.UID`
+- `CardTBL.rarity`에서 참조됨
+- `MapEvent_BattleTBL.cardRarity`에서 참조됨
 
-3. BossPhase 행을 monsterId로 그룹화 → phaseThresholds[] 초안 구성
-4. MonsterAction 행을 monsterId + phase로 그룹화 → actionPattern 구성
-   phase = 1  → Monster.actionPattern
-   phase >= 2 → 해당 PhaseThreshold.actionPattern + transitionAction
-5. Monster 행 + 위 결과 병합 → monsters.json
+**예시**
 
-6. StageMonster 행을 stageId로 그룹화 → Stage.monsters[] 구성
-7. Stage 행 + 위 결과 병합 → stages.json
-```
+| Name | ID | titleStringId | icon | probability |
+|------|----|:-------------:|------|:-----------:|
+| common | 101 | 10301 | icon_rarity_common | 0.60 |
+| rare | 102 | 10302 | icon_rarity_rare | 0.30 |
+| epic | 103 | 10303 | icon_rarity_epic | 0.08 |
+| legendary | 104 | 10304 | icon_rarity_legendary | 0.02 |
+
+---
+
+### CardIntentTBL
+
+적 카드 사용 시 플레이어에게 표시되는 행동 예고(의도) 아이콘 정의.
+
+**컬럼**
+
+| 컬럼 | 타입 | 설명 |
+|------|------|------|
+| `Name` | `string` | 의도 식별자. 예: `intent_attack`, `intent_defend`, `intent_buff` |
+| `ID` | `number` | 고유 ID |
+| `isShow` | `boolean` | UI에 의도 표시 여부. `FALSE`이면 숨김 (기습 공격 등) |
+| `priority` | `number` | 복수 의도 충돌 시 표시 우선순위. 값이 낮을수록 우선 |
+| `titleStringId` | `number` | StringTBL UID (10000~). 의도 이름 |
+| `descStringId` | `number` | StringTBL UID (10000~). 의도 설명 |
+| `icon` | `string` | 의도 아이콘 에셋 키 |
+
+**참조 관계**
+
+- `titleStringId`, `descStringId` → `StringTBL_KR.UID`
+- `CardTBL.intent`에서 참조됨
+
+**예시**
+
+| Name | ID | isShow | priority | titleStringId | descStringId | icon |
+|------|----|:------:|:--------:|:-------------:|:------------:|------|
+| intent_attack | 101 | TRUE | 10 | 10401 | 10402 | icon_intent_attack |
+| intent_attack_heavy | 102 | TRUE | 10 | 10403 | 10404 | icon_intent_attack_heavy |
+| intent_defend | 103 | TRUE | 20 | 10405 | 10406 | icon_intent_defend |
+| intent_buff | 104 | TRUE | 30 | 10407 | 10408 | icon_intent_buff |
+| intent_unknown | 105 | FALSE | 99 | 10409 | 10410 | icon_intent_unknown |
+
+---
+
+### CardTBL
+
+플레이어와 적이 사용하는 카드 전체를 정의한다. `tileRank`와 `upgradedTileRank`는 2048 보드 메커니즘 전용 필드이다.
+
+**컬럼**
+
+| 컬럼 | 타입 | 설명 |
+|------|------|------|
+| `Name` | `string` | 카드 식별자 PK. 예: `kestrel_shield_strike` |
+| `ID` | `number` | 고유 ID |
+| `titleStringId` | `number` | StringTBL UID (200000~). 카드 표시 이름 |
+| `descStringId` | `number` | StringTBL UID (200000~). 카드 설명 |
+| `cardType` | `string` | `Skill` — 발동 후 덱 반환 / `Power` — 영구 패시브 |
+| `team` | `string` | `CardTeamTBL.Name` 참조 |
+| `rarity` | `string` | `CardRarityTBL.Name` 참조 |
+| `mana` | `number` | 발동 마나 비용 |
+| `trait1` | `string?` | `CardTraitTBL.Name` 참조. 첫 번째 특성 |
+| `trait2` | `string?` | `CardTraitTBL.Name` 참조. 두 번째 특성. 공란 가능 |
+| `ability1` | `string` | `CardAbilityTBL.Name` 참조. 주 효과 |
+| `ability2~4` | `string?` | 추가 어빌리티. 공란 가능 |
+| `upgradeMax` | `number` | 최대 강화 횟수 |
+| `upgradeMana` | `number?` | 강화 후 마나 비용. 공란이면 기존 유지 |
+| `shopCost` | `number` | 상점 구매 가격 (골드) |
+| `intent` | `string?` | `CardIntentTBL.Name` 참조. 적 사용 시 표시할 의도 |
+| `tileRank` | `TileRank` | 발동 필요 타일 등급 (A~F). **2048 전용** |
+| `upgradedTileRank` | `TileRank?` | 강화 후 요구 타일 등급. 공란이면 유지. **2048 전용** |
+
+**참조 관계**
+
+- `team` → `CardTeamTBL.Name`
+- `rarity` → `CardRarityTBL.Name`
+- `trait1`, `trait2` → `CardTraitTBL.Name`
+- `ability1~4` → `CardAbilityTBL.Name`
+- `intent` → `CardIntentTBL.Name`
+- `DeckTBL.slot1~10`에서 참조됨
+- `ChampionTBL.rewardCard1`, `rewardCard2`에서 참조됨
+
+**예시**
+
+| Name | ID | titleStringId | cardType | team | rarity | mana | trait1 | ability1 | ability2 | upgradeMax | shopCost | intent | tileRank | upgradedTileRank |
+|------|----|:-------------:|----------|------|--------|:----:|--------|----------|----------|:----------:|:--------:|--------|:--------:|:---------------:|
+| kestrel_shield_strike | 3001 | 200001 | Skill | vanguard | common | 1 | heavy | kestrel_shield_strike | kestrel_rally | 3 | 50 | | C | B |
+| kestrel_iron_wall | 3002 | 200003 | Skill | vanguard | rare | 2 | sentinel | kestrel_iron_wall | | 2 | 80 | | D | C |
+| cipher_vuln_analysis | 3101 | 200011 | Skill | cipher | common | 1 | arcane | cipher_vuln_analysis | | 3 | 50 | | B | A |
+| cipher_data_burst | 3102 | 200013 | Skill | cipher | rare | 2 | arcane | cipher_data_burst | cipher_draw | 2 | 80 | | E | D |
+
+---
+
+## 3. 캐릭터·적
+
+### ChampionTBL
+
+플레이어가 파티에 편성하는 챔피언 캐릭터. 스탯 체계는 HP·Speed·Hand·Energy 4종으로 구성되며, 레벨업 시 `lvUp*` 값만큼 증가한다.
+
+**컬럼**
+
+| 컬럼 | 타입 | 설명 |
+|------|------|------|
+| `Name` | `string` | 챔피언 식별자 PK |
+| `ID` | `number` | 고유 ID |
+| `titleStringId` | `number` | StringTBL UID (260000~). 챔피언 표시 이름 |
+| `hp` | `number` | 초기 최대 체력 |
+| `speed` | `number` | 초기 행동 속도. 낮을수록 먼저 행동 |
+| `hand` | `number` | 초기 손패 최대 장수 |
+| `energy` | `number` | 초기 턴당 최대 에너지 |
+| `lvUpHp` | `number` | 레벨업당 체력 증가량 |
+| `lvUpSpeed` | `number` | 레벨업당 속도 증가량 |
+| `lvUpHand` | `number` | 레벨업당 손패 증가량 |
+| `lvUpEnergy` | `number` | 레벨업당 에너지 증가량 |
+| `team` | `string` | `CardTeamTBL.Name` 참조. 소속 팀 |
+| `startDeck` | `string` | `DeckTBL.Name` 참조. 런 시작 초기 덱 |
+| `rewardCard1` | `string?` | `CardTBL.Name` 참조. 전투 후 보상 카드 후보 1 |
+| `rewardCard2` | `string?` | `CardTBL.Name` 참조. 전투 후 보상 카드 후보 2 |
+
+**참조 관계**
+
+- `titleStringId` → `StringTBL_KR.UID`
+- `team` → `CardTeamTBL.Name`
+- `startDeck` → `DeckTBL.Name`
+- `rewardCard1`, `rewardCard2` → `CardTBL.Name`
+
+**예시**
+
+| Name | ID | titleStringId | hp | speed | hand | energy | lvUpHp | lvUpSpeed | lvUpHand | lvUpEnergy | team | startDeck |
+|------|----|:-------------:|:--:|:-----:|:----:|:------:|:------:|:---------:|:--------:|:----------:|------|-----------|
+| kestrel | 1001 | 260001 | 80 | 3 | 5 | 3 | 8 | 0 | 0 | 1 | vanguard | deck_kestrel_start |
+| cipher | 1002 | 260002 | 60 | 2 | 6 | 4 | 5 | 0 | 1 | 0 | cipher | deck_cipher_start |
+| wanderer | 1003 | 260003 | 70 | 3 | 5 | 3 | 6 | 1 | 0 | 0 | wanderer | deck_wanderer_start |
+
+---
+
+### EnemyTBL
+
+전투에 등장하는 적. 챔피언과 동일한 스탯 구조를 사용하며, `cardDeck`을 통해 행동 카드를 참조한다.
+
+**컬럼**
+
+| 컬럼 | 타입 | 설명 |
+|------|------|------|
+| `Name` | `string` | 적 식별자 PK |
+| `ID` | `number` | 고유 ID |
+| `titleStringId` | `number` | StringTBL UID (261000~). 적 표시 이름 |
+| `hp` | `number` | 최대 체력 |
+| `speed` | `number` | 행동 속도 |
+| `hand` | `number` | 손패 최대 장수 |
+| `energy` | `number` | 턴당 최대 에너지 |
+| `lvUpMax` | `number` | 최대 레벨업 횟수. 전투 이벤트 `enemyLevel`에 따라 적용 |
+| `lvUpHp` | `number` | 레벨업당 체력 증가량 |
+| `lvUpSpeed` | `number` | 레벨업당 속도 증가량 |
+| `lvUpHand` | `number` | 레벨업당 손패 증가량 |
+| `lvUpEnergy` | `number` | 레벨업당 에너지 증가량 |
+| `behavior` | `string` | 행동 AI 패턴 식별자 |
+| `trait1` | `string?` | `CardTraitTBL.Name` 참조. 특성 태그 |
+| `ability1` | `string?` | `CardAbilityTBL.Name` 참조. 고유 패시브 어빌리티 |
+| `cardDeck` | `string` | `DeckTBL.Name` 참조. 행동에 사용하는 카드 덱 |
+| `rewardGold` | `number` | 처치 시 획득 골드 |
+| `rewardXP` | `number` | 처치 시 획득 경험치 |
+| `spawnFx` | `string?` | 전투 등장 연출 키 |
+
+**참조 관계**
+
+- `titleStringId` → `StringTBL_KR.UID`
+- `trait1` → `CardTraitTBL.Name`
+- `ability1` → `CardAbilityTBL.Name`
+- `cardDeck` → `DeckTBL.Name`
+- `MapEvent_BattleTBL.enemy1~4`에서 참조됨
+
+**예시**
+
+| Name | ID | titleStringId | hp | speed | hand | energy | lvUpMax | lvUpHp | behavior | cardDeck | rewardGold | rewardXP |
+|------|----|:-------------:|:--:|:-----:|:----:|:------:|:-------:|:------:|----------|----------|:----------:|:--------:|
+| drone_guard | 2001 | 261001 | 30 | 4 | 3 | 2 | 5 | 5 | ai_aggressive | deck_drone_guard | 10 | 15 |
+| warden_1st | 2101 | 261101 | 120 | 3 | 5 | 4 | 3 | 20 | ai_boss_phase | deck_warden_1st | 50 | 100 |
+
+---
+
+### DeckTBL
+
+챔피언 시작 덱 또는 적 행동 카드 덱을 정의한다. 슬롯은 최대 10개이며, 공란 슬롯은 덱에 포함되지 않는다.
+
+**컬럼**
+
+| 컬럼 | 타입 | 설명 |
+|------|------|------|
+| `Name` | `string` | 덱 식별자 PK |
+| `Type` | `string` | `Champion` — 챔피언 시작 덱 / `Allies` — 아군 지원 덱 |
+| `ID` | `number` | 고유 ID |
+| `slot1~slot10` | `string?` | `CardTBL.Name` 참조. 각 슬롯의 카드. 공란이면 슬롯 없음 |
+
+**참조 관계**
+
+- `slot1~10` → `CardTBL.Name`
+- `ChampionTBL.startDeck`에서 참조됨
+- `EnemyTBL.cardDeck`에서 참조됨
+
+**예시**
+
+| Name | Type | ID | slot1 | slot2 | slot3 | slot4 | slot5 | slot6 |
+|------|------|----|-------|-------|-------|-------|-------|-------|
+| deck_kestrel_start | Champion | 5001 | kestrel_shield_strike | kestrel_shield_strike | kestrel_iron_wall | kestrel_rally | kestrel_basic_atk | |
+| deck_cipher_start | Champion | 5002 | cipher_vuln_analysis | cipher_vuln_analysis | cipher_data_burst | cipher_observe | cipher_basic_atk | |
+| deck_drone_guard | Allies | 6001 | enemy_atk_drone_s12 | enemy_atk_drone_s12 | enemy_buff_drone | | | |
+
+---
+
+## 4. 맵·이벤트
+
+### MapTBL
+
+로그라이크 런에서 생성되는 맵의 구조 파라미터를 정의한다.
+
+**컬럼**
+
+| 컬럼 | 타입 | 설명 |
+|------|------|------|
+| `Name` | `string` | 맵 식별자 PK |
+| `ID` | `number` | 고유 ID |
+| `titleStringId` | `number` | StringTBL UID. 맵 표시 이름 |
+| `depth` | `number` | 맵 세로 깊이 (층 수) |
+| `widthMin` | `number` | 층당 최소 노드 수 |
+| `widthMax` | `number` | 층당 최대 노드 수 |
+| `forkProbability` | `number` | 경로 분기 확률 (0.0~1.0) |
+| `randomEventId` | `string` | `MapRandomEventTBL.Name` 참조 |
+| `fixedEventId` | `string?` | `MapFixedEventTBL.Name` 참조. 공란이면 고정 이벤트 없음 |
+
+**참조 관계**
+
+- `randomEventId` → `MapRandomEventTBL.Name`
+- `fixedEventId` → `MapFixedEventTBL.Name`
+
+**예시**
+
+| Name | ID | depth | widthMin | widthMax | forkProbability | randomEventId | fixedEventId |
+|------|----|:-----:|:--------:|:--------:|:---------------:|---------------|--------------|
+| map_chapter1 | 7001 | 12 | 2 | 4 | 0.35 | random_ch1 | fixed_ch1 |
+| map_chapter1_hard | 7002 | 14 | 3 | 5 | 0.40 | random_ch1_hard | fixed_ch1 |
+
+---
+
+### MapRandomEventTBL
+
+맵 노드에 랜덤 배치될 이벤트 풀을 정의한다. 동일 맵 내에서 같은 이벤트가 중복 배치되지 않도록 풀 방식으로 관리한다.
+
+**컬럼**
+
+| 컬럼 | 타입 | 설명 |
+|------|------|------|
+| `Name` | `string` | 랜덤 이벤트 풀 식별자 |
+| `ID` | `number` | 고유 ID |
+| `selectType` | `string` | 이벤트 유형 레이블. GlobalEnum.MapEventType 참조 |
+| `type` | `string` | 이벤트 유형 enum 값 |
+| `eventId` | `string` | 해당 유형의 이벤트 `Name` 참조 |
+
+**참조 관계**
+
+- `eventId` → 유형에 따라 `MapEvent_BattleTBL`, `MapEvent_ChoiceTBL`, `MapEvent_TradeTBL`, `MapEvent_EffectTBL`, `MapEvent_ShopTBL`, `MapEvent_OtherTBL` 중 하나의 `Name`
+- `MapTBL.randomEventId`에서 참조됨
+
+---
+
+### MapFixedEventTBL
+
+특정 깊이(층)에 고정 배치되는 이벤트를 정의한다. 보스 방이나 중요 이벤트 위치를 강제 고정할 때 사용한다.
+
+**컬럼**
+
+| 컬럼 | 타입 | 설명 |
+|------|------|------|
+| `Name` | `string` | 고정 이벤트 세트 식별자 |
+| `ID` | `number` | 고유 ID |
+| `depth` | `number` | 배치 깊이(층) |
+| `indexMin` | `number` | 배치 가능한 최소 노드 인덱스 |
+| `indexMax` | `number` | 배치 가능한 최대 노드 인덱스 |
+| `eventId` | `string` | 배치할 이벤트 `Name` 참조 |
+
+**참조 관계**
+
+- `eventId` → 유형에 따라 각 `MapEvent_*TBL.Name`
+- `MapTBL.fixedEventId`에서 참조됨
+
+---
+
+### MapEvent_BattleTBL
+
+전투 이벤트. 등장 적 구성, 난이도(enemyLevel), 보상을 정의한다.
+
+**컬럼**
+
+| 컬럼 | 타입 | 설명 |
+|------|------|------|
+| `Name` | `string` | 전투 이벤트 식별자 PK |
+| `ID` | `number` | 고유 ID |
+| `depthMin` | `number` | 등장 가능 최소 깊이 |
+| `depthMax` | `number` | 등장 가능 최대 깊이 |
+| `enemyLevel` | `number` | 적 레벨 오프셋. `EnemyTBL.lvUpMax` 범위 내 |
+| `enemy1~4` | `string?` | `EnemyTBL.Name` 참조. 등장 적. 공란이면 해당 슬롯 없음 |
+| `extraEnemy` | `string?` | `ExtraEnemyTBL.Name` 참조. 조건부 추가 적 |
+| `rewardGold` | `number` | 클리어 시 추가 골드 (적 처치 보상과 별개) |
+| `rewardXP` | `number` | 클리어 시 경험치 |
+| `isRewardCards` | `boolean` | 카드 보상 제공 여부 |
+| `cardRarity` | `string?` | `CardRarityTBL.Name` 참조. 카드 보상 희귀도 필터 |
+| `winEvent` | `string?` | 승리 시 연계 발동할 이벤트 `Name` |
+
+**참조 관계**
+
+- `enemy1~4` → `EnemyTBL.Name`
+- `extraEnemy` → `ExtraEnemyTBL.Name`
+- `cardRarity` → `CardRarityTBL.Name`
+
+**예시**
+
+| Name | ID | depthMin | depthMax | enemyLevel | enemy1 | enemy2 | rewardGold | rewardXP | isRewardCards | cardRarity |
+|------|----|:--------:|:--------:|:----------:|--------|--------|:----------:|:--------:|:-------------:|------------|
+| battle_ch1_normal_1 | 8001 | 1 | 4 | 0 | drone_guard | drone_guard | 5 | 20 | TRUE | common |
+| battle_ch1_elite_1 | 8011 | 5 | 9 | 1 | drone_guard | drone_guard | 15 | 40 | TRUE | rare |
+| battle_ch1_boss | 8021 | 10 | 12 | 0 | warden_1st | | 30 | 80 | TRUE | epic |
+
+---
+
+### MapEvent_ChoiceTBL
+
+플레이어가 선택지를 고르는 이벤트. 선택에 따라 `MapEvent_EffectTBL`이나 다른 이벤트가 연계된다.
+
+**컬럼**
+
+| 컬럼 | 타입 | 설명 |
+|------|------|------|
+| `Name` | `string` | 선택지 이벤트 식별자 |
+| `ID` | `number` | 고유 ID |
+| `depthMin` | `number` | 등장 가능 최소 깊이 |
+| `depthMax` | `number` | 등장 가능 최대 깊이 |
+| `descStringId` | `number` | StringTBL UID (270000~). 이벤트 설명 |
+| `choice1Title` | `string` | 선택지 1 제목 |
+| `choice1Desc` | `string?` | 선택지 1 설명 |
+| `choice1Effect` | `string` | 선택지 1 발동 효과. `MapEvent_EffectTBL.Name` 참조 |
+| `choice2~4Title/Desc/Effect` | `string?` | 선택지 2~4. 공란이면 해당 선택지 없음 |
+
+**참조 관계**
+
+- `descStringId` → `StringTBL_KR.UID`
+- `choice*Effect` → `MapEvent_EffectTBL.Name`
+
+**예시**
+
+| Name | ID | depthMin | depthMax | descStringId | choice1Title | choice1Effect | choice2Title | choice2Effect |
+|------|----|:--------:|:--------:|:------------:|--------------|---------------|--------------|---------------|
+| choice_ruin_box | 9001 | 1 | 12 | 270001 | 열어본다 | effect_ruin_box_open | 그냥 지나친다 | effect_nothing |
+
+---
+
+### MapEvent_TradeTBL
+
+골드나 체력을 소비하고 이득을 얻는 교역 이벤트.
+
+**컬럼**
+
+| 컬럼 | 타입 | 설명 |
+|------|------|------|
+| `Name` | `string` | 교역 이벤트 식별자 |
+| `ID` | `number` | 고유 ID |
+| `selectEventTarget` | `string` | 대상 레이블 |
+| `eventTarget` | `string` | 이벤트 대상 식별자 |
+| `spendGold` | `number` | 소비 골드. `0`이면 없음 |
+| `spendHp` | `number` | 소비 체력. `0`이면 없음 |
+| `gainGold` | `number` | 획득 골드 |
+| `gainXp` | `number` | 획득 경험치 |
+| `gainHeal` | `number` | 회복량. `0`이면 없음 |
+| `descStringId` | `number` | StringTBL UID (270000~). 이벤트 설명 |
+
+**예시**
+
+| Name | ID | spendGold | spendHp | gainGold | gainXp | gainHeal | descStringId |
+|------|----|:---------:|:-------:|:--------:|:------:|:--------:|:------------:|
+| trade_gold_for_heal | 9101 | 20 | 0 | 0 | 0 | 15 | 270101 |
+| trade_hp_for_gold | 9102 | 0 | 10 | 25 | 0 | 0 | 270102 |
+
+---
+
+### MapEvent_EffectTBL
+
+직접적인 효과를 발동하는 이벤트 단위. 다른 이벤트의 결과로 연계 호출되는 경우가 많다.
+
+**컬럼**
+
+| 컬럼 | 타입 | 설명 |
+|------|------|------|
+| `Name` | `string` | 효과 이벤트 식별자 |
+| `ID` | `number` | 고유 ID |
+| `selectEventTarget` | `string` | 대상 레이블 |
+| `eventTarget` | `string` | 이벤트 대상 식별자 |
+| `effect1` | `string?` | 주 효과 |
+| `effect2` | `string?` | 보조 효과 |
+| `value` | `number?` | 효과 수치 |
+| `chainEventId` | `string?` | 연쇄 발동할 이벤트 `Name` |
+| `descStringId` | `number?` | StringTBL UID (270000~). 결과 설명 텍스트 |
+
+---
+
+### MapEvent_OtherTBL
+
+전투·선택지·교역에 해당하지 않는 특수 이벤트 (보물 상자, 세계 상태 변경 등).
+
+**컬럼**
+
+| 컬럼 | 타입 | 설명 |
+|------|------|------|
+| `Name` | `string` | 이벤트 식별자 |
+| `ID` | `number` | 고유 ID |
+| `selectType` | `string` | 이벤트 유형 레이블. GlobalEnum.MapEventType 참조 |
+| `eventType` | `string` | 이벤트 유형 enum 값 |
+| `icon` | `string` | 노드 표시 아이콘 에셋 키 |
+| `rarity` | `string?` | 희귀도. 이벤트 보상 등급에 영향 |
+| `worldState` | `string?` | GlobalEnum.WorldState 참조. 이벤트 출현 조건 플래그 |
+
+---
+
+### MapEvent_ShopTBL
+
+상점 이벤트. 카드와 아이템 구매가 가능한 상점 노드를 정의한다.
+
+**컬럼**
+
+| 컬럼 | 타입 | 설명 |
+|------|------|------|
+| `Name` | `string` | 상점 이벤트 식별자 |
+| `ID` | `number` | 고유 ID |
+| `depthMin` | `number` | 등장 가능 최소 깊이 |
+| `depthMax` | `number` | 등장 가능 최대 깊이 |
+| `buyMult` | `number` | 구매 가격 배율. 기본값 `1.0` |
+| `sellyMult` | `number` | 판매 가격 배율. 기본값 `0.5` |
+| `cardsRand` | `number` | 상점에 진열되는 카드 수 (랜덤 선택) |
+| `itemsRand` | `number` | 상점에 진열되는 아이템 수 (랜덤 선택) |
+
+---
+
+### ExtraEnemyTBL
+
+전투 이벤트에서 조건부로 추가 등장하는 적 세트. 파티 규모(챔피언 수)에 따라 적 수를 조절할 때 사용한다.
+
+**컬럼**
+
+| 컬럼 | 타입 | 설명 |
+|------|------|------|
+| `Name` | `string` | 추가 적 세트 식별자 |
+| `ID` | `number` | 고유 ID |
+| `championMin` | `number` | 이 세트가 등장하는 최소 파티 챔피언 수 |
+| `enemy1~4` | `string?` | `EnemyTBL.Name` 참조. 추가 등장 적 |
+
+**참조 관계**
+
+- `enemy1~4` → `EnemyTBL.Name`
+- `MapEvent_BattleTBL.extraEnemy`에서 참조됨
+
+---
+
+## 5. 공통
+
+### GlobalEnum
+
+코드와 시트 간의 숫자 enum 값을 단일 테이블로 관리한다. 모든 `select*` 컬럼의 레이블과 실제 enum 숫자값이 이 시트에서 정의된다.
+
+**컬럼**
+
+| 컬럼 | 타입 | 설명 |
+|------|------|------|
+| `group` | `string` | enum 그룹. 예: `TileRank`, `AbilityTrigger` |
+| `id` | `number` | 숫자 enum 값 |
+| `enum` | `string` | enum 레이블. 예: `OnPlay`, `Vulnerable` |
+| `desc` | `string` | 설명 |
+
+**참조 관계**
+
+- 참조를 받는 방향. 모든 시트의 `select*` 컬럼이 이 시트를 참조함
+- 직접 외래키 제약은 없으나, 빌드 시 검증 단계에서 값 일치 여부 확인
+
+**주요 그룹 요약**
+
+| group | 주요 값 |
+|-------|---------|
+| `TileRank` | `A=2, B=4, C=8, D=16, E=32, F=64` |
+| `AbilityTrigger` | `None=0, Passive=2, OnPlay=10, StartOfTurn=20, EndOfTurn=22, OnTileMerge=30, OnDamaged=42` |
+| `AbilityTarget` | `None=0, CharacterSelf=4, AllCharacters=7, PlayTarget=20, AllEnemies=25, RandomEnemy=26` |
+| `StatusEffect` | `AttackPower=10, Armor=15, Stunned=20, Vulnerable=32, Blind=35, Poisoned=40, Bleed=44, SlowDown=70` |
+| `StatusDuration` | `Persistant=0, OneTurn=2, AutoReduce=10` |
+| `CardType` | `Skill=1, Power=2` |
+| `MapEventType` | `Battle=1, Choice=2, Trade=3, Effect=4, Shop=5, Other=9` |
+| `WorldState` | 런 진행 상황·해금 조건 플래그 (값은 런타임 조건에 따라 확장) |
+
+**예시**
+
+| group | id | enum | desc |
+|-------|----|------|------|
+| TileRank | 2 | A | 2048 보드 타일 숫자 2 |
+| TileRank | 4 | B | 2048 보드 타일 숫자 4 |
+| TileRank | 8 | C | 2048 보드 타일 숫자 8 |
+| TileRank | 16 | D | 2048 보드 타일 숫자 16 |
+| TileRank | 32 | E | 2048 보드 타일 숫자 32 |
+| TileRank | 64 | F | 2048 보드 타일 숫자 64 |
+| AbilityTrigger | 10 | OnPlay | 카드가 손패에서 발동될 때 |
+| AbilityTrigger | 20 | StartOfTurn | 턴 시작 시 |
+| AbilityTrigger | 30 | OnTileMerge | 보드에서 타일이 병합될 때 |
+| AbilityTarget | 20 | PlayTarget | 플레이어가 선택한 대상 |
+| AbilityTarget | 7 | AllCharacters | 전체 캐릭터 (아군+적군) |
+| StatusEffect | 32 | Vulnerable | 취약 상태. 받는 피해 증가 |
+| StatusDuration | 10 | AutoReduce | 매 턴 스택 1 감소 |
+| MapEventType | 1 | Battle | 전투 이벤트 |
+| MapEventType | 2 | Choice | 선택지 이벤트 |
