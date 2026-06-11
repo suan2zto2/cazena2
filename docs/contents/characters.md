@@ -2,7 +2,7 @@
 
 <small style="color:#7070a0;font-family:'Roboto Mono',monospace;background:rgba(255,255,255,0.05);padding:2px 12px;border-radius:20px;border:1px solid rgba(255,255,255,0.08);">📄 docs/contents/characters.md</small>
 
-> 5명의 동료와 위버(플레이어)로 구성. 전투 시 위버 + 3인 파티를 편성한다.
+> 5명의 동료와 위버(플레이어)로 구성. 전투 시 1인을 선택하여 진행한다.
 
 ---
 
@@ -135,7 +135,7 @@
 
 ## 파티 구성
 
-전투 시 위버 + 동료 3인을 편성한다. 5인의 역할 분포:
+전투 시 1인을 선택하여 진행한다. 5인의 역할 분포:
 
 | 역할 | 캐릭터 | 핵심 기능 |
 |------|--------|-----------|

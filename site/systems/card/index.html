@@ -1999,7 +1999,7 @@
 </tbody>
 </table>
 <h3 id="3-4">3-4. 전투 시작 초기화 순서</h3>
-<div class="highlight"><pre><span></span><code>1. 출전 캐릭터(최대 3인)의 카드를 전부 수집
+<div class="highlight"><pre><span></span><code>1. 출전 캐릭터의 카드를 전부 수집
 2. 수집된 카드 전체를 waitDeck에 배치
 3. waitDeck을 무작위 순서로 셔플
 4. waitDeck에서 최대 5장 드로우 → hand에 배치
@@ -2141,15 +2141,7 @@
 - <strong>(b)</strong> <code>effectiveTriggerNumber</code> 오름차순 (낮은 숫자 먼저)<br />
 - <strong>(c)</strong> <code>effectiveTriggerNumber</code> 내림차순 (높은 숫자 먼저)<br />
 - <strong>(d)</strong> 플레이어가 실행 순서를 직접 지정  </p>
-<p>파티 연계 발동(§5-5)의 판정이 실행 순서에 의존하므로, B-1과 연계 판정 시점(미결 B-6)을 함께 결정해야 합니다.</p>
-</blockquote>
-<p>효과 실행 중 팀 체력이 0이 되어도 현재 카드의 효과는 완전히 적용된 후 전투 결과를 판정한다.</p>
-<p><strong>파티 연계 발동 판정:</strong></p>
-<blockquote>
-<p><strong>[미결 B-6]</strong> 연계 판정 시점이 확정되지 않았습니다.<br />
-- <strong>(a)</strong> 카드 효과를 순차 실행하면서 직전 카드와 현재 카드의 소유 캐릭터가 다르면 연계로 판정<br />
-- <strong>(b)</strong> 플레이어가 카드 실행 순서를 지정한 시점에 미리 연계 여부를 계산  </p>
-<p>연계 보너스 수치는 미결 B-5 참고. 연계 발동 규칙 상세는 <code>docs/systems/party.md</code> (작성 예정)에서 다룬다.</p>
+<p>효과 실행 중 캐릭터 체력이 0이 되어도 현재 카드의 효과는 완전히 적용된 후 전투 결과를 판정한다.</p>
 </blockquote>
 <h3 id="5-5">5-5. 미매칭 카드 처리</h3>
 <p>매칭에 실패한 카드(보드에 해당 타일 없음)는 효과를 발동하지 않는다. 이 카드들은 매칭된 카드와 함께 핸드 교체 시 소모덱으로 이동한다.</p>
@@ -2234,11 +2226,6 @@
 <td>전투 시스템</td>
 <td>액션 버튼 처리 전체 순서, 적 카운트 감소 타이밍</td>
 <td><a href="../combat/">combat.md</a> (작성 예정)</td>
-</tr>
-<tr>
-<td>파티 연계 시스템</td>
-<td>연계 발동 조건, 연계 보너스 규칙</td>
-<td><a href="party.md">party.md</a> (작성 예정)</td>
 </tr>
 <tr>
 <td>성장 시스템</td>

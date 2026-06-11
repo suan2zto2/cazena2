@@ -1,6 +1,6 @@
 // ─── 구글 시트 → JSON 변환 (브라우저 전용) ───────────────────────────────────
 // 시트가 "링크가 있는 사람 모두 보기"로 공개되어 있어야 동작합니다.
-// gviz CSV: 복수 헤더 행(한글/설명/영문)을 한 줄로 합산 → "한글명 설명 EnglishKey"
+// gviz CSV: 복수 헤더 행(한글/영문)을 한 줄로 합산 → "한글명 EnglishKey"
 //           마지막 토큰이 항상 영문 컬럼명이므로 그것만 추출해 헤더로 사용
 
 const SPREADSHEET_ID = '1SRpzgAzrPeH7GlxGkBo3hs83RiYDknOo3uXKJkeRubM';
@@ -36,7 +36,7 @@ function parseCSV(csvText) {
   const lines = csvText.replace(/\r/g, '').trim().split('\n');
   // line 0 = gviz 결합 헤더,  line 1+ = 데이터
   const rawHeaders = parseCSVLine(lines[0]);
-  // 중복 헤더 처리 (예: CardAbilityTBL의 T_conditions_1/2/3)
+  // 중복 헤더 처리 (ExtraEnemyTBL의 ChampionMin/Enemy1~4 등)
   const count = {};
   const headers = rawHeaders.map(h => {
     const key = extractKey(h);
@@ -52,7 +52,7 @@ function parseCSV(csvText) {
 }
 
 async function fetchSheet(name) {
-  const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(name)}`;
+  const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:csv&headers=3&sheet=${encodeURIComponent(name)}`;
   const res = await fetch(url, { credentials: 'omit' });
   if (!res.ok) throw new Error(`"${name}" 시트 로드 실패 (${res.status}). 시트가 공개 설정인지 확인하세요.`);
   return parseCSV(await res.text());
@@ -67,190 +67,189 @@ const opt  = (v, fn) => (v !== undefined && String(v).trim() !== '') ? fn(v) : {
 // ── 변환 함수 ────────────────────────────────────────────────────────────────
 
 function buildStrings(rows) {
-  return rows.map(r => ({ uid: num(r.UID), kr: r.KR }));
+  return rows.map(r => ({ UID: num(r.UID), KR: r.KR }));
 }
 
 function buildTraits(rows) {
   return rows.map(r => ({
-    id: r.ID, titleStringId: num(r.TitleStringID), descStringId: num(r.DescStringID), icon: r.Icon,
+    ID: r.ID, TitleStringID: num(r.TitleStringID), DescStringID: num(r.DescStringID), Icon: r.Icon,
   }));
 }
 
 function buildTeams(rows) {
   return rows.map(r => ({
-    id: r.ID, titleStringId: num(r.TitleStringID), icon: r.Icon, color: r.Color,
+    ID: r.ID, TitleStringID: num(r.TitleStringID), Icon: r.Icon, Color: r.Color,
   }));
 }
 
 function buildRarities(rows) {
   return rows.map(r => ({
-    id: r.ID, titleStringId: num(r.TitleStringID), icon: r.Icon, probability: num(r.Probability),
+    ID: r.ID, TitleStringID: num(r.TitleStringID), Icon: r.Icon, Probability: num(r.Probability),
   }));
 }
 
 function buildIntents(rows) {
   return rows.map(r => ({
-    id: r.ID, isShow: bool(r.IsShow), priority: num(r.Priority),
-    titleStringId: num(r.TitleStringID), descStringId: num(r.DescStringID), icon: r.Icon,
+    ID: r.ID, IsShow: bool(r.IsShow), Priority: num(r.Priority),
+    TitleStringID: num(r.TitleStringID), DescStringID: num(r.DescStringID), Icon: r.Icon,
   }));
 }
 
 function buildAbilities(rows) {
-  // T_conditions_1/2/3 중복: 첫 번째=트리거 조건, 두 번째(_2)=대상 조건
   return rows.map(r => ({
-    type: r.Type, id: r.ID,
-    selectTrigger: r.selectTtrigger, trigger: num(r.trigger),
-    ...opt(r.T_conditions_1,   v => ({ trigCond1: v })),
-    ...opt(r.T_conditions_2,   v => ({ trigCond2: v })),
-    ...opt(r.T_conditions_3,   v => ({ trigCond3: v })),
-    selectTarget: r.selectTarget, target: num(r.Target),
-    ...opt(r.T_conditions_1_2, v => ({ tgtCond1: v })),
-    ...opt(r.T_conditions_2_2, v => ({ tgtCond2: v })),
-    ...opt(r.T_conditions_3_2, v => ({ tgtCond3: v })),
-    ...opt(r.Effect1,          v => ({ effect1: v })),
-    ...opt(r.Effect2,          v => ({ effect2: v })),
-    ...opt(r.Status1,          v => ({ status1: v })),
-    ...opt(r.Status2,          v => ({ status2: v })),
-    ...opt(r.EffectValue,      v => ({ effectValue: num(v) })),
-    ...opt(r.UpgradeValue,     v => ({ upgradeValue: num(v) })),
-    ...opt(r.SelectUpBonus,    v => ({ selectUpBonus: v })),
-    ...opt(r.UpgradeBonus,     v => ({ upgradeBonus: num(v) })),
-    ...opt(r.Chain_Ability,    v => ({ chainAbility: v })),
-    ...opt(r.Target_Fx,        v => ({ targetFx: v })),
+    Type: r.Type, ID: r.ID,
+    SelectTrigger: r.SelectTrigger, Trigger: num(r.Trigger),
+    ...opt(r.TrigCond1, v => ({ TrigCond1: v })),
+    ...opt(r.TrigCond2, v => ({ TrigCond2: v })),
+    ...opt(r.TrigCond3, v => ({ TrigCond3: v })),
+    SelectTarget: r.SelectTarget, Target: num(r.Target),
+    ...opt(r.TgtCond1,  v => ({ TgtCond1: v })),
+    ...opt(r.TgtCond2,  v => ({ TgtCond2: v })),
+    ...opt(r.TgtCond3,  v => ({ TgtCond3: v })),
+    ...opt(r.Effect1,       v => ({ Effect1: v })),
+    ...opt(r.Effect2,       v => ({ Effect2: v })),
+    ...opt(r.Status1,       v => ({ Status1: v })),
+    ...opt(r.Status2,       v => ({ Status2: v })),
+    ...opt(r.EffectValue,   v => ({ EffectValue: num(v) })),
+    ...opt(r.UpgradeValue,  v => ({ UpgradeValue: num(v) })),
+    ...opt(r.SelectUpBonus, v => ({ SelectUpBonus: v })),
+    ...opt(r.UpgradeBonus,  v => ({ UpgradeBonus: num(v) })),
+    ...opt(r.ChainAbility,  v => ({ ChainAbility: v })),
+    ...opt(r.TargetFx,      v => ({ TargetFx: v })),
   }));
 }
 
 function buildStatuses(rows) {
   return rows.map(r => ({
-    id: r.ID,
-    selectEffect: r.selectEffect, statusEffect: num(r.StatusEffect),
-    selectDuration: r.selectDuration, statusDuration: num(r.StatusDuration),
-    isNegative: bool(r.IsNegative),
-    titleStringId: num(r.TitleStringID), descStringId: num(r.DescStringID),
-    icon: r.Icon,
-    ...opt(r.Fx,        v => ({ fx: v })),
-    ...opt(r.Animation, v => ({ animation: v })),
+    ID: r.ID,
+    SelectEffect: r.SelectEffect, StatusEffect: num(r.StatusEffect),
+    SelectDuration: r.SelectDuration, StatusDuration: num(r.StatusDuration),
+    IsNegative: bool(r.IsNegative),
+    TitleStringID: num(r.TitleStringID), DescStringID: num(r.DescStringID),
+    Icon: r.Icon,
+    ...opt(r.Fx,        v => ({ Fx: v })),
+    ...opt(r.Animation, v => ({ Animation: v })),
   }));
 }
 
 function buildCards(rows) {
   return rows.map(r => ({
-    type: r.Type, id: r.ID,
-    titleStringId: num(r.TitleStringID), descStringId: num(r.DescStringID),
-    artIcon: r.ArtIcon, artFull: r.ArtFull,
-    cardType: num(r.CardType), itemType: num(r.ItemType),
-    team: r.Team, rarity: r.Rarity, mana: num(r.Mana),
-    ...opt(r.Trait1,    v => ({ trait1: v })),
-    ...opt(r.Trait2,    v => ({ trait2: v })),
-    ...opt(r.Ability1,  v => ({ ability1: v })),
-    ...opt(r.Ability2,  v => ({ ability2: v })),
-    ...opt(r.Ability3,  v => ({ ability3: v })),
-    ...opt(r.Ability4,  v => ({ ability4: v })),
-    upgradeMax: num(r.UpgradeMax), upgradeMana: num(r.UpgradeMana), shopCost: num(r.ShopCost),
-    ...opt(r.Intent,    v => ({ intent: v })),
-    ...opt(r.SpawnFx,   v => ({ spawnFx: v })),
-    ...opt(r.SpawnAudio,v => ({ spawnAudio: v })),
-    casterAnim: r.CasterAnim,
-    ...opt(r.TargetAnim,v => ({ targetAnim: v })),
-    availability: num(r.Availability),
+    Type: r.Type, ID: r.ID,
+    TitleStringID: num(r.TitleStringID), DescStringID: num(r.DescStringID),
+    ArtIcon: r.ArtIcon, ArtFull: r.ArtFull,
+    CardType: num(r.CardType), ItemType: num(r.ItemType),
+    Team: r.Team, Rarity: r.Rarity, Mana: num(r.Mana),
+    ...opt(r.Trait1,    v => ({ Trait1: v })),
+    ...opt(r.Trait2,    v => ({ Trait2: v })),
+    ...opt(r.Ability1,  v => ({ Ability1: v })),
+    ...opt(r.Ability2,  v => ({ Ability2: v })),
+    ...opt(r.Ability3,  v => ({ Ability3: v })),
+    ...opt(r.Ability4,  v => ({ Ability4: v })),
+    UpgradeMax: num(r.UpgradeMax), UpgradeMana: num(r.UpgradeMana), ShopCost: num(r.ShopCost),
+    ...opt(r.Intent,    v => ({ Intent: v })),
+    ...opt(r.SpawnFx,   v => ({ SpawnFx: v })),
+    ...opt(r.SpawnAudio,v => ({ SpawnAudio: v })),
+    CasterAnim: r.CasterAnim,
+    ...opt(r.TargetAnim,v => ({ TargetAnim: v })),
+    Availability: num(r.Availability),
   }));
 }
 
 function buildChampions(rows) {
   return rows.map(r => ({
-    id: r.ID, titleStringId: num(r.TitleStringID),
-    artFull: r.ArtFull, artPortrait: r.ArtPortrait, prefab: r.Prefab,
-    hp: num(r.HP), speed: num(r.Speed), hand: num(r.Hand), energy: num(r.Energy),
-    lvUpHp: num(r.LvUp_HP), lvUpSpeed: num(r.LvUp_Speed), lvUpHand: num(r.LvUp_Hand), lvUpEnergy: num(r.LvUp_Energy),
-    team: r.Team, startDeck: r.StartDeck,
-    ...opt(r.Reward_Card1, v => ({ rewardCard1: v })),
-    ...opt(r.Reward_Card2, v => ({ rewardCard2: v })),
+    ID: r.ID, TitleStringID: num(r.TitleStringID),
+    ArtFull: r.ArtFull, ArtPortrait: r.ArtPortrait, Prefab: r.Prefab,
+    HP: num(r.HP), Speed: num(r.Speed), Hand: num(r.Hand), Energy: num(r.Energy),
+    LvUpHP: num(r.LvUpHP), LvUpSpeed: num(r.LvUpSpeed), LvUpHand: num(r.LvUpHand), LvUpEnergy: num(r.LvUpEnergy),
+    Team: r.Team, StartDeck: r.StartDeck,
+    ...opt(r.RewardCard1, v => ({ RewardCard1: v })),
+    ...opt(r.RewardCard2, v => ({ RewardCard2: v })),
   }));
 }
 
 function buildEnemies(rows) {
   return rows.map(r => ({
-    id: r.ID, titleStringId: num(r.TitleStringID),
-    artFull: r.ArtFull, artPortrait: r.ArtPortrait, prefab: r.Prefab,
-    hp: num(r.HP), speed: num(r.Speed), hand: num(r.Hand), energy: num(r.Energy),
-    lvUpMax: num(r.LvUp_Max), lvUpHp: num(r.LvUp_HP), lvUpSpeed: num(r.LvUp_Speed),
-    lvUpHand: num(r.LvUp_Hand), lvUpEnergy: num(r.LvUp_Energy),
-    behavior: r.Behavior,
-    ...opt(r.Trait1,   v => ({ trait1: v })),
-    ...opt(r.Ability1, v => ({ ability1: v })),
-    cardDeck: r.CardDeck, rewardGold: num(r.Reward_Gold), rewardXP: num(r.Reward_XP),
-    ...opt(r.Spawn_Fx, v => ({ spawnFx: v })),
+    ID: r.ID, TitleStringID: num(r.TitleStringID),
+    ArtFull: r.ArtFull, ArtPortrait: r.ArtPortrait, Prefab: r.Prefab,
+    HP: num(r.HP), Speed: num(r.Speed), Hand: num(r.Hand), Energy: num(r.Energy),
+    LvUpMax: num(r.LvUpMax), LvUpHP: num(r.LvUpHP), LvUpSpeed: num(r.LvUpSpeed),
+    LvUpHand: num(r.LvUpHand), LvUpEnergy: num(r.LvUpEnergy),
+    Behavior: r.Behavior,
+    ...opt(r.Trait1,   v => ({ Trait1: v })),
+    ...opt(r.Ability1, v => ({ Ability1: v })),
+    CardDeck: r.CardDeck, RewardGold: num(r.RewardGold), RewardXP: num(r.RewardXP),
+    ...opt(r.SpawnFx,  v => ({ SpawnFx: v })),
   }));
 }
 
 function buildDecks(rows) {
   return rows.map(r => ({
-    type: r.Type, id: r.ID,
-    slots: [r.slot1,r.slot2,r.slot3,r.slot4,r.slot5,r.slot6,r.slot7,r.slot8,r.slot9,r.slot10]
+    Type: r.Type, ID: r.ID,
+    Slots: [r.Slot1,r.Slot2,r.Slot3,r.Slot4,r.Slot5,r.Slot6,r.Slot7,r.Slot8,r.Slot9,r.Slot10]
       .filter(s => s !== ''),
   }));
 }
 
 function buildMaps(rows) {
   return rows.map(r => ({
-    id: r.ID, titleStringId: num(r.TitleStringID),
-    mapScene: r.MapScene, battleScene: r.BattleScene,
-    depth: num(r.Depth), widthMin: num(r.Width_min), widthMax: num(r.Width_max),
-    forkProbability: num(r.Fork_probability),
-    randomEventId: r.RandomEventID,
-    ...opt(r.FixedWidthID,  v => ({ fixedWidthId: v })),
-    ...opt(r.FixedEventID,  v => ({ fixedEventId: v })),
-    ...opt(r.Map_tutorial,  v => ({ mapTutorial: v })),
+    ID: r.ID, TitleStringID: num(r.TitleStringID),
+    MapScene: r.MapScene, BattleScene: r.BattleScene,
+    Depth: num(r.Depth), WidthMin: num(r.WidthMin), WidthMax: num(r.WidthMax),
+    ForkProbability: num(r.ForkProbability),
+    RandomEventID: r.RandomEventID,
+    ...opt(r.FixedWidthID,  v => ({ FixedWidthID: v })),
+    ...opt(r.FixedEventID,  v => ({ FixedEventID: v })),
+    ...opt(r.MapTutorial,   v => ({ MapTutorial: v })),
   }));
 }
 
 function buildMapRandomEvents(rows) {
   return rows.map(r => ({
-    id: r.ID, selectType: r.Select_type, type: num(r.Type), eventId: r.EventID,
+    ID: r.ID, SelectType: r.SelectType, Type: num(r.Type), EventID: r.EventID,
   }));
 }
 
 function buildMapFixedWidth(rows) {
   return rows.map(r => ({
-    id: r.ID,
-    depths: [1,2,3,4,5,6,7,8,9,10,11,12].map(i => num(r[`Depth${i}`])),
+    ID: r.ID,
+    Depths: [1,2,3,4,5,6,7,8,9,10,11,12].map(i => num(r[`Depth${i}`])),
   }));
 }
 
 function buildMapFixedEvents(rows) {
   return rows.map(r => ({
-    id: r.ID, depth: num(r.Depth), indexMin: num(r.Index_min), indexMax: num(r.Index_max), eventId: r.EventID,
+    ID: r.ID, Depth: num(r.Depth), IndexMin: num(r.IndexMin), IndexMax: num(r.IndexMax), EventID: r.EventID,
   }));
 }
 
 function buildBattleEvents(rows) {
   return rows.map(r => ({
-    id: r.ID, depthMin: num(r.Depth_Min), depthMax: num(r.Depth_Max),
-    icon: r.Icon, enemyLevel: num(r.EnemyLevel),
-    enemies: [r.Enemy1,r.Enemy2,r.Enemy3,r.Enemy4].filter(e => e !== ''),
-    ...opt(r.ExtraEnemy,  v => ({ extraEnemy: v })),
-    rewardGold: num(r.RewardGold), rewardXP: num(r.RewardXP),
-    isRewardCards: bool(r.IsRewardCards),
-    ...opt(r.CardRarity,  v => ({ cardRarity: v })),
-    isRewardItem: bool(r.IsRewardItem),
-    ...opt(r.ItemRarity,  v => ({ itemRarity: v })),
-    ...opt(r.ItemTeam,    v => ({ itemTeam: v })),
-    ...opt(r.Tutorial,    v => ({ tutorial: v })),
-    ...opt(r.Win_Event,   v => ({ winEvent: v })),
+    ID: r.ID, DepthMin: num(r.DepthMin), DepthMax: num(r.DepthMax),
+    Icon: r.Icon, EnemyLevel: num(r.EnemyLevel),
+    Enemies: [r.Enemy1,r.Enemy2,r.Enemy3,r.Enemy4].filter(e => e !== ''),
+    ...opt(r.ExtraEnemy,   v => ({ ExtraEnemy: v })),
+    RewardGold: num(r.RewardGold), RewardXP: num(r.RewardXP),
+    IsRewardCards: bool(r.IsRewardCards),
+    ...opt(r.CardRarity,   v => ({ CardRarity: v })),
+    IsRewardItem: bool(r.IsRewardItem),
+    ...opt(r.ItemRarity,   v => ({ ItemRarity: v })),
+    ...opt(r.ItemTeam,     v => ({ ItemTeam: v })),
+    ...opt(r.Tutorial,     v => ({ Tutorial: v })),
+    ...opt(r.WinEvent,     v => ({ WinEvent: v })),
   }));
 }
 
 function buildExtraEnemies(rows) {
-  // Champion_Min·Enemy1~4 세트가 2쌍 → 중복 헤더 _2 접미사
+  // ChampionMin·Enemy1~4 세트가 2쌍 → 중복 헤더 _2 접미사
   return rows.map(r => ({
-    id: r.ID,
-    cond1: {
-      championMin: num(r.Champion_Min),
-      enemies: [r.Enemy1,r.Enemy2,r.Enemy3,r.Enemy4].filter(e => e !== ''),
+    ID: r.ID,
+    Cond1: {
+      ChampionMin: num(r.ChampionMin),
+      Enemies: [r.Enemy1,r.Enemy2,r.Enemy3,r.Enemy4].filter(e => e !== ''),
     },
-    cond2: {
-      championMin: num(r.Champion_Min_2),
-      enemies: [r.Enemy1_2,r.Enemy2_2,r.Enemy3_2,r.Enemy4_2].filter(e => e !== ''),
+    Cond2: {
+      ChampionMin: num(r.ChampionMin_2),
+      Enemies: [r.Enemy1_2,r.Enemy2_2,r.Enemy3_2,r.Enemy4_2].filter(e => e !== ''),
     },
   }));
 }
@@ -259,60 +258,60 @@ function buildChoiceEvents(rows) {
   return rows.map(r => {
     const choices = [];
     for (let i = 1; i <= 4; i++) {
-      const effect = r[`Choise${i}_Effect`];
+      const effect = r[`Choice${i}Effect`];
       if (effect && effect !== '') {
-        choices.push({ title: r[`Choise${i}_Title`], desc: r[`Choise${i}_Desc`], effect });
+        choices.push({ TitleStringID: num(r[`Choice${i}Title`]), DescStringID: num(r[`Choice${i}Desc`]), EffectID: effect });
       }
     }
     return {
-      id: r.ID, depthMin: num(r.Depth_Min), depthMax: num(r.Depth_Max),
-      icon: r.Icon, descStringId: num(r.DescStringID), choices,
+      ID: r.ID, DepthMin: num(r.DepthMin), DepthMax: num(r.DepthMax),
+      Icon: r.Icon, DescStringID: num(r.DescStringID), Choices: choices,
     };
   });
 }
 
 function buildTradeEvents(rows) {
   return rows.map(r => ({
-    id: r.ID, icon: r.Icon,
-    selectEventTarget: r.SelectEventTarget, eventTarget: num(r.EventTarget),
-    ...opt(r.SpendItem, v => ({ spendItem: v })),
-    spendGold: num(r.SpendGold), spendHp: num(r.SpendHp),
-    gainItems: [r.GainItem1,r.GainItem2,r.GainItem3].filter(v => v !== ''),
-    ...opt(r.GainAlly,  v => ({ gainAlly: v })),
-    gainGold: num(r.GainGold), gainXp: num(r.GainXp), gainHeal: num(r.GainHeal),
-    descStringId: num(r.DescStringID),
+    ID: r.ID, Icon: r.Icon,
+    SelectEventTarget: r.SelectEventTarget, EventTarget: num(r.EventTarget),
+    ...opt(r.SpendItem, v => ({ SpendItem: v })),
+    SpendGold: num(r.SpendGold), SpendHP: num(r.SpendHP),
+    GainItems: [r.GainItem1,r.GainItem2,r.GainItem3].filter(v => v !== ''),
+    ...opt(r.GainAlly,  v => ({ GainAlly: v })),
+    GainGold: num(r.GainGold), GainXP: num(r.GainXP), GainHeal: num(r.GainHeal),
+    DescStringID: num(r.DescStringID),
   }));
 }
 
 function buildEffectEvents(rows) {
   return rows.map(r => ({
-    id: r.ID, icon: r.Icon,
-    ...opt(r.Condition1,        v => ({ condition1: v })),
-    selectEventTarget: r.SelectEventTarget, eventTarget: num(r.EventTarget),
-    effect1: r.Effect1,
-    ...opt(r.Effect2,           v => ({ effect2: v })),
-    value: num(r.Effect3),
-    ...opt(r.ChainEventID,      v => ({ chainEventId: v })),
-    descStringId: num(r.DescStringID),
+    ID: r.ID, Icon: r.Icon,
+    ...opt(r.Condition1,        v => ({ Condition1: v })),
+    SelectEventTarget: r.SelectEventTarget, EventTarget: num(r.EventTarget),
+    Effect1: r.Effect1,
+    ...opt(r.Effect2,           v => ({ Effect2: v })),
+    Value: num(r.Value),
+    ...opt(r.ChainEventID,      v => ({ ChainEventID: v })),
+    DescStringID: num(r.DescStringID),
   }));
 }
 
 function buildOtherEvents(rows) {
   return rows.map(r => ({
-    id: r.ID, selectType: r.SelectType, eventType: num(r.EventType),
-    icon: r.Icon, rarity: r.Rarity,
-    ...opt(r.WorldState, v => ({ worldState: num(v) })),
-    ...opt(r.FreeUpgrade, v => ({ freeUpgrade: v })),
+    ID: r.ID, SelectType: r.SelectType, EventType: num(r.EventType),
+    Icon: r.Icon, Rarity: r.Rarity,
+    ...opt(r.WorldState,  v => ({ WorldState: num(v) })),
+    ...opt(r.FreeUpgrade, v => ({ FreeUpgrade: v })),
   }));
 }
 
 function buildShopEvents(rows) {
   return rows.map(r => ({
-    id: r.ID, depthMin: num(r.Depth_Min), depthMax: num(r.Depth_Max),
-    icon: r.Icon, buyMult: num(r.Buy_mult), sellMult: num(r.Selly_mult),
-    fixedItems: [r.Item1,r.Item2,r.Item3].filter(v => v !== ''),
-    cardsRand: num(r.Cards_Rand), itemsRand: num(r.Items_Rand),
-    itemRandSlots: [r.ItemRand_Slot1,r.ItemRand_Slot2,r.ItemRand_Slot3,r.ItemRand_Slot4].filter(v => v !== ''),
+    ID: r.ID, DepthMin: num(r.DepthMin), DepthMax: num(r.DepthMax),
+    Icon: r.Icon, BuyMult: num(r.BuyMult), SellyMult: num(r.SellyMult),
+    FixedItems: [r.Item1,r.Item2,r.Item3].filter(v => v !== ''),
+    CardsRand: num(r.CardsRand), ItemsRand: num(r.ItemsRand),
+    ItemRandSlots: [r.ItemRandSlot1,r.ItemRandSlot2,r.ItemRandSlot3,r.ItemRandSlot4].filter(v => v !== ''),
   }));
 }
 

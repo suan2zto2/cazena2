@@ -795,7 +795,7 @@ erDiagram
 | `mapId` | `number` | 진행 중인 `MapTBL.ID` |
 | `currentDepth` | `number` | 현재 깊이(층). 0부터 시작 |
 | `currentNodeIndex` | `number \| null` | 현재 노드 인덱스. 경로 선택 중이면 `null` |
-| `party` | `CharacterRunState[]` | 출전 챔피언 상태. 최대 3인 |
+| `party` | `CharacterRunState[]` | 출전 캐릭터 상태. 1인 |
 | `gold` | `number` | 현재 보유 골드. 런 종료 시 소멸 |
 | `deckCardNames` | `string[]` | 덱에 추가된 카드 `Name` 목록 (보상 카드 포함) |
 | `relicNames` | `string[]` | 보유 유물 `Name` 목록 |

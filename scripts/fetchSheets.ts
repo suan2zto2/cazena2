@@ -7,7 +7,7 @@ import type {
   GameMap, MapRandomEvent, MapFixedEvent,
   BattleEvent, ChoiceEvent, ChoiceOption, TradeEvent, EffectEvent, OtherEvent, ShopEvent,
   ExtraEnemy, GlobalEnumEntry,
-  AbilityType, CardType, DeckType,
+  AbilityType, DeckType,
 } from './types';
 
 // ─── 설정 ─────────────────────────────────────────────────────────────────────
@@ -27,6 +27,7 @@ async function getSheets() {
 }
 
 // ─── 시트 읽기 헬퍼 ───────────────────────────────────────────────────────────
+// 시트 형식: row1=한글헤더, row2=설명, row3=영문헤더, row4+=데이터
 
 async function readSheet(
   sheets: ReturnType<typeof google.sheets>,
@@ -36,7 +37,7 @@ async function readSheet(
     spreadsheetId: SPREADSHEET_ID,
     range: sheetName,
   });
-  const [header, ...rows] = res.data.values ?? [];
+  const [, , header, ...rows] = res.data.values ?? []; // row1(한글)·row2(설명) 스킵, row3(영문)=헤더
   if (!header) return [];
   return rows.map(row =>
     Object.fromEntries(header.map((key: string, i: number) => [key, row[i] ?? '']))
@@ -52,209 +53,208 @@ function opt<T>(v: string, fn: (s: string) => T): T | undefined {
 // ─── 변환 함수 ────────────────────────────────────────────────────────────────
 
 function buildStrings(rows: Record<string, string>[]): StringEntry[] {
-  return rows.map(r => ({ uid: num(r.UID), kr: r.KR }));
+  return rows.map(r => ({ UID: num(r.UID), KR: r.KR }));
 }
 
 function buildTraits(rows: Record<string, string>[]): CardTrait[] {
   return rows.map(r => ({
-    id: r.ID,
-    titleStringId: num(r.titleStringId),
-    descStringId: num(r.descStringId),
-    icon: r.icon,
+    ID: r.ID,
+    TitleStringID: num(r.TitleStringID),
+    DescStringID: num(r.DescStringID),
+    Icon: r.Icon,
   }));
 }
 
 function buildTeams(rows: Record<string, string>[]): CardTeam[] {
   return rows.map(r => ({
-    id: r.ID,
-    titleStringId: num(r.titleStringId),
-    icon: r.icon,
-    color: r.color,
+    ID: r.ID,
+    TitleStringID: num(r.TitleStringID),
+    Icon: r.Icon,
+    Color: r.Color,
   }));
 }
 
 function buildRarities(rows: Record<string, string>[]): CardRarity[] {
   return rows.map(r => ({
-    id: r.ID,
-    titleStringId: num(r.titleStringId),
-    icon: r.icon,
-    probability: num(r.probability),
+    ID: r.ID,
+    TitleStringID: num(r.TitleStringID),
+    Icon: r.Icon,
+    Probability: num(r.Probability),
   }));
 }
 
 function buildIntents(rows: Record<string, string>[]): CardIntent[] {
   return rows.map(r => ({
-    id: r.ID,
-    isShow: bool(r.isShow),
-    priority: num(r.priority),
-    titleStringId: num(r.titleStringId),
-    descStringId: num(r.descStringId),
-    icon: r.icon,
+    ID: r.ID,
+    IsShow: bool(r.IsShow),
+    Priority: num(r.Priority),
+    TitleStringID: num(r.TitleStringID),
+    DescStringID: num(r.DescStringID),
+    Icon: r.Icon,
   }));
 }
 
 function buildAbilities(rows: Record<string, string>[]): Ability[] {
   return rows.map(r => ({
-    type: r.Type as AbilityType,
-    id: r.ID,
-    selectTrigger: r.selectTrigger,
-    trigger: num(r.trigger),
-    ...opt(r.trigCond1, v => ({ trigCond1: v })),
-    ...opt(r.trigCond2, v => ({ trigCond2: v })),
-    ...opt(r.trigCond3, v => ({ trigCond3: v })),
-    selectTarget: r.selectTarget,
-    target: num(r.target),
-    ...opt(r.tgtCond1, v => ({ tgtCond1: v })),
-    ...opt(r.tgtCond2, v => ({ tgtCond2: v })),
-    ...opt(r.tgtCond3, v => ({ tgtCond3: v })),
-    ...opt(r.effect1,       v => ({ effect1: v })),
-    ...opt(r.effect2,       v => ({ effect2: v })),
-    ...opt(r.status1,       v => ({ status1: v })),
-    ...opt(r.status2,       v => ({ status2: v })),
-    ...opt(r.effectValue,   v => ({ effectValue: num(v) })),
-    ...opt(r.upgradeValue,  v => ({ upgradeValue: num(v) })),
-    ...opt(r.selectUpBonus, v => ({ selectUpBonus: v })),
-    ...opt(r.upgradeBonus,  v => ({ upgradeBonus: num(v) })),
-    ...opt(r.chainAbility,  v => ({ chainAbility: v })),
-    ...opt(r.targetFx,      v => ({ targetFx: v })),
+    Type: r.Type as AbilityType,
+    ID: r.ID,
+    SelectTrigger: r.SelectTrigger,
+    Trigger: num(r.Trigger),
+    ...opt(r.TrigCond1, v => ({ TrigCond1: v })),
+    ...opt(r.TrigCond2, v => ({ TrigCond2: v })),
+    ...opt(r.TrigCond3, v => ({ TrigCond3: v })),
+    SelectTarget: r.SelectTarget,
+    Target: num(r.Target),
+    ...opt(r.TgtCond1, v => ({ TgtCond1: v })),
+    ...opt(r.TgtCond2, v => ({ TgtCond2: v })),
+    ...opt(r.TgtCond3, v => ({ TgtCond3: v })),
+    ...opt(r.Effect1,       v => ({ Effect1: v })),
+    ...opt(r.Effect2,       v => ({ Effect2: v })),
+    ...opt(r.Status1,       v => ({ Status1: v })),
+    ...opt(r.Status2,       v => ({ Status2: v })),
+    ...opt(r.EffectValue,   v => ({ EffectValue: num(v) })),
+    ...opt(r.UpgradeValue,  v => ({ UpgradeValue: num(v) })),
+    ...opt(r.SelectUpBonus, v => ({ SelectUpBonus: v })),
+    ...opt(r.UpgradeBonus,  v => ({ UpgradeBonus: num(v) })),
+    ...opt(r.ChainAbility,  v => ({ ChainAbility: v })),
+    ...opt(r.TargetFx,      v => ({ TargetFx: v })),
   }));
 }
 
 function buildStatuses(rows: Record<string, string>[]): StatusEffect[] {
   return rows.map(r => ({
-    id: r.ID,
-    selectEffect: r.selectEffect,
-    statusEffect: num(r.statusEffect),
-    selectDuration: r.selectDuration,
-    statusDuration: num(r.statusDuration),
-    isNegative: bool(r.isNegative),
-    titleStringId: num(r.titleStringId),
-    descStringId: num(r.descStringId),
-    icon: r.icon,
-    fx: r.fx,
-    animation: r.animation,
+    ID: r.ID,
+    SelectEffect: r.SelectEffect,
+    StatusEffect: num(r.StatusEffect),
+    SelectDuration: r.SelectDuration,
+    StatusDuration: num(r.StatusDuration),
+    IsNegative: bool(r.IsNegative),
+    TitleStringID: num(r.TitleStringID),
+    DescStringID: num(r.DescStringID),
+    Icon: r.Icon,
+    Fx: r.Fx,
+    Animation: r.Animation,
   }));
 }
 
 function buildCards(rows: Record<string, string>[]): Card[] {
   return rows.map(r => ({
-    id: r.ID,
-    titleStringId: num(r.titleStringId),
-    descStringId: num(r.descStringId),
-    cardType: r.cardType as CardType,
-    team: r.team,
-    rarity: r.rarity,
-    mana: num(r.mana),
-    ...opt(r.trait1,           v => ({ trait1: v })),
-    ...opt(r.trait2,           v => ({ trait2: v })),
-    ...opt(r.ability1,         v => ({ ability1: v })),
-    ...opt(r.ability2,         v => ({ ability2: v })),
-    ...opt(r.ability3,         v => ({ ability3: v })),
-    ...opt(r.ability4,         v => ({ ability4: v })),
-    upgradeMax: num(r.upgradeMax),
-    upgradeMana: num(r.upgradeMana),
-    shopCost: num(r.shopCost),
-    ...opt(r.intent,           v => ({ intent: v })),
-    tileRank: r.tileRank as import('./types').TileRank,
-    ...opt(r.upgradedTileRank, v => ({ upgradedTileRank: v as import('./types').TileRank })),
-  }));
+    ID: r.ID,
+    TitleStringID: num(r.TitleStringID),
+    DescStringID: num(r.DescStringID),
+    CardType: r.CardType,
+    Team: r.Team,
+    Rarity: r.Rarity,
+    Mana: num(r.Mana),
+    ...opt(r.Trait1,   v => ({ Trait1: v })),
+    ...opt(r.Trait2,   v => ({ Trait2: v })),
+    ...opt(r.Ability1, v => ({ Ability1: v })),
+    ...opt(r.Ability2, v => ({ Ability2: v })),
+    ...opt(r.Ability3, v => ({ Ability3: v })),
+    ...opt(r.Ability4, v => ({ Ability4: v })),
+    UpgradeMax: num(r.UpgradeMax),
+    UpgradeMana: num(r.UpgradeMana),
+    ShopCost: num(r.ShopCost),
+    ...opt(r.Intent,   v => ({ Intent: v })),
+  } as Card));
 }
 
 function buildChampions(rows: Record<string, string>[]): Champion[] {
   return rows.map(r => ({
-    id: r.ID,
-    titleStringId: num(r.titleStringId),
-    hp: num(r.hp),
-    speed: num(r.speed),
-    hand: num(r.hand),
-    energy: num(r.energy),
-    lvUpHp: num(r.lvUpHp),
-    lvUpSpeed: num(r.lvUpSpeed),
-    lvUpHand: num(r.lvUpHand),
-    lvUpEnergy: num(r.lvUpEnergy),
-    team: r.team,
-    startDeck: r.startDeck,
-    rewardCard1: r.rewardCard1,
-    rewardCard2: r.rewardCard2,
+    ID: r.ID,
+    TitleStringID: num(r.TitleStringID),
+    HP: num(r.HP),
+    Speed: num(r.Speed),
+    Hand: num(r.Hand),
+    Energy: num(r.Energy),
+    LvUpHP: num(r.LvUpHP),
+    LvUpSpeed: num(r.LvUpSpeed),
+    LvUpHand: num(r.LvUpHand),
+    LvUpEnergy: num(r.LvUpEnergy),
+    Team: r.Team,
+    StartDeck: r.StartDeck,
+    RewardCard1: r.RewardCard1,
+    RewardCard2: r.RewardCard2,
   }));
 }
 
 function buildEnemies(rows: Record<string, string>[]): Enemy[] {
   return rows.map(r => ({
-    id: r.ID,
-    titleStringId: num(r.titleStringId),
-    hp: num(r.hp),
-    speed: num(r.speed),
-    hand: num(r.hand),
-    energy: num(r.energy),
-    lvUpMax: num(r.lvUpMax),
-    lvUpHp: num(r.lvUpHp),
-    lvUpSpeed: num(r.lvUpSpeed),
-    lvUpHand: num(r.lvUpHand),
-    lvUpEnergy: num(r.lvUpEnergy),
-    behavior: r.behavior,
-    ...opt(r.trait1,   v => ({ trait1: v })),
-    ...opt(r.ability1, v => ({ ability1: v })),
-    cardDeck: r.cardDeck,
-    rewardGold: num(r.rewardGold),
-    rewardXP: num(r.rewardXP),
-    ...opt(r.spawnFx,  v => ({ spawnFx: v })),
+    ID: r.ID,
+    TitleStringID: num(r.TitleStringID),
+    HP: num(r.HP),
+    Speed: num(r.Speed),
+    Hand: num(r.Hand),
+    Energy: num(r.Energy),
+    LvUpMax: num(r.LvUpMax),
+    LvUpHP: num(r.LvUpHP),
+    LvUpSpeed: num(r.LvUpSpeed),
+    LvUpHand: num(r.LvUpHand),
+    LvUpEnergy: num(r.LvUpEnergy),
+    Behavior: r.Behavior,
+    ...opt(r.Trait1,   v => ({ Trait1: v })),
+    ...opt(r.Ability1, v => ({ Ability1: v })),
+    CardDeck: r.CardDeck,
+    RewardGold: num(r.RewardGold),
+    RewardXP: num(r.RewardXP),
+    ...opt(r.SpawnFx,  v => ({ SpawnFx: v })),
   }));
 }
 
 function buildDecks(rows: Record<string, string>[]): CardDeck[] {
   return rows.map(r => ({
-    type: r.Type as DeckType,
-    id: r.ID,
-    slots: [r.slot1, r.slot2, r.slot3, r.slot4, r.slot5, r.slot6, r.slot7, r.slot8, r.slot9, r.slot10]
+    Type: r.Type as DeckType,
+    ID: r.ID,
+    Slots: [r.Slot1, r.Slot2, r.Slot3, r.Slot4, r.Slot5,
+            r.Slot6, r.Slot7, r.Slot8, r.Slot9, r.Slot10]
       .filter(s => s !== ''),
   }));
 }
 
 function buildMaps(rows: Record<string, string>[]): GameMap[] {
   return rows.map(r => ({
-    id: r.ID,
-    titleStringId: num(r.titleStringId),
-    depth: num(r.depth),
-    widthMin: num(r.widthMin),
-    widthMax: num(r.widthMax),
-    forkProbability: num(r.forkProbability),
-    randomEventId: r.randomEventId,
-    fixedEventId: r.fixedEventId,
+    ID: r.ID,
+    TitleStringID: num(r.TitleStringID),
+    Depth: num(r.Depth),
+    WidthMin: num(r.WidthMin),
+    WidthMax: num(r.WidthMax),
+    ForkProbability: num(r.ForkProbability),
+    RandomEventID: r.RandomEventID,
+    FixedEventID: r.FixedEventID,
   }));
 }
 
 function buildMapRandomEvents(rows: Record<string, string>[]): MapRandomEvent[] {
   return rows.map(r => ({
-    id: r.ID,
-    selectType: r.selectType,
-    type: num(r.type),
-    eventId: r.eventId,
+    ID: r.ID,
+    SelectType: r.SelectType,
+    Type: num(r.Type),
+    EventID: r.EventID,
   }));
 }
 
 function buildMapFixedEvents(rows: Record<string, string>[]): MapFixedEvent[] {
   return rows.map(r => ({
-    id: r.ID,
-    depth: num(r.depth),
-    indexMin: num(r.indexMin),
-    indexMax: num(r.indexMax),
-    eventId: r.eventId,
+    ID: r.ID,
+    Depth: num(r.Depth),
+    IndexMin: num(r.IndexMin),
+    IndexMax: num(r.IndexMax),
+    EventID: r.EventID,
   }));
 }
 
 function buildBattleEvents(rows: Record<string, string>[]): BattleEvent[] {
   return rows.map(r => ({
-    id: r.ID,
-    depthMin: num(r.depthMin),
-    depthMax: num(r.depthMax),
-    enemyLevel: num(r.enemyLevel),
-    enemies: [r.enemy1, r.enemy2, r.enemy3, r.enemy4].filter(e => e !== ''),
-    rewardGold: num(r.rewardGold),
-    rewardXP: num(r.rewardXP),
-    isRewardCards: bool(r.isRewardCards),
-    ...opt(r.cardRarity, v => ({ cardRarity: v })),
-    ...opt(r.winEvent,   v => ({ winEvent: v })),
+    ID: r.ID,
+    DepthMin: num(r.DepthMin),
+    DepthMax: num(r.DepthMax),
+    EnemyLevel: num(r.EnemyLevel),
+    Enemies: [r.Enemy1, r.Enemy2, r.Enemy3, r.Enemy4].filter(e => e !== ''),
+    RewardGold: num(r.RewardGold),
+    RewardXP: num(r.RewardXP),
+    IsRewardCards: bool(r.IsRewardCards),
+    ...opt(r.CardRarity, v => ({ CardRarity: v })),
+    ...opt(r.WinEvent,   v => ({ WinEvent: v })),
   }));
 }
 
@@ -262,81 +262,87 @@ function buildChoiceEvents(rows: Record<string, string>[]): ChoiceEvent[] {
   return rows.map(r => {
     const choices: ChoiceOption[] = [];
     for (let i = 1; i <= 4; i++) {
-      const title  = r[`choice${i}Title`];
-      const desc   = r[`choice${i}Desc`];
-      const effect = r[`choice${i}Effect`];
+      const title  = r[`Choice${i}Title`];
+      const desc   = r[`Choice${i}Desc`];
+      const effect = r[`Choice${i}Effect`];
       if (effect && effect !== '') {
-        choices.push({ titleStringId: num(title), descStringId: num(desc), effectId: effect });
+        choices.push({ TitleStringID: num(title), DescStringID: num(desc), EffectID: effect });
       }
     }
-    return { id: r.ID, depthMin: num(r.depthMin), depthMax: num(r.depthMax), descStringId: num(r.descStringId), choices };
+    return {
+      ID: r.ID,
+      DepthMin: num(r.DepthMin),
+      DepthMax: num(r.DepthMax),
+      DescStringID: num(r.DescStringID),
+      Choices: choices,
+    };
   });
 }
 
 function buildTradeEvents(rows: Record<string, string>[]): TradeEvent[] {
   return rows.map(r => ({
-    id: r.ID,
-    selectEventTarget: r.selectEventTarget,
-    eventTarget: num(r.eventTarget),
-    spendGold: num(r.spendGold),
-    spendHp: num(r.spendHp),
-    gainGold: num(r.gainGold),
-    gainXp: num(r.gainXp),
-    gainHeal: num(r.gainHeal),
-    descStringId: num(r.descStringId),
+    ID: r.ID,
+    SelectEventTarget: r.SelectEventTarget,
+    EventTarget: num(r.EventTarget),
+    SpendGold: num(r.SpendGold),
+    SpendHP: num(r.SpendHP),
+    GainGold: num(r.GainGold),
+    GainXP: num(r.GainXP),
+    GainHeal: num(r.GainHeal),
+    DescStringID: num(r.DescStringID),
   }));
 }
 
 function buildEffectEvents(rows: Record<string, string>[]): EffectEvent[] {
   return rows.map(r => ({
-    id: r.ID,
-    selectEventTarget: r.selectEventTarget,
-    eventTarget: num(r.eventTarget),
-    effect1: r.effect1,
-    ...opt(r.effect2,     v => ({ effect2: v })),
-    value: num(r.value),
-    ...opt(r.chainEventId,v => ({ chainEventId: v })),
-    descStringId: num(r.descStringId),
+    ID: r.ID,
+    SelectEventTarget: r.SelectEventTarget,
+    EventTarget: num(r.EventTarget),
+    Effect1: r.Effect1,
+    ...opt(r.Effect2,      v => ({ Effect2: v })),
+    Value: num(r.Value),
+    ...opt(r.ChainEventID, v => ({ ChainEventID: v })),
+    DescStringID: num(r.DescStringID),
   }));
 }
 
 function buildOtherEvents(rows: Record<string, string>[]): OtherEvent[] {
   return rows.map(r => ({
-    id: r.ID,
-    selectType: r.selectType,
-    eventType: num(r.eventType),
-    icon: r.icon,
-    ...opt(r.rarity,     v => ({ rarity: v })),
-    ...opt(r.worldState, v => ({ worldState: v })),
+    ID: r.ID,
+    SelectType: r.SelectType,
+    EventType: num(r.EventType),
+    Icon: r.Icon,
+    ...opt(r.Rarity,     v => ({ Rarity: v })),
+    ...opt(r.WorldState, v => ({ WorldState: v })),
   }));
 }
 
 function buildShopEvents(rows: Record<string, string>[]): ShopEvent[] {
   return rows.map(r => ({
-    id: r.ID,
-    depthMin: num(r.depthMin),
-    depthMax: num(r.depthMax),
-    buyMult: num(r.buyMult),
-    sellyMult: num(r.sellyMult),
-    cardsRand: num(r.cardsRand),
-    itemsRand: num(r.itemsRand),
+    ID: r.ID,
+    DepthMin: num(r.DepthMin),
+    DepthMax: num(r.DepthMax),
+    BuyMult: num(r.BuyMult),
+    SellyMult: num(r.SellyMult),
+    CardsRand: num(r.CardsRand),
+    ItemsRand: num(r.ItemsRand),
   }));
 }
 
 function buildExtraEnemies(rows: Record<string, string>[]): ExtraEnemy[] {
   return rows.map(r => ({
-    id: r.ID,
-    championMin: r.championMin,
-    enemies: [r.enemy1, r.enemy2, r.enemy3, r.enemy4].filter(e => e !== ''),
+    ID: r.ID,
+    ChampionMin: r.ChampionMin,
+    Enemies: [r.Enemy1, r.Enemy2, r.Enemy3, r.Enemy4].filter(e => e !== ''),
   }));
 }
 
 function buildGlobalEnum(rows: Record<string, string>[]): GlobalEnumEntry[] {
   return rows.map(r => ({
-    group: r.group,
-    id: r.id,
-    enum: num(r.enum),
-    desc: r.desc,
+    Group: r.group,
+    ID: r.id,
+    Enum: num(r.enum),
+    Desc: r.desc,
   }));
 }
 
@@ -365,7 +371,7 @@ async function main() {
     readSheet(sheets, 'CardTBL'),
     readSheet(sheets, 'ChampionTBL'),
     readSheet(sheets, 'EnemyTBL'),
-    readSheet(sheets, 'DeckTBL'),
+    readSheet(sheets, 'StartCardDeckTBL'),
     readSheet(sheets, 'MapTBL'),
     readSheet(sheets, 'MapRandomEventTBL'),
     readSheet(sheets, 'MapFixedEventTBL'),

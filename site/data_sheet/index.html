@@ -1760,7 +1760,7 @@
 </table>
 <hr />
 <h2 id="_2">시트 구성 개요</h2>
-<p>Google Sheets 내 <strong>22개 시트(테이블)</strong>를 5개 그룹으로 분류한다. 각 시트는 하나의 데이터 테이블이다.</p>
+<p>Google Sheets 내 <strong>23개 시트(테이블)</strong>를 5개 그룹으로 분류한다. 각 시트는 하나의 데이터 테이블이다.</p>
 <table>
 <thead>
 <tr>
@@ -1783,12 +1783,12 @@
 <tr>
 <td><a href="#3-캐릭터적">캐릭터·적</a></td>
 <td style="text-align: center;">3</td>
-<td><code>ChampionTBL</code>, <code>EnemyTBL</code>, <code>DeckTBL</code></td>
+<td><code>ChampionTBL</code>, <code>EnemyTBL</code>, <code>StartCardDeckTBL</code></td>
 </tr>
 <tr>
 <td><a href="#4-맵이벤트">맵·이벤트</a></td>
-<td style="text-align: center;">10</td>
-<td><code>MapTBL</code>, <code>MapRandomEventTBL</code>, <code>MapFixedEventTBL</code>, <code>MapEvent_BattleTBL</code>, <code>MapEvent_ChoiceTBL</code>, <code>MapEvent_TradeTBL</code>, <code>MapEvent_EffectTBL</code>, <code>MapEvent_OtherTBL</code>, <code>MapEvent_ShopTBL</code>, <code>ExtraEnemyTBL</code></td>
+<td style="text-align: center;">11</td>
+<td><code>MapTBL</code>, <code>MapRandomEventTBL</code>, <code>MapFixedWidthTBL</code>, <code>MapFixedEventTBL</code>, <code>MapEvent_BattleTBL</code>, <code>MapEvent_ChoiceTBL</code>, <code>MapEvent_TradeTBL</code>, <code>MapEvent_EffectTBL</code>, <code>MapEvent_OtherTBL</code>, <code>MapEvent_ShopTBL</code>, <code>ExtraEnemyTBL</code></td>
 </tr>
 <tr>
 <td><a href="#5-공통">공통</a></td>
@@ -1828,7 +1828,7 @@
 </tr>
 <tr>
 <td><code>CardRarityTBL</code></td>
-<td>카드 희귀도 등급 정의. 상점 진열 확률(<code>probability</code>)과 보상 카드 필터링에 사용된다.</td>
+<td>카드 희귀도 등급 정의. 상점 진열 확률(<code>Probability</code>)과 보상 카드 필터링에 사용된다.</td>
 </tr>
 <tr>
 <td><code>CardIntentTBL</code></td>
@@ -1844,10 +1844,10 @@
 </tr>
 <tr>
 <td><code>EnemyTBL</code></td>
-<td>전투에 등장하는 적 정의. 챔피언과 동일한 스탯 구조를 사용하며, <code>cardDeck</code>으로 행동 카드 덱을 참조한다.</td>
+<td>전투에 등장하는 적 정의. 챔피언과 동일한 스탯 구조를 사용하며, <code>CardDeck</code>으로 행동 카드 덱을 참조한다.</td>
 </tr>
 <tr>
-<td><code>DeckTBL</code></td>
+<td><code>StartCardDeckTBL</code></td>
 <td>챔피언 시작 덱 또는 적 행동 덱을 정의. 최대 10개 슬롯에 카드 ID를 배치하며, 빈 슬롯은 덱에 포함되지 않는다.</td>
 </tr>
 <tr>
@@ -1861,6 +1861,10 @@
 <tr>
 <td><code>MapFixedEventTBL</code></td>
 <td>특정 깊이(층)에 강제 배치되는 고정 이벤트 정의. 보스 방·중요 이벤트 위치를 고정할 때 사용한다.</td>
+</tr>
+<tr>
+<td><code>MapFixedWidthTBL</code></td>
+<td>맵의 깊이(층)별 고정 노드 너비를 정의. 특정 층에서 분기 없이 너비를 강제 지정할 때 사용한다.</td>
 </tr>
 <tr>
 <td><code>MapEvent_BattleTBL</code></td>
@@ -2006,7 +2010,7 @@
 </table>
 <p><strong>참조 관계</strong></p>
 <ul>
-<li>카드·챔피언·적·상태이상·특성·팀·희귀도·의도·이벤트 모든 시트의 <code>titleStringId</code>, <code>descStringId</code>에서 참조</li>
+<li>카드·챔피언·적·상태이상·특성·팀·희귀도·의도·이벤트 모든 시트의 <code>TitleStringID</code>, <code>DescStringID</code>에서 참조</li>
 </ul>
 <p><strong>예시</strong></p>
 <table>
@@ -2063,7 +2067,7 @@
 <hr />
 <h2 id="2">2. 카드 시스템</h2>
 <h3 id="cardabilitytbl">CardAbilityTBL</h3>
-<p>카드 또는 적이 사용하는 개별 효과 단위. 하나의 카드는 <code>ability1~4</code>를 통해 최대 4개의 어빌리티를 참조할 수 있다.</p>
+<p>카드 또는 적이 사용하는 개별 효과 단위. 하나의 카드는 <code>Ability1~4</code>를 통해 최대 4개의 어빌리티를 참조할 수 있다.</p>
 <p><strong>컬럼</strong></p>
 <table>
 <thead>
@@ -2090,82 +2094,82 @@
 <td>고유 ID</td>
 </tr>
 <tr>
-<td><code>selectTrigger</code></td>
+<td><code>SelectTrigger</code></td>
 <td><code>string</code></td>
 <td>트리거 레이블. GlobalEnum.AbilityTrigger 참조</td>
 </tr>
 <tr>
-<td><code>trigger</code></td>
+<td><code>Trigger</code></td>
 <td><code>number</code></td>
 <td>트리거 enum 값</td>
 </tr>
 <tr>
-<td><code>trigCond1~3</code></td>
+<td><code>TrigCond1~3</code></td>
 <td><code>string?</code></td>
 <td>트리거 발동 추가 조건</td>
 </tr>
 <tr>
-<td><code>selectTarget</code></td>
+<td><code>SelectTarget</code></td>
 <td><code>string</code></td>
 <td>대상 레이블. GlobalEnum.AbilityTarget 참조</td>
 </tr>
 <tr>
-<td><code>target</code></td>
+<td><code>Target</code></td>
 <td><code>number</code></td>
 <td>대상 enum 값</td>
 </tr>
 <tr>
-<td><code>tgtCond1~3</code></td>
+<td><code>TgtCond1~3</code></td>
 <td><code>string?</code></td>
 <td>대상 필터 조건</td>
 </tr>
 <tr>
-<td><code>effect1</code></td>
+<td><code>Effect1</code></td>
 <td><code>string?</code></td>
 <td>주 효과. 예: <code>damage</code>, <code>heal</code>, <code>add_shield</code></td>
 </tr>
 <tr>
-<td><code>effect2</code></td>
+<td><code>Effect2</code></td>
 <td><code>string?</code></td>
 <td>보조 효과</td>
 </tr>
 <tr>
-<td><code>status1</code></td>
+<td><code>Status1</code></td>
 <td><code>string?</code></td>
 <td>적용 상태이상. <code>CardStatusTBL.Name</code> 참조</td>
 </tr>
 <tr>
-<td><code>status2</code></td>
+<td><code>Status2</code></td>
 <td><code>string?</code></td>
 <td>두 번째 상태이상</td>
 </tr>
 <tr>
-<td><code>effectValue</code></td>
+<td><code>EffectValue</code></td>
 <td><code>number?</code></td>
 <td>효과 수치</td>
 </tr>
 <tr>
-<td><code>upgradeValue</code></td>
+<td><code>UpgradeValue</code></td>
 <td><code>number?</code></td>
 <td>강화 시 effectValue 증가량</td>
 </tr>
 <tr>
-<td><code>selectUpBonus</code></td>
+<td><code>SelectUpBonus</code></td>
 <td><code>string?</code></td>
 <td>강화 보너스 타입 레이블</td>
 </tr>
 <tr>
-<td><code>upgradeBonus</code></td>
+<td><code>UpgradeBonus</code></td>
 <td><code>number?</code></td>
 <td>강화 보너스 수치</td>
 </tr>
 <tr>
-<td><code>chainAbility</code></td>
+<td><code>ChainAbility</code></td>
 <td><code>string?</code></td>
 <td>연쇄 발동 어빌리티 <code>Name</code></td>
 </tr>
 <tr>
-<td><code>targetFx</code></td>
+<td><code>TargetFx</code></td>
 <td><code>string?</code></td>
 <td>효과 연출 키. 예: <code>SlashFX</code>, <code>AoeFX</code>, <code>CurseFX</code></td>
 </tr>
@@ -2173,8 +2177,8 @@
 </table>
 <p><strong>참조 관계</strong></p>
 <ul>
-<li><code>status1</code>, <code>status2</code> → <code>CardStatusTBL.Name</code></li>
-<li><code>chainAbility</code> → <code>CardAbilityTBL.Name</code> (자기 참조)</li>
+<li><code>Status1</code>, <code>Status2</code> → <code>CardStatusTBL.Name</code></li>
+<li><code>ChainAbility</code> → <code>CardAbilityTBL.Name</code> (자기 참조)</li>
 <li><code>CardTBL.ability1~4</code>에서 참조됨</li>
 <li><code>EnemyTBL.ability1</code>에서 참조됨</li>
 </ul>
@@ -2185,16 +2189,16 @@
 <th>Name</th>
 <th>Type</th>
 <th>ID</th>
-<th>selectTrigger</th>
-<th>trigger</th>
-<th>selectTarget</th>
-<th>target</th>
-<th>tgtCond1</th>
+<th>SelectTrigger</th>
+<th>Trigger</th>
+<th>SelectTarget</th>
+<th>Target</th>
+<th>TgtCond1</th>
 <th>effect1</th>
 <th style="text-align: center;">effectValue</th>
 <th style="text-align: center;">upgradeValue</th>
 <th>status1</th>
-<th>targetFx</th>
+<th>TargetFx</th>
 </tr>
 </thead>
 <tbody>
@@ -2284,52 +2288,52 @@
 <td>고유 ID</td>
 </tr>
 <tr>
-<td><code>selectEffect</code></td>
+<td><code>SelectEffect</code></td>
 <td><code>string</code></td>
 <td>GlobalEnum.StatusEffect 레이블</td>
 </tr>
 <tr>
-<td><code>statusEffect</code></td>
+<td><code>StatusEffect</code></td>
 <td><code>number</code></td>
 <td>StatusEffect enum 값</td>
 </tr>
 <tr>
-<td><code>selectDuration</code></td>
+<td><code>SelectDuration</code></td>
 <td><code>string</code></td>
 <td>GlobalEnum.StatusDuration 레이블</td>
 </tr>
 <tr>
-<td><code>statusDuration</code></td>
+<td><code>StatusDuration</code></td>
 <td><code>number</code></td>
 <td><code>Persistant=0</code>, <code>OneTurn=2</code>, <code>AutoReduce=10</code></td>
 </tr>
 <tr>
-<td><code>isNegative</code></td>
+<td><code>IsNegative</code></td>
 <td><code>boolean</code></td>
 <td><code>TRUE</code>=디버프, <code>FALSE</code>=버프</td>
 </tr>
 <tr>
-<td><code>titleStringId</code></td>
+<td><code>TitleStringID</code></td>
 <td><code>number</code></td>
 <td>StringTBL UID (10000~)</td>
 </tr>
 <tr>
-<td><code>descStringId</code></td>
+<td><code>DescStringID</code></td>
 <td><code>number</code></td>
 <td>StringTBL UID (10000~)</td>
 </tr>
 <tr>
-<td><code>icon</code></td>
+<td><code>Icon</code></td>
 <td><code>string</code></td>
 <td>아이콘 에셋 키</td>
 </tr>
 <tr>
-<td><code>fx</code></td>
+<td><code>Fx</code></td>
 <td><code>string?</code></td>
 <td>적용 연출 키</td>
 </tr>
 <tr>
-<td><code>animation</code></td>
+<td><code>Animation</code></td>
 <td><code>string?</code></td>
 <td>적용 애니메이션 키</td>
 </tr>
@@ -2337,8 +2341,8 @@
 </table>
 <p><strong>참조 관계</strong></p>
 <ul>
-<li><code>titleStringId</code>, <code>descStringId</code> → <code>StringTBL_KR.UID</code></li>
-<li><code>CardAbilityTBL.status1</code>, <code>status2</code>에서 참조됨</li>
+<li><code>TitleStringID</code>, <code>DescStringID</code> → <code>StringTBL_KR.UID</code></li>
+<li><code>CardAbilityTBL.status1</code>, <code>Status2</code>에서 참조됨</li>
 </ul>
 <p><strong>예시</strong></p>
 <table>
@@ -2346,9 +2350,9 @@
 <tr>
 <th>Name</th>
 <th>ID</th>
-<th>selectEffect</th>
+<th>SelectEffect</th>
 <th style="text-align: center;">statusEffect</th>
-<th>selectDuration</th>
+<th>SelectDuration</th>
 <th style="text-align: center;">statusDuration</th>
 <th style="text-align: center;">isNegative</th>
 <th style="text-align: center;">titleStringId</th>
@@ -2437,17 +2441,17 @@
 <td>고유 ID</td>
 </tr>
 <tr>
-<td><code>titleStringId</code></td>
+<td><code>TitleStringID</code></td>
 <td><code>number</code></td>
 <td>StringTBL UID (10000~). 특성 표시 이름</td>
 </tr>
 <tr>
-<td><code>descStringId</code></td>
+<td><code>DescStringID</code></td>
 <td><code>number</code></td>
 <td>StringTBL UID (10000~). 특성 설명</td>
 </tr>
 <tr>
-<td><code>icon</code></td>
+<td><code>Icon</code></td>
 <td><code>string</code></td>
 <td>아이콘 에셋 키</td>
 </tr>
@@ -2455,8 +2459,8 @@
 </table>
 <p><strong>참조 관계</strong></p>
 <ul>
-<li><code>titleStringId</code>, <code>descStringId</code> → <code>StringTBL_KR.UID</code></li>
-<li><code>CardTBL.trait1</code>, <code>trait2</code>에서 참조됨</li>
+<li><code>TitleStringID</code>, <code>DescStringID</code> → <code>StringTBL_KR.UID</code></li>
+<li><code>CardTBL.trait1</code>, <code>Trait2</code>에서 참조됨</li>
 <li><code>EnemyTBL.trait1</code>에서 참조됨</li>
 </ul>
 <p><strong>예시</strong></p>
@@ -2525,17 +2529,17 @@
 <td>고유 ID</td>
 </tr>
 <tr>
-<td><code>titleStringId</code></td>
+<td><code>TitleStringID</code></td>
 <td><code>number</code></td>
 <td>StringTBL UID (10000~). 팀 표시 이름</td>
 </tr>
 <tr>
-<td><code>icon</code></td>
+<td><code>Icon</code></td>
 <td><code>string</code></td>
 <td>팀 아이콘 에셋 키</td>
 </tr>
 <tr>
-<td><code>color</code></td>
+<td><code>Color</code></td>
 <td><code>string</code></td>
 <td>팀 대표 색상. 16진수 코드. 예: <code>#4A90D9</code></td>
 </tr>
@@ -2543,7 +2547,7 @@
 </table>
 <p><strong>참조 관계</strong></p>
 <ul>
-<li><code>titleStringId</code> → <code>StringTBL_KR.UID</code></li>
+<li><code>TitleStringID</code> → <code>StringTBL_KR.UID</code></li>
 <li><code>CardTBL.team</code>, <code>ChampionTBL.team</code>에서 참조됨</li>
 </ul>
 <p><strong>예시</strong></p>
@@ -2612,17 +2616,17 @@
 <td>고유 ID</td>
 </tr>
 <tr>
-<td><code>titleStringId</code></td>
+<td><code>TitleStringID</code></td>
 <td><code>number</code></td>
 <td>StringTBL UID (10000~). 희귀도 표시 이름</td>
 </tr>
 <tr>
-<td><code>icon</code></td>
+<td><code>Icon</code></td>
 <td><code>string</code></td>
 <td>희귀도 아이콘 에셋 키</td>
 </tr>
 <tr>
-<td><code>probability</code></td>
+<td><code>Probability</code></td>
 <td><code>number</code></td>
 <td>카드 보상 선택지 등장 가중치 (0.0~1.0)</td>
 </tr>
@@ -2630,9 +2634,9 @@
 </table>
 <p><strong>참조 관계</strong></p>
 <ul>
-<li><code>titleStringId</code> → <code>StringTBL_KR.UID</code></li>
+<li><code>TitleStringID</code> → <code>StringTBL_KR.UID</code></li>
 <li><code>CardTBL.rarity</code>에서 참조됨</li>
-<li><code>MapEvent_BattleTBL.cardRarity</code>에서 참조됨</li>
+<li><code>MapEvent_BattleTBL.CardRarity</code>에서 참조됨</li>
 </ul>
 <p><strong>예시</strong></p>
 <table>
@@ -2700,27 +2704,27 @@
 <td>고유 ID</td>
 </tr>
 <tr>
-<td><code>isShow</code></td>
+<td><code>IsShow</code></td>
 <td><code>boolean</code></td>
 <td>UI에 의도 표시 여부. <code>FALSE</code>이면 숨김 (기습 공격 등)</td>
 </tr>
 <tr>
-<td><code>priority</code></td>
+<td><code>Priority</code></td>
 <td><code>number</code></td>
 <td>복수 의도 충돌 시 표시 우선순위. 값이 낮을수록 우선</td>
 </tr>
 <tr>
-<td><code>titleStringId</code></td>
+<td><code>TitleStringID</code></td>
 <td><code>number</code></td>
 <td>StringTBL UID (10000~). 의도 이름</td>
 </tr>
 <tr>
-<td><code>descStringId</code></td>
+<td><code>DescStringID</code></td>
 <td><code>number</code></td>
 <td>StringTBL UID (10000~). 의도 설명</td>
 </tr>
 <tr>
-<td><code>icon</code></td>
+<td><code>Icon</code></td>
 <td><code>string</code></td>
 <td>의도 아이콘 에셋 키</td>
 </tr>
@@ -2728,7 +2732,7 @@
 </table>
 <p><strong>참조 관계</strong></p>
 <ul>
-<li><code>titleStringId</code>, <code>descStringId</code> → <code>StringTBL_KR.UID</code></li>
+<li><code>TitleStringID</code>, <code>DescStringID</code> → <code>StringTBL_KR.UID</code></li>
 <li><code>CardTBL.intent</code>에서 참조됨</li>
 </ul>
 <p><strong>예시</strong></p>
@@ -2806,203 +2810,238 @@
 </thead>
 <tbody>
 <tr>
-<td><code>Name</code></td>
+<td><code>Type</code></td>
 <td><code>string</code></td>
-<td>카드 식별자 PK. 예: <code>kestrel_shield_strike</code></td>
+<td>카드 그룹명. 예: <code>Adventurer</code>, <code>Enemies</code>, <code>Neutral</code></td>
 </tr>
 <tr>
 <td><code>ID</code></td>
-<td><code>number</code></td>
-<td>고유 ID</td>
-</tr>
-<tr>
-<td><code>titleStringId</code></td>
-<td><code>number</code></td>
-<td>StringTBL UID (200000~). 카드 표시 이름</td>
-</tr>
-<tr>
-<td><code>descStringId</code></td>
-<td><code>number</code></td>
-<td>StringTBL UID (200000~). 카드 설명</td>
-</tr>
-<tr>
-<td><code>cardType</code></td>
 <td><code>string</code></td>
-<td><code>Skill</code> — 발동 후 덱 반환 / <code>Power</code> — 영구 패시브</td>
+<td>카드 식별자 PK. 예: <code>aggressive_stance</code></td>
 </tr>
 <tr>
-<td><code>team</code></td>
+<td><code>TitleStringID</code></td>
+<td><code>number</code></td>
+<td>StringTBL UID. 카드 표시 이름</td>
+</tr>
+<tr>
+<td><code>DescStringID</code></td>
+<td><code>number</code></td>
+<td>StringTBL UID. 카드 설명</td>
+</tr>
+<tr>
+<td><code>ArtIcon</code></td>
 <td><code>string</code></td>
-<td><code>CardTeamTBL.Name</code> 참조</td>
+<td>카드 아이콘 에셋 키</td>
 </tr>
 <tr>
-<td><code>rarity</code></td>
+<td><code>ArtFull</code></td>
 <td><code>string</code></td>
-<td><code>CardRarityTBL.Name</code> 참조</td>
+<td>카드 풀샷 이미지 에셋 키</td>
 </tr>
 <tr>
-<td><code>mana</code></td>
+<td><code>SelectCardType</code></td>
+<td><code>string</code></td>
+<td>CardType 선택 레이블. GlobalEnum.CardType 참조</td>
+</tr>
+<tr>
+<td><code>CardType</code></td>
+<td><code>number</code></td>
+<td>카드 타입 enum 값. <code>Skill=20</code>, <code>Power=30</code></td>
+</tr>
+<tr>
+<td><code>SelectItemType</code></td>
+<td><code>string</code></td>
+<td>ItemType 선택 레이블</td>
+</tr>
+<tr>
+<td><code>ItemType</code></td>
+<td><code>number</code></td>
+<td>아이템 타입 enum 값. <code>None=0</code>, <code>Consumable=22</code>, <code>Card=24</code>, <code>Passive=26</code>, <code>Quest=20</code></td>
+</tr>
+<tr>
+<td><code>Team</code></td>
+<td><code>string</code></td>
+<td><code>CardTeamTBL.ID</code> 참조. 소속 팀</td>
+</tr>
+<tr>
+<td><code>Rarity</code></td>
+<td><code>string</code></td>
+<td><code>CardRarityTBL.ID</code> 참조. 희귀도</td>
+</tr>
+<tr>
+<td><code>Mana</code></td>
 <td><code>number</code></td>
 <td>발동 마나 비용</td>
 </tr>
 <tr>
-<td><code>trait1</code></td>
+<td><code>Trait1</code></td>
 <td><code>string?</code></td>
-<td><code>CardTraitTBL.Name</code> 참조. 첫 번째 특성</td>
+<td><code>CardTraitTBL.ID</code> 참조. 첫 번째 특성</td>
 </tr>
 <tr>
-<td><code>trait2</code></td>
+<td><code>Trait2</code></td>
 <td><code>string?</code></td>
-<td><code>CardTraitTBL.Name</code> 참조. 두 번째 특성. 공란 가능</td>
+<td><code>CardTraitTBL.ID</code> 참조. 두 번째 특성. 공란 가능</td>
 </tr>
 <tr>
-<td><code>ability1</code></td>
+<td><code>Ability1</code></td>
 <td><code>string</code></td>
-<td><code>CardAbilityTBL.Name</code> 참조. 주 효과</td>
+<td><code>CardAbilityTBL.ID</code> 참조. 주 효과</td>
 </tr>
 <tr>
-<td><code>ability2~4</code></td>
+<td><code>Ability2~4</code></td>
 <td><code>string?</code></td>
 <td>추가 어빌리티. 공란 가능</td>
 </tr>
 <tr>
-<td><code>upgradeMax</code></td>
+<td><code>UpgradeMax</code></td>
 <td><code>number</code></td>
 <td>최대 강화 횟수</td>
 </tr>
 <tr>
-<td><code>upgradeMana</code></td>
+<td><code>UpgradeMana</code></td>
 <td><code>number?</code></td>
-<td>강화 후 마나 비용. 공란이면 기존 유지</td>
+<td>강화 후 마나 비용. <code>-1</code>이면 변경 없음</td>
 </tr>
 <tr>
-<td><code>shopCost</code></td>
+<td><code>ShopCost</code></td>
 <td><code>number</code></td>
 <td>상점 구매 가격 (골드)</td>
 </tr>
 <tr>
-<td><code>intent</code></td>
+<td><code>Intent</code></td>
 <td><code>string?</code></td>
-<td><code>CardIntentTBL.Name</code> 참조. 적 사용 시 표시할 의도</td>
+<td><code>CardIntentTBL.ID</code> 참조. 적 사용 시 표시할 의도</td>
 </tr>
 <tr>
-<td><code>tileRank</code></td>
-<td><code>TileRank</code></td>
-<td>발동 필요 타일 등급 (A~F). <strong>2048 전용</strong></td>
+<td><code>SpawnFx</code></td>
+<td><code>string?</code></td>
+<td>카드 등장 이펙트 키</td>
 </tr>
 <tr>
-<td><code>upgradedTileRank</code></td>
-<td><code>TileRank?</code></td>
-<td>강화 후 요구 타일 등급. 공란이면 유지. <strong>2048 전용</strong></td>
+<td><code>SpawnAudio</code></td>
+<td><code>string?</code></td>
+<td>카드 등장 사운드 키</td>
+</tr>
+<tr>
+<td><code>CasterAnim</code></td>
+<td><code>string?</code></td>
+<td>시전 애니메이션 키</td>
+</tr>
+<tr>
+<td><code>TargetAnim</code></td>
+<td><code>string?</code></td>
+<td>대상 애니메이션 키</td>
+</tr>
+<tr>
+<td><code>SelectAvailability</code></td>
+<td><code>string?</code></td>
+<td>사용가능 조건 레이블</td>
+</tr>
+<tr>
+<td><code>Availability</code></td>
+<td><code>string?</code></td>
+<td>사용가능 조건 값. <code>Available</code> 또는 조건 문자열</td>
 </tr>
 </tbody>
 </table>
 <p><strong>참조 관계</strong></p>
 <ul>
-<li><code>team</code> → <code>CardTeamTBL.Name</code></li>
-<li><code>rarity</code> → <code>CardRarityTBL.Name</code></li>
-<li><code>trait1</code>, <code>trait2</code> → <code>CardTraitTBL.Name</code></li>
-<li><code>ability1~4</code> → <code>CardAbilityTBL.Name</code></li>
-<li><code>intent</code> → <code>CardIntentTBL.Name</code></li>
-<li><code>DeckTBL.slot1~10</code>에서 참조됨</li>
-<li><code>ChampionTBL.rewardCard1</code>, <code>rewardCard2</code>에서 참조됨</li>
+<li><code>Team</code> → <code>CardTeamTBL.ID</code></li>
+<li><code>Rarity</code> → <code>CardRarityTBL.ID</code></li>
+<li><code>Trait1</code>, <code>Trait2</code> → <code>CardTraitTBL.ID</code></li>
+<li><code>Ability1~4</code> → <code>CardAbilityTBL.ID</code></li>
+<li><code>Intent</code> → <code>CardIntentTBL.ID</code></li>
+<li><code>StartCardDeckTBL.Slot1~10</code>에서 참조됨</li>
+<li><code>ChampionTBL.RewardCard1</code>, <code>RewardCard2</code>에서 참조됨</li>
 </ul>
 <p><strong>예시</strong></p>
 <table>
 <thead>
 <tr>
-<th>Name</th>
+<th>Type</th>
 <th>ID</th>
-<th style="text-align: center;">titleStringId</th>
-<th>cardType</th>
-<th>team</th>
-<th>rarity</th>
-<th style="text-align: center;">mana</th>
-<th>trait1</th>
-<th>ability1</th>
-<th>ability2</th>
-<th style="text-align: center;">upgradeMax</th>
-<th style="text-align: center;">shopCost</th>
-<th>intent</th>
-<th style="text-align: center;">tileRank</th>
-<th style="text-align: center;">upgradedTileRank</th>
+<th style="text-align: center;">TitleStringID</th>
+<th style="text-align: center;">CardType</th>
+<th>Team</th>
+<th>Rarity</th>
+<th style="text-align: center;">Mana</th>
+<th>Trait1</th>
+<th>Ability1</th>
+<th>Ability2</th>
+<th style="text-align: center;">UpgradeMax</th>
+<th style="text-align: center;">ShopCost</th>
+<th>Intent</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>kestrel_shield_strike</td>
-<td>3001</td>
-<td style="text-align: center;">200001</td>
-<td>Skill</td>
-<td>vanguard</td>
+<td>Adventurer</td>
+<td>aggressive_stance</td>
+<td style="text-align: center;">200000</td>
+<td style="text-align: center;">20</td>
+<td>adventurer</td>
+<td>common</td>
+<td style="text-align: center;">0</td>
+<td>skill</td>
+<td>gain_courageous2</td>
+<td>gain_weak2</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">100</td>
+<td></td>
+</tr>
+<tr>
+<td>Adventurer</td>
+<td>prudent_attack</td>
+<td style="text-align: center;">200018</td>
+<td style="text-align: center;">20</td>
+<td>adventurer</td>
 <td>common</td>
 <td style="text-align: center;">1</td>
-<td>heavy</td>
-<td>kestrel_shield_strike</td>
-<td>kestrel_rally</td>
+<td>attack</td>
+<td>attack_damage2</td>
+<td>gain_shield2</td>
 <td style="text-align: center;">3</td>
-<td style="text-align: center;">50</td>
+<td style="text-align: center;">100</td>
 <td></td>
-<td style="text-align: center;">C</td>
-<td style="text-align: center;">B</td>
 </tr>
 <tr>
-<td>kestrel_iron_wall</td>
-<td>3002</td>
-<td style="text-align: center;">200003</td>
-<td>Skill</td>
-<td>vanguard</td>
-<td>rare</td>
-<td style="text-align: center;">2</td>
-<td>sentinel</td>
-<td>kestrel_iron_wall</td>
-<td></td>
-<td style="text-align: center;">2</td>
-<td style="text-align: center;">80</td>
-<td></td>
-<td style="text-align: center;">D</td>
-<td style="text-align: center;">C</td>
-</tr>
-<tr>
-<td>cipher_vuln_analysis</td>
-<td>3101</td>
-<td style="text-align: center;">200011</td>
-<td>Skill</td>
-<td>cipher</td>
+<td>Enemies</td>
+<td>bandit_backstab</td>
+<td style="text-align: center;">220000</td>
+<td style="text-align: center;">20</td>
+<td>enemies</td>
 <td>common</td>
 <td style="text-align: center;">1</td>
-<td>arcane</td>
-<td>cipher_vuln_analysis</td>
+<td>attack</td>
+<td>enemy_damage5_back</td>
 <td></td>
 <td style="text-align: center;">3</td>
-<td style="text-align: center;">50</td>
-<td></td>
-<td style="text-align: center;">B</td>
-<td style="text-align: center;">A</td>
+<td style="text-align: center;">0</td>
+<td>intent_attack</td>
 </tr>
 <tr>
-<td>cipher_data_burst</td>
-<td>3102</td>
-<td style="text-align: center;">200013</td>
-<td>Skill</td>
-<td>cipher</td>
-<td>rare</td>
-<td style="text-align: center;">2</td>
-<td>arcane</td>
-<td>cipher_data_burst</td>
-<td>cipher_draw</td>
-<td style="text-align: center;">2</td>
-<td style="text-align: center;">80</td>
+<td>Neutral</td>
+<td>defend</td>
+<td style="text-align: center;">240006</td>
+<td style="text-align: center;">20</td>
+<td>neutral</td>
+<td>starter</td>
+<td style="text-align: center;">1</td>
+<td>basic</td>
+<td>gain_shield3</td>
 <td></td>
-<td style="text-align: center;">E</td>
-<td style="text-align: center;">D</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">100</td>
+<td></td>
 </tr>
 </tbody>
 </table>
 <hr />
 <h2 id="3">3. 캐릭터·적</h2>
 <h3 id="championtbl">ChampionTBL</h3>
-<p>플레이어가 파티에 편성하는 챔피언 캐릭터. 스탯 체계는 HP·Speed·Hand·Energy 4종으로 구성되며, 레벨업 시 <code>lvUp*</code> 값만큼 증가한다.</p>
+<p>플레이어가 파티에 편성하는 챔피언 캐릭터. 스탯 체계는 HP·Speed·Hand·Energy 4종으로 구성되며, 레벨업 시 <code>LvUp*</code> 값만큼 증가한다.</p>
 <p><strong>컬럼</strong></p>
 <table>
 <thead>
@@ -3024,67 +3063,82 @@
 <td>고유 ID</td>
 </tr>
 <tr>
-<td><code>titleStringId</code></td>
+<td><code>TitleStringID</code></td>
 <td><code>number</code></td>
 <td>StringTBL UID (260000~). 챔피언 표시 이름</td>
 </tr>
 <tr>
-<td><code>hp</code></td>
+<td><code>ArtFull</code></td>
+<td><code>string</code></td>
+<td>챔피언 풀샷 이미지 에셋 키</td>
+</tr>
+<tr>
+<td><code>ArtPortrait</code></td>
+<td><code>string</code></td>
+<td>챔피언 초상화 이미지 에셋 키</td>
+</tr>
+<tr>
+<td><code>Prefab</code></td>
+<td><code>string</code></td>
+<td>챔피언 프리팹 에셋 키</td>
+</tr>
+<tr>
+<td><code>HP</code></td>
 <td><code>number</code></td>
 <td>초기 최대 체력</td>
 </tr>
 <tr>
-<td><code>speed</code></td>
+<td><code>Speed</code></td>
 <td><code>number</code></td>
 <td>초기 행동 속도. 낮을수록 먼저 행동</td>
 </tr>
 <tr>
-<td><code>hand</code></td>
+<td><code>Hand</code></td>
 <td><code>number</code></td>
 <td>초기 손패 최대 장수</td>
 </tr>
 <tr>
-<td><code>energy</code></td>
+<td><code>Energy</code></td>
 <td><code>number</code></td>
 <td>초기 턴당 최대 에너지</td>
 </tr>
 <tr>
-<td><code>lvUpHp</code></td>
+<td><code>LvUpHP</code></td>
 <td><code>number</code></td>
 <td>레벨업당 체력 증가량</td>
 </tr>
 <tr>
-<td><code>lvUpSpeed</code></td>
+<td><code>LvUpSpeed</code></td>
 <td><code>number</code></td>
 <td>레벨업당 속도 증가량</td>
 </tr>
 <tr>
-<td><code>lvUpHand</code></td>
+<td><code>LvUpHand</code></td>
 <td><code>number</code></td>
 <td>레벨업당 손패 증가량</td>
 </tr>
 <tr>
-<td><code>lvUpEnergy</code></td>
+<td><code>LvUpEnergy</code></td>
 <td><code>number</code></td>
 <td>레벨업당 에너지 증가량</td>
 </tr>
 <tr>
-<td><code>team</code></td>
+<td><code>Team</code></td>
 <td><code>string</code></td>
 <td><code>CardTeamTBL.Name</code> 참조. 소속 팀</td>
 </tr>
 <tr>
-<td><code>startDeck</code></td>
+<td><code>StartDeck</code></td>
 <td><code>string</code></td>
-<td><code>DeckTBL.Name</code> 참조. 런 시작 초기 덱</td>
+<td><code>StartCardDeckTBL.Name</code> 참조. 런 시작 초기 덱</td>
 </tr>
 <tr>
-<td><code>rewardCard1</code></td>
+<td><code>RewardCard1</code></td>
 <td><code>string?</code></td>
 <td><code>CardTBL.Name</code> 참조. 전투 후 보상 카드 후보 1</td>
 </tr>
 <tr>
-<td><code>rewardCard2</code></td>
+<td><code>RewardCard2</code></td>
 <td><code>string?</code></td>
 <td><code>CardTBL.Name</code> 참조. 전투 후 보상 카드 후보 2</td>
 </tr>
@@ -3092,10 +3146,10 @@
 </table>
 <p><strong>참조 관계</strong></p>
 <ul>
-<li><code>titleStringId</code> → <code>StringTBL_KR.UID</code></li>
-<li><code>team</code> → <code>CardTeamTBL.Name</code></li>
-<li><code>startDeck</code> → <code>DeckTBL.Name</code></li>
-<li><code>rewardCard1</code>, <code>rewardCard2</code> → <code>CardTBL.Name</code></li>
+<li><code>TitleStringID</code> → <code>StringTBL_KR.UID</code></li>
+<li><code>Team</code> → <code>CardTeamTBL.Name</code></li>
+<li><code>StartDeck</code> → <code>StartCardDeckTBL.Name</code></li>
+<li><code>RewardCard1</code>, <code>RewardCard2</code> → <code>CardTBL.Name</code></li>
 </ul>
 <p><strong>예시</strong></p>
 <table>
@@ -3108,12 +3162,12 @@
 <th style="text-align: center;">speed</th>
 <th style="text-align: center;">hand</th>
 <th style="text-align: center;">energy</th>
-<th style="text-align: center;">lvUpHp</th>
-<th style="text-align: center;">lvUpSpeed</th>
-<th style="text-align: center;">lvUpHand</th>
-<th style="text-align: center;">lvUpEnergy</th>
+<th style="text-align: center;">LvUpHP</th>
+<th style="text-align: center;">LvUpSpeed</th>
+<th style="text-align: center;">LvUpHand</th>
+<th style="text-align: center;">LvUpEnergy</th>
 <th>team</th>
-<th>startDeck</th>
+<th>StartDeck</th>
 </tr>
 </thead>
 <tbody>
@@ -3166,7 +3220,7 @@
 </table>
 <hr />
 <h3 id="enemytbl">EnemyTBL</h3>
-<p>전투에 등장하는 적. 챔피언과 동일한 스탯 구조를 사용하며, <code>cardDeck</code>을 통해 행동 카드를 참조한다.</p>
+<p>전투에 등장하는 적. 챔피언과 동일한 스탯 구조를 사용하며, <code>CardDeck</code>을 통해 행동 카드를 참조한다.</p>
 <p><strong>컬럼</strong></p>
 <table>
 <thead>
@@ -3188,87 +3242,102 @@
 <td>고유 ID</td>
 </tr>
 <tr>
-<td><code>titleStringId</code></td>
+<td><code>TitleStringID</code></td>
 <td><code>number</code></td>
 <td>StringTBL UID (261000~). 적 표시 이름</td>
 </tr>
 <tr>
-<td><code>hp</code></td>
+<td><code>ArtFull</code></td>
+<td><code>string</code></td>
+<td>적 풀샷 이미지 에셋 키</td>
+</tr>
+<tr>
+<td><code>ArtPortrait</code></td>
+<td><code>string</code></td>
+<td>적 초상화 이미지 에셋 키</td>
+</tr>
+<tr>
+<td><code>Prefab</code></td>
+<td><code>string</code></td>
+<td>적 프리팹 에셋 키</td>
+</tr>
+<tr>
+<td><code>HP</code></td>
 <td><code>number</code></td>
 <td>최대 체력</td>
 </tr>
 <tr>
-<td><code>speed</code></td>
+<td><code>Speed</code></td>
 <td><code>number</code></td>
 <td>행동 속도</td>
 </tr>
 <tr>
-<td><code>hand</code></td>
+<td><code>Hand</code></td>
 <td><code>number</code></td>
 <td>손패 최대 장수</td>
 </tr>
 <tr>
-<td><code>energy</code></td>
+<td><code>Energy</code></td>
 <td><code>number</code></td>
 <td>턴당 최대 에너지</td>
 </tr>
 <tr>
-<td><code>lvUpMax</code></td>
+<td><code>LvUpMax</code></td>
 <td><code>number</code></td>
-<td>최대 레벨업 횟수. 전투 이벤트 <code>enemyLevel</code>에 따라 적용</td>
+<td>최대 레벨업 횟수. 전투 이벤트 <code>EnemyLevel</code>에 따라 적용</td>
 </tr>
 <tr>
-<td><code>lvUpHp</code></td>
+<td><code>LvUpHP</code></td>
 <td><code>number</code></td>
 <td>레벨업당 체력 증가량</td>
 </tr>
 <tr>
-<td><code>lvUpSpeed</code></td>
+<td><code>LvUpSpeed</code></td>
 <td><code>number</code></td>
 <td>레벨업당 속도 증가량</td>
 </tr>
 <tr>
-<td><code>lvUpHand</code></td>
+<td><code>LvUpHand</code></td>
 <td><code>number</code></td>
 <td>레벨업당 손패 증가량</td>
 </tr>
 <tr>
-<td><code>lvUpEnergy</code></td>
+<td><code>LvUpEnergy</code></td>
 <td><code>number</code></td>
 <td>레벨업당 에너지 증가량</td>
 </tr>
 <tr>
-<td><code>behavior</code></td>
+<td><code>Behavior</code></td>
 <td><code>string</code></td>
 <td>행동 AI 패턴 식별자</td>
 </tr>
 <tr>
-<td><code>trait1</code></td>
+<td><code>Trait1</code></td>
 <td><code>string?</code></td>
 <td><code>CardTraitTBL.Name</code> 참조. 특성 태그</td>
 </tr>
 <tr>
-<td><code>ability1</code></td>
+<td><code>Ability1</code></td>
 <td><code>string?</code></td>
 <td><code>CardAbilityTBL.Name</code> 참조. 고유 패시브 어빌리티</td>
 </tr>
 <tr>
-<td><code>cardDeck</code></td>
+<td><code>CardDeck</code></td>
 <td><code>string</code></td>
-<td><code>DeckTBL.Name</code> 참조. 행동에 사용하는 카드 덱</td>
+<td><code>StartCardDeckTBL.Name</code> 참조. 행동에 사용하는 카드 덱</td>
 </tr>
 <tr>
-<td><code>rewardGold</code></td>
+<td><code>RewardGold</code></td>
 <td><code>number</code></td>
 <td>처치 시 획득 골드</td>
 </tr>
 <tr>
-<td><code>rewardXP</code></td>
+<td><code>RewardXP</code></td>
 <td><code>number</code></td>
 <td>처치 시 획득 경험치</td>
 </tr>
 <tr>
-<td><code>spawnFx</code></td>
+<td><code>SpawnFx</code></td>
 <td><code>string?</code></td>
 <td>전투 등장 연출 키</td>
 </tr>
@@ -3276,10 +3345,10 @@
 </table>
 <p><strong>참조 관계</strong></p>
 <ul>
-<li><code>titleStringId</code> → <code>StringTBL_KR.UID</code></li>
-<li><code>trait1</code> → <code>CardTraitTBL.Name</code></li>
-<li><code>ability1</code> → <code>CardAbilityTBL.Name</code></li>
-<li><code>cardDeck</code> → <code>DeckTBL.Name</code></li>
+<li><code>TitleStringID</code> → <code>StringTBL_KR.UID</code></li>
+<li><code>Trait1</code> → <code>CardTraitTBL.Name</code></li>
+<li><code>Ability1</code> → <code>CardAbilityTBL.Name</code></li>
+<li><code>CardDeck</code> → <code>StartCardDeckTBL.Name</code></li>
 <li><code>MapEvent_BattleTBL.enemy1~4</code>에서 참조됨</li>
 </ul>
 <p><strong>예시</strong></p>
@@ -3293,12 +3362,12 @@
 <th style="text-align: center;">speed</th>
 <th style="text-align: center;">hand</th>
 <th style="text-align: center;">energy</th>
-<th style="text-align: center;">lvUpMax</th>
-<th style="text-align: center;">lvUpHp</th>
+<th style="text-align: center;">LvUpMax</th>
+<th style="text-align: center;">LvUpHP</th>
 <th>behavior</th>
-<th>cardDeck</th>
-<th style="text-align: center;">rewardGold</th>
-<th style="text-align: center;">rewardXP</th>
+<th>CardDeck</th>
+<th style="text-align: center;">RewardGold</th>
+<th style="text-align: center;">RewardXP</th>
 </tr>
 </thead>
 <tbody>
@@ -3335,7 +3404,7 @@
 </tbody>
 </table>
 <hr />
-<h3 id="decktbl">DeckTBL</h3>
+<h3 id="startcarddecktbl">StartCardDeckTBL</h3>
 <p>챔피언 시작 덱 또는 적 행동 카드 덱을 정의한다. 슬롯은 최대 10개이며, 공란 슬롯은 덱에 포함되지 않는다.</p>
 <p><strong>컬럼</strong></p>
 <table>
@@ -3355,7 +3424,7 @@
 <tr>
 <td><code>Type</code></td>
 <td><code>string</code></td>
-<td><code>Champion</code> — 챔피언 시작 덱 / <code>Allies</code> — 아군 지원 덱</td>
+<td><code>Champion</code> — 챔피언 시작 덱 / <code>Enemies</code> — 적 행동 덱</td>
 </tr>
 <tr>
 <td><code>ID</code></td>
@@ -3363,7 +3432,7 @@
 <td>고유 ID</td>
 </tr>
 <tr>
-<td><code>slot1~slot10</code></td>
+<td><code>Slot1~Slot10</code></td>
 <td><code>string?</code></td>
 <td><code>CardTBL.Name</code> 참조. 각 슬롯의 카드. 공란이면 슬롯 없음</td>
 </tr>
@@ -3371,9 +3440,9 @@
 </table>
 <p><strong>참조 관계</strong></p>
 <ul>
-<li><code>slot1~10</code> → <code>CardTBL.Name</code></li>
-<li><code>ChampionTBL.startDeck</code>에서 참조됨</li>
-<li><code>EnemyTBL.cardDeck</code>에서 참조됨</li>
+<li><code>Slot1~10</code> → <code>CardTBL.Name</code></li>
+<li><code>ChampionTBL.StartDeck</code>에서 참조됨</li>
+<li><code>EnemyTBL.CardDeck</code>에서 참조됨</li>
 </ul>
 <p><strong>예시</strong></p>
 <table>
@@ -3382,12 +3451,12 @@
 <th>Name</th>
 <th>Type</th>
 <th>ID</th>
-<th>slot1</th>
-<th>slot2</th>
-<th>slot3</th>
-<th>slot4</th>
-<th>slot5</th>
-<th>slot6</th>
+<th>Slot1</th>
+<th>Slot2</th>
+<th>Slot3</th>
+<th>Slot4</th>
+<th>Slot5</th>
+<th>Slot6</th>
 </tr>
 </thead>
 <tbody>
@@ -3415,7 +3484,7 @@
 </tr>
 <tr>
 <td>deck_drone_guard</td>
-<td>Allies</td>
+<td>Enemies</td>
 <td>6001</td>
 <td>enemy_atk_drone_s12</td>
 <td>enemy_atk_drone_s12</td>
@@ -3451,46 +3520,67 @@
 <td>고유 ID</td>
 </tr>
 <tr>
-<td><code>titleStringId</code></td>
+<td><code>TitleStringID</code></td>
 <td><code>number</code></td>
 <td>StringTBL UID. 맵 표시 이름</td>
 </tr>
 <tr>
-<td><code>depth</code></td>
+<td><code>MapScene</code></td>
+<td><code>string</code></td>
+<td>맵 배경 씬 에셋 키</td>
+</tr>
+<tr>
+<td><code>BattleScene</code></td>
+<td><code>string</code></td>
+<td>전투 배경 씬 에셋 키</td>
+</tr>
+<tr>
+<td><code>Depth</code></td>
 <td><code>number</code></td>
 <td>맵 세로 깊이 (층 수)</td>
 </tr>
 <tr>
-<td><code>widthMin</code></td>
+<td><code>WidthMin</code></td>
 <td><code>number</code></td>
 <td>층당 최소 노드 수</td>
 </tr>
 <tr>
-<td><code>widthMax</code></td>
+<td><code>WidthMax</code></td>
 <td><code>number</code></td>
 <td>층당 최대 노드 수</td>
 </tr>
 <tr>
-<td><code>forkProbability</code></td>
+<td><code>ForkProbability</code></td>
 <td><code>number</code></td>
 <td>경로 분기 확률 (0.0~1.0)</td>
 </tr>
 <tr>
-<td><code>randomEventId</code></td>
+<td><code>RandomEventID</code></td>
 <td><code>string</code></td>
 <td><code>MapRandomEventTBL.Name</code> 참조</td>
 </tr>
 <tr>
-<td><code>fixedEventId</code></td>
+<td><code>FixedWidthID</code></td>
 <td><code>string?</code></td>
-<td><code>MapFixedEventTBL.Name</code> 참조. 공란이면 고정 이벤트 없음</td>
+<td><code>MapFixedWidthTBL.ID</code> 참조. 공란이면 고정 너비 없음</td>
+</tr>
+<tr>
+<td><code>FixedEventID</code></td>
+<td><code>string?</code></td>
+<td><code>MapFixedEventTBL.ID</code> 참조. 공란이면 고정 이벤트 없음</td>
+</tr>
+<tr>
+<td><code>MapTutorial</code></td>
+<td><code>string?</code></td>
+<td>튜토리얼 설정 키. 공란이면 일반 런</td>
 </tr>
 </tbody>
 </table>
 <p><strong>참조 관계</strong></p>
 <ul>
-<li><code>randomEventId</code> → <code>MapRandomEventTBL.Name</code></li>
-<li><code>fixedEventId</code> → <code>MapFixedEventTBL.Name</code></li>
+<li><code>RandomEventID</code> → <code>MapRandomEventTBL.Name</code></li>
+<li><code>FixedWidthID</code> → <code>MapFixedWidthTBL.ID</code></li>
+<li><code>FixedEventID</code> → <code>MapFixedEventTBL.ID</code></li>
 </ul>
 <p><strong>예시</strong></p>
 <table>
@@ -3499,11 +3589,11 @@
 <th>Name</th>
 <th>ID</th>
 <th style="text-align: center;">depth</th>
-<th style="text-align: center;">widthMin</th>
-<th style="text-align: center;">widthMax</th>
-<th style="text-align: center;">forkProbability</th>
-<th>randomEventId</th>
-<th>fixedEventId</th>
+<th style="text-align: center;">WidthMin</th>
+<th style="text-align: center;">WidthMax</th>
+<th style="text-align: center;">ForkProbability</th>
+<th>RandomEventID</th>
+<th>FixedEventID</th>
 </tr>
 </thead>
 <tbody>
@@ -3553,7 +3643,7 @@
 <td>고유 ID</td>
 </tr>
 <tr>
-<td><code>selectType</code></td>
+<td><code>SelectType</code></td>
 <td><code>string</code></td>
 <td>이벤트 유형 레이블. GlobalEnum.MapEventType 참조</td>
 </tr>
@@ -3563,7 +3653,7 @@
 <td>이벤트 유형 enum 값</td>
 </tr>
 <tr>
-<td><code>eventId</code></td>
+<td><code>EventID</code></td>
 <td><code>string</code></td>
 <td>해당 유형의 이벤트 <code>Name</code> 참조</td>
 </tr>
@@ -3571,8 +3661,37 @@
 </table>
 <p><strong>참조 관계</strong></p>
 <ul>
-<li><code>eventId</code> → 유형에 따라 <code>MapEvent_BattleTBL</code>, <code>MapEvent_ChoiceTBL</code>, <code>MapEvent_TradeTBL</code>, <code>MapEvent_EffectTBL</code>, <code>MapEvent_ShopTBL</code>, <code>MapEvent_OtherTBL</code> 중 하나의 <code>Name</code></li>
-<li><code>MapTBL.randomEventId</code>에서 참조됨</li>
+<li><code>EventID</code> → 유형에 따라 <code>MapEvent_BattleTBL</code>, <code>MapEvent_ChoiceTBL</code>, <code>MapEvent_TradeTBL</code>, <code>MapEvent_EffectTBL</code>, <code>MapEvent_ShopTBL</code>, <code>MapEvent_OtherTBL</code> 중 하나의 <code>Name</code></li>
+<li><code>MapTBL.RandomEventID</code>에서 참조됨</li>
+</ul>
+<hr />
+<h3 id="mapfixedwidthtbl">MapFixedWidthTBL</h3>
+<p>특정 깊이(층)의 노드 너비를 강제 지정한다. 분기 없이 단일 경로를 강제하거나 특정 층의 너비를 고정할 때 사용한다.</p>
+<p><strong>컬럼</strong></p>
+<table>
+<thead>
+<tr>
+<th>컬럼</th>
+<th>타입</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ID</code></td>
+<td><code>number</code></td>
+<td>고유 ID</td>
+</tr>
+<tr>
+<td><code>Depth1~12</code></td>
+<td><code>number?</code></td>
+<td>해당 깊이(층)의 강제 너비. <code>0</code> 또는 공란이면 MapTBL의 WidthMin~WidthMax 범위로 랜덤 생성</td>
+</tr>
+</tbody>
+</table>
+<p><strong>참조 관계</strong></p>
+<ul>
+<li><code>MapTBL.FixedWidthID</code>에서 참조됨</li>
 </ul>
 <hr />
 <h3 id="mapfixedeventtbl">MapFixedEventTBL</h3>
@@ -3598,22 +3717,22 @@
 <td>고유 ID</td>
 </tr>
 <tr>
-<td><code>depth</code></td>
+<td><code>Depth</code></td>
 <td><code>number</code></td>
 <td>배치 깊이(층)</td>
 </tr>
 <tr>
-<td><code>indexMin</code></td>
+<td><code>IndexMin</code></td>
 <td><code>number</code></td>
 <td>배치 가능한 최소 노드 인덱스</td>
 </tr>
 <tr>
-<td><code>indexMax</code></td>
+<td><code>IndexMax</code></td>
 <td><code>number</code></td>
 <td>배치 가능한 최대 노드 인덱스</td>
 </tr>
 <tr>
-<td><code>eventId</code></td>
+<td><code>EventID</code></td>
 <td><code>string</code></td>
 <td>배치할 이벤트 <code>Name</code> 참조</td>
 </tr>
@@ -3621,12 +3740,12 @@
 </table>
 <p><strong>참조 관계</strong></p>
 <ul>
-<li><code>eventId</code> → 유형에 따라 각 <code>MapEvent_*TBL.Name</code></li>
-<li><code>MapTBL.fixedEventId</code>에서 참조됨</li>
+<li><code>EventID</code> → 유형에 따라 각 <code>MapEvent_*TBL.Name</code></li>
+<li><code>MapTBL.FixedEventID</code>에서 참조됨</li>
 </ul>
 <hr />
 <h3 id="mapevent_battletbl">MapEvent_BattleTBL</h3>
-<p>전투 이벤트. 등장 적 구성, 난이도(enemyLevel), 보상을 정의한다.</p>
+<p>전투 이벤트. 등장 적 구성, 난이도(EnemyLevel), 보상을 정의한다.</p>
 <p><strong>컬럼</strong></p>
 <table>
 <thead>
@@ -3648,52 +3767,77 @@
 <td>고유 ID</td>
 </tr>
 <tr>
-<td><code>depthMin</code></td>
+<td><code>Icon</code></td>
+<td><code>string</code></td>
+<td>맵 노드 표시 아이콘 에셋 키</td>
+</tr>
+<tr>
+<td><code>DepthMin</code></td>
 <td><code>number</code></td>
 <td>등장 가능 최소 깊이</td>
 </tr>
 <tr>
-<td><code>depthMax</code></td>
+<td><code>DepthMax</code></td>
 <td><code>number</code></td>
 <td>등장 가능 최대 깊이</td>
 </tr>
 <tr>
-<td><code>enemyLevel</code></td>
+<td><code>EnemyLevel</code></td>
 <td><code>number</code></td>
-<td>적 레벨 오프셋. <code>EnemyTBL.lvUpMax</code> 범위 내</td>
+<td>적 레벨 오프셋. <code>EnemyTBL.LvUpMax</code> 범위 내</td>
 </tr>
 <tr>
-<td><code>enemy1~4</code></td>
+<td><code>Enemy1~4</code></td>
 <td><code>string?</code></td>
 <td><code>EnemyTBL.Name</code> 참조. 등장 적. 공란이면 해당 슬롯 없음</td>
 </tr>
 <tr>
-<td><code>extraEnemy</code></td>
+<td><code>ExtraEnemy</code></td>
 <td><code>string?</code></td>
 <td><code>ExtraEnemyTBL.Name</code> 참조. 조건부 추가 적</td>
 </tr>
 <tr>
-<td><code>rewardGold</code></td>
+<td><code>RewardGold</code></td>
 <td><code>number</code></td>
 <td>클리어 시 추가 골드 (적 처치 보상과 별개)</td>
 </tr>
 <tr>
-<td><code>rewardXP</code></td>
+<td><code>RewardXP</code></td>
 <td><code>number</code></td>
 <td>클리어 시 경험치</td>
 </tr>
 <tr>
-<td><code>isRewardCards</code></td>
+<td><code>IsRewardCards</code></td>
 <td><code>boolean</code></td>
 <td>카드 보상 제공 여부</td>
 </tr>
 <tr>
-<td><code>cardRarity</code></td>
+<td><code>CardRarity</code></td>
 <td><code>string?</code></td>
 <td><code>CardRarityTBL.Name</code> 참조. 카드 보상 희귀도 필터</td>
 </tr>
 <tr>
-<td><code>winEvent</code></td>
+<td><code>IsRewardItem</code></td>
+<td><code>boolean</code></td>
+<td>아이템 보상 제공 여부</td>
+</tr>
+<tr>
+<td><code>ItemRarity</code></td>
+<td><code>string?</code></td>
+<td><code>CardRarityTBL.ID</code> 참조. 아이템 보상 희귀도 필터</td>
+</tr>
+<tr>
+<td><code>ItemTeam</code></td>
+<td><code>string?</code></td>
+<td><code>CardTeamTBL.ID</code> 참조. 아이템 보상 팀 필터</td>
+</tr>
+<tr>
+<td><code>Tutorial</code></td>
+<td><code>string?</code></td>
+<td>튜토리얼 설정 키. 공란이면 일반 전투</td>
+</tr>
+<tr>
+<td><code>WinEvent</code></td>
 <td><code>string?</code></td>
 <td>승리 시 연계 발동할 이벤트 <code>Name</code></td>
 </tr>
@@ -3701,9 +3845,9 @@
 </table>
 <p><strong>참조 관계</strong></p>
 <ul>
-<li><code>enemy1~4</code> → <code>EnemyTBL.Name</code></li>
-<li><code>extraEnemy</code> → <code>ExtraEnemyTBL.Name</code></li>
-<li><code>cardRarity</code> → <code>CardRarityTBL.Name</code></li>
+<li><code>Enemy1~4</code> → <code>EnemyTBL.Name</code></li>
+<li><code>ExtraEnemy</code> → <code>ExtraEnemyTBL.Name</code></li>
+<li><code>CardRarity</code> → <code>CardRarityTBL.Name</code></li>
 </ul>
 <p><strong>예시</strong></p>
 <table>
@@ -3711,15 +3855,15 @@
 <tr>
 <th>Name</th>
 <th>ID</th>
-<th style="text-align: center;">depthMin</th>
-<th style="text-align: center;">depthMax</th>
-<th style="text-align: center;">enemyLevel</th>
+<th style="text-align: center;">DepthMin</th>
+<th style="text-align: center;">DepthMax</th>
+<th style="text-align: center;">EnemyLevel</th>
 <th>enemy1</th>
 <th>enemy2</th>
 <th style="text-align: center;">rewardGold</th>
 <th style="text-align: center;">rewardXP</th>
-<th style="text-align: center;">isRewardCards</th>
-<th>cardRarity</th>
+<th style="text-align: center;">IsRewardCards</th>
+<th>CardRarity</th>
 </tr>
 </thead>
 <tbody>
@@ -3788,37 +3932,37 @@
 <td>고유 ID</td>
 </tr>
 <tr>
-<td><code>depthMin</code></td>
+<td><code>DepthMin</code></td>
 <td><code>number</code></td>
 <td>등장 가능 최소 깊이</td>
 </tr>
 <tr>
-<td><code>depthMax</code></td>
+<td><code>DepthMax</code></td>
 <td><code>number</code></td>
 <td>등장 가능 최대 깊이</td>
 </tr>
 <tr>
-<td><code>descStringId</code></td>
+<td><code>DescStringID</code></td>
 <td><code>number</code></td>
 <td>StringTBL UID (270000~). 이벤트 설명</td>
 </tr>
 <tr>
-<td><code>choice1Title</code></td>
+<td><code>Choice1Title</code></td>
 <td><code>string</code></td>
 <td>선택지 1 제목</td>
 </tr>
 <tr>
-<td><code>choice1Desc</code></td>
+<td><code>Choice1Desc</code></td>
 <td><code>string?</code></td>
 <td>선택지 1 설명</td>
 </tr>
 <tr>
-<td><code>choice1Effect</code></td>
+<td><code>Choice1Effect</code></td>
 <td><code>string</code></td>
 <td>선택지 1 발동 효과. <code>MapEvent_EffectTBL.Name</code> 참조</td>
 </tr>
 <tr>
-<td><code>choice2~4Title/Desc/Effect</code></td>
+<td><code>Choice2~4Title/Desc/Effect</code></td>
 <td><code>string?</code></td>
 <td>선택지 2~4. 공란이면 해당 선택지 없음</td>
 </tr>
@@ -3826,8 +3970,8 @@
 </table>
 <p><strong>참조 관계</strong></p>
 <ul>
-<li><code>descStringId</code> → <code>StringTBL_KR.UID</code></li>
-<li><code>choice*Effect</code> → <code>MapEvent_EffectTBL.Name</code></li>
+<li><code>DescStringID</code> → <code>StringTBL_KR.UID</code></li>
+<li><code>Choice*Effect</code> → <code>MapEvent_EffectTBL.Name</code></li>
 </ul>
 <p><strong>예시</strong></p>
 <table>
@@ -3835,13 +3979,13 @@
 <tr>
 <th>Name</th>
 <th>ID</th>
-<th style="text-align: center;">depthMin</th>
-<th style="text-align: center;">depthMax</th>
-<th style="text-align: center;">descStringId</th>
-<th>choice1Title</th>
-<th>choice1Effect</th>
-<th>choice2Title</th>
-<th>choice2Effect</th>
+<th style="text-align: center;">DepthMin</th>
+<th style="text-align: center;">DepthMax</th>
+<th style="text-align: center;">DescStringID</th>
+<th>Choice1Title</th>
+<th>Choice1Effect</th>
+<th>Choice2Title</th>
+<th>Choice2Effect</th>
 </tr>
 </thead>
 <tbody>
@@ -3882,42 +4026,72 @@
 <td>고유 ID</td>
 </tr>
 <tr>
-<td><code>selectEventTarget</code></td>
+<td><code>Icon</code></td>
+<td><code>string</code></td>
+<td>맵 노드 표시 아이콘 에셋 키</td>
+</tr>
+<tr>
+<td><code>SelectEventTarget</code></td>
 <td><code>string</code></td>
 <td>대상 레이블</td>
 </tr>
 <tr>
-<td><code>eventTarget</code></td>
+<td><code>EventTarget</code></td>
 <td><code>string</code></td>
 <td>이벤트 대상 식별자</td>
 </tr>
 <tr>
-<td><code>spendGold</code></td>
+<td><code>SpendItem</code></td>
+<td><code>string?</code></td>
+<td>소비 아이템 ID. 공란이면 없음</td>
+</tr>
+<tr>
+<td><code>SpendGold</code></td>
 <td><code>number</code></td>
 <td>소비 골드. <code>0</code>이면 없음</td>
 </tr>
 <tr>
-<td><code>spendHp</code></td>
+<td><code>SpendHP</code></td>
 <td><code>number</code></td>
 <td>소비 체력. <code>0</code>이면 없음</td>
 </tr>
 <tr>
-<td><code>gainGold</code></td>
+<td><code>GainGold</code></td>
 <td><code>number</code></td>
 <td>획득 골드</td>
 </tr>
 <tr>
-<td><code>gainXp</code></td>
+<td><code>GainXP</code></td>
 <td><code>number</code></td>
 <td>획득 경험치</td>
 </tr>
 <tr>
-<td><code>gainHeal</code></td>
+<td><code>GainHeal</code></td>
 <td><code>number</code></td>
 <td>회복량. <code>0</code>이면 없음</td>
 </tr>
 <tr>
-<td><code>descStringId</code></td>
+<td><code>GainItem1</code></td>
+<td><code>string?</code></td>
+<td>획득 아이템 ID 1</td>
+</tr>
+<tr>
+<td><code>GainItem2</code></td>
+<td><code>string?</code></td>
+<td>획득 아이템 ID 2</td>
+</tr>
+<tr>
+<td><code>GainItem3</code></td>
+<td><code>string?</code></td>
+<td>획득 아이템 ID 3</td>
+</tr>
+<tr>
+<td><code>GainAlly</code></td>
+<td><code>string?</code></td>
+<td>획득 아군 ID. <code>EnemyTBL</code> 또는 <code>ChampionTBL</code> 참조</td>
+</tr>
+<tr>
+<td><code>DescStringID</code></td>
 <td><code>number</code></td>
 <td>StringTBL UID (270000~). 이벤트 설명</td>
 </tr>
@@ -3929,12 +4103,12 @@
 <tr>
 <th>Name</th>
 <th>ID</th>
-<th style="text-align: center;">spendGold</th>
-<th style="text-align: center;">spendHp</th>
-<th style="text-align: center;">gainGold</th>
-<th style="text-align: center;">gainXp</th>
-<th style="text-align: center;">gainHeal</th>
-<th style="text-align: center;">descStringId</th>
+<th style="text-align: center;">SpendGold</th>
+<th style="text-align: center;">SpendHP</th>
+<th style="text-align: center;">GainGold</th>
+<th style="text-align: center;">GainXP</th>
+<th style="text-align: center;">GainHeal</th>
+<th style="text-align: center;">DescStringID</th>
 </tr>
 </thead>
 <tbody>
@@ -3984,37 +4158,47 @@
 <td>고유 ID</td>
 </tr>
 <tr>
-<td><code>selectEventTarget</code></td>
+<td><code>Icon</code></td>
+<td><code>string</code></td>
+<td>맵 노드 표시 아이콘 에셋 키</td>
+</tr>
+<tr>
+<td><code>Condition1</code></td>
+<td><code>string?</code></td>
+<td>이벤트 발동 조건. 공란이면 무조건 발동</td>
+</tr>
+<tr>
+<td><code>SelectEventTarget</code></td>
 <td><code>string</code></td>
 <td>대상 레이블</td>
 </tr>
 <tr>
-<td><code>eventTarget</code></td>
+<td><code>EventTarget</code></td>
 <td><code>string</code></td>
 <td>이벤트 대상 식별자</td>
 </tr>
 <tr>
-<td><code>effect1</code></td>
+<td><code>Effect1</code></td>
 <td><code>string?</code></td>
 <td>주 효과</td>
 </tr>
 <tr>
-<td><code>effect2</code></td>
+<td><code>Effect2</code></td>
 <td><code>string?</code></td>
 <td>보조 효과</td>
 </tr>
 <tr>
-<td><code>value</code></td>
+<td><code>Value</code></td>
 <td><code>number?</code></td>
 <td>효과 수치</td>
 </tr>
 <tr>
-<td><code>chainEventId</code></td>
+<td><code>ChainEventID</code></td>
 <td><code>string?</code></td>
 <td>연쇄 발동할 이벤트 <code>Name</code></td>
 </tr>
 <tr>
-<td><code>descStringId</code></td>
+<td><code>DescStringID</code></td>
 <td><code>number?</code></td>
 <td>StringTBL UID (270000~). 결과 설명 텍스트</td>
 </tr>
@@ -4044,29 +4228,39 @@
 <td>고유 ID</td>
 </tr>
 <tr>
-<td><code>selectType</code></td>
+<td><code>SelectType</code></td>
 <td><code>string</code></td>
 <td>이벤트 유형 레이블. GlobalEnum.MapEventType 참조</td>
 </tr>
 <tr>
-<td><code>eventType</code></td>
+<td><code>EventType</code></td>
 <td><code>string</code></td>
 <td>이벤트 유형 enum 값</td>
 </tr>
 <tr>
-<td><code>icon</code></td>
+<td><code>Icon</code></td>
 <td><code>string</code></td>
 <td>노드 표시 아이콘 에셋 키</td>
 </tr>
 <tr>
-<td><code>rarity</code></td>
+<td><code>Rarity</code></td>
 <td><code>string?</code></td>
 <td>희귀도. 이벤트 보상 등급에 영향</td>
 </tr>
 <tr>
-<td><code>worldState</code></td>
+<td><code>SelectWorldState</code></td>
+<td><code>string?</code></td>
+<td>WorldState 조건 레이블</td>
+</tr>
+<tr>
+<td><code>WorldState</code></td>
 <td><code>string?</code></td>
 <td>GlobalEnum.WorldState 참조. 이벤트 출현 조건 플래그</td>
+</tr>
+<tr>
+<td><code>FreeUpgrade</code></td>
+<td><code>string?</code></td>
+<td>무료 강화 이벤트 설정 키</td>
 </tr>
 </tbody>
 </table>
@@ -4094,40 +4288,65 @@
 <td>고유 ID</td>
 </tr>
 <tr>
-<td><code>depthMin</code></td>
+<td><code>Icon</code></td>
+<td><code>string</code></td>
+<td>맵 노드 표시 아이콘 에셋 키</td>
+</tr>
+<tr>
+<td><code>DepthMin</code></td>
 <td><code>number</code></td>
 <td>등장 가능 최소 깊이</td>
 </tr>
 <tr>
-<td><code>depthMax</code></td>
+<td><code>DepthMax</code></td>
 <td><code>number</code></td>
 <td>등장 가능 최대 깊이</td>
 </tr>
 <tr>
-<td><code>buyMult</code></td>
+<td><code>BuyMult</code></td>
 <td><code>number</code></td>
 <td>구매 가격 배율. 기본값 <code>1.0</code></td>
 </tr>
 <tr>
-<td><code>sellyMult</code></td>
+<td><code>SellyMult</code></td>
 <td><code>number</code></td>
 <td>판매 가격 배율. 기본값 <code>0.5</code></td>
 </tr>
 <tr>
-<td><code>cardsRand</code></td>
+<td><code>Item1</code></td>
+<td><code>string?</code></td>
+<td>고정 진열 아이템 ID 1</td>
+</tr>
+<tr>
+<td><code>Item2</code></td>
+<td><code>string?</code></td>
+<td>고정 진열 아이템 ID 2</td>
+</tr>
+<tr>
+<td><code>Item3</code></td>
+<td><code>string?</code></td>
+<td>고정 진열 아이템 ID 3</td>
+</tr>
+<tr>
+<td><code>CardsRand</code></td>
 <td><code>number</code></td>
 <td>상점에 진열되는 카드 수 (랜덤 선택)</td>
 </tr>
 <tr>
-<td><code>itemsRand</code></td>
+<td><code>ItemsRand</code></td>
 <td><code>number</code></td>
 <td>상점에 진열되는 아이템 수 (랜덤 선택)</td>
+</tr>
+<tr>
+<td><code>ItemRandSlot1~4</code></td>
+<td><code>string?</code></td>
+<td>랜덤 아이템 슬롯 설정 키. 아이템 풀 제한 시 사용</td>
 </tr>
 </tbody>
 </table>
 <hr />
 <h3 id="extraenemytbl">ExtraEnemyTBL</h3>
-<p>전투 이벤트에서 조건부로 추가 등장하는 적 세트. 파티 규모(챔피언 수)에 따라 적 수를 조절할 때 사용한다.</p>
+<p>전투 이벤트에서 조건부로 추가 등장하는 적 세트. 파티 규모(챔피언 수)에 따라 적 수를 조절할 때 사용한다. 두 개의 조건 세트를 정의할 수 있으며, 각 세트는 <code>ChampionMin</code>과 <code>Enemy1~4</code>를 한 묶음으로 한다.</p>
 <p><strong>컬럼</strong></p>
 <table>
 <thead>
@@ -4149,61 +4368,47 @@
 <td>고유 ID</td>
 </tr>
 <tr>
-<td><code>championMin</code></td>
+<td><code>ChampionMin</code></td>
 <td><code>number</code></td>
 <td>이 세트가 등장하는 최소 파티 챔피언 수</td>
 </tr>
 <tr>
-<td><code>enemy1~4</code></td>
+<td><code>Enemy1~4</code></td>
 <td><code>string?</code></td>
 <td><code>EnemyTBL.Name</code> 참조. 추가 등장 적</td>
+</tr>
+<tr>
+<td><code>ChampionMin</code> (2nd)</td>
+<td><code>number?</code></td>
+<td>두 번째 조건의 최소 챔피언 수</td>
+</tr>
+<tr>
+<td><code>Enemy1~4</code> (2nd)</td>
+<td><code>string?</code></td>
+<td>두 번째 조건의 추가 적. 공란이면 세트 없음</td>
 </tr>
 </tbody>
 </table>
 <p><strong>참조 관계</strong></p>
 <ul>
-<li><code>enemy1~4</code> → <code>EnemyTBL.Name</code></li>
-<li><code>MapEvent_BattleTBL.extraEnemy</code>에서 참조됨</li>
+<li><code>Enemy1~4</code> → <code>EnemyTBL.Name</code></li>
+<li><code>MapEvent_BattleTBL.ExtraEnemy</code>에서 참조됨</li>
 </ul>
 <hr />
 <h2 id="5">5. 공통</h2>
 <h3 id="globalenum">GlobalEnum</h3>
 <p>코드와 시트 간의 숫자 enum 값을 단일 테이블로 관리한다. 모든 <code>select*</code> 컬럼의 레이블과 실제 enum 숫자값이 이 시트에서 정의된다.</p>
-<p><strong>컬럼</strong></p>
-<table>
-<thead>
-<tr>
-<th>컬럼</th>
-<th>타입</th>
-<th>설명</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>group</code></td>
-<td><code>string</code></td>
-<td>enum 그룹. 예: <code>TileRank</code>, <code>AbilityTrigger</code></td>
-</tr>
-<tr>
-<td><code>id</code></td>
-<td><code>number</code></td>
-<td>숫자 enum 값</td>
-</tr>
-<tr>
-<td><code>enum</code></td>
-<td><code>string</code></td>
-<td>enum 레이블. 예: <code>OnPlay</code>, <code>Vulnerable</code></td>
-</tr>
-<tr>
-<td><code>desc</code></td>
-<td><code>string</code></td>
-<td>설명</td>
-</tr>
-</tbody>
-</table>
+<p><strong>시트 구조</strong></p>
+<p>GlobalEnum은 일반 테이블과 달리 한글/영문 헤더 행이 없다. 여러 enum 그룹이 가로로 병렬 배치되는 다단(multi-column) 레이아웃을 사용한다.</p>
+<ul>
+<li><strong>행 0</strong>: 각 그룹 블록의 첫 열에 그룹명 표기 (예: <code>StatusEffect</code>, <code>StatusDuration</code>)</li>
+<li><strong>행 1</strong>: 각 그룹의 서브 헤더 (<code>id</code>, <code>enum</code>, <code>desc</code>)</li>
+<li><strong>행 2~</strong>: 실제 enum 값</li>
+</ul>
+<p>각 그룹 블록은 3열(<code>id</code> | <code>enum</code> | <code>desc</code>)로 구성되며, 빈 열로 구분된다.</p>
 <p><strong>참조 관계</strong></p>
 <ul>
-<li>참조를 받는 방향. 모든 시트의 <code>select*</code> 컬럼이 이 시트를 참조함</li>
+<li>참조를 받는 방향. 모든 시트의 <code>Select*</code> 컬럼이 이 시트를 참조함</li>
 <li>직접 외래키 제약은 없으나, 빌드 시 검증 단계에서 값 일치 여부 확인</li>
 </ul>
 <p><strong>주요 그룹 요약</strong></p>
