@@ -6,7 +6,7 @@
 
 <button id="btn-build-data" class="md-button" onclick="buildAndDownloadData()">📦 JSON 전체 다운로드</button>
 
-시트별 JSON 파일(`{시트명}.json`)과 컬럼 정의 모음인 `schema.json`을 포함해 총 23개 파일을 `gamedata.zip`으로 제공한다. 각 파일은 단순 배열(`[]`) 형태이며, 배열 컬럼(Slots·Enemies 등)은 시트의 분할 슬롯들을 자동 집계한다.
+시트별 JSON 파일(`{시트명}.json`)과 컬럼 정의 모음인 `schema.json`을 포함해 총 24개 파일을 `gamedata.zip`으로 제공한다. 각 파일은 단순 배열(`[]`) 형태이며, 배열 컬럼(Slots·Enemies 등)은 시트의 분할 슬롯들을 자동 집계한다.
 
 ---
 
@@ -16,6 +16,7 @@
 |--------|------|:---------:|
 | `StringTBL_KR` | 게임 내 모든 화면 표시 텍스트를 UID 키로 보관하는 문자열 사전. 다국어 확장 시 `StringTBL_EN` 등을 동일 UID로 추가한다. | <button class="md-button md-button--sm" onclick="downloadSingleJSON('StringTBL_KR', this)">⬇ JSON</button> |
 | `CardAbilityTBL` | 카드 또는 적이 발동하는 개별 효과 단위 정의. 트리거·대상·조건·효과를 선언적으로 기술하며, 하나의 카드는 최대 4개 어빌리티를 참조할 수 있다. | <button class="md-button md-button--sm" onclick="downloadSingleJSON('CardAbilityTBL', this)">⬇ JSON</button> |
+| `CardEffectTBL` | 어빌리티가 참조하는 실제 효과 실행 단위 정의. C# 클래스명(`ClassFile`)과 파라미터(StatType·StatusId·CardId 등)를 조합해 런타임 효과를 결정한다. | <button class="md-button md-button--sm" onclick="downloadSingleJSON('CardEffectTBL', this)">⬇ JSON</button> |
 | `CardStatusTBL` | 버프·디버프 상태이상 정의. 효과 종류(StatusEffect enum), 지속 방식(StatusDuration enum), 표시 정보를 관리한다. | <button class="md-button md-button--sm" onclick="downloadSingleJSON('CardStatusTBL', this)">⬇ JSON</button> |
 | `CardTraitTBL` | 카드에 붙는 태그 특성 정의. 시너지 조건이나 어빌리티 트리거 필터(`is_skill`, `is_attack` 등)에서 참조된다. | <button class="md-button md-button--sm" onclick="downloadSingleJSON('CardTraitTBL', this)">⬇ JSON</button> |
 | `CardTeamTBL` | 카드와 챔피언이 속하는 진영(팀) 정의. 팀별 시너지 발동 및 덱 구성 제약의 기준 단위. | <button class="md-button md-button--sm" onclick="downloadSingleJSON('CardTeamTBL', this)">⬇ JSON</button> |
