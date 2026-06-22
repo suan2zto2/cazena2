@@ -277,6 +277,13 @@ const SCHEMA = {
     { name: 'TargetAnim',   type: 'string?', desc: '대상 애니메이션 키' },
     { name: 'Availability', type: 'number',  desc: '사용 가능 조건', ref: 'GlobalEnum.CardAvailability' },
   ]},
+  BehaviorTBL: { columns: [
+    { name: 'ID',           type: 'string',  desc: '행동 패턴 식별자 PK' },
+    { name: 'ClassName',    type: 'string',  desc: 'C# 행동 클래스명' },
+    { name: 'Summon_card',  type: 'string?', desc: '소환 카드 ID', ref: 'CardTBL.ID' },
+    { name: 'Ultimate_card',type: 'string?', desc: '궁극기 카드 ID', ref: 'CardTBL.ID' },
+    { name: 'Phase_trait',  type: 'string?', desc: '페이즈 전환 특성 ID', ref: 'CardTraitTBL.ID' },
+  ]},
   ChampionTBL: { columns: [
     { name: 'ID',            type: 'string',  desc: '챔피언 식별자 PK' },
     { name: 'TitleStringID', type: 'number',  desc: '이름 문자열', ref: 'StringTBL_KR.UID' },
@@ -501,7 +508,7 @@ async function buildAndDownloadData() {
     const [
       strRows, traitRows, teamRows, rarityRows, intentRows,
       abilRows, cardEffectRows, statusRows, cardRows,
-      champRows, enemyRows, deckRows,
+      champRows, behaviorRows, enemyRows, deckRows,
       mapRows, randRows, fixedWidthRows, fixedEvtRows,
       battleRows, extraRows, choiceRows, tradeRows, effectRows, otherRows, shopRows,
     ] = await Promise.all([
@@ -509,7 +516,7 @@ async function buildAndDownloadData() {
       fetchSheet('CardTraitTBL'), fetchSheet('CardTeamTBL'),
       fetchSheet('CardRarityTBL'), fetchSheet('CardIntentTBL'),
       fetchSheet('CardAbilityTBL'), fetchSheet('CardEffectTBL'), fetchSheet('CardStatusTBL'), fetchSheet('CardTBL'),
-      fetchSheet('ChampionTBL'), fetchSheet('EnemyTBL'), fetchSheet('StartCardDeckTBL'),
+      fetchSheet('ChampionTBL'), fetchSheet('BehaviorTBL'), fetchSheet('EnemyTBL'), fetchSheet('StartCardDeckTBL'),
       fetchSheet('MapTBL'), fetchSheet('MapRandomEventTBL'),
       fetchSheet('MapFixedWidthTBL'), fetchSheet('MapFixedEventTBL'),
       fetchSheet('MapEvent_BattleTBL'), fetchSheet('ExtraEnemyTBL'),
@@ -531,6 +538,7 @@ async function buildAndDownloadData() {
       ['CardStatusTBL.json',        buildGeneric(statusRows,       'CardStatusTBL')],
       ['CardTBL.json',              buildGeneric(cardRows,       'CardTBL')],
       ['ChampionTBL.json',          buildGeneric(champRows,      'ChampionTBL')],
+      ['BehaviorTBL.json',          buildGeneric(behaviorRows,   'BehaviorTBL')],
       ['EnemyTBL.json',             buildGeneric(enemyRows,      'EnemyTBL')],
       ['StartCardDeckTBL.json',     buildGeneric(deckRows,       'StartCardDeckTBL')],
       ['MapTBL.json',               buildGeneric(mapRows,        'MapTBL')],

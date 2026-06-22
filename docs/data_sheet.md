@@ -6,7 +6,7 @@
 
 <button id="btn-build-data" class="md-button" onclick="buildAndDownloadData()">📦 JSON 전체 다운로드</button>
 
-시트별 JSON 파일(`{시트명}.json`)과 컬럼 정의 모음인 `schema.json`을 포함해 총 24개 파일을 `gamedata.zip`으로 제공한다. 각 파일은 단순 배열(`[]`) 형태이며, 배열 컬럼(Slots·Enemies 등)은 시트의 분할 슬롯들을 자동 집계한다.
+시트별 JSON 파일(`{시트명}.json`)과 컬럼 정의 모음인 `schema.json`을 포함해 총 25개 파일을 `gamedata.zip`으로 제공한다. 각 파일은 단순 배열(`[]`) 형태이며, 배열 컬럼(Slots·Enemies 등)은 시트의 분할 슬롯들을 자동 집계한다.
 
 ---
 
@@ -23,6 +23,7 @@
 | `CardRarityTBL` | 카드 희귀도 등급 정의. 상점 진열 확률(`Probability`)과 보상 카드 필터링에 사용된다. | <button class="md-button md-button--sm" onclick="downloadSingleJSON('CardRarityTBL', this)">⬇ JSON</button> |
 | `CardIntentTBL` | 적이 카드를 사용할 때 플레이어에게 보여주는 행동 예고(의도) 아이콘 정의. 우선순위와 표시 여부를 제어한다. | <button class="md-button md-button--sm" onclick="downloadSingleJSON('CardIntentTBL', this)">⬇ JSON</button> |
 | `CardTBL` | 플레이어·적이 사용하는 카드 전체 정의. 2048 전용 필드 `tileRank`·`upgradedTileRank`로 발동에 필요한 타일 등급을 지정한다. | <button class="md-button md-button--sm" onclick="downloadSingleJSON('CardTBL', this)">⬇ JSON</button> |
+| `BehaviorTBL` | 적 AI 행동 패턴 정의. C# 클래스명(`ClassName`)으로 런타임 행동 로직을 연결하며, 소환 카드·궁극기·페이즈 특성을 지정한다. | <button class="md-button md-button--sm" onclick="downloadSingleJSON('BehaviorTBL', this)">⬇ JSON</button> |
 | `ChampionTBL` | 플레이어가 파티에 편성하는 챔피언 정의. HP·Speed·Hand·Energy 4종 스탯과 레벨업 증분값, 시작 덱을 포함한다. | <button class="md-button md-button--sm" onclick="downloadSingleJSON('ChampionTBL', this)">⬇ JSON</button> |
 | `EnemyTBL` | 전투에 등장하는 적 정의. 챔피언과 동일한 스탯 구조를 사용하며, `CardDeck`으로 행동 카드 덱을 참조한다. | <button class="md-button md-button--sm" onclick="downloadSingleJSON('EnemyTBL', this)">⬇ JSON</button> |
 | `StartCardDeckTBL` | 챔피언 시작 덱 또는 적 행동 덱을 정의. 최대 10개 슬롯에 카드 ID를 배치하며, 빈 슬롯은 덱에 포함되지 않는다. | <button class="md-button md-button--sm" onclick="downloadSingleJSON('StartCardDeckTBL', this)">⬇ JSON</button> |
