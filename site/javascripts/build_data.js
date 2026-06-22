@@ -133,12 +133,16 @@ function buildExtraEnemies(rows) {
   return rows.map(r => ({
     ID: r.ID,
     Cond1: {
-      ...(num(r.Slot1ChampionMin) !== 0 && { ChampionMin: num(r.Slot1ChampionMin) }),
-      Enemies: [r.Slot1Enemy1,r.Slot1Enemy2,r.Slot1Enemy3,r.Slot1Enemy4].map(e => e || null),
+      ...(num(r.Slot1ChampionMin) !== 0 && {
+        ChampionMin: num(r.Slot1ChampionMin),
+        Enemies: [r.Slot1Enemy1,r.Slot1Enemy2,r.Slot1Enemy3,r.Slot1Enemy4].map(e => e || null),
+      }),
     },
     Cond2: {
-      ...(num(r.Slot2ChampionMin) !== 0 && { ChampionMin: num(r.Slot2ChampionMin) }),
-      Enemies: [r.Slot2Enemy1,r.Slot2Enemy2,r.Slot2Enemy3,r.Slot2Enemy4].map(e => e || null),
+      ...(num(r.Slot2ChampionMin) !== 0 && {
+        ChampionMin: num(r.Slot2ChampionMin),
+        Enemies: [r.Slot2Enemy1,r.Slot2Enemy2,r.Slot2Enemy3,r.Slot2Enemy4].map(e => e || null),
+      }),
     },
   }));
 }
