@@ -133,12 +133,12 @@ function buildExtraEnemies(rows) {
   return rows.map(r => ({
     ID: r.ID,
     Cond1: {
-      ChampionMin: num(r.ChampionMin),
-      Enemies: [r.Enemy1,r.Enemy2,r.Enemy3,r.Enemy4].filter(e => e !== ''),
+      ChampionMin: num(r.Slot1ChampionMin),
+      Enemies: [r.Slot1Enemy1,r.Slot1Enemy2,r.Slot1Enemy3,r.Slot1Enemy4].filter(e => e !== ''),
     },
     Cond2: {
-      ChampionMin: num(r.ChampionMin_2),
-      Enemies: [r.Enemy1_2,r.Enemy2_2,r.Enemy3_2,r.Enemy4_2].filter(e => e !== ''),
+      ChampionMin: num(r.Slot2ChampionMin),
+      Enemies: [r.Slot2Enemy1,r.Slot2Enemy2,r.Slot2Enemy3,r.Slot2Enemy4].filter(e => e !== ''),
     },
   }));
 }

@@ -119,8 +119,14 @@ function buildChoiceEvents(rows: Record<string, string>[]): ChoiceEvent[] {
 function buildExtraEnemies(rows: Record<string, string>[]): ExtraEnemy[] {
   return rows.map(r => ({
     ID: r.ID,
-    ChampionMin: r.ChampionMin,
-    Enemies: [r.Enemy1, r.Enemy2, r.Enemy3, r.Enemy4].filter(e => e !== ''),
+    Cond1: {
+      ChampionMin: num(r.Slot1ChampionMin),
+      Enemies: [r.Slot1Enemy1, r.Slot1Enemy2, r.Slot1Enemy3, r.Slot1Enemy4].filter(e => e !== ''),
+    },
+    Cond2: {
+      ChampionMin: num(r.Slot2ChampionMin),
+      Enemies: [r.Slot2Enemy1, r.Slot2Enemy2, r.Slot2Enemy3, r.Slot2Enemy4].filter(e => e !== ''),
+    },
   }));
 }
 
