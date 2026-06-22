@@ -61,10 +61,11 @@ function opt<T>(v: string, fn: (s: string) => T): T | undefined {
 
 function buildGeneric(rows: Record<string, string>[], tableName: string): Record<string, unknown>[] {
   const cols = (SCHEMA[tableName]?.columns ?? []) as Array<{
-    name: string; type: string; sources?: string[];
+    name: string; type: string; sources?: string[]; nullable?: boolean;
   }>;
-  const typeMap    = new Map(cols.map(c => [c.name, c.type]));
-  const sourceKeys = new Set(cols.flatMap(c => c.sources ?? []));
+  const typeMap     = new Map(cols.map(c => [c.name, c.type]));
+  const nullableSet = new Set(cols.filter(c => c.nullable).map(c => c.name));
+  const sourceKeys  = new Set(cols.flatMap(c => c.sources ?? []));
 
   return rows.map(r => {
     const obj: Record<string, unknown> = {};
@@ -73,7 +74,7 @@ function buildGeneric(rows: Record<string, string>[], tableName: string): Record
       if (sourceKeys.has(key)) continue;
       const type = typeMap.get(key) ?? 'string';
       const val  = String(rawVal ?? '').trim();
-      if (val === '') continue;
+      if (val === '') { if (nullableSet.has(key)) obj[key] = null; continue; }
       if      (type === 'boolean')                       { obj[key] = bool(rawVal); }
       else if (type === 'number' || type === 'number?')  { obj[key] = num(rawVal); }
       else if (type === 'string?')                       { obj[key] = val; }
@@ -331,8 +332,10 @@ const SCHEMA: Record<string, { columns: { name: string; type: string; desc: stri
     { name: 'DepthMax',      type: 'number',   desc: '등장 가능 최대 깊이' },
     { name: 'Icon',          type: 'string',   desc: '맵 노드 아이콘 에셋 키' },
     { name: 'EnemyLevel',    type: 'number',   desc: '적 레벨 오프셋' },
-    { name: 'Enemies',       type: 'string[]', desc: '등장 적 ID 배열 (최대 4)', ref: 'EnemyTBL.ID',
-      sources: ['Enemy1','Enemy2','Enemy3','Enemy4'] },
+    { name: 'Enemy1', type: 'string?', nullable: true, desc: '등장 적 1', ref: 'EnemyTBL.ID' },
+    { name: 'Enemy2', type: 'string?', nullable: true, desc: '등장 적 2', ref: 'EnemyTBL.ID' },
+    { name: 'Enemy3', type: 'string?', nullable: true, desc: '등장 적 3', ref: 'EnemyTBL.ID' },
+    { name: 'Enemy4', type: 'string?', nullable: true, desc: '등장 적 4', ref: 'EnemyTBL.ID' },
     { name: 'ExtraEnemy',    type: 'string?',  desc: '조건부 추가 적', ref: 'ExtraEnemyTBL.ID' },
     { name: 'RewardGold',    type: 'number',   desc: '클리어 보상 골드' },
     { name: 'RewardXP',      type: 'number',   desc: '클리어 보상 경험치' },
