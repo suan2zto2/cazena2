@@ -12,13 +12,13 @@
 
 각 그룹은 독립된 Google Sheets 파일로 관리된다. 그룹 ZIP에는 해당 그룹의 모든 JSON 파일이 포함된다.
 
-| 그룹 | 구글 시트 | 포함 테이블 | 그룹 ZIP |
-|------|:--------:|------------|:--------:|
-| **카드** | [열기 ↗](https://docs.google.com/spreadsheets/d/1SRpzgAzrPeH7GlxGkBo3hs83RiYDknOo3uXKJkeRubM/edit?usp=sharing){ target="_blank" } | `CardTBL` · `CardAbilityTBL` · `CardEffectTBL` · `CardStatusTBL` · `CardTraitTBL` · `CardTeamTBL` · `CardRarityTBL` · `CardIntentTBL` | <button class="md-button md-button--sm" onclick="downloadGroupJSON('card', this)">⬇ ZIP</button> |
-| **캐릭터** | [열기 ↗](https://docs.google.com/spreadsheets/d/1XjHNMIiiY0wwzkIJQuDdRxd4qRrvymFwE1-XK82nFIQ/edit?usp=sharing){ target="_blank" } | `ChampionTBL` · `EnemyTBL` · `StartCardDeckTBL` · `BehaviorTBL` | <button class="md-button md-button--sm" onclick="downloadGroupJSON('character', this)">⬇ ZIP</button> |
-| **맵** | [열기 ↗](https://docs.google.com/spreadsheets/d/1cs3UU7-H8k0cGPzNxRM6LapuYNtDVVywsGXm07kG1M4/edit?usp=sharing){ target="_blank" } | `MapTBL` · `MapRandomEventTBL` · `MapFixedEventTBL` · `MapFixedWidthTBL` | <button class="md-button md-button--sm" onclick="downloadGroupJSON('map', this)">⬇ ZIP</button> |
-| **이벤트** | [열기 ↗](https://docs.google.com/spreadsheets/d/1e0AoLhJbyWIxWs57tJKFBzR6kUdN1ck9ghs6E3l9UdQ/edit?usp=sharing){ target="_blank" } | `MapEvent_BattleTBL` · `ExtraEnemyTBL` · `MapEvent_ChoiceTBL` · `MapEvent_TradeTBL` · `MapEvent_EffectTBL` · `MapEvent_OtherTBL` · `MapEvent_ShopTBL` | <button class="md-button md-button--sm" onclick="downloadGroupJSON('event', this)">⬇ ZIP</button> |
-| **공통** | [열기 ↗](https://docs.google.com/spreadsheets/d/1AzUO-yDfK6YIv7kqGbDWmtSsoPB5tnqKwyCUWG3Roro/edit?usp=sharing){ target="_blank" } | `StringTBL_KR` · `ConditionTBL` · `GlobalEnum`<sup>*</sup> | <button class="md-button md-button--sm" onclick="downloadGroupJSON('common', this)">⬇ ZIP</button> |
+| 그룹 | 수 | 구글 시트 | 포함 테이블 | 그룹 ZIP |
+|------|:--:|:--------:|------------|:--------:|
+| **카드** | 8 | [열기 ↗](https://docs.google.com/spreadsheets/d/1SRpzgAzrPeH7GlxGkBo3hs83RiYDknOo3uXKJkeRubM/edit?usp=sharing){ target="_blank" } | `CardTBL` · `CardAbilityTBL` · `CardEffectTBL` · `CardStatusTBL` · `CardTraitTBL` · `CardTeamTBL` · `CardRarityTBL` · `CardIntentTBL` | <button class="md-button md-button--sm" onclick="downloadGroupJSON('card', this)">⬇ ZIP</button> |
+| **캐릭터** | 4 | [열기 ↗](https://docs.google.com/spreadsheets/d/1XjHNMIiiY0wwzkIJQuDdRxd4qRrvymFwE1-XK82nFIQ/edit?usp=sharing){ target="_blank" } | `ChampionTBL` · `EnemyTBL` · `StartCardDeckTBL` · `BehaviorTBL` | <button class="md-button md-button--sm" onclick="downloadGroupJSON('character', this)">⬇ ZIP</button> |
+| **맵** | 4 | [열기 ↗](https://docs.google.com/spreadsheets/d/1cs3UU7-H8k0cGPzNxRM6LapuYNtDVVywsGXm07kG1M4/edit?usp=sharing){ target="_blank" } | `MapTBL` · `MapRandomEventTBL` · `MapFixedEventTBL` · `MapFixedWidthTBL` | <button class="md-button md-button--sm" onclick="downloadGroupJSON('map', this)">⬇ ZIP</button> |
+| **이벤트** | 7 | [열기 ↗](https://docs.google.com/spreadsheets/d/1e0AoLhJbyWIxWs57tJKFBzR6kUdN1ck9ghs6E3l9UdQ/edit?usp=sharing){ target="_blank" } | `MapEvent_BattleTBL` · `ExtraEnemyTBL` · `MapEvent_ChoiceTBL` · `MapEvent_TradeTBL` · `MapEvent_EffectTBL` · `MapEvent_OtherTBL` · `MapEvent_ShopTBL` | <button class="md-button md-button--sm" onclick="downloadGroupJSON('event', this)">⬇ ZIP</button> |
+| **공통** | 3 | [열기 ↗](https://docs.google.com/spreadsheets/d/1AzUO-yDfK6YIv7kqGbDWmtSsoPB5tnqKwyCUWG3Roro/edit?usp=sharing){ target="_blank" } | `StringTBL_KR` · `ConditionTBL` · `GlobalEnum`<sup>*</sup> | <button class="md-button md-button--sm" onclick="downloadGroupJSON('common', this)">⬇ ZIP</button> |
 
 <small><sup>*</sup> GlobalEnum은 Node.js 빌드 전용. 브라우저 ZIP에는 포함되지 않는다.</small>
 
