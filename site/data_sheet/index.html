@@ -1198,7 +1198,7 @@
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
-        테이블 정의
+        테이블 그룹
       
     </span>
   </a>
@@ -1207,6 +1207,17 @@
       
         <li class="md-nav__item">
   <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        테이블 정의
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       
         시트 구성 개요
@@ -1714,11 +1725,56 @@
 
 <h1 id="_1">기획 테이블 시트</h1>
 <p><small style="color:#7070a0;font-family:'Roboto Mono',monospace;background:rgba(255,255,255,0.05);padding:2px 12px;border-radius:20px;border:1px solid rgba(255,255,255,0.08);">📄 docs/data_sheet.md</small></p>
-<p><a class="md-button md-button--primary" href="https://docs.google.com/spreadsheets/d/1SRpzgAzrPeH7GlxGkBo3hs83RiYDknOo3uXKJkeRubM/edit" target="_blank">📋 구글 시트 열기</a></p>
 <p><button id="btn-build-data" class="md-button" onclick="buildAndDownloadData()">📦 JSON 전체 다운로드</button></p>
 <p>시트별 JSON 파일(<code>{시트명}.json</code>)과 컬럼 정의 모음인 <code>schema.json</code>을 포함해 총 26개 파일을 <code>gamedata.zip</code>으로 제공한다. 각 파일은 단순 배열(<code>[]</code>) 형태이며, 배열 컬럼(Slots·Enemies 등)은 시트의 분할 슬롯들을 자동 집계한다.</p>
 <hr />
-<h2 id="_2">테이블 정의</h2>
+<h2 id="_2">테이블 그룹</h2>
+<p>각 그룹은 독립된 Google Sheets 파일로 관리된다. 그룹 ZIP에는 해당 그룹의 모든 JSON 파일이 포함된다.</p>
+<table>
+<thead>
+<tr>
+<th>그룹</th>
+<th style="text-align: center;">구글 시트</th>
+<th>포함 테이블</th>
+<th style="text-align: center;">그룹 ZIP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>카드</strong></td>
+<td style="text-align: center;"><a href="https://docs.google.com/spreadsheets/d/1SRpzgAzrPeH7GlxGkBo3hs83RiYDknOo3uXKJkeRubM/edit?usp=sharing" target="_blank">열기 ↗</a></td>
+<td><code>CardTBL</code> · <code>CardAbilityTBL</code> · <code>CardEffectTBL</code> · <code>CardStatusTBL</code> · <code>CardTraitTBL</code> · <code>CardTeamTBL</code> · <code>CardRarityTBL</code> · <code>CardIntentTBL</code></td>
+<td style="text-align: center;"><button class="md-button md-button--sm" onclick="downloadGroupJSON('card', this)">⬇ ZIP</button></td>
+</tr>
+<tr>
+<td><strong>캐릭터</strong></td>
+<td style="text-align: center;"><a href="https://docs.google.com/spreadsheets/d/1XjHNMIiiY0wwzkIJQuDdRxd4qRrvymFwE1-XK82nFIQ/edit?usp=sharing" target="_blank">열기 ↗</a></td>
+<td><code>ChampionTBL</code> · <code>EnemyTBL</code> · <code>StartCardDeckTBL</code> · <code>BehaviorTBL</code></td>
+<td style="text-align: center;"><button class="md-button md-button--sm" onclick="downloadGroupJSON('character', this)">⬇ ZIP</button></td>
+</tr>
+<tr>
+<td><strong>맵</strong></td>
+<td style="text-align: center;"><a href="https://docs.google.com/spreadsheets/d/1cs3UU7-H8k0cGPzNxRM6LapuYNtDVVywsGXm07kG1M4/edit?usp=sharing" target="_blank">열기 ↗</a></td>
+<td><code>MapTBL</code> · <code>MapRandomEventTBL</code> · <code>MapFixedEventTBL</code> · <code>MapFixedWidthTBL</code></td>
+<td style="text-align: center;"><button class="md-button md-button--sm" onclick="downloadGroupJSON('map', this)">⬇ ZIP</button></td>
+</tr>
+<tr>
+<td><strong>이벤트</strong></td>
+<td style="text-align: center;"><a href="https://docs.google.com/spreadsheets/d/1e0AoLhJbyWIxWs57tJKFBzR6kUdN1ck9ghs6E3l9UdQ/edit?usp=sharing" target="_blank">열기 ↗</a></td>
+<td><code>MapEvent_BattleTBL</code> · <code>ExtraEnemyTBL</code> · <code>MapEvent_ChoiceTBL</code> · <code>MapEvent_TradeTBL</code> · <code>MapEvent_EffectTBL</code> · <code>MapEvent_OtherTBL</code> · <code>MapEvent_ShopTBL</code></td>
+<td style="text-align: center;"><button class="md-button md-button--sm" onclick="downloadGroupJSON('event', this)">⬇ ZIP</button></td>
+</tr>
+<tr>
+<td><strong>공통</strong></td>
+<td style="text-align: center;"><a href="https://docs.google.com/spreadsheets/d/1AzUO-yDfK6YIv7kqGbDWmtSsoPB5tnqKwyCUWG3Roro/edit?usp=sharing" target="_blank">열기 ↗</a></td>
+<td><code>StringTBL_KR</code> · <code>ConditionTBL</code> · <code>GlobalEnum</code><sup>*</sup></td>
+<td style="text-align: center;"><button class="md-button md-button--sm" onclick="downloadGroupJSON('common', this)">⬇ ZIP</button></td>
+</tr>
+</tbody>
+</table>
+<p><small><sup>*</sup> GlobalEnum은 Node.js 빌드 전용. 브라우저 ZIP에는 포함되지 않는다.</small></p>
+<hr />
+<h2 id="_3">테이블 정의</h2>
 <table>
 <thead>
 <tr>
@@ -1861,7 +1917,7 @@
 </tbody>
 </table>
 <p>스키마 타입 정의 상세는 <a href="../schema/">스키마 설계</a>를 참조한다.</p>
-<h2 id="_3">시트 구성 개요</h2>
+<h2 id="_4">시트 구성 개요</h2>
 <p>Google Sheets 내 <strong>23개 시트(테이블)</strong>를 5개 그룹으로 분류한다. 각 시트는 하나의 데이터 테이블이다.</p>
 <table>
 <thead>

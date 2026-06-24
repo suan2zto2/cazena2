@@ -3,7 +3,35 @@
 // gviz CSV: 복수 헤더 행(한글/영문)을 한 줄로 합산 → "한글명 EnglishKey"
 //           마지막 토큰이 항상 영문 컬럼명이므로 그것만 추출해 헤더로 사용
 
-const SPREADSHEET_ID = '1SRpzgAzrPeH7GlxGkBo3hs83RiYDknOo3uXKJkeRubM';
+const SHEET_IDS = {
+  card:      '1SRpzgAzrPeH7GlxGkBo3hs83RiYDknOo3uXKJkeRubM',
+  character: '1XjHNMIiiY0wwzkIJQuDdRxd4qRrvymFwE1-XK82nFIQ',
+  map:       '1cs3UU7-H8k0cGPzNxRM6LapuYNtDVVywsGXm07kG1M4',
+  event:     '1e0AoLhJbyWIxWs57tJKFBzR6kUdN1ck9ghs6E3l9UdQ',
+  common:    '1AzUO-yDfK6YIv7kqGbDWmtSsoPB5tnqKwyCUWG3Roro',
+};
+
+const TABLE_GROUP = {
+  CardTBL: 'card', CardAbilityTBL: 'card', CardEffectTBL: 'card',
+  CardStatusTBL: 'card', CardTraitTBL: 'card', CardTeamTBL: 'card',
+  CardRarityTBL: 'card', CardIntentTBL: 'card',
+  ChampionTBL: 'character', EnemyTBL: 'character',
+  StartCardDeckTBL: 'character', BehaviorTBL: 'character',
+  MapTBL: 'map', MapRandomEventTBL: 'map', MapFixedEventTBL: 'map', MapFixedWidthTBL: 'map',
+  MapEvent_BattleTBL: 'event', ExtraEnemyTBL: 'event',
+  MapEvent_ChoiceTBL: 'event', MapEvent_TradeTBL: 'event',
+  MapEvent_EffectTBL: 'event', MapEvent_OtherTBL: 'event', MapEvent_ShopTBL: 'event',
+  StringTBL_KR: 'common', ConditionTBL: 'common',
+};
+
+// GlobalEnum은 Node.js 빌드 전용 → 브라우저 그룹 다운로드에는 포함하지 않음
+const GROUPS = {
+  card:      ['CardTBL','CardAbilityTBL','CardEffectTBL','CardStatusTBL','CardTraitTBL','CardTeamTBL','CardRarityTBL','CardIntentTBL'],
+  character: ['ChampionTBL','EnemyTBL','StartCardDeckTBL','BehaviorTBL'],
+  map:       ['MapTBL','MapRandomEventTBL','MapFixedEventTBL','MapFixedWidthTBL'],
+  event:     ['MapEvent_BattleTBL','ExtraEnemyTBL','MapEvent_ChoiceTBL','MapEvent_TradeTBL','MapEvent_EffectTBL','MapEvent_OtherTBL','MapEvent_ShopTBL'],
+  common:    ['StringTBL_KR','ConditionTBL'],
+};
 
 // ── CSV 파서 ─────────────────────────────────────────────────────────────────
 
@@ -81,7 +109,8 @@ function parseCSV(csvText) {
 }
 
 async function fetchSheet(name) {
-  const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:csv&headers=3&sheet=${encodeURIComponent(name)}`;
+  const sid = SHEET_IDS[TABLE_GROUP[name] ?? 'card'];
+  const url = `https://docs.google.com/spreadsheets/d/${sid}/gviz/tq?tqx=out:csv&headers=3&sheet=${encodeURIComponent(name)}`;
   const res = await fetch(url, { credentials: 'omit' });
   if (!res.ok) throw new Error(`"${name}" 시트 로드 실패 (${res.status}). 시트가 공개 설정인지 확인하세요.`);
   return parseCSV(await res.text());
@@ -516,6 +545,33 @@ async function downloadSingleJSON(sheetName, btn) {
     else if (sheetName === 'ExtraEnemyTBL')      data = buildExtraEnemies(rows);
     else                                          data = buildGeneric(rows, sheetName);
     downloadBlob(new Blob([JSON.stringify({ rows: data }, null, 2)], { type: 'application/json' }), `${sheetName}.json`);
+  } catch(e) {
+    alert('오류: ' + e.message);
+  } finally {
+    btn.textContent = label;
+    btn.disabled = false;
+  }
+}
+
+// ── 그룹 다운로드 ────────────────────────────────────────────────────────────
+
+async function downloadGroupJSON(groupKey, btn) {
+  const label = btn.textContent;
+  btn.textContent = '⏳';
+  btn.disabled = true;
+  try {
+    await loadJSZip();
+    const tableNames = GROUPS[groupKey] ?? [];
+    const allRows = await Promise.all(tableNames.map(n => fetchSheet(n)));
+    const zip = new JSZip();
+    tableNames.forEach((name, i) => {
+      let data;
+      if      (name === 'MapEvent_ChoiceTBL') data = buildChoiceEvents(allRows[i]);
+      else if (name === 'ExtraEnemyTBL')      data = buildExtraEnemies(allRows[i]);
+      else                                    data = buildGeneric(allRows[i], name);
+      zip.file(`${name}.json`, JSON.stringify({ rows: data }, null, 2));
+    });
+    downloadBlob(await zip.generateAsync({ type: 'blob' }), `${groupKey}.zip`);
   } catch(e) {
     alert('오류: ' + e.message);
   } finally {

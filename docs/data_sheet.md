@@ -2,11 +2,25 @@
 
 <small style="color:#7070a0;font-family:'Roboto Mono',monospace;background:rgba(255,255,255,0.05);padding:2px 12px;border-radius:20px;border:1px solid rgba(255,255,255,0.08);">📄 docs/data_sheet.md</small>
 
-[📋 구글 시트 열기](https://docs.google.com/spreadsheets/d/1SRpzgAzrPeH7GlxGkBo3hs83RiYDknOo3uXKJkeRubM/edit){ .md-button .md-button--primary target="_blank" }
-
 <button id="btn-build-data" class="md-button" onclick="buildAndDownloadData()">📦 JSON 전체 다운로드</button>
 
 시트별 JSON 파일(`{시트명}.json`)과 컬럼 정의 모음인 `schema.json`을 포함해 총 26개 파일을 `gamedata.zip`으로 제공한다. 각 파일은 단순 배열(`[]`) 형태이며, 배열 컬럼(Slots·Enemies 등)은 시트의 분할 슬롯들을 자동 집계한다.
+
+---
+
+## 테이블 그룹
+
+각 그룹은 독립된 Google Sheets 파일로 관리된다. 그룹 ZIP에는 해당 그룹의 모든 JSON 파일이 포함된다.
+
+| 그룹 | 구글 시트 | 포함 테이블 | 그룹 ZIP |
+|------|:--------:|------------|:--------:|
+| **카드** | [열기 ↗](https://docs.google.com/spreadsheets/d/1SRpzgAzrPeH7GlxGkBo3hs83RiYDknOo3uXKJkeRubM/edit?usp=sharing){ target="_blank" } | `CardTBL` · `CardAbilityTBL` · `CardEffectTBL` · `CardStatusTBL` · `CardTraitTBL` · `CardTeamTBL` · `CardRarityTBL` · `CardIntentTBL` | <button class="md-button md-button--sm" onclick="downloadGroupJSON('card', this)">⬇ ZIP</button> |
+| **캐릭터** | [열기 ↗](https://docs.google.com/spreadsheets/d/1XjHNMIiiY0wwzkIJQuDdRxd4qRrvymFwE1-XK82nFIQ/edit?usp=sharing){ target="_blank" } | `ChampionTBL` · `EnemyTBL` · `StartCardDeckTBL` · `BehaviorTBL` | <button class="md-button md-button--sm" onclick="downloadGroupJSON('character', this)">⬇ ZIP</button> |
+| **맵** | [열기 ↗](https://docs.google.com/spreadsheets/d/1cs3UU7-H8k0cGPzNxRM6LapuYNtDVVywsGXm07kG1M4/edit?usp=sharing){ target="_blank" } | `MapTBL` · `MapRandomEventTBL` · `MapFixedEventTBL` · `MapFixedWidthTBL` | <button class="md-button md-button--sm" onclick="downloadGroupJSON('map', this)">⬇ ZIP</button> |
+| **이벤트** | [열기 ↗](https://docs.google.com/spreadsheets/d/1e0AoLhJbyWIxWs57tJKFBzR6kUdN1ck9ghs6E3l9UdQ/edit?usp=sharing){ target="_blank" } | `MapEvent_BattleTBL` · `ExtraEnemyTBL` · `MapEvent_ChoiceTBL` · `MapEvent_TradeTBL` · `MapEvent_EffectTBL` · `MapEvent_OtherTBL` · `MapEvent_ShopTBL` | <button class="md-button md-button--sm" onclick="downloadGroupJSON('event', this)">⬇ ZIP</button> |
+| **공통** | [열기 ↗](https://docs.google.com/spreadsheets/d/1AzUO-yDfK6YIv7kqGbDWmtSsoPB5tnqKwyCUWG3Roro/edit?usp=sharing){ target="_blank" } | `StringTBL_KR` · `ConditionTBL` · `GlobalEnum`<sup>*</sup> | <button class="md-button md-button--sm" onclick="downloadGroupJSON('common', this)">⬇ ZIP</button> |
+
+<small><sup>*</sup> GlobalEnum은 Node.js 빌드 전용. 브라우저 ZIP에는 포함되지 않는다.</small>
 
 ---
 
