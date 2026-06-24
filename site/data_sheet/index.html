@@ -1716,7 +1716,7 @@
 <p><small style="color:#7070a0;font-family:'Roboto Mono',monospace;background:rgba(255,255,255,0.05);padding:2px 12px;border-radius:20px;border:1px solid rgba(255,255,255,0.08);">📄 docs/data_sheet.md</small></p>
 <p><a class="md-button md-button--primary" href="https://docs.google.com/spreadsheets/d/1SRpzgAzrPeH7GlxGkBo3hs83RiYDknOo3uXKJkeRubM/edit" target="_blank">📋 구글 시트 열기</a></p>
 <p><button id="btn-build-data" class="md-button" onclick="buildAndDownloadData()">📦 JSON 전체 다운로드</button></p>
-<p>시트별 JSON 파일(<code>{시트명}.json</code>)과 컬럼 정의 모음인 <code>schema.json</code>을 포함해 총 25개 파일을 <code>gamedata.zip</code>으로 제공한다. 각 파일은 단순 배열(<code>[]</code>) 형태이며, 배열 컬럼(Slots·Enemies 등)은 시트의 분할 슬롯들을 자동 집계한다.</p>
+<p>시트별 JSON 파일(<code>{시트명}.json</code>)과 컬럼 정의 모음인 <code>schema.json</code>을 포함해 총 26개 파일을 <code>gamedata.zip</code>으로 제공한다. 각 파일은 단순 배열(<code>[]</code>) 형태이며, 배열 컬럼(Slots·Enemies 등)은 시트의 분할 슬롯들을 자동 집계한다.</p>
 <hr />
 <h2 id="_2">테이블 정의</h2>
 <table>
@@ -1777,6 +1777,11 @@
 <td><code>BehaviorTBL</code></td>
 <td>적 AI 행동 패턴 정의. C# 클래스명(<code>ClassName</code>)으로 런타임 행동 로직을 연결하며, 소환 카드·궁극기·페이즈 특성을 지정한다.</td>
 <td style="text-align: center;"><button class="md-button md-button--sm" onclick="downloadSingleJSON('BehaviorTBL', this)">⬇ JSON</button></td>
+</tr>
+<tr>
+<td><code>ConditionTBL</code></td>
+<td>카드·어빌리티·이벤트에서 사용되는 조건(Condition) 및 필터(Filter) 정의. C# 조건 클래스(<code>ScriptType</code>)와 연산자·비교값·대상 필터를 조합해 런타임 판별 로직을 구성한다.</td>
+<td style="text-align: center;"><button class="md-button md-button--sm" onclick="downloadSingleJSON('ConditionTBL', this)">⬇ JSON</button></td>
 </tr>
 <tr>
 <td><code>ChampionTBL</code></td>
