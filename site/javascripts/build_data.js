@@ -84,6 +84,34 @@ function parseHeaderRow(csvText) {
   return { cells, rest: '' };
 }
 
+// 데이터 행 전용: 따옴표 안 줄바꿈(셀 내 개행)을 레코드 구분자와 구별하여 파싱
+function parseCSVRows(csvText) {
+  const records = [];
+  let record = [], cur = '', inQ = false, i = 0;
+  while (i < csvText.length) {
+    const ch = csvText[i];
+    if (inQ) {
+      if (ch === '"' && csvText[i + 1] === '"') { cur += '"'; i += 2; continue; }
+      if (ch === '"') { inQ = false; i++; continue; }
+      cur += ch; i++; continue; // 따옴표 안 개행 → 셀 내용으로 유지
+    }
+    if (ch === '"') { inQ = true; i++; continue; }
+    if (ch === ',') { record.push(cur); cur = ''; i++; continue; }
+    if (ch === '\r') { i++; continue; }
+    if (ch === '\n') {
+      record.push(cur); cur = '';
+      if (record.some(f => f !== '')) records.push(record);
+      record = []; i++; continue;
+    }
+    cur += ch; i++;
+  }
+  if (cur || record.length > 0) {
+    record.push(cur);
+    if (record.some(f => f !== '')) records.push(record);
+  }
+  return records;
+}
+
 function parseCSV(csvText) {
   const text = csvText.trim();
   if (!text) return [];
@@ -99,13 +127,9 @@ function parseCSV(csvText) {
   // 1행(한글명) 첫 토큰이 #으로 시작하는 컬럼 제외 — rawHeaders[i]의 첫 토큰이 1행 값
   const activeCols = headers.map((h, i) => ({ h, i }))
     .filter(({ i }) => !rawHeaders[i].trim().split(/\s+/)[0].startsWith('#'));
-  // 데이터 행은 줄바꿈 없으므로 기존 방식 그대로
-  return rest.split('\n')
-    .filter(l => l.trim() !== '')
-    .map(line => {
-      const vals = parseCSVLine(line.replace(/\r$/, ''));
-      return Object.fromEntries(activeCols.map(({ h, i }) => [h, vals[i] ?? '']));
-    });
+  return parseCSVRows(rest).map(vals =>
+    Object.fromEntries(activeCols.map(({ h, i }) => [h, vals[i] ?? '']))
+  );
 }
 
 async function fetchSheet(name) {
