@@ -1,6 +1,5 @@
 site_name: 테세라위버 기획서
-site_url: https://suan2z.github.io/2048/
-
+site_url: https://suan2zto2.github.io/cazena2/
 theme:
   name: material
   language: ko
@@ -14,26 +13,21 @@ theme:
     - search.suggest
     - search.highlight
     - content.code.copy
-
   # 🎨 컬러 테마: 다크 모드(slate) 고정 및 형광 포인트
   palette:
     scheme: slate
     primary: teal       # 상단 바 - 다크 틸 계열
     accent: cyan        # 강조 색상 - 시안
-
   # 폰트 설정
   font:
     text: Roboto
     code: Roboto Mono
-
 # 🖌️ 세부 디자인을 위한 CSS 파일 연결
 extra_css:
   - stylesheets/extra.css
-
 extra_javascript:
   - javascripts/scroll_top.js
   - javascripts/build_data.js
-
 # 메뉴 구조
 nav:
   - 게임 개요: index.md
@@ -68,7 +62,6 @@ nav:
     - 안 C — 2048 에너지 보드 × 덱 카드 RPG: backup/concept_C.md
     - 림버스 컴퍼니: references/limbus.md
     - 카오스 제로 나이트메어: references/chaos_zero_nightmare.md
-
 markdown_extensions:
   - attr_list
   - md_in_html
