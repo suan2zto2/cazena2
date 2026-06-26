@@ -1,0 +1,1607 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1280">
+  <title>테세라위버 — 아웃게임 UI 목업</title>
+  <style>
+    :root {
+      --bg:      #0d0d1f;
+      --panel:   #111125;
+      --card-bg: #181830;
+      --border:  #252545;
+      --border2: #303058;
+      --accent:  #00bcd4;
+      --accent2: #00e5ff;
+      --danger:  #f44336;
+      --warning: #ff9800;
+      --success: #4caf50;
+      --gold:    #ffd740;
+      --text:    #e0e0e0;
+      --dim:     #7070a0;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #060612;
+      display: flex; flex-direction: column; align-items: center;
+      padding: 10px; gap: 10px;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      color: var(--text);
+      overflow-x: hidden; overflow-y: auto;
+    }
+
+    .bs-wrap { display: flex; justify-content: center; width: 100%; }
+
+    /* reference strip */
+    .ref-strip {
+      display:flex; align-items:flex-end; gap:8px;
+      padding:6px 0 2px; overflow-x:auto;
+      max-width:100%;
+    }
+    .ref-strip::-webkit-scrollbar { height:3px; }
+    .ref-strip::-webkit-scrollbar-thumb { background:var(--border2); border-radius:2px; }
+    .ref-strip-label {
+      font-size:10px; color:var(--dim); white-space:nowrap;
+      font-family:'Roboto Mono',monospace; align-self:center;
+      padding-right:4px; flex-shrink:0;
+    }
+    .ref-item { display:flex; flex-direction:column; align-items:center; gap:3px; flex-shrink:0; }
+    .ref-item img {
+      height:90px; width:auto; max-width:160px;
+      border-radius:5px; border:1px solid var(--border2);
+      object-fit:cover; display:block;
+    }
+    .ref-item span { font-size:9px; color:var(--dim); font-family:'Roboto Mono',monospace; }
+
+    .bs {
+      width: 1280px; height: 720px; flex-shrink: 0;
+      background: var(--bg);
+      border: 2px solid var(--border);
+      border-radius: 10px; overflow: hidden;
+      position: relative;
+    }
+
+    /* toolbar */
+    .toolbar { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+    .tb-btn {
+      padding: 5px 14px; border-radius: 4px; cursor: pointer; font-size: 12px;
+      background: var(--card-bg); border: 1px solid var(--border); color: var(--dim);
+    }
+    .tb-btn.on { border-color: var(--accent); color: var(--accent); }
+    .tb-sep { width: 1px; height: 20px; background: var(--border); }
+
+    /* screens */
+    .screen { position: absolute; inset: 0; display: none; flex-direction: column; }
+    .screen.active { display: flex; }
+
+    /* common top-bar */
+    .top-bar {
+      height: 52px; flex-shrink: 0;
+      background: var(--panel); border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; padding: 0 20px; gap: 12px;
+    }
+    .back-btn {
+      padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 12px;
+      background: var(--card-bg); border: 1px solid var(--border); color: var(--dim);
+    }
+    .back-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .screen-title { font-size: 15px; font-weight: 700; color: var(--text); }
+    .tab-group { display: flex; gap: 2px; margin-left: 8px; }
+    .tab {
+      padding: 5px 14px; border-radius: 4px; cursor: pointer; font-size: 12px;
+      background: transparent; border: 1px solid transparent; color: var(--dim);
+    }
+    .tab.on { background: var(--card-bg); border-color: var(--accent); color: var(--accent); }
+
+    /* ══════════════════════════
+       SCREEN 1 — MAIN MENU
+    ══════════════════════════ */
+    #screen-menu { background: #07071a; flex-direction: column; }
+
+    .menu-top {
+      height: 54px; flex-shrink: 0;
+      background: rgba(0,0,0,0.75);
+      border-bottom: 1px solid rgba(0,188,212,0.15);
+      display: flex; align-items: center;
+      padding: 0 16px; gap: 14px; z-index: 10;
+    }
+    .menu-lv {
+      display: flex; flex-direction: column; align-items: center;
+      background: rgba(0,188,212,0.12); border: 1px solid var(--accent);
+      border-radius: 6px; padding: 2px 10px; flex-shrink: 0;
+    }
+    .menu-lv-label { font-size: 8px; color: var(--accent); letter-spacing: 1px; }
+    .menu-lv-num   { font-size: 18px; font-weight: 900; color: #fff; line-height: 1.1; }
+    .menu-player   { display: flex; flex-direction: column; gap: 4px; }
+    .menu-player-name { font-size: 13px; font-weight: 700; color: var(--text); }
+    .menu-xp-wrap  { display: flex; align-items: center; gap: 6px; }
+    .menu-xp-bar   { width: 120px; height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
+    .menu-xp-fill  { height: 100%; background: var(--accent); border-radius: 2px; }
+    .menu-xp-text  { font-size: 9px; color: var(--dim); }
+
+    .menu-resources { margin-left: auto; display: flex; align-items: center; gap: 6px; }
+    .menu-res {
+      display: flex; align-items: center; gap: 5px;
+      background: rgba(0,0,0,0.5); border: 1px solid var(--border2);
+      border-radius: 16px; padding: 4px 10px;
+      font-size: 12px; font-weight: 700; color: var(--text);
+    }
+    .menu-res-add { color: var(--accent); font-size: 12px; font-weight: 700; cursor: pointer; margin-left: 2px; }
+    .menu-icon-btn {
+      width: 34px; height: 34px; border-radius: 8px;
+      background: rgba(0,0,0,0.5); border: 1px solid var(--border2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; cursor: pointer; position: relative;
+    }
+    .menu-icon-btn .lk { position: absolute; top: -4px; right: -4px; font-size: 9px; }
+
+    .menu-main { flex: 1; display: flex; overflow: hidden; }
+
+    .menu-center { flex: 1; position: relative; overflow: hidden; }
+    .menu-bg-grid {
+      position: absolute; inset: 0; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(0,188,212,.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,188,212,.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+    .menu-bg-glow {
+      position: absolute; top: 50%; left: 45%;
+      transform: translate(-50%,-50%);
+      width: 520px; height: 520px;
+      background: radial-gradient(circle, rgba(0,188,212,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .menu-char-area {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .menu-char-wrap { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+    .menu-char-silhouette {
+      width: 230px; height: 360px;
+      background: linear-gradient(180deg, rgba(0,188,212,0.07) 0%, rgba(0,188,212,0.02) 100%);
+      border: 1px solid rgba(0,188,212,0.14);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 90px; position: relative; overflow: hidden;
+    }
+    .menu-char-silhouette::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0; height: 80px;
+      background: linear-gradient(0deg, rgba(7,7,26,0.85) 0%, transparent 100%);
+    }
+    .menu-char-name { font-size: 11px; color: var(--accent); letter-spacing: 3px; font-family:'Roboto Mono',monospace; }
+    .menu-char-role { font-size: 10px; color: var(--dim); }
+
+    .menu-title-overlay { position: absolute; top: 24px; left: 28px; }
+    .menu-title-overlay h1 {
+      font-size: 26px; font-weight: 900; letter-spacing: .1em;
+      color: var(--accent2);
+      text-shadow: 0 0 20px #00e5ff55;
+    }
+    .menu-title-overlay p { font-size: 11px; color: var(--dim); margin-top: 4px; letter-spacing: .04em; }
+
+    .menu-mission {
+      position: absolute; bottom: 22px; left: 22px;
+      background: rgba(8,8,28,0.92); border: 1px solid var(--border2); border-radius: 8px;
+      padding: 8px 14px; display: flex; align-items: center; gap: 10px;
+    }
+    .menu-mission-icon {
+      width: 30px; height: 30px; border-radius: 6px;
+      background: rgba(0,188,212,0.12); border: 1px solid var(--accent);
+      display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0;
+    }
+    .menu-mission-title { font-size: 11px; color: var(--text); font-weight: 600; }
+    .menu-mission-prog  { font-size: 10px; color: var(--accent); margin-top: 2px; }
+
+    .menu-nav-panel {
+      width: 270px; flex-shrink: 0;
+      background: rgba(5,5,18,0.94);
+      border-left: 1px solid rgba(0,188,212,0.15);
+      display: flex; flex-direction: column; padding: 8px 0;
+    }
+    .mnav-item {
+      padding: 14px 20px 14px 16px;
+      display: flex; align-items: center; justify-content: space-between;
+      cursor: pointer; border-left: 3px solid transparent;
+      transition: background .15s, border-color .15s;
+    }
+    .mnav-item:hover { background: rgba(0,188,212,0.07); border-left-color: var(--accent); }
+    .mnav-item.active { background: rgba(0,188,212,0.1); border-left-color: var(--accent); }
+    .mnav-item.locked { opacity: .4; cursor: default; }
+    .mnav-item.locked:hover { background: transparent; border-left-color: transparent; }
+    .mnav-divider { height: 1px; background: var(--border); margin: 3px 16px; }
+    .mnav-left { display: flex; flex-direction: column; gap: 3px; }
+    .mnav-name { font-size: 15px; font-weight: 700; color: var(--text); }
+    .mnav-sub  { font-size: 10px; color: var(--dim); }
+    .mnav-item.active .mnav-name { color: var(--accent2); }
+    .mnav-right { display: flex; align-items: center; gap: 6px; }
+    .mnav-icon { font-size: 22px; }
+    .mnav-lock { font-size: 11px; }
+
+    .menu-bottom {
+      height: 76px; flex-shrink: 0;
+      background: rgba(0,0,0,0.65);
+      border-top: 1px solid rgba(0,188,212,0.1);
+      display: flex; align-items: center; padding: 0 16px; gap: 10px;
+    }
+    .menu-event {
+      flex: 1; height: 54px;
+      background: linear-gradient(135deg, rgba(0,188,212,0.07), rgba(80,40,180,0.07));
+      border: 1px solid var(--border2); border-radius: 8px;
+      display: flex; align-items: center; gap: 12px; padding: 0 14px; cursor: pointer;
+      transition: border-color .15s;
+    }
+    .menu-event:hover { border-color: var(--accent); }
+    .menu-event-icon { font-size: 24px; }
+    .menu-event-title { font-size: 12px; font-weight: 700; color: var(--text); }
+    .menu-event-timer { font-size: 10px; color: var(--warning); margin-top: 2px; }
+    .menu-ver {
+      display: flex; flex-direction: column; gap: 3px; text-align: right; flex-shrink: 0;
+    }
+    .menu-ver span { font-size: 10px; color: var(--dim); }
+
+    /* ══════════════════════════
+       SCREEN 2 — STORY MODE
+    ══════════════════════════ */
+    .stv { flex:1; display:none; flex-direction:column; overflow:hidden; }
+    .stv.active { display:flex; }
+
+    /* view 1 — mode select */
+    .stv1-body {
+      flex:1; display:flex; align-items:center; justify-content:center;
+      gap:20px; padding:28px 48px;
+      background:linear-gradient(160deg,#0a0a1e,#07071a); position:relative;
+    }
+    .stv1-bg-grid {
+      position:absolute; inset:0; pointer-events:none;
+      background-image:
+        linear-gradient(rgba(0,188,212,.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,188,212,.025) 1px, transparent 1px);
+      background-size:60px 60px;
+    }
+    .stv1-card {
+      flex:1; height:100%; max-height:520px;
+      border-radius:16px; overflow:hidden;
+      border:1px solid var(--border2); cursor:pointer; position:relative;
+      transition:transform .2s, box-shadow .2s, border-color .2s;
+    }
+    .stv1-card:hover { transform:translateY(-6px); box-shadow:0 16px 48px rgba(0,0,0,.6),0 0 30px rgba(0,188,212,.2); border-color:var(--accent); }
+    .stv1-art { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:100px; }
+    .stv1-main { background:linear-gradient(160deg,#0a1428,#0d1e3a,#0a0a1e); }
+    .stv1-sub  { background:linear-gradient(160deg,#1a0a2a,#220d38,#180a28); }
+    .stv1-overlay { position:absolute; inset:0; background:linear-gradient(0deg,rgba(0,0,0,.88) 0%,rgba(0,0,0,.15) 55%,transparent 100%); }
+    .stv1-corner {
+      position:absolute; top:10px; left:10px; width:22px; height:22px; border-radius:4px;
+      background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.2);
+      display:flex; align-items:center; justify-content:center; font-size:10px; color:rgba(255,255,255,.5);
+    }
+    .stv1-nbadge {
+      position:absolute; top:10px; right:10px;
+      width:22px; height:22px; border-radius:50%;
+      background:#ff5500; color:#fff;
+      display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700;
+    }
+    .stv1-bottom { position:absolute; bottom:0; left:0; right:0; padding:20px 24px; display:flex; align-items:flex-end; justify-content:space-between; }
+    .stv1-label { font-size:22px; font-weight:700; color:#fff; }
+    .stv1-prog  { font-size:12px; color:var(--accent); margin-top:4px; }
+    .stv1-icon  { font-size:36px; opacity:.85; }
+
+    /* view 2 — act select */
+    .stv2-body {
+      flex:1; position:relative; overflow:hidden;
+      background:linear-gradient(160deg,#0e0e24,#12122a);
+      display:flex; align-items:center; justify-content:center;
+      gap:28px; padding:32px 80px;
+    }
+    .stv2-glow {
+      position:absolute; bottom:-80px; left:50%; transform:translateX(-50%);
+      width:700px; height:280px;
+      background:radial-gradient(ellipse,rgba(80,60,200,.12) 0%,transparent 70%);
+      pointer-events:none;
+    }
+    .act-card {
+      width:210px; height:480px; flex-shrink:0;
+      border-radius:105px 105px 16px 16px;
+      overflow:hidden; border:1px solid var(--border2);
+      cursor:pointer; position:relative;
+      transition:transform .2s, box-shadow .2s, border-color .2s;
+    }
+    .act-card:hover:not(.lk) { transform:translateY(-8px); box-shadow:0 20px 50px rgba(0,0,0,.6); border-color:rgba(200,180,255,.5); }
+    .act-card.sel { border-color:var(--accent); box-shadow:0 0 30px rgba(0,188,212,.35); }
+    .act-card.lk  { cursor:default; }
+    .act-art { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:70px; }
+    .act-art-1 { background:linear-gradient(180deg,#1a1428,#0a0e1e); }
+    .act-art-2 { background:linear-gradient(180deg,#1e1428,#100a1e); filter:grayscale(.7) brightness(.5); }
+    .act-art-3 { background:linear-gradient(180deg,#1a1028,#0e0a1e); filter:grayscale(.7) brightness(.5); }
+    .act-ov { position:absolute; inset:0; background:linear-gradient(0deg,rgba(0,0,0,.88) 0%,rgba(0,0,0,.08) 60%,transparent 100%); }
+    .act-info { position:absolute; bottom:20px; left:0; right:0; text-align:center; padding:0 12px; }
+    .act-num  { font-size:18px; font-weight:900; color:#fff; display:flex; align-items:center; justify-content:center; gap:6px; }
+    .act-name { font-size:11px; color:#c0c0d0; margin-top:5px; line-height:1.5; }
+    .act-prog { font-size:10px; color:var(--accent); margin-top:6px; }
+    .act-lock { position:absolute; top:50%; left:50%; transform:translate(-50%,-55%); font-size:40px; opacity:.5; }
+    .act-badge {
+      position:absolute; top:20px; left:50%; transform:translateX(-50%);
+      background:#ff5500; color:#fff; width:22px; height:22px; border-radius:50%;
+      display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700;
+    }
+
+    /* view 3 — stage timeline */
+    .stv3-body { flex:1; display:flex; overflow:hidden; background:linear-gradient(135deg,#0a0a1e,#10101e); position:relative; }
+    .stv3-bg { position:absolute; inset:0; pointer-events:none; background:radial-gradient(ellipse at 20% 70%,rgba(60,40,160,.08) 0%,transparent 60%); }
+    .stv3-left {
+      width:260px; flex-shrink:0;
+      padding:28px 22px; display:flex; flex-direction:column; gap:10px;
+      border-right:1px solid var(--border); z-index:1;
+    }
+    .stv3-act-tag { font-size:10px; color:var(--accent); letter-spacing:2px; font-family:'Roboto Mono',monospace; }
+    .stv3-name    { font-size:16px; font-weight:700; color:var(--text); margin-top:2px; }
+    .stv3-pw { display:flex; align-items:center; gap:8px; margin-top:4px; }
+    .stv3-pb { flex:1; height:3px; background:var(--border); border-radius:2px; overflow:hidden; }
+    .stv3-pf { height:100%; background:var(--accent); border-radius:2px; }
+    .stv3-pt { font-size:10px; color:var(--dim); }
+    .stv3-desc { font-size:11px; color:var(--dim); line-height:1.8; margin-top:6px; flex:1; }
+
+    .stv3-scroll { flex:1; display:flex; align-items:center; overflow-x:auto; overflow-y:hidden; padding:0 32px; }
+    .stv3-scroll::-webkit-scrollbar { height:4px; }
+    .stv3-scroll::-webkit-scrollbar-thumb { background:var(--border2); border-radius:2px; }
+    .stv3-track { display:flex; align-items:center; min-width:max-content; }
+    .stv3-line { width:48px; height:2px; flex-shrink:0; }
+    .stv3-line.done { background:var(--accent); }
+    .stv3-line.todo { background:var(--border2); }
+
+    .snode { display:flex; flex-direction:column; align-items:center; gap:5px; flex-shrink:0; cursor:pointer; }
+    .snode-lbl { font-size:10px; color:var(--dim); white-space:nowrap; text-align:center; max-width:110px; }
+    .snode-thumb {
+      width:100px; height:60px; border-radius:8px;
+      background:var(--card-bg); border:2px solid var(--border2);
+      display:flex; align-items:center; justify-content:center; font-size:26px;
+      position:relative; transition:border-color .15s;
+    }
+    .snode:hover .snode-thumb:not(.lk) { border-color:var(--accent); }
+    .snode-thumb.done { border-color:var(--success); }
+    .snode-thumb.cur  { border-color:var(--accent); box-shadow:0 0 14px rgba(0,188,212,.4); }
+    .snode-thumb.lk   { filter:grayscale(.8) brightness(.4); }
+    .snode-ck {
+      position:absolute; bottom:-7px; right:-7px;
+      width:16px; height:16px; border-radius:50%;
+      display:flex; align-items:center; justify-content:center; font-size:8px; font-weight:700;
+    }
+    .snode-ck.ok { background:var(--success); color:#fff; }
+    .snode-ep { font-size:9px; color:var(--dim); }
+    .snode-btns { display:flex; gap:3px; }
+    .sbtn {
+      width:22px; height:22px; border-radius:50%;
+      display:flex; align-items:center; justify-content:center; font-size:9px; cursor:pointer;
+    }
+    .sbtn.skip  { background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.15); color:#888; }
+    .sbtn.play  { background:var(--accent); border:1px solid var(--accent2); color:#000; font-weight:900; }
+    .sbtn.rep   { background:rgba(76,175,80,.15); border:1px solid var(--success); color:var(--success); }
+    .sbtn.dis   { opacity:.25; cursor:default; }
+
+    /* view 4 — sub story */
+    .sub-list { flex:1; padding:20px; overflow-y:auto; display:flex; flex-direction:column; gap:8px; }
+    .ss-item {
+      padding:14px 16px;
+      background:var(--card-bg); border:1px solid var(--border); border-radius:8px;
+      display:flex; align-items:center; gap:14px; cursor:pointer; transition:border-color .15s;
+    }
+    .ss-item:hover { border-color:var(--accent); }
+    .ss-item.locked { opacity:.45; cursor:default; }
+    .ss-icon { font-size:22px; }
+    .ss-info { flex:1; }
+    .ss-title { font-size:13px; font-weight:600; color:var(--text); }
+    .ss-cond  { font-size:10px; color:var(--dim); margin-top:2px; }
+    .ss-badge { font-size:10px; padding:2px 8px; border-radius:3px; }
+    .ss-badge.ok { background:#0a200a; color:var(--success); border:1px solid var(--success); }
+    .ss-badge.go { background:#091820; color:var(--accent);  border:1px solid var(--accent); }
+    .ss-badge.lk { background:#1a1a2e; color:var(--dim);    border:1px solid var(--border); }
+
+    /* ══════════════════════════
+       SCREEN 3 — BATTLE MODE
+    ══════════════════════════ */
+    .battle-body {
+      flex: 1; display: flex; align-items: center; justify-content: center;
+      gap: 20px; padding: 0 40px;
+    }
+    .mode-card {
+      flex: 1; max-width: 340px; height: 500px;
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: 14px; display: flex; flex-direction: column; overflow: hidden;
+      cursor: pointer; transition: border-color .2s, box-shadow .2s;
+    }
+    .mode-card:hover { border-color: var(--accent); box-shadow: 0 0 24px #00bcd433; }
+    .mode-card.locked { opacity:.5; cursor:default; }
+    .mode-card.locked:hover { border-color: var(--border); box-shadow: none; }
+
+    .mc-header {
+      height: 120px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 52px; border-bottom: 1px solid var(--border);
+    }
+    .mc-h-r { background: linear-gradient(135deg,#0a1a3a,#0d2050); }
+    .mc-h-n { background: linear-gradient(135deg,#0a2a1a,#0d3020); }
+    .mc-h-c { background: linear-gradient(135deg,#2a0a1a,#3a0d20); }
+
+    .mc-body { flex:1; padding:20px; display:flex; flex-direction:column; gap:14px; }
+    .mc-title    { font-size:16px; font-weight:700; color:var(--text); }
+    .mc-subtitle { font-size:11px; color:var(--accent); }
+    .mc-desc     { font-size:12px; color:var(--dim); line-height:1.7; flex:1; }
+    .mc-stats    { padding:10px; background:var(--panel); border:1px solid var(--border); border-radius:6px; display:flex; flex-direction:column; gap:5px; }
+    .mc-stat-row { display:flex; justify-content:space-between; font-size:11px; }
+    .mc-stat-row span:first-child { color:var(--dim); }
+    .mc-btn      { padding:10px; border-radius:6px; text-align:center; font-size:13px; font-weight:700; cursor:pointer; letter-spacing:.5px; }
+    .mc-btn-r    { background:linear-gradient(135deg,#004d52,#007780); border:1px solid var(--accent); color:#fff; }
+    .mc-btn-n    { background:linear-gradient(135deg,#1a4d20,#257730); border:1px solid var(--success); color:#fff; }
+    .mc-btn-lk   { background:var(--panel); border:1px solid var(--border); color:var(--dim); cursor:default; }
+    .mc-lock-hint { font-size:10px; color:var(--dim); text-align:center; }
+
+    /* ══════════════════════════
+       SCREEN 4 — CHARACTER INFO
+    ══════════════════════════ */
+    .char-body { flex:1; display:flex; overflow:hidden; }
+
+    /* 좌측: 썸네일 리스트 */
+    .char-thumbs {
+      width:82px; flex-shrink:0;
+      background:rgba(0,0,0,.5); border-right:1px solid var(--border);
+      display:flex; flex-direction:column; align-items:center;
+      padding:14px 0; gap:10px; overflow-y:auto;
+    }
+    .char-thumbs::-webkit-scrollbar { width:0; }
+    .c-thumb {
+      width:54px; height:54px; border-radius:50%;
+      border:2px solid var(--border2); background:var(--card-bg);
+      display:flex; align-items:center; justify-content:center;
+      font-size:22px; cursor:pointer; flex-shrink:0;
+      transition:border-color .15s, box-shadow .15s;
+    }
+    .c-thumb:hover { border-color:rgba(0,188,212,.6); }
+    .c-thumb.sel { border-color:var(--accent); box-shadow:0 0 10px rgba(0,188,212,.4); }
+    .c-grid-btn {
+      width:36px; height:36px; border-radius:8px; margin-top:auto;
+      background:var(--card-bg); border:1px solid var(--border2);
+      display:flex; align-items:center; justify-content:center;
+      font-size:13px; cursor:pointer; color:var(--dim);
+    }
+
+    /* 중앙: 일러스트 */
+    .char-illus {
+      width:380px; flex-shrink:0; position:relative; overflow:hidden;
+    }
+    .char-illus-bg {
+      position:absolute; inset:0;
+      background:linear-gradient(160deg,#0e1828,#161a30,#0a0e1e);
+    }
+    .char-illus-grid {
+      position:absolute; inset:0; pointer-events:none;
+      background-image:
+        linear-gradient(rgba(0,188,212,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,188,212,.04) 1px, transparent 1px);
+      background-size:40px 40px;
+    }
+    .char-illus-glow {
+      position:absolute; bottom:-60px; left:50%; transform:translateX(-50%);
+      width:320px; height:320px;
+      background:radial-gradient(circle,rgba(0,188,212,.09) 0%,transparent 70%);
+      pointer-events:none;
+    }
+    .char-illus-main {
+      position:absolute; inset:0;
+      display:flex; align-items:center; justify-content:center; font-size:160px;
+    }
+    .char-illus-label {
+      position:absolute; top:12px; left:14px; right:14px;
+      font-size:9px; color:rgba(0,188,212,.4);
+      font-family:'Roboto Mono',monospace; letter-spacing:1.5px;
+    }
+
+    /* 우측: 상세 패널 */
+    .char-detail { flex:1; display:flex; flex-direction:column; overflow:hidden; background:var(--panel); }
+    .char-detail-inner {
+      flex:1; overflow-y:auto; padding:24px 28px;
+      display:flex; flex-direction:column; gap:0;
+    }
+    .char-detail-inner::-webkit-scrollbar { width:4px; }
+    .char-detail-inner::-webkit-scrollbar-thumb { background:var(--border2); border-radius:2px; }
+
+    .c-name { font-size:26px; font-weight:700; color:var(--text); }
+    .c-role-tag {
+      display:inline-block; margin-top:5px;
+      font-size:10px; padding:2px 8px; border-radius:3px; font-weight:700; letter-spacing:.5px;
+    }
+    .rt-tank { background:#1a2a0a; color:#90c030; border:1px solid #608020; }
+    .rt-sct  { background:#2a2a0a; color:var(--gold); border:1px solid #b09020; }
+    .rt-snp  { background:#2a0a0a; color:#ff8080; border:1px solid var(--danger); }
+    .rt-hwk  { background:#1a0a2a; color:#c080ff; border:1px solid #8040c0; }
+    .rt-sus  { background:#2a0a1a; color:#ff80c0; border:1px solid #c04080; }
+
+    .c-rating { display:flex; gap:4px; margin-top:8px; }
+    .c-star {
+      width:14px; height:14px;
+      clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);
+      background:rgba(255,200,50,.15);
+    }
+    .c-star.on { background:#ffd740; }
+
+    .c-lv-row { display:flex; align-items:center; gap:8px; margin-top:10px; }
+    .c-lv-text { font-size:16px; font-weight:700; color:var(--text); }
+    .c-lv-max  { font-size:14px; color:var(--dim); }
+    .c-lv-up {
+      width:26px; height:26px; border-radius:8px;
+      background:rgba(0,188,212,.1); border:1px solid var(--accent);
+      display:flex; align-items:center; justify-content:center;
+      font-size:11px; color:var(--accent); cursor:pointer;
+    }
+
+    .c-divider { height:1px; background:var(--border); margin:16px 0; }
+
+    .c-section-title {
+      font-size:12px; color:var(--dim); font-weight:600; margin-bottom:10px;
+      display:flex; align-items:center; gap:5px;
+    }
+    .c-stat-row {
+      display:flex; justify-content:space-between; align-items:center;
+      padding:8px 0; border-bottom:1px solid rgba(255,255,255,.04);
+    }
+    .c-stat-name { font-size:13px; color:var(--dim); }
+    .c-stat-val  { font-size:14px; font-weight:700; color:var(--text); }
+
+    .c-skill-tabs { display:flex; gap:2px; margin-bottom:14px; }
+    .c-skill-tab {
+      padding:4px 12px; border-radius:4px; cursor:pointer; font-size:11px;
+      background:transparent; border:1px solid transparent; color:var(--dim);
+    }
+    .c-skill-tab.on { background:var(--card-bg); border-color:var(--accent); color:var(--accent); }
+
+    .c-skill-grid {
+      display:flex; gap:10px; flex-wrap:nowrap;
+      overflow-x:auto; overflow-y:visible;
+      padding-bottom:8px;
+    }
+    .c-skill-grid::-webkit-scrollbar { height:4px; }
+    .c-skill-grid::-webkit-scrollbar-track { background:transparent; }
+    .c-skill-grid::-webkit-scrollbar-thumb { background:var(--border2); border-radius:2px; }
+    .c-skill-card {
+      width:155px; flex-shrink:0;
+      background:var(--card-bg); border:1px solid var(--border2); border-radius:10px;
+      overflow:hidden; cursor:pointer;
+      transition:border-color .15s, transform .15s;
+    }
+    .c-skill-card:hover { border-color:var(--accent); transform:translateY(-3px); }
+    .c-skill-card.unk { opacity:.3; cursor:default; }
+    .c-skill-card.unk:hover { border-color:var(--border2); transform:none; }
+    .c-skill-art {
+      height:88px; position:relative;
+      display:flex; align-items:center; justify-content:center; font-size:34px;
+    }
+    .c-skill-num {
+      position:absolute; top:6px; left:6px;
+      width:22px; height:22px; border-radius:50%;
+      background:rgba(0,0,0,.7);
+      display:flex; align-items:center; justify-content:center;
+      font-size:11px; font-weight:700; color:#fff;
+    }
+    .c-skill-info { padding:8px 10px; border-top:1px solid var(--border); }
+    .c-skill-name { font-size:12px; font-weight:700; color:var(--text); }
+    .c-skill-type { font-size:9px; color:var(--accent); margin-top:2px; letter-spacing:.5px; }
+    .c-skill-eff  { font-size:10px; color:var(--dim); margin-top:4px; line-height:1.4; }
+
+    /* ══════════════════════════
+       SCREEN 5 — TEAM COMP
+    ══════════════════════════ */
+    .team-tab-bar {
+      height:50px; flex-shrink:0;
+      background:var(--panel); border-bottom:1px solid var(--border);
+      display:flex; align-items:center; padding:0 16px; gap:4px;
+    }
+    .team-tab {
+      padding:6px 20px; border-radius:6px; cursor:pointer; font-size:13px;
+      background:transparent; border:1px solid transparent; color:var(--dim);
+    }
+    .team-tab.on { background:var(--card-bg); border-color:var(--accent); color:var(--text); font-weight:600; }
+    .team-edit-btn {
+      margin-left:auto; display:flex; align-items:center; gap:8px;
+      padding:6px 16px; border-radius:6px;
+      background:rgba(0,188,212,.08); border:1px solid var(--accent);
+      color:var(--accent); font-size:13px; font-weight:600; cursor:pointer;
+    }
+
+    .team-body {
+      flex:1; overflow-y:auto; padding:16px;
+      display:flex; flex-direction:column;
+      gap:10px;
+    }
+    .team-body::-webkit-scrollbar { width:4px; }
+    .team-body::-webkit-scrollbar-thumb { background:var(--border2); border-radius:2px; }
+
+    .team-slot {
+      background:var(--card-bg); border:1px solid var(--border); border-radius:10px;
+      display:flex; align-items:center;
+      padding:16px 24px; gap:22px; cursor:pointer;
+      transition:border-color .15s;
+    }
+    .team-slot:hover { border-color:rgba(0,188,212,.5); }
+    .team-slot.sel { border-color:var(--accent); background:rgba(0,188,212,.04); }
+
+    .t-num {
+      font-size:56px; font-weight:900; color:var(--border2);
+      flex-shrink:0; width:70px; text-align:center; line-height:1;
+    }
+    .team-slot.sel .t-num { color:rgba(0,188,212,.25); }
+
+    .t-portraits { display:flex; gap:8px; align-items:center; flex-shrink:0; }
+    .t-portrait {
+      width:72px; height:72px; border-radius:12px;
+      background:var(--panel); border:2px solid var(--border2);
+      display:flex; align-items:center; justify-content:center;
+      font-size:28px;
+    }
+
+    .t-info { flex:1; display:flex; flex-direction:column; gap:6px; }
+    .t-info-row { display:flex; align-items:center; gap:8px; font-size:13px; }
+    .t-info-label { color:var(--dim); flex-shrink:0; }
+    .t-info-val   { color:var(--text); font-weight:600; }
+
+    .t-skill-btn {
+      flex-shrink:0;
+      padding:10px 20px; border-radius:8px;
+      background:var(--card-bg); border:1px solid var(--border2);
+      color:var(--text); font-size:13px; font-weight:600; cursor:pointer;
+      transition:border-color .15s, background .15s;
+    }
+    .t-skill-btn:hover { border-color:var(--accent); background:rgba(0,188,212,.08); color:var(--accent); }
+
+    /* ══════════════════════════
+       SCREEN 6 — ROGUELIKE MAP
+    ══════════════════════════ */
+    #screen-rogue { background:#07071a; flex-direction:column; }
+
+    .rogue-top {
+      height:62px; flex-shrink:0;
+      background:rgba(0,0,0,.8); border-bottom:1px solid rgba(255,255,255,.05);
+      display:flex; align-items:center; padding:0 14px; gap:12px; z-index:10;
+    }
+    .rogue-hp-col { display:flex; flex-direction:column; gap:3px; }
+    .rogue-hp-txt { font-size:12px; font-weight:700; color:#e0e0e0; text-align:center; }
+    .rogue-hpbar  { width:200px; height:9px; background:#1a1a2e; border-radius:5px; overflow:hidden; }
+    .rogue-hpfill { height:100%; background:linear-gradient(90deg,#4caf50,#80c040); border-radius:5px; }
+
+    .rogue-chars { display:flex; gap:6px; align-items:flex-start; }
+    .rogue-char-col { display:flex; flex-direction:column; align-items:center; gap:3px; }
+    .rogue-char {
+      width:44px; height:44px; border-radius:8px;
+      border:2px solid var(--border2); background:var(--card-bg);
+      display:flex; align-items:center; justify-content:center; font-size:18px;
+    }
+    .rogue-char-hp { width:38px; height:3px; background:var(--border); border-radius:2px; overflow:hidden; }
+    .rogue-char-hpf { height:100%; border-radius:2px; }
+
+    .rogue-res { margin-left:auto; display:flex; align-items:center; gap:10px; }
+    .rogue-gold { display:flex; align-items:center; gap:6px; font-size:16px; font-weight:700; color:var(--gold); }
+    .rogue-act-btn {
+      width:38px; height:38px; border-radius:50%;
+      border:2px solid var(--border2); background:rgba(0,0,0,.5);
+      display:flex; align-items:center; justify-content:center;
+      font-size:15px; cursor:pointer; color:var(--dim);
+      transition:border-color .15s, color .15s;
+    }
+    .rogue-act-btn:hover { border-color:var(--accent); color:var(--accent); }
+
+    .rogue-map-area { flex:1; position:relative; overflow:hidden; }
+    .rogue-grid {
+      position:absolute; inset:0; pointer-events:none; z-index:0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+      background-size:40px 40px;
+    }
+    .rogue-scroll {
+      width:100%; height:100%; overflow-x:auto; overflow-y:hidden;
+      position:relative; z-index:1;
+    }
+    .rogue-scroll::-webkit-scrollbar { height:4px; }
+    .rogue-scroll::-webkit-scrollbar-thumb { background:var(--border2); border-radius:2px; }
+    #rogue-svg { display:block; }
+
+    .rogue-zoom {
+      position:absolute; bottom:16px; left:16px; z-index:10;
+      display:flex; align-items:center; gap:6px;
+      padding:7px 18px; border-radius:24px;
+      border:1px solid var(--border2); background:rgba(6,6,22,.92);
+      color:var(--dim); font-size:13px; cursor:pointer;
+      transition:border-color .15s, color .15s;
+    }
+    .rogue-zoom:hover { border-color:var(--accent); color:var(--accent); }
+    .rogue-info {
+      position:absolute; top:10px; right:16px; z-index:10;
+      width:32px; height:32px; border-radius:50%;
+      border:2px solid var(--border2); background:rgba(6,6,22,.92);
+      display:flex; align-items:center; justify-content:center;
+      font-size:13px; color:var(--dim); cursor:pointer;
+    }
+
+    /* ══════════════════════════
+       REFERENCE BELOW (화면별 레퍼런스 — 목업 아래에 크게 표시)
+    ══════════════════════════ */
+    .ref-below {
+      width: 100%; max-width: 1280px;
+      display: flex; flex-direction: column; gap: 12px;
+      padding: 8px 0 50px;
+    }
+    .ref-below-head {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 14px; font-weight: 700; color: var(--accent);
+      padding-bottom: 6px; border-bottom: 1px solid var(--border);
+    }
+    .ref-below-name { color: var(--dim); font-weight: 400; font-size: 12px; }
+    .ref-below-imgs {
+      display: flex; flex-wrap: wrap; gap: 18px; justify-content: center; align-items: flex-start;
+    }
+    .ref-below-item {
+      flex: 1 1 560px; max-width: 1000px;
+      background: var(--panel); border: 1px solid var(--border2); border-radius: 10px;
+      overflow: hidden;
+    }
+    .ref-below-item img {
+      width: 100%; height: auto; display: block; cursor: zoom-in;
+      transition: opacity .15s;
+    }
+    .ref-below-item img:hover { opacity: .85; }
+    .ref-below-cap {
+      font-size: 11px; color: var(--dim); padding: 8px 12px;
+      border-top: 1px solid var(--border); font-family: 'Roboto Mono', monospace;
+    }
+    .ref-below-empty {
+      width: 100%; text-align: center; font-size: 12px; color: var(--dim); padding: 24px 0;
+    }
+
+    /* lightbox */
+    .ref-lightbox {
+      position: fixed; inset: 0; z-index: 2000;
+      background: rgba(0,0,0,.9);
+      display: none; align-items: center; justify-content: center;
+      padding: 30px; cursor: zoom-out;
+    }
+    .ref-lightbox.show { display: flex; }
+    .ref-lightbox img {
+      max-width: 96%; max-height: 96%;
+      border-radius: 8px; box-shadow: 0 0 50px rgba(0,0,0,.85);
+    }
+  </style>
+</head>
+<body>
+
+<div class="toolbar">
+  <button class="tb-btn on" onclick="go('menu')">🏠 메인 메뉴</button>
+  <div class="tb-sep"></div>
+  <button class="tb-btn" onclick="go('story')">📖 스토리 모드</button>
+  <button class="tb-btn" onclick="go('battle')">⚔ 전투 모드</button>
+  <button class="tb-btn" onclick="go('char')">👤 캐릭터 정보</button>
+  <button class="tb-btn" onclick="go('team')">🧩 팀 구성</button>
+  <div class="tb-sep"></div>
+  <button class="tb-btn" onclick="go('rogue')">🗺 로그라이크 맵</button>
+</div>
+
+<div class="bs-wrap" id="bs-wrap">
+<div class="bs">
+
+<!-- ═══════════════════════════════════════
+     SCREEN 1 — MAIN MENU
+═══════════════════════════════════════ -->
+<div class="screen active" id="screen-menu">
+
+  <!-- 상단 바 -->
+  <div class="menu-top">
+    <div class="menu-lv">
+      <div class="menu-lv-label">LV</div>
+      <div class="menu-lv-num">07</div>
+    </div>
+    <div class="menu-player">
+      <div class="menu-player-name">위버 (Weaver)</div>
+      <div class="menu-xp-wrap">
+        <div class="menu-xp-bar"><div class="menu-xp-fill" style="width:56%"></div></div>
+        <div class="menu-xp-text">56%</div>
+      </div>
+    </div>
+    <div class="menu-resources">
+      <div class="menu-res">⚡ 213 / 240 <span class="menu-res-add">＋</span></div>
+      <div class="menu-icon-btn" title="미션">📋</div>
+      <div class="menu-icon-btn" title="상점">🛒<span class="lk">🔒</span></div>
+      <div class="menu-icon-btn" title="가챠">💠<span class="lk">🔒</span></div>
+      <div class="menu-icon-btn" title="설정">☰</div>
+    </div>
+  </div>
+
+  <!-- 본문 -->
+  <div class="menu-main">
+
+    <!-- 중앙: 캐릭터 + 배경 -->
+    <div class="menu-center">
+      <div class="menu-bg-grid"></div>
+      <div class="menu-bg-glow"></div>
+
+      <div class="menu-title-overlay">
+        <h1>TESSERA WEAVER</h1>
+        <p>당신의 스와이프가 도시의 코드를 다시 쓴다</p>
+      </div>
+
+      <div class="menu-char-area">
+        <div class="menu-char-wrap">
+          <div class="menu-char-silhouette">🧑‍💼</div>
+          <div class="menu-char-name">WEAVER</div>
+          <div class="menu-char-role">제3구역 집행관</div>
+        </div>
+      </div>
+
+      <div class="menu-mission">
+        <div class="menu-mission-icon">⚡</div>
+        <div>
+          <div class="menu-mission-title">일반 로그라이크 3회 완료</div>
+          <div class="menu-mission-prog">3 / 3 ✓ 완료</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 우측 네비게이션 패널 -->
+    <div class="menu-nav-panel">
+      <div class="mnav-item active" onclick="go('story')">
+        <div class="mnav-left">
+          <div class="mnav-name">스토리</div>
+          <div class="mnav-sub">챕터 3 · 1막 진행 중</div>
+        </div>
+        <div class="mnav-right"><div class="mnav-icon">📖</div></div>
+      </div>
+      <div class="mnav-divider"></div>
+      <div class="mnav-item" onclick="go('battle')">
+        <div class="mnav-left">
+          <div class="mnav-name">전투 모드</div>
+          <div class="mnav-sub">도전 로그라이크 · 일반 · 도전</div>
+        </div>
+        <div class="mnav-right"><div class="mnav-icon">⚔</div></div>
+      </div>
+      <div class="mnav-divider"></div>
+      <div class="mnav-item locked">
+        <div class="mnav-left">
+          <div class="mnav-name">카오스 모드</div>
+          <div class="mnav-sub">챕터 5 클리어 필요</div>
+        </div>
+        <div class="mnav-right">
+          <div class="mnav-icon">🌀</div>
+          <div class="mnav-lock">🔒</div>
+        </div>
+      </div>
+      <div class="mnav-divider"></div>
+      <div class="mnav-item" onclick="go('char')">
+        <div class="mnav-left">
+          <div class="mnav-name">캐릭터 정보</div>
+          <div class="mnav-sub">5인 보유</div>
+        </div>
+        <div class="mnav-right"><div class="mnav-icon">👤</div></div>
+      </div>
+      <div class="mnav-divider"></div>
+      <div class="mnav-item" onclick="go('team')">
+        <div class="mnav-left">
+          <div class="mnav-name">팀 구성</div>
+          <div class="mnav-sub">일반 3팀 · 도전 2팀</div>
+        </div>
+        <div class="mnav-right"><div class="mnav-icon">🧩</div></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 하단 이벤트 배너 -->
+  <div class="menu-bottom">
+    <div class="menu-event">
+      <div class="menu-event-icon">🌆</div>
+      <div>
+        <div class="menu-event-title">이벤트: 앵커를 찾아라</div>
+        <div class="menu-event-timer">⏱ 39일 15시간 남음</div>
+      </div>
+    </div>
+    <div class="menu-event">
+      <div class="menu-event-icon">💠</div>
+      <div>
+        <div class="menu-event-title">신규 캐릭터 베인 픽업</div>
+        <div class="menu-event-timer">⏱ 14일 08시간 남음</div>
+      </div>
+    </div>
+    <div class="menu-ver">
+      <span>v0.1.0-dev</span>
+      <span>세이브 슬롯 A</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════
+     SCREEN 2 — STORY MODE
+═══════════════════════════════════════ -->
+<div class="screen" id="screen-story">
+
+  <div class="top-bar">
+    <div class="back-btn" id="story-back" onclick="storyBack()">← 뒤로</div>
+    <div class="screen-title">스토리</div>
+    <span id="story-breadcrumb" style="font-size:12px;color:var(--accent);margin-left:6px;"></span>
+    <div style="margin-left:auto;display:flex;gap:8px;align-items:center;">
+      <span style="font-size:18px;cursor:pointer;opacity:.65;">🏠</span>
+      <span style="font-size:18px;cursor:pointer;opacity:.65;">☰</span>
+    </div>
+  </div>
+
+  <!-- VIEW 1: 모드 선택 -->
+  <div class="stv active" id="stv-mode">
+    <div class="stv1-body">
+      <div class="stv1-bg-grid"></div>
+      <div class="stv1-card" onclick="storyNav('act')">
+        <div class="stv1-art stv1-main">🌆</div>
+        <div class="stv1-overlay"></div>
+        <div class="stv1-corner">⛶</div>
+        <div class="stv1-nbadge">N</div>
+        <div class="stv1-bottom">
+          <div><div class="stv1-label">메인 스토리</div><div class="stv1-prog">챕터 3 · 1막 진행 중</div></div>
+          <div class="stv1-icon">📖</div>
+        </div>
+      </div>
+      <div class="stv1-card" onclick="storyNav('sub')">
+        <div class="stv1-art stv1-sub">✨</div>
+        <div class="stv1-overlay"></div>
+        <div class="stv1-corner">⛶</div>
+        <div class="stv1-bottom">
+          <div><div class="stv1-label">서브 스토리</div><div class="stv1-prog">1개 완료 · 1개 진행 가능</div></div>
+          <div class="stv1-icon">💫</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VIEW 2: 막 선택 -->
+  <div class="stv" id="stv-act">
+    <div class="stv2-body">
+      <div class="stv2-glow"></div>
+      <div class="act-card sel" onclick="storyNav('stage')">
+        <div class="act-art act-art-1">🏙</div>
+        <div class="act-ov"></div>
+        <div class="act-badge">N</div>
+        <div class="act-info">
+          <div class="act-num">1막</div>
+          <div class="act-name">와이어 음영의<br>심층부</div>
+          <div class="act-prog">1장 3화 진행 중</div>
+        </div>
+      </div>
+      <div class="act-card lk">
+        <div class="act-art act-art-2">🌃</div>
+        <div class="act-ov"></div>
+        <div class="act-lock">🔒</div>
+        <div class="act-info">
+          <div class="act-num">2막</div>
+          <div class="act-name">펜움브라의<br>유산</div>
+          <div class="act-prog" style="color:var(--dim)">잠금</div>
+        </div>
+      </div>
+      <div class="act-card lk">
+        <div class="act-art act-art-3">🌉</div>
+        <div class="act-ov"></div>
+        <div class="act-lock">🔒</div>
+        <div class="act-info">
+          <div class="act-num">3막</div>
+          <div class="act-name">앵커를 향한<br>발걸음</div>
+          <div class="act-prog" style="color:var(--dim)">잠금</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VIEW 3: 스테이지 타임라인 -->
+  <div class="stv" id="stv-stage">
+    <div class="stv3-body">
+      <div class="stv3-bg"></div>
+      <div class="stv3-left">
+        <div class="stv3-act-tag">챕터 3 · 1막</div>
+        <div class="stv3-name">와이어 음영의 심층부</div>
+        <div class="stv3-pw">
+          <div class="stv3-pb"><div class="stv3-pf" style="width:40%"></div></div>
+          <div class="stv3-pt">40%</div>
+        </div>
+        <div class="stv3-desc">와이어 음영 지역 깊숙이 숨겨진 펜움브라의 흔적을 쫓는다. 열강의 감시가 닿지 않는 곳에서 과거의 비밀이 드러나기 시작한다.</div>
+      </div>
+      <div class="stv3-scroll">
+        <div class="stv3-track">
+          <div class="snode">
+            <div class="snode-lbl">도시의 외곽</div>
+            <div class="snode-thumb done">🏗<div class="snode-ck ok">✓</div></div>
+            <div class="snode-ep">스토리 #01</div>
+            <div class="snode-btns"><div class="sbtn skip">✕</div><div class="sbtn rep">▶</div></div>
+          </div>
+          <div class="stv3-line done"></div>
+          <div class="snode">
+            <div class="snode-lbl">음영 경계선</div>
+            <div class="snode-thumb done">🌆<div class="snode-ck ok">✓</div></div>
+            <div class="snode-ep">일반 전투</div>
+            <div class="snode-btns"><div class="sbtn skip">✕</div><div class="sbtn rep">▶</div></div>
+          </div>
+          <div class="stv3-line done"></div>
+          <div class="snode">
+            <div class="snode-lbl">펜움브라의 잔해</div>
+            <div class="snode-thumb cur">🏚</div>
+            <div class="snode-ep">로그라이크 #01</div>
+            <div class="snode-btns"><div class="sbtn skip">✕</div><div class="sbtn play">▶</div></div>
+          </div>
+          <div class="stv3-line todo"></div>
+          <div class="snode">
+            <div class="snode-lbl">암호의 심층</div>
+            <div class="snode-thumb lk">🔐</div>
+            <div class="snode-ep">일반 전투</div>
+            <div class="snode-btns"><div class="sbtn skip dis">✕</div><div class="sbtn play dis">▶</div></div>
+          </div>
+          <div class="stv3-line todo"></div>
+          <div class="snode">
+            <div class="snode-lbl">보급 지점</div>
+            <div class="snode-thumb lk">🏕</div>
+            <div class="snode-ep">보급 지역</div>
+            <div class="snode-btns"><div class="sbtn skip dis">✕</div><div class="sbtn play dis">▶</div></div>
+          </div>
+          <div class="stv3-line todo"></div>
+          <div class="snode">
+            <div class="snode-lbl">중간 보스</div>
+            <div class="snode-thumb lk">⚔</div>
+            <div class="snode-ep">보스 전투</div>
+            <div class="snode-btns"><div class="sbtn skip dis">✕</div><div class="sbtn play dis">▶</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VIEW 4: 서브 스토리 -->
+  <div class="stv" id="stv-sub">
+    <div class="sub-list">
+      <div class="ss-item"><div class="ss-icon">🛡</div><div class="ss-info"><div class="ss-title">케스트럴 — 철의 여인</div><div class="ss-cond">해금: 챕터 2 클리어 + 케스트럴 동반</div></div><div class="ss-badge ok">CLEAR</div></div>
+      <div class="ss-item"><div class="ss-icon">⚡</div><div class="ss-info"><div class="ss-title">주베 — 조커의 기원</div><div class="ss-cond">해금: 챕터 3 클리어 + 주베 동반</div></div><div class="ss-badge go">진행 가능</div></div>
+      <div class="ss-item locked"><div class="ss-icon">🎯</div><div class="ss-info"><div class="ss-title">베인 — 라스트 노트</div><div class="ss-cond">해금: 챕터 4 클리어 필요</div></div><div class="ss-badge lk">🔒 잠금</div></div>
+      <div class="ss-item locked"><div class="ss-icon">👁</div><div class="ss-info"><div class="ss-title">사이퍼 — 이중 계약</div><div class="ss-cond">해금: 챕터 5 클리어 + 사이퍼 신뢰도</div></div><div class="ss-badge lk">🔒 잠금</div></div>
+      <div class="ss-item locked"><div class="ss-icon">💊</div><div class="ss-info"><div class="ss-title">펄스 — 브레이크</div><div class="ss-cond">해금: 챕터 5 클리어 필요</div></div><div class="ss-badge lk">🔒 잠금</div></div>
+      <div class="ss-item locked"><div class="ss-icon">🌆</div><div class="ss-info"><div class="ss-title">요람 해안의 어부 (이벤트)</div><div class="ss-cond">해금: 미확인 지역 이벤트 10회 완료</div></div><div class="ss-badge lk">🔒 잠금</div></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════
+     SCREEN 3 — BATTLE MODE
+═══════════════════════════════════════ -->
+<div class="screen" id="screen-battle">
+  <div class="top-bar">
+    <div class="back-btn" onclick="go('menu')">← 뒤로</div>
+    <div class="screen-title">전투 모드</div>
+  </div>
+  <div class="battle-body">
+
+    <div class="mode-card">
+      <div class="mc-header mc-h-r">🔄</div>
+      <div class="mc-body">
+        <div class="mc-title">도전 로그라이크 모드</div>
+        <div class="mc-subtitle">Challenge Roguelike</div>
+        <div class="mc-desc">챕터 클리어 후에도 계속 도전 가능. 몬스터가 점점 강해지며 최종 패배 시 도전 팀덱을 저장할 수 있다.</div>
+        <div class="mc-stats">
+          <div class="mc-stat-row"><span>최고 기록</span><span>3챕터 7막</span></div>
+          <div class="mc-stat-row"><span>도전 팀덱</span><span>2 / 10</span></div>
+        </div>
+        <div class="mc-btn mc-btn-r" onclick="go('rogue')" style="cursor:pointer;">▶ 시작하기</div>
+      </div>
+    </div>
+
+    <div class="mode-card">
+      <div class="mc-header mc-h-n">⚔</div>
+      <div class="mc-body">
+        <div class="mc-title">일반 전투 모드</div>
+        <div class="mc-subtitle">Normal Battle</div>
+        <div class="mc-desc">저장된 일반 팀덱으로 고정 스테이지를 도전. 각 스테이지는 고유한 적 구성과 특수 조건이 있으며 뒤로 갈수록 강해진다.</div>
+        <div class="mc-stats">
+          <div class="mc-stat-row"><span>진행 상황</span><span>스테이지 8 / 30</span></div>
+          <div class="mc-stat-row"><span>일반 팀덱</span><span>3 / 10</span></div>
+        </div>
+        <div class="mc-btn mc-btn-n">▶ 시작하기</div>
+      </div>
+    </div>
+
+    <div class="mode-card locked">
+      <div class="mc-header mc-h-c">🏆</div>
+      <div class="mc-body">
+        <div class="mc-title">도전 전투 모드</div>
+        <div class="mc-subtitle">Challenge Battle</div>
+        <div class="mc-desc">저장된 도전 팀덱으로 강화된 고정 스테이지를 도전. 도전 팀덱 보유 시 해금된다.</div>
+        <div class="mc-stats">
+          <div class="mc-stat-row"><span>해금 조건</span><span>도전 팀덱 보유</span></div>
+          <div class="mc-stat-row"><span>도전 팀덱</span><span>2 / 10</span></div>
+        </div>
+        <div class="mc-btn mc-btn-lk">🔒 잠금 해제 필요</div>
+        <div class="mc-lock-hint">도전 로그라이크에서 도전 팀덱을 획득하세요</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     SCREEN 4 — CHARACTER INFO
+═══════════════════════════════════════ -->
+<div class="screen" id="screen-char">
+  <div class="top-bar">
+    <div class="back-btn" onclick="go('menu')">← 뒤로</div>
+    <div class="screen-title">상세 정보</div>
+    <span style="font-size:12px;color:var(--dim);margin-left:3px;">ⓘ</span>
+    <div style="margin-left:auto;display:flex;gap:8px;align-items:center;">
+      <span style="font-size:18px;cursor:pointer;opacity:.65;">📋</span>
+      <span style="font-size:18px;cursor:pointer;opacity:.65;">🏠</span>
+      <span style="font-size:18px;cursor:pointer;opacity:.65;">☰</span>
+    </div>
+  </div>
+  <div class="char-body">
+
+    <!-- 좌측: 썸네일 리스트 -->
+    <div class="char-thumbs" id="char-thumbs"></div>
+
+    <!-- 중앙: 캐릭터 일러스트 -->
+    <div class="char-illus">
+      <div class="char-illus-bg"></div>
+      <div class="char-illus-grid"></div>
+      <div class="char-illus-glow"></div>
+      <div class="char-illus-label" id="c-illus-label">KESTREL · 탱커 · LV.07</div>
+      <div class="char-illus-main" id="c-illus">🛡</div>
+    </div>
+
+    <!-- 우측: 상세 패널 -->
+    <div class="char-detail">
+      <div class="char-detail-inner">
+
+        <div class="c-name" id="c-name">케스트럴</div>
+        <div class="c-role-tag rt-tank" id="c-role">탱커</div>
+        <div class="c-rating">
+          <div class="c-star on"></div><div class="c-star on"></div><div class="c-star on"></div>
+          <div class="c-star on"></div><div class="c-star"></div>
+        </div>
+        <div class="c-lv-row">
+          <span class="c-lv-text" id="c-lv">LV.07</span>
+          <span class="c-lv-max">/ 10</span>
+          <div class="c-lv-up">▲</div>
+        </div>
+
+        <div class="c-divider"></div>
+
+        <div class="c-section-title">능력치 <span>ⓘ</span></div>
+        <div class="c-stat-row"><span class="c-stat-name">공격력</span><span class="c-stat-val" id="c-atk">22</span></div>
+        <div class="c-stat-row"><span class="c-stat-name">방어력</span><span class="c-stat-val" id="c-def">35</span></div>
+        <div class="c-stat-row"><span class="c-stat-name">체력</span><span class="c-stat-val" id="c-hp">180</span></div>
+        <div class="c-stat-row"><span class="c-stat-name">치명확률</span><span class="c-stat-val" id="c-crit">5.0%</span></div>
+
+        <div class="c-divider"></div>
+
+        <div class="c-section-title" style="margin-bottom:10px;">기본 스킬</div>
+        <div class="c-skill-tabs">
+          <div class="c-skill-tab on" onclick="sktab('base')">기본 스킬덱</div>
+          <div class="c-skill-tab"    onclick="sktab('unl')">해금 스킬덱</div>
+          <div class="c-skill-tab"    onclick="sktab('lk')">미해금 스킬덱</div>
+        </div>
+        <div class="c-skill-grid" id="skill-grid"></div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     SCREEN 5 — TEAM COMPOSITION
+═══════════════════════════════════════ -->
+<div class="screen" id="screen-team">
+
+  <div class="top-bar">
+    <div class="back-btn" onclick="go('menu')">← 뒤로</div>
+    <div class="screen-title">전투원 목록</div>
+    <span style="font-size:12px;color:var(--dim);margin-left:3px;">ⓘ</span>
+    <div style="margin-left:auto;display:flex;gap:10px;align-items:center;">
+      <span style="font-size:15px;cursor:pointer;color:var(--dim);">▼</span>
+      <span style="font-size:12px;color:var(--dim);cursor:pointer;">레벨</span>
+      <span style="font-size:15px;cursor:pointer;color:var(--dim);">⇅</span>
+      <span style="width:1px;height:18px;background:var(--border);display:inline-block;"></span>
+      <span style="font-size:18px;cursor:pointer;opacity:.65;">🏠</span>
+      <span style="font-size:18px;cursor:pointer;opacity:.65;">☰</span>
+    </div>
+  </div>
+
+  <!-- 탭바 -->
+  <div class="team-tab-bar">
+    <div class="team-tab on" id="ttab-n" onclick="teamTab('n')">일반 전투 팀</div>
+    <div class="team-tab"    id="ttab-c" onclick="teamTab('c')">도전 전투 팀</div>
+    <div class="team-edit-btn">👥 편집</div>
+  </div>
+
+  <!-- 일반 팀 -->
+  <div class="team-body" id="tpanel-n">
+    <div class="team-slot sel">
+      <div class="t-num">1</div>
+      <div class="t-portraits">
+        <div class="t-portrait">🛡</div>
+        <div class="t-portrait">⚡</div>
+        <div class="t-portrait">💊</div>
+      </div>
+      <div class="t-info">
+        <div class="t-info-row"><span class="t-info-label">결성일 :</span><span class="t-info-val">2026-05-28 14:32:01</span></div>
+        <div class="t-info-row"><span class="t-info-label">최고 점수 :</span><span class="t-info-val">8,240,000</span></div>
+      </div>
+      <div class="t-skill-btn">스킬덱 보기</div>
+    </div>
+    <div class="team-slot">
+      <div class="t-num">2</div>
+      <div class="t-portraits">
+        <div class="t-portrait">🎯</div>
+        <div class="t-portrait">👁</div>
+        <div class="t-portrait">🛡</div>
+      </div>
+      <div class="t-info">
+        <div class="t-info-row"><span class="t-info-label">결성일 :</span><span class="t-info-val">2026-05-25 09:11:44</span></div>
+        <div class="t-info-row"><span class="t-info-label">최고 점수 :</span><span class="t-info-val">5,120,000</span></div>
+      </div>
+      <div class="t-skill-btn">스킬덱 보기</div>
+    </div>
+    <div class="team-slot">
+      <div class="t-num">3</div>
+      <div class="t-portraits">
+        <div class="t-portrait">⚡</div>
+        <div class="t-portrait">🎯</div>
+        <div class="t-portrait">👁</div>
+      </div>
+      <div class="t-info">
+        <div class="t-info-row"><span class="t-info-label">결성일 :</span><span class="t-info-val">2026-05-22 20:05:17</span></div>
+        <div class="t-info-row"><span class="t-info-label">최고 점수 :</span><span class="t-info-val">3,780,000</span></div>
+      </div>
+      <div class="t-skill-btn">스킬덱 보기</div>
+    </div>
+  </div>
+
+  <!-- 도전 팀 -->
+  <div class="team-body" id="tpanel-c" style="display:none">
+    <div class="team-slot sel">
+      <div class="t-num">1</div>
+      <div class="t-portraits">
+        <div class="t-portrait">🛡</div>
+        <div class="t-portrait">🎯</div>
+        <div class="t-portrait">👁</div>
+      </div>
+      <div class="t-info">
+        <div class="t-info-row"><span class="t-info-label">결성일 :</span><span class="t-info-val">2026-05-29 18:44:03</span></div>
+        <div class="t-info-row"><span class="t-info-label">최고 점수 :</span><span class="t-info-val">22,500,000</span></div>
+      </div>
+      <div class="t-skill-btn">스킬덱 보기</div>
+    </div>
+    <div class="team-slot">
+      <div class="t-num">2</div>
+      <div class="t-portraits">
+        <div class="t-portrait">⚡</div>
+        <div class="t-portrait">💊</div>
+        <div class="t-portrait">🎯</div>
+      </div>
+      <div class="t-info">
+        <div class="t-info-row"><span class="t-info-label">결성일 :</span><span class="t-info-val">2026-05-27 11:20:58</span></div>
+        <div class="t-info-row"><span class="t-info-label">최고 점수 :</span><span class="t-info-val">14,100,000</span></div>
+      </div>
+      <div class="t-skill-btn">스킬덱 보기</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     SCREEN 6 — ROGUELIKE MAP
+═══════════════════════════════════════ -->
+<div class="screen" id="screen-rogue">
+
+  <div class="rogue-top">
+    <div class="rogue-hp-col">
+      <div class="rogue-hp-txt">430 / 430</div>
+      <div class="rogue-hpbar"><div class="rogue-hpfill" style="width:78%"></div></div>
+    </div>
+    <div class="rogue-chars">
+      <div class="rogue-char-col">
+        <div class="rogue-char">🛡</div>
+        <div class="rogue-char-hp"><div class="rogue-char-hpf" style="width:90%;background:#4caf50;"></div></div>
+      </div>
+      <div class="rogue-char-col">
+        <div class="rogue-char">⚡</div>
+        <div class="rogue-char-hp"><div class="rogue-char-hpf" style="width:58%;background:#ff9800;"></div></div>
+      </div>
+      <div class="rogue-char-col">
+        <div class="rogue-char">💊</div>
+        <div class="rogue-char-hp"><div class="rogue-char-hpf" style="width:100%;background:#4caf50;"></div></div>
+      </div>
+    </div>
+    <div class="rogue-res">
+      <div class="rogue-gold">💰 240</div>
+      <div class="rogue-act-btn" title="빠르게 진행">⏩</div>
+      <div style="width:1px;height:22px;background:var(--border);"></div>
+      <div class="rogue-act-btn">☰</div>
+    </div>
+  </div>
+
+  <div class="rogue-map-area">
+    <div class="rogue-grid"></div>
+    <div class="rogue-scroll">
+      <svg id="rogue-svg"></svg>
+    </div>
+    <div class="rogue-zoom">－ 축소</div>
+    <div class="rogue-info">ⓘ</div>
+  </div>
+
+</div>
+
+</div><!-- .bs -->
+</div><!-- .bs-wrap -->
+
+<!-- ═══════════════════════════════════════
+     REFERENCE BELOW — 화면별 레퍼런스 (목업 아래 크게 표시)
+═══════════════════════════════════════ -->
+<div class="ref-below" id="ref-below">
+  <div class="ref-below-head">📐 현재 화면 레퍼런스 <span class="ref-below-name" id="ref-below-name"></span></div>
+  <div class="ref-below-imgs" id="ref-below-imgs"></div>
+</div>
+
+<div class="ref-lightbox" id="ref-lightbox" onclick="this.classList.remove('show')">
+  <img id="ref-lightbox-img" src="" alt="레퍼런스 확대">
+</div>
+
+<script>
+/* ── screen switch ── */
+const IDS = ['menu','story','battle','char','team','rogue'];
+function go(id) {
+  IDS.forEach(s => document.getElementById('screen-'+s).classList.toggle('active', s===id));
+  document.querySelectorAll('.toolbar .tb-btn').forEach((b,i)=>b.classList.toggle('on', IDS[i]===id));
+  updateRef(id);
+}
+
+/* ── reference float ── */
+const REF_BASE = 'assets/references/';
+const REF_MAP = {
+  menu:          {name:'로비/메인 메뉴',  imgs:[['ref_01_lobby.png','로비화면 (메인 메뉴)']]},
+  battle:        {name:'전투 모드',       imgs:[['ref_07_battle_mode.png','전투 모드 선택']]},
+  char:          {name:'캐릭터 정보',     imgs:[['ref_05_character.png','캐릭터 정보']]},
+  team:          {name:'팀 구성',         imgs:[['ref_06_team.png','팀 구성']]},
+  rogue:         {name:'로그라이크 맵',   imgs:[['ref_08_roguelike_map.png','로그라이크 스테이지 맵']]},
+  'story-mode':  {name:'스토리 · 모드 선택', imgs:[['ref_02_story_select.png','스토리모드 선택']]},
+  'story-act':   {name:'스토리 · 막 선택',   imgs:[['ref_03_story_chapter.png','챕터(막) 선택']]},
+  'story-stage': {name:'스토리 · 스테이지',  imgs:[['ref_04_story_stage.png','스테이지 진행 1'],['ref_04b_story_stage.png','스테이지 진행 2']]},
+  'story-sub':   {name:'스토리 · 서브',     imgs:[['ref_02_story_select.png','서브 스토리 (참고)']]},
+};
+function refKey(id) {
+  if (id === 'story') {
+    const cur = document.querySelector('#screen-story .stv.active');
+    const v = cur ? cur.id.replace('stv-','') : 'mode';
+    return 'story-' + v;
+  }
+  return id;
+}
+function updateRef(id) {
+  const data = REF_MAP[refKey(id)];
+  document.getElementById('ref-below-name').textContent = data ? '· ' + data.name : '';
+  const box = document.getElementById('ref-below-imgs');
+  if (!data || !data.imgs.length) {
+    box.innerHTML = '<div class="ref-below-empty">이 화면에 연결된 레퍼런스가 없습니다.</div>';
+    return;
+  }
+  box.innerHTML = data.imgs.map(([f,cap])=>`
+    <div class="ref-below-item">
+      <img src="${REF_BASE}${f}" alt="${cap}" onclick="refLightbox('${REF_BASE}${f}')">
+      <div class="ref-below-cap">${cap}</div>
+    </div>`).join('');
+}
+function refLightbox(src) {
+  const lb = document.getElementById('ref-lightbox');
+  document.getElementById('ref-lightbox-img').src = src;
+  lb.classList.add('show');
+}
+
+/* ── auto-scale ── */
+function scale() {
+  const bs=document.querySelector('.bs'), wrap=document.getElementById('bs-wrap');
+  const tb=document.querySelector('.toolbar'), tbH=tb?tb.offsetHeight+10:0;
+  const s=Math.min((innerWidth-20)/1280,(innerHeight-tbH-20)/720,1);
+  bs.style.zoom=s; wrap.style.height=Math.ceil(720*s)+'px';
+}
+addEventListener('resize',scale); scale();
+
+/* ── story navigation ── */
+const STORY_STACK = [];
+const STORY_CRUMBS = { mode:'', act:'챕터 3', stage:'챕터 3 · 1막', sub:'서브 스토리' };
+
+function storyNav(view) {
+  const cur = document.querySelector('#screen-story .stv.active');
+  if (cur) { STORY_STACK.push(cur.id); cur.classList.remove('active'); }
+  document.getElementById('stv-' + view).classList.add('active');
+  document.getElementById('story-breadcrumb').textContent = STORY_CRUMBS[view] || '';
+  updateRef('story');
+}
+
+function storyBack() {
+  const prev = STORY_STACK.pop();
+  if (!prev) { go('menu'); return; }
+  document.querySelector('#screen-story .stv.active')?.classList.remove('active');
+  document.getElementById(prev).classList.add('active');
+  const view = prev.replace('stv-','');
+  document.getElementById('story-breadcrumb').textContent = STORY_CRUMBS[view] || '';
+  updateRef('story');
+}
+
+/* ── character data ── */
+const CHARS={
+  kestrel:{icon:'🛡',name:'케스트럴',role:'탱커',rc:'rt-tank',hp:180,atk:22,def:35,spd:12,
+    base:[{n:4,nm:'방패 치기',ef:'단일 공격 6',c:'#607d8b'},{n:8,nm:'베스천 전개',ef:'방어막 +15',c:'#00bcd4'},{n:16,nm:'장벽 생성',ef:'타일 고정',c:'#4caf50'},{n:32,nm:'충격파',ef:'광역 공격 22',c:'#ff9800'},{n:64,nm:'철벽 요새',ef:'방어막 +40',c:'#f44336'}],
+    unl: [{n:4,nm:'반격 자세',ef:'피해 반사 30%',c:'#607d8b'},{n:8,nm:'도발',ef:'적 집중 유도',c:'#00bcd4'}],
+    lk:  [{n:16,nm:'?',ef:'?',c:'#333'},{n:32,nm:'?',ef:'?',c:'#333'},{n:128,nm:'?',ef:'?',c:'#333'}]},
+  jube:{icon:'⚡',name:'주베',role:'스카우트',rc:'rt-sct',hp:120,atk:18,def:15,spd:28,
+    base:[{n:4,nm:'빠른 이동',ef:'타일 강제 이동',c:'#ffd740'},{n:4,nm:'슬라이더',ef:'슬라이드 +1',c:'#ffd740'},{n:8,nm:'부스터',ef:'단일 공격 10',c:'#ff9800'},{n:16,nm:'쇄도',ef:'광역 공격 14',c:'#f44336'},{n:32,nm:'네온 슬래시',ef:'단일 공격 30',c:'#c0392b'}],
+    unl: [{n:4,nm:'타일 흡수',ef:'타일 병합 +1',c:'#ffd740'}],
+    lk:  [{n:16,nm:'?',ef:'?',c:'#333'},{n:64,nm:'?',ef:'?',c:'#333'}]},
+  vane:{icon:'🎯',name:'베인',role:'스나이퍼',rc:'rt-snp',hp:100,atk:45,def:10,spd:16,
+    base:[{n:4,nm:'정밀 조준',ef:'단일 공격 8',c:'#e53935'},{n:8,nm:'저격',ef:'단일 공격 18',c:'#e74c3c'},{n:16,nm:'관통탄',ef:'방어 무시',c:'#ff5722'},{n:32,nm:'심장 겨냥',ef:'단일 공격 40',c:'#ff6b35'},{n:64,nm:'라스트 노트',ef:'단일 공격 80',c:'#ff3d00'}],
+    unl: [{n:8,nm:'저격 예열',ef:'다음 공격 +50%',c:'#e74c3c'},{n:16,nm:'다중 조준',ef:'3연속 10',c:'#ff5722'}],
+    lk:  [{n:32,nm:'?',ef:'?',c:'#333'},{n:128,nm:'?',ef:'?',c:'#333'}]},
+  cipher:{icon:'👁',name:'사이퍼',role:'호크',rc:'rt-hwk',hp:110,atk:20,def:18,spd:20,
+    base:[{n:4,nm:'스캔',ef:'취약 표시',c:'#9c27b0'},{n:4,nm:'해킹 패킷',ef:'디버프 부여',c:'#9c27b0'},{n:8,nm:'취약 지정',ef:'피해 +30%',c:'#7b1fa2'},{n:16,nm:'예측 조작',ef:'적 카운트 +1',c:'#6a1b9a'},{n:32,nm:'데이터 붕괴',ef:'광역 디버프',c:'#4a148c'}],
+    unl: [{n:8,nm:'헤르메스',ef:'드론 배치',c:'#7b1fa2'}],
+    lk:  [{n:32,nm:'?',ef:'?',c:'#333'},{n:64,nm:'?',ef:'?',c:'#333'},{n:128,nm:'?',ef:'?',c:'#333'}]},
+  pulse:{icon:'💊',name:'펄스',role:'서스테이너',rc:'rt-sus',hp:130,atk:12,def:20,spd:18,
+    base:[{n:4,nm:'응급 처치',ef:'아군 회복 10',c:'#e91e63'},{n:4,nm:'나노 필드',ef:'방해 타일 정화',c:'#e91e63'},{n:8,nm:'나노 치유',ef:'아군 회복 20',c:'#c2185b'},{n:16,nm:'회복 파동',ef:'전체 회복 15',c:'#880e4f'},{n:32,nm:'에테르 방출',ef:'전체 회복 30',c:'#ad1457'}],
+    unl: [{n:8,nm:'생명선',ef:'HP 유지',c:'#c2185b'},{n:16,nm:'정화 파동',ef:'디버프 제거',c:'#880e4f'}],
+    lk:  [{n:64,nm:'?',ef:'?',c:'#333'},{n:128,nm:'?',ef:'?',c:'#333'}]},
+};
+const CKEYS=Object.keys(CHARS);
+let curChar='kestrel', curSkTab='base';
+
+const SKILL_ICONS = ['⚔','🛡','💥','⚡','🌀','💊','🎯','✦'];
+const SKILL_ARTS = [
+  'linear-gradient(135deg,#0a1428,#0d2050)',
+  'linear-gradient(135deg,#0a2a1a,#0d3020)',
+  'linear-gradient(135deg,#2a0a1a,#3a0d20)',
+  'linear-gradient(135deg,#1a0a2a,#280d3a)',
+  'linear-gradient(135deg,#1a1a0a,#282810)',
+];
+
+function buildCharList(){
+  document.getElementById('char-thumbs').innerHTML=
+    CKEYS.map(k=>`
+      <div class="c-thumb${k===curChar?' sel':''}" onclick="selChar('${k}')">${CHARS[k].icon}</div>
+    `).join('') +
+    `<div style="margin-top:auto;padding-bottom:14px;">
+       <div class="c-grid-btn">⊞</div>
+     </div>`;
+}
+function selChar(k){
+  curChar=k; curSkTab='base';
+  document.querySelectorAll('.c-skill-tab').forEach((el,i)=>el.classList.toggle('on',i===0));
+  buildCharList();
+  const c=CHARS[k];
+  document.getElementById('c-illus').textContent=c.icon;
+  document.getElementById('c-illus-label').textContent=`${c.name.toUpperCase()} · ${c.role} · LV.07`;
+  document.getElementById('c-name').textContent=c.name;
+  const rt=document.getElementById('c-role');
+  rt.textContent=c.role; rt.className='c-role-tag '+c.rc;
+  document.getElementById('c-atk').textContent=c.atk;
+  document.getElementById('c-def').textContent=c.def;
+  document.getElementById('c-hp').textContent=c.hp;
+  document.getElementById('c-crit').textContent='5.0%';
+  renderSkills();
+}
+function sktab(t){
+  curSkTab=t;
+  document.querySelectorAll('.c-skill-tab').forEach((el,i)=>el.classList.toggle('on',['base','unl','lk'][i]===t));
+  renderSkills();
+}
+function renderSkills(){
+  const list=CHARS[curChar][curSkTab], lk=curSkTab==='lk';
+  document.getElementById('skill-grid').innerHTML=list.map((s,i)=>`
+    <div class="c-skill-card${lk?' unk':''}">
+      <div class="c-skill-art" style="background:${lk?'linear-gradient(135deg,#1a1a2e,#111125)':SKILL_ARTS[i%5]}">
+        <div class="c-skill-num" style="border:1px solid ${lk?'rgba(255,255,255,.1)':s.c+'66'}">${lk?'?':s.n}</div>
+        ${lk?'❓':SKILL_ICONS[i%SKILL_ICONS.length]}
+      </div>
+      <div class="c-skill-info">
+        <div class="c-skill-name">${lk?'???':s.nm}</div>
+        <div class="c-skill-type">${lk?'':'기본 스킬'}</div>
+        <div class="c-skill-eff">${lk?'???':s.ef}</div>
+      </div>
+    </div>`).join('');
+}
+buildCharList(); selChar('kestrel');
+
+/* ── roguelike map ── */
+const ROGUE_NODES = [
+  {id:0,  x:80,  y:290, t:'start'},
+  {id:1,  x:240, y:120, t:'combat'},
+  {id:2,  x:430, y:80,  t:'unknown'},
+  {id:3,  x:620, y:80,  t:'supply'},
+  {id:4,  x:820, y:120, t:'unknown'},
+  {id:5,  x:1010,y:80,  t:'combat'},
+  {id:6,  x:1190,y:110, t:'unknown'},
+  {id:7,  x:240, y:240, t:'combat'},
+  {id:8,  x:430, y:230, t:'unknown'},
+  {id:9,  x:620, y:265, t:'combat'},
+  {id:10, x:820, y:250, t:'combat'},
+  {id:11, x:1010,y:255, t:'unknown'},
+  {id:12, x:240, y:370, t:'supply'},
+  {id:13, x:430, y:370, t:'combat'},
+  {id:14, x:620, y:370, t:'unknown'},
+  {id:15, x:820, y:370, t:'combat'},
+  {id:16, x:1010,y:360, t:'combat'},
+  {id:17, x:1190,y:360, t:'unknown'},
+  {id:18, x:240, y:480, t:'combat'},
+  {id:19, x:430, y:480, t:'supply'},
+  {id:20, x:820, y:460, t:'unknown'},
+  {id:21, x:1190,y:470, t:'unknown'},
+];
+const ROGUE_EDGES = [
+  [0,1],[0,7],[0,12],[0,18],
+  [1,2],[2,3],[3,4],[3,8],[4,5],[5,6],[5,11],
+  [7,8],[8,9],[8,13],[9,10],[10,4],[10,11],[11,6],[11,17],
+  [12,13],[13,14],[13,19],[14,15],[15,16],[15,10],[16,11],[16,17],
+  [18,19],[19,14],[19,20],[20,16],[20,21],[17,6],
+];
+const NODE_STYLE = {
+  start:   {fill:'rgba(0,188,212,.12)', stroke:'#00e5ff', w:28},
+  combat:  {fill:'#b0305a', stroke:'#e060a0', w:23},
+  unknown: {fill:'#1a7a8a', stroke:'#20c0d8', w:23},
+  supply:  {fill:'#9a6210', stroke:'#ffd740', w:23},
+  elite:   {fill:'#c03080', stroke:'#ff80c0', w:23},
+};
+const NODE_ICON = {start:'◈', combat:'✕', unknown:'?', supply:'⬥', elite:'✕'};
+
+function buildRogueMap() {
+  const W=1300, H=560;
+  const svg = document.getElementById('rogue-svg');
+  if (!svg) return;
+  svg.setAttribute('width', W); svg.setAttribute('height', H);
+  let html = `<defs>
+    <filter id="nd-glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="4" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>`;
+  // edges
+  ROGUE_EDGES.forEach(([a,b])=>{
+    const na=ROGUE_NODES[a], nb=ROGUE_NODES[b];
+    html+=`<line x1="${na.x}" y1="${na.y}" x2="${nb.x}" y2="${nb.y}" stroke="rgba(255,255,255,.3)" stroke-width="1.5" stroke-linecap="round"/>`;
+  });
+  // nodes
+  ROGUE_NODES.forEach(n=>{
+    const s=NODE_STYLE[n.t]||NODE_STYLE.combat;
+    const w=s.w;
+    if (n.t==='start') {
+      html+=`<g transform="translate(${n.x},${n.y})">
+        <polygon points="0,${-w} ${w},0 0,${w} ${-w},0" fill="${s.fill}" stroke="${s.stroke}" stroke-width="2.5" filter="url(#nd-glow)"/>
+        <text text-anchor="middle" dominant-baseline="central" font-size="22" fill="${s.stroke}" font-family="Segoe UI Symbol">◈</text>
+      </g>`;
+    } else {
+      const icon = NODE_ICON[n.t]||'?';
+      html+=`<g transform="translate(${n.x},${n.y})" style="cursor:pointer">
+        <polygon points="0,${-w} ${w},0 0,${w} ${-w},0" fill="${s.fill}" stroke="${s.stroke}" stroke-width="2" filter="url(#nd-glow)"/>
+        <text text-anchor="middle" dominant-baseline="central" font-size="${n.t==='unknown'?16:14}" font-weight="700" fill="white" font-family="Segoe UI,sans-serif">${icon}</text>
+      </g>`;
+    }
+  });
+  svg.innerHTML = html;
+}
+buildRogueMap();
+
+/* ── init reference float (초기 화면: 메인 메뉴) ── */
+updateRef('menu');
+
+/* ── team tabs ── */
+function teamTab(t){
+  document.getElementById('tpanel-n').style.display=t==='n'?'flex':'none';
+  document.getElementById('tpanel-c').style.display=t==='c'?'flex':'none';
+  document.getElementById('ttab-n').classList.toggle('on',t==='n');
+  document.getElementById('ttab-c').classList.toggle('on',t==='c');
+}
+</script>
+</body>
+</html>

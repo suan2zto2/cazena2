@@ -1,0 +1,2248 @@
+
+<!doctype html>
+<html lang="ko" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://suan2zto2.github.io/cazena2/systems/board/">
+      
+      
+        <link rel="prev" href="../character/">
+      
+      
+        <link rel="next" href="../card/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>보드 시스템 - 테세라위버 기획서</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          콘텐츠로 이동
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="상단/헤더">
+    <a href="../.." title="테세라위버 기획서" class="md-header__button md-logo" aria-label="테세라위버 기획서" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            테세라위버 기획서
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              보드 시스템
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="검색" placeholder="검색" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="검색">
+        
+        <button type="reset" class="md-search__icon md-icon" title="지우기" aria-label="지우기" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            검색 초기화
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="탭" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  게임 개요
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../overview/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  인게임 전투
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../outgame/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  게임 세부 시스템
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../outgame_flowchart/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  아웃게임 UI
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../schema/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  데이터
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../contents/scenario/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  콘텐츠
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../resources/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  필요 리소스
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../schedule/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  일정
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../backup/concept_A/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  백업
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="네비게이션" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="테세라위버 기획서" class="md-nav__button md-logo" aria-label="테세라위버 기획서" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    테세라위버 기획서
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    게임 개요
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    인게임 전투
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    인게임 전투
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    인게임 전투 개요
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../character/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    캐릭터 시스템
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    보드 시스템
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    보드 시스템
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="목차">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      목차
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 개요
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 보드 데이터 구조
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 슬라이드 알고리즘 명세
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 새 타일 생성 규칙
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. 슬라이드 횟수 제한
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. 슬라이드 불능 판정
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. 전투 시작 시 보드 초기화
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. 예외 케이스
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        관련 문서
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../card/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    카드 시스템
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../combat/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    전투 흐름
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../enemy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    적 AI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../combat_mockup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    전투 화면 목업
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    게임 세부 시스템
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    게임 세부 시스템
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../outgame/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    아웃게임 시스템
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../stage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    스테이지 진행
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../growth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    성장 시스템
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    아웃게임 UI
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    아웃게임 UI
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../outgame_flowchart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    아웃게임 UI구조
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../outgame_mockup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    UI 목업
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../outgame_reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    참고 레퍼런스
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    데이터
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    데이터
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../schema/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    스키마 설계
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../enums/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    열거형 정의
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_sheet/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    기획 테이블 시트
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    콘텐츠
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    콘텐츠
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contents/scenario/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    시나리오
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contents/characters/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    캐릭터
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../resources/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    필요 리소스
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../schedule/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    일정
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    백업
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    백업
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../backup/concept_A/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    안 A — 카제나 방식 × 패키지 RPG
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../backup/concept_B/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    안 B — 스테이지 클리어 × 덱 리셋 로그라이크
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../backup/concept_C/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    안 C — 2048 에너지 보드 × 덱 카드 RPG
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../references/limbus/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    림버스 컴퍼니
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../references/chaos_zero_nightmare/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    카오스 제로 나이트메어
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="_1">보드 시스템 상세 명세</h1>
+<p><small style="color:#7070a0;font-family:'Roboto Mono',monospace;background:rgba(255,255,255,0.05);padding:2px 12px;border-radius:20px;border:1px solid rgba(255,255,255,0.08);">📄 docs/systems/board.md</small></p>
+<blockquote>
+<p>기준 문서: <a href="../overview/"><code>docs/systems/overview.md</code> §보드 시스템</a>, <a href="../../"><code>docs/index.md</code> §보드 슬라이드와 액션 버튼</a><br />
+관련 구현 일정: <code>docs/schedule.md</code> 1단계 (05/11 – 05/22)</p>
+</blockquote>
+<hr />
+<h2 id="1">1. 개요</h2>
+<p>에너지 보드는 4×4 격자로 구성된 타일 배치 공간이다. 플레이어는 상·하·좌·우 슬라이드로 보드를 조작하여 동일 숫자 타일을 병합하고, 핸드에 든 카드의 발동 숫자와 일치하는 타일을 준비한다.</p>
+<p>보드 조작에는 턴당 슬라이드 횟수 제한이 있다. 한 번 슬라이드할 때마다 새로운 타일이 생성되므로, 제한된 횟수 안에서 어떤 숫자를 만들지가 매 턴의 핵심 결정이다.</p>
+<p><strong>시스템 간 연결:</strong></p>
+<table>
+<thead>
+<tr>
+<th>입력</th>
+<th>보드 시스템</th>
+<th>출력</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>플레이어 슬라이드 입력</td>
+<td>타일 이동 + 병합 처리</td>
+<td>업데이트된 보드 상태</td>
+</tr>
+<tr>
+<td>유효 슬라이드 확정</td>
+<td>새 타일 생성</td>
+<td>보드에 신규 타일 추가</td>
+</tr>
+<tr>
+<td>카드 발동 (<a href="../card/">card.md</a> 참조)</td>
+<td>지정 숫자 타일 소모</td>
+<td>보드에서 해당 타일 제거</td>
+</tr>
+<tr>
+<td>슬라이드 불능 감지</td>
+<td>입력 차단 플래그 설정</td>
+<td>슬라이드 UI 비활성화</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="2">2. 보드 데이터 구조</h2>
+<h3 id="2-1">2-1. 격자 표현</h3>
+<p>보드는 <strong>4행 × 4열 2차원 배열</strong>로 표현한다. 행 인덱스는 위에서 아래로 0~3, 열 인덱스는 왼쪽에서 오른쪽으로 0~3이다.</p>
+<div class="highlight"><pre><span></span><code>board[row][col]
+
+     col 0  col 1  col 2  col 3
+row 0 [  2] [   ] [  4] [   ]
+row 1 [   ] [  2] [   ] [  4]
+row 2 [  4] [   ] [  2] [   ]
+row 3 [   ] [  4] [   ] [  2]
+</code></pre></div>
+<h3 id="2-2">2-2. 타일 단위 데이터</h3>
+<p>슬라이드 연산 중에는 단순 정수 값이 아닌 <strong>Tile 객체</strong>로 처리한다. 슬라이드가 완료된 뒤 보드 저장 시에는 정수값(또는 빈 칸을 나타내는 값)만 남긴다.</p>
+<table>
+<thead>
+<tr>
+<th>필드</th>
+<th>타입</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>value</code></td>
+<td><code>number</code></td>
+<td>타일의 숫자 값 (2, 4, 8, 16, 32, 64, 128, …)</td>
+</tr>
+<tr>
+<td><code>mergedThisTurn</code></td>
+<td><code>boolean</code></td>
+<td>현재 슬라이드에서 이미 병합된 타일이면 <code>true</code>. 연쇄 병합 차단에 사용</td>
+</tr>
+</tbody>
+</table>
+<h3 id="2-3">2-3. 빈 칸 표현</h3>
+<p>빈 칸은 <strong>정수 <code>0</code></strong>으로 표현한다. <code>null</code>이나 별도 타입을 사용하지 않는다.</p>
+<ul>
+<li>보드 배열 원소가 <code>0</code>이면 빈 칸이다.</li>
+<li>타일이 존재하는 칸은 <code>2</code> 이상의 양의 정수다.</li>
+<li>빈 칸 목록이 필요한 경우 <code>board[r][c] === 0</code>인 <code>(r, c)</code> 쌍 전체를 수집한다.</li>
+</ul>
+<h3 id="2-4-boardstate">2-4. BoardState 구조체</h3>
+<p>전투 중 보드 전체 상태를 관리하는 최상위 구조체다.</p>
+<table>
+<thead>
+<tr>
+<th>필드</th>
+<th>타입</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>board</code></td>
+<td><code>number[][]</code></td>
+<td>4×4 정수 배열. 빈 칸은 0</td>
+</tr>
+<tr>
+<td><code>slideCount</code></td>
+<td><code>number</code></td>
+<td>현재 턴에 남은 슬라이드 횟수</td>
+</tr>
+<tr>
+<td><code>maxSlides</code></td>
+<td><code>number</code></td>
+<td>해당 스테이지에서 설정된 턴당 최대 슬라이드 횟수</td>
+</tr>
+<tr>
+<td><code>isSlideBlocked</code></td>
+<td><code>boolean</code></td>
+<td>슬라이드 불능 상태 여부. <code>true</code>이면 슬라이드 입력 차단</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><code>maxSlides</code>는 스테이지 기획 시 스테이지 데이터에서 주입한다. 스테이지별 설정이므로 코드에 하드코딩하지 않는다.</p>
+</blockquote>
+<h3 id="2-5">2-5. 보드 확장</h3>
+<p>기본 보드 크기는 4×4다. 유물·패시브 효과에 의해 보드가 확장될 수 있다(예: 5×5). 확장 시에는 <code>board</code> 배열 크기와 슬라이드 알고리즘의 순회 범위가 함께 변경된다. 확장 규칙의 상세는 <a href="../growth/">growth.md</a>에서 다룬다.</p>
+<hr />
+<h2 id="3">3. 슬라이드 알고리즘 명세</h2>
+<h3 id="3-1-4">3-1. 4방향 처리 순서 정의</h3>
+<p>슬라이드 방향마다 타일을 순회하는 순서가 다르다. 병합은 항상 <strong>슬라이드 방향 기준으로 앞에 있는 타일부터</strong> 처리한다(표준 2048 규칙).</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">슬라이드 방향</th>
+<th style="text-align: center;">행 순회</th>
+<th style="text-align: center;">열 순회</th>
+<th style="text-align: center;">한 줄 처리 방향</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">왼쪽 (Left)</td>
+<td style="text-align: center;">0 → 3 (모든 행)</td>
+<td style="text-align: center;">0 → 3</td>
+<td style="text-align: center;">왼쪽부터 오른쪽으로</td>
+</tr>
+<tr>
+<td style="text-align: center;">오른쪽 (Right)</td>
+<td style="text-align: center;">0 → 3 (모든 행)</td>
+<td style="text-align: center;">3 → 0</td>
+<td style="text-align: center;">오른쪽부터 왼쪽으로</td>
+</tr>
+<tr>
+<td style="text-align: center;">위 (Up)</td>
+<td style="text-align: center;">0 → 3 (모든 열)</td>
+<td style="text-align: center;">0 → 3</td>
+<td style="text-align: center;">위부터 아래로</td>
+</tr>
+<tr>
+<td style="text-align: center;">아래 (Down)</td>
+<td style="text-align: center;">3 → 0 (모든 열)</td>
+<td style="text-align: center;">3 → 0</td>
+<td style="text-align: center;">아래부터 위로</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>왼쪽 슬라이드 예시:</strong> 각 행(row 0~3)에 대해, 해당 행의 타일을 왼쪽 열(col 0)부터 오른쪽 열(col 3) 순서로 순회하며 이동·병합을 처리한다.</p>
+</blockquote>
+<h3 id="3-2">3-2. 이동 로직 (한 줄 단위 처리)</h3>
+<p>슬라이드는 각 행(좌·우) 또는 각 열(상·하)을 독립적으로 처리한다. 이하 설명은 "왼쪽 슬라이드 시 한 행 처리"를 기준으로 하며, 다른 방향도 동일한 원리를 방향에 맞게 적용한다.</p>
+<p><strong>단계 1 — 비어 있지 않은 타일만 추출:</strong>
+행에서 값이 0이 아닌 타일을 순서대로 꺼내 임시 배열을 만든다.</p>
+<div class="highlight"><pre><span></span><code>입력 행:  [2, 0, 2, 4]
+임시 배열: [2, 2, 4]
+</code></pre></div>
+<p><strong>단계 2 — 병합 처리 (왼쪽부터 순회):</strong>
+임시 배열을 앞에서부터 순회하며, 현재 타일과 바로 다음 타일의 값이 같고 두 타일 모두 <code>mergedThisTurn === false</code>이면 병합한다.</p>
+<ul>
+<li>병합된 타일의 값은 두 배가 된다.</li>
+<li>병합된 타일의 <code>mergedThisTurn</code>을 <code>true</code>로 설정한다.</li>
+<li>병합에 소모된 뒤쪽 타일은 배열에서 제거한다.</li>
+</ul>
+<div class="highlight"><pre><span></span><code>임시 배열: [2, 2, 4]
+  → [0]과 [1] 비교: 값 2 = 2, 모두 병합 안 됨 → 병합
+  → 결과: [4(merged), 4]
+  → [1]과 [2] 비교: 값 4 = 4이나 [1]은 mergedThisTurn=true → 병합 안 함
+최종 임시 배열: [4, 4]
+</code></pre></div>
+<p><strong>단계 3 — 빈 칸 채움:</strong>
+임시 배열을 슬라이드 방향의 앞쪽부터 채우고, 나머지는 0으로 채운다.</p>
+<div class="highlight"><pre><span></span><code>최종 임시 배열: [4, 4]
+결과 행: [4, 4, 0, 0]
+</code></pre></div>
+<h3 id="3-3">3-3. 병합 규칙 요약</h3>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>규칙</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>병합 조건</td>
+<td>슬라이드 방향으로 인접한 두 타일의 값이 동일하고, 두 타일 모두 <code>mergedThisTurn === false</code></td>
+</tr>
+<tr>
+<td>병합 결과</td>
+<td>앞쪽 타일 값 × 2. 뒤쪽 타일 제거</td>
+</tr>
+<tr>
+<td>연쇄 병합</td>
+<td><strong>불허.</strong> 한 번 병합된 타일(<code>mergedThisTurn === true</code>)은 같은 슬라이드 내에서 재병합 대상이 되지 않는다</td>
+</tr>
+<tr>
+<td>처리 순서</td>
+<td>슬라이드 방향 기준 앞에서 뒤 순서로 처리 (표준 2048)</td>
+</tr>
+<tr>
+<td>mergedThisTurn 초기화</td>
+<td>슬라이드 1회 완료 시 보드 전체 타일의 <code>mergedThisTurn</code>을 <code>false</code>로 초기화</td>
+</tr>
+</tbody>
+</table>
+<p><strong>연쇄 병합 차단 예시:</strong></p>
+<div class="highlight"><pre><span></span><code>입력 행:  [2, 2, 4, 0]   (왼쪽 슬라이드)
+처리 과정:
+  [0]·[1] 병합 → 4(merged)
+  [2] = 4이나 [0] mergedThisTurn=true → 병합 안 함
+결과 행:  [4, 4, 0, 0]   ← 8이 되지 않는다
+</code></pre></div>
+<h3 id="3-4">3-4. 유효 슬라이드 판정</h3>
+<p>슬라이드 시도 후 <strong>보드 상태가 변경되었는지</strong> 여부로 유효 슬라이드를 판정한다.</p>
+<p><strong>판정 방법:</strong>
+슬라이드 연산 전에 보드 배열을 복사해 두고, 연산 완료 후 원본과 결과를 타일별로 비교한다. 하나라도 다른 칸이 있으면 유효 슬라이드다.</p>
+<table>
+<thead>
+<tr>
+<th>판정 결과</th>
+<th>조건</th>
+<th>이후 처리</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>유효 슬라이드</td>
+<td>타일이 하나 이상 이동하거나 병합됨</td>
+<td><code>slideCount</code> -1, 새 타일 생성 트리거</td>
+</tr>
+<tr>
+<td>무효 슬라이드</td>
+<td>모든 타일의 위치와 값이 변경 없음</td>
+<td>슬라이드 불능 감지 루틴 실행 (§6 참조)</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>병합이 없어도 타일이 물리적으로 이동했으면 유효 슬라이드다. 예: <code>[0, 0, 0, 2]</code>를 왼쪽으로 슬라이드하면 병합은 없지만 타일이 이동하므로 유효.</p>
+</blockquote>
+<hr />
+<h2 id="4">4. 새 타일 생성 규칙</h2>
+<h3 id="4-1">4-1. 생성 트리거</h3>
+<p>유효 슬라이드 완료 직후 새 타일 생성을 시도한다. 무효 슬라이드 시에는 생성하지 않는다.</p>
+<h3 id="4-2">4-2. 생성 위치</h3>
+<p>슬라이드 완료 후 보드에서 값이 <code>0</code>인 칸(빈 칸) 전체를 수집하고, 그 중 <strong>무작위로 1칸</strong>을 선택하여 새 타일을 배치한다.</p>
+<h3 id="4-3">4-3. 생성 값</h3>
+<table>
+<thead>
+<tr>
+<th>조건</th>
+<th>생성 값</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>기본 (스테이지·캐릭터 특성 없음)</td>
+<td>항상 <code>2</code></td>
+</tr>
+<tr>
+<td>스테이지 또는 캐릭터 특성으로 <code>4</code> 생성이 활성화된 경우</td>
+<td><code>2</code> 또는 <code>4</code> (확률은 해당 특성의 설정값에 따름)</td>
+</tr>
+</tbody>
+</table>
+<p>초기 구현 단계에서는 <strong>항상 <code>2</code> 고정</strong>으로 구현하며, <code>4</code> 생성 경로는 스테이지·캐릭터 시스템 구현 시 확장한다.</p>
+<h3 id="4-4">4-4. 빈 칸이 없는 경우</h3>
+<p>슬라이드 완료 후 빈 칸이 하나도 없으면 새 타일을 생성하지 않는다. 이는 정상 동작이며 오류가 아니다.</p>
+<blockquote>
+<p>보드가 꽉 찬 상태에서 슬라이드를 시도하더라도, 병합이 발생해 빈 칸이 생기면 그 빈 칸 중 하나에 새 타일이 생성된다. §8 예외 케이스 참조.</p>
+</blockquote>
+<hr />
+<h2 id="5">5. 슬라이드 횟수 제한</h2>
+<h3 id="5-1">5-1. 기본 횟수</h3>
+<p>턴당 최대 슬라이드 횟수(<code>maxSlides</code>)는 <strong>스테이지별로 설정</strong>한다. 스테이지 기획 시 스테이지 데이터에 값을 지정하며, 코드에 하드코딩하지 않는다.</p>
+<h3 id="5-2">5-2. 횟수 카운터 감소 타이밍</h3>
+<p><strong>유효 슬라이드가 확정된 시점에만</strong> <code>slideCount</code>를 1 감소시킨다. 무효 슬라이드(타일이 이동하지 않은 경우)는 횟수를 소모하지 않는다.</p>
+<div class="highlight"><pre><span></span><code>슬라이드 시도
+  → 유효 슬라이드 판정
+    → 유효: slideCount -= 1, 새 타일 생성
+    → 무효: slideCount 변경 없음, 슬라이드 불능 감지 루틴 진입
+</code></pre></div>
+<h3 id="5-3">5-3. 횟수 소진 시 동작</h3>
+<p><code>slideCount === 0</code>이 되면 <strong>슬라이드 입력을 차단</strong>한다. 플레이어는 반드시 액션 버튼을 눌러 턴을 진행해야 한다.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">slideCount</th>
+<th style="text-align: center;">슬라이드 입력</th>
+<th style="text-align: center;">액션 버튼</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1 이상</td>
+<td style="text-align: center;">가능</td>
+<td style="text-align: center;">가능</td>
+</tr>
+<tr>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;"><strong>차단</strong></td>
+<td style="text-align: center;">가능</td>
+</tr>
+</tbody>
+</table>
+<h3 id="5-4">5-4. 횟수 리셋 타이밍</h3>
+<p>액션 버튼 처리 완료 → 핸드 전체 소모덱 이동 → <strong>새 핸드 드로우 완료 후</strong> <code>slideCount</code>를 <code>maxSlides</code>로 초기화한다.</p>
+<div class="highlight"><pre><span></span><code>액션 버튼 눌림
+  → 카드 발동 처리
+  → 핸드 전체 소모덱으로 이동
+  → 새 핸드 드로우
+  → slideCount = maxSlides  ← 이 시점에 리셋
+  → 적 행동 카운트 처리
+</code></pre></div>
+<h3 id="5-5">5-5. 패시브·유물에 의한 횟수 변경</h3>
+<p>패시브나 유물이 슬라이드 횟수를 변경하는 경우, <strong>절대값 증감</strong> 방식을 기본으로 한다(예: +2, -1). 배율 방식 사용 여부는 성장 시스템 기획 시 결정한다. 변경된 횟수는 <code>maxSlides</code>에 반영되며, 다음 리셋 시점부터 적용된다.</p>
+<hr />
+<h2 id="6">6. 슬라이드 불능 판정</h2>
+<h3 id="6-1">6-1. 정의</h3>
+<p>슬라이드를 시도했을 때 <strong>어떤 타일도 이동하지 않는 상태</strong>. 즉 해당 방향으로의 슬라이드가 무효 슬라이드인 경우다.</p>
+<p>슬라이드 불능은 4방향 전체가 아닌 <strong>특정 방향 하나만 불능인 경우에도 해당 방향 슬라이드만 차단</strong>한다. "모든 방향이 불능"이 되어야만 <code>isSlideBlocked === true</code> 상태가 된다.</p>
+<h3 id="6-2">6-2. 판정 시점 및 처리</h3>
+<p>슬라이드 시도 직후 유효 슬라이드 판정 결과가 무효일 때 즉시 처리한다.</p>
+<div class="highlight"><pre><span></span><code>슬라이드 시도 (방향: D)
+  → 슬라이드 연산 수행
+  → 유효 슬라이드 판정
+    → 유효: 정상 처리 (§3-4)
+    → 무효: 방향 D 슬라이드 차단 플래그 설정
+             나머지 방향도 모두 무효인지 확인
+               → 1방향 이상 유효: isSlideBlocked = false (다른 방향은 가능)
+               → 모든 방향 무효: isSlideBlocked = true
+</code></pre></div>
+<blockquote>
+<p>구현 시 "현재 보드에서 방향 D로 슬라이드 했을 때 변화가 있는가"를 실제 연산 없이 확인하는 <strong>사전 검사(dry-run)</strong> 함수를 별도로 구현하면 입력 처리 전에 버튼 활성화 여부를 미리 판단할 수 있다.</p>
+</blockquote>
+<h3 id="6-3">6-3. 슬라이드 불능 상태의 효과</h3>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>불능 시 동작</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>슬라이드 입력</td>
+<td><strong>차단.</strong> 해당 방향 슬라이드 UI 비활성화</td>
+</tr>
+<tr>
+<td>액션 버튼</td>
+<td><strong>가능.</strong> 턴을 정상 진행할 수 있다</td>
+</tr>
+<tr>
+<td>적 행동 카운트</td>
+<td>액션 버튼을 누르면 정상 감소. 슬라이드 불능 자체는 적 카운트에 영향을 주지 않는다</td>
+</tr>
+</tbody>
+</table>
+<h3 id="6-4">6-4. 슬라이드 불능 해제</h3>
+<p>액션 버튼으로 타일이 행동 재화로 소모된 후, 다음 턴 슬라이드 시작 시점에 보드 상태를 재검사하여 자동 해제한다.</p>
+<div class="highlight"><pre><span></span><code>액션 버튼 → 타일 소모 → 적 턴 → 다음 슬라이드 페이즈 시작
+  → 4방향 슬라이드 가능 여부 재검사
+    → 유효 방향 1개 이상: isSlideBlocked = false (자동 해제)
+    → 여전히 모든 방향 불가: isSlideBlocked = true 유지
+</code></pre></div>
+<hr />
+<h2 id="7">7. 전투 시작 시 보드 초기화</h2>
+<h3 id="7-1">7-1. 초기 보드 상태</h3>
+<p>전투 시작 시 보드는 <strong>완전 빈 보드</strong>로 초기화한다. 4×4 배열의 모든 원소를 <code>0</code>으로 설정한다.</p>
+<div class="highlight"><pre><span></span><code>초기 보드:
+[0, 0, 0, 0]
+[0, 0, 0, 0]
+[0, 0, 0, 0]
+[0, 0, 0, 0]
+</code></pre></div>
+<p>패시브 "선제 타일"이 활성화된 경우 초기화 직후 빈 칸 중 무작위 2칸에 값 <code>4</code>인 타일을 배치한다. 이 과정은 §4의 새 타일 생성 로직과 동일한 방식으로 처리한다.</p>
+<h3 id="7-2">7-2. 초기화 순서</h3>
+<div class="highlight"><pre><span></span><code>1. board 배열 전체를 0으로 초기화
+2. slideCount = maxSlides (스테이지 데이터에서 주입)
+3. isSlideBlocked = false
+4. 패시브 &quot;선제 타일&quot; 적용 (보유 시): 빈 칸 중 무작위 2칸에 4 타일 배치
+5. 핸드 드로우 (카드 시스템으로 위임 — card.md 참조)
+</code></pre></div>
+<blockquote>
+<p>보드 초기화(1~4단계)는 핸드 드로우(5단계) 이전에 완료되어야 한다. 핸드 내용에 따라 보드 상태를 변경하는 패시브가 향후 추가될 수 있으므로 순서를 명확히 유지한다.</p>
+</blockquote>
+<hr />
+<h2 id="8">8. 예외 케이스</h2>
+<h3 id="a">케이스 A — 보드 꽉 참 + 슬라이드 후 병합 발생</h3>
+<p><strong>상황:</strong> 보드 16칸이 모두 채워진 상태에서 슬라이드를 시도하고, 그 결과 병합이 발생한다.</p>
+<p><strong>동작:</strong>
+1. 슬라이드 연산 수행 → 병합된 타일이 앞쪽으로 이동, 빈 칸 발생
+2. 유효 슬라이드 판정 → 타일이 이동/병합되었으므로 <strong>유효</strong>
+3. <code>slideCount</code> -1
+4. 슬라이드 후 빈 칸이 1개 이상이므로 <strong>새 타일 생성</strong></p>
+<div class="highlight"><pre><span></span><code>예시 (왼쪽 슬라이드):
+슬라이드 전 행: [2, 2, 4, 8]
+슬라이드 후 행: [4, 4, 8, 0]  ← 빈 칸 발생 → 새 타일 생성 가능
+</code></pre></div>
+<h3 id="b">케이스 B — 보드 꽉 참 + 슬라이드 후 병합 없음 (슬라이드 불능)</h3>
+<p><strong>상황:</strong> 보드 16칸이 모두 채워진 상태에서 슬라이드를 시도했으나 인접한 동일 숫자 타일이 없어 병합이 발생하지 않는다. 또는 타일이 이미 슬라이드 방향의 끝에 모여 있어 이동 자체가 없다.</p>
+<p><strong>동작:</strong>
+1. 슬라이드 연산 수행 → 타일 위치·값 변화 없음
+2. 유효 슬라이드 판정 → <strong>무효</strong>
+3. <code>slideCount</code> 변화 없음
+4. 새 타일 생성 없음
+5. 해당 방향 슬라이드 불능 처리 (§6 참조)
+6. 4방향 모두 무효이면 <code>isSlideBlocked = true</code> → 슬라이드 입력 전면 차단
+7. 플레이어는 액션 버튼만 사용 가능</p>
+<div class="highlight"><pre><span></span><code>예시:
+슬라이드 전 행: [2, 4, 8, 16]  (왼쪽 슬라이드 시도)
+슬라이드 후 행: [2, 4, 8, 16]  ← 변화 없음 → 무효 슬라이드
+</code></pre></div>
+<h3 id="c">케이스 C — 슬라이드 횟수 소진 상태에서 슬라이드 시도</h3>
+<p><code>slideCount === 0</code>이면 슬라이드 입력 자체를 수신하지 않는다. 입력이 들어오더라도 슬라이드 연산을 수행하지 않고 무시한다. <code>isSlideBlocked</code>와 독립적인 차단이다.</p>
+<h3 id="d">케이스 D — 슬라이드 불능 상태에서 액션 버튼 후 보드 변경</h3>
+<p>액션 버튼으로 타일이 소모되면 다음 턴 슬라이드 페이즈 시작 시 보드 상태를 재검사한다. 슬라이드 가능한 방향이 생기면 <code>isSlideBlocked = false</code>로 자동 갱신한다.</p>
+<h3 id="e">케이스 E — 타일 소모 숫자 불일치</h3>
+<p>카드의 발동 숫자와 보드의 타일 값이 정확히 일치해야만 소모된다. 예를 들어 발동 숫자 <code>16</code>인 카드는 보드에 <code>16</code> 타일이 있을 때만 발동 가능하다. 보드에 <code>32</code> 타일이 있더라도 <code>16</code> 카드의 대체 발동으로 사용할 수 없다.</p>
+<hr />
+<h2 id="_2">관련 문서</h2>
+<table>
+<thead>
+<tr>
+<th>문서</th>
+<th>연결 내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../overview/">systems/overview.md</a></td>
+<td>보드 시스템 규칙 원문. 이 문서의 상위 기준</td>
+</tr>
+<tr>
+<td><a href="../card/">systems/card.md</a></td>
+<td>카드 발동 시 타일 소모 처리, 핸드 드로우 타이밍</td>
+</tr>
+<tr>
+<td><a href="../combat/">systems/combat.md</a></td>
+<td>전투 턴 구조. 슬라이드 페이즈·액션 버튼 순서</td>
+</tr>
+<tr>
+<td><a href="../growth/">systems/growth.md</a></td>
+<td>보드 크기 확장 패시브·유물, 슬라이드 횟수 변경 패시브</td>
+</tr>
+<tr>
+<td><a href="../../schema/">schema.md</a></td>
+<td>BoardState 구조체, Tile 임시 구조체 데이터 정의</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  맨위로
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.indexes", "navigation.top", "toc.integrate", "search.suggest", "search.highlight", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\ud074\ub9bd\ubcf4\ub4dc\uc5d0 \ubcf5\uc0ac\ub428", "clipboard.copy": "\ud074\ub9bd\ubcf4\ub4dc\ub85c \ubcf5\uc0ac", "search.result.more.one": "\uc774 \ubb38\uc11c\uc5d0\uc11c 1\uac1c\uc758 \uac80\uc0c9 \uacb0\uacfc \ub354 \ubcf4\uae30", "search.result.more.other": "\uc774 \ubb38\uc11c\uc5d0\uc11c #\uac1c\uc758 \uac80\uc0c9 \uacb0\uacfc \ub354 \ubcf4\uae30", "search.result.none": "\uac80\uc0c9\uc5b4\uc640 \uc77c\uce58\ud558\ub294 \ubb38\uc11c\uac00 \uc5c6\uc2b5\ub2c8\ub2e4", "search.result.one": "1\uac1c\uc758 \uc77c\uce58\ud558\ub294 \ubb38\uc11c", "search.result.other": "#\uac1c\uc758 \uc77c\uce58\ud558\ub294 \ubb38\uc11c", "search.result.placeholder": "\uac80\uc0c9\uc5b4\ub97c \uc785\ub825\ud558\uc138\uc694", "search.result.term.missing": "\ud3ec\ud568\ub418\uc9c0 \uc54a\uc740 \uac80\uc0c9\uc5b4", "select.version": "\ubc84\uc804 \uc120\ud0dd"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../javascripts/scroll_top.js"></script>
+      
+        <script src="../../javascripts/build_data.js"></script>
+      
+    
+  </body>
+</html>

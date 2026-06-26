@@ -1,0 +1,2358 @@
+
+<!doctype html>
+<html lang="ko" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://suan2zto2.github.io/cazena2/_plan_phase2to5/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>2~5단계 구현 기획 문서 계획 - 테세라위버 기획서</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#25" class="md-skip">
+          콘텐츠로 이동
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="상단/헤더">
+    <a href=".." title="테세라위버 기획서" class="md-header__button md-logo" aria-label="테세라위버 기획서" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            테세라위버 기획서
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              2~5단계 구현 기획 문서 계획
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="검색" placeholder="검색" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="검색">
+        
+        <button type="reset" class="md-search__icon md-icon" title="지우기" aria-label="지우기" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            검색 초기화
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="탭" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  게임 개요
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../systems/overview/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  인게임 전투
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../outgame/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  게임 세부 시스템
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../outgame_flowchart/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  아웃게임 UI
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../schema/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  데이터
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../contents/scenario/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  콘텐츠
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../resources/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  필요 리소스
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../schedule/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  일정
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../backup/concept_A/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  백업
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="네비게이션" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="테세라위버 기획서" class="md-nav__button md-logo" aria-label="테세라위버 기획서" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    테세라위버 기획서
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    게임 개요
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    인게임 전투
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    인게임 전투
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../systems/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    인게임 전투 개요
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../systems/character/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    캐릭터 시스템
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../systems/board/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    보드 시스템
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../systems/card/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    카드 시스템
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../systems/combat/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    전투 흐름
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../systems/enemy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    적 AI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../combat_mockup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    전투 화면 목업
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    게임 세부 시스템
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    게임 세부 시스템
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../outgame/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    아웃게임 시스템
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../systems/stage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    스테이지 진행
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../systems/growth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    성장 시스템
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    아웃게임 UI
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    아웃게임 UI
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../outgame_flowchart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    아웃게임 UI구조
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../outgame_mockup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    UI 목업
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../outgame_reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    참고 레퍼런스
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    데이터
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    데이터
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../schema/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    스키마 설계
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../enums/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    열거형 정의
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../data_sheet/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    기획 테이블 시트
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    콘텐츠
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    콘텐츠
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../contents/scenario/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    시나리오
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../contents/characters/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    캐릭터
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../resources/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    필요 리소스
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../schedule/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    일정
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    백업
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    백업
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../backup/concept_A/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    안 A — 카제나 방식 × 패키지 RPG
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../backup/concept_B/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    안 B — 스테이지 클리어 × 덱 리셋 로그라이크
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../backup/concept_C/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    안 C — 2048 에너지 보드 × 덱 카드 RPG
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../references/limbus/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    림버스 컴퍼니
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../references/chaos_zero_nightmare/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    카오스 제로 나이트메어
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="25">2~5단계 구현 기획 문서 계획</h1>
+<blockquote>
+<p>작성일: 2026-05-07<br />
+대상 구현 기간: 05/25 – 07/03 (2~5단계)<br />
+기준 일정: <code>docs/schedule.md</code> 2~5단계</p>
+</blockquote>
+<hr />
+<h2 id="1">1. 기존 문서에서 이미 정의된 내용</h2>
+<h3 id="docssystemsoverviewmd-ai"><code>docs/systems/overview.md</code> — 카드·전투·적 AI·파티·성장 섹션</h3>
+<p>아래 항목은 <code>overview.md</code>에 명확히 서술되어 있어 재정의 없이 참조 가능하다.</p>
+<h4 id="23">카드 시스템 (2단계·3단계 관련)</h4>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>정의 내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>덱 영역 3종</td>
+<td>대기덱·핸드덱·소모덱. 역할 각각 정의됨</td>
+</tr>
+<tr>
+<td>핸드 구성</td>
+<td>전투 시작 시 대기덱에서 5장 드로우</td>
+</tr>
+<tr>
+<td>카드 발동 조건</td>
+<td>액션 버튼 시 보드에 해당 숫자 타일이 있으면 발동. 타일 소모 후 효과 발동</td>
+</tr>
+<tr>
+<td>핸드 교체 규칙</td>
+<td>액션 버튼 이후 핸드 전체(발동·미발동 모두)를 소모덱으로 이동 후 재드로우</td>
+</tr>
+<tr>
+<td>대기덱 소진 처리</td>
+<td>소모덱 전체 셔플 → 대기덱 전환</td>
+</tr>
+<tr>
+<td>대기덱·소모덱 모두 0인 경우</td>
+<td>드로우하지 않음. 핸드 빈 채로 진행</td>
+</tr>
+<tr>
+<td>사망 캐릭터 카드 처리</td>
+<td>발동 불가 상태가 되며 핸드 교체 시 소모덱으로 이동</td>
+</tr>
+<tr>
+<td>중복 숫자 카드 선택</td>
+<td>같은 숫자로 발동 가능한 카드가 여러 장이면 액션 버튼 전에 원하는 카드를 선택</td>
+</tr>
+<tr>
+<td>발동 숫자 등급표</td>
+<td>4(기본)·8(일반)·16(강화)·32(강력)·64(필살)·128(초월)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="235">전투 시스템 (2단계·3단계·5단계 관련)</h4>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>정의 내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>출전 캐릭터 선택</td>
+<td>전투 전 최대 3인 선택. 미출전 캐릭터 카드는 덱에서 제외</td>
+</tr>
+<tr>
+<td>턴 구조 순서</td>
+<td>슬라이드(N회) → 액션 버튼 → 카드 실행 → 핸드 교체 → 적 카운트 처리</td>
+</tr>
+<tr>
+<td>전투 승리 조건</td>
+<td>모든 적 처치 → 카드 보상(3장 중 1장) 획득 → 거점 귀환</td>
+</tr>
+<tr>
+<td>전투 패배 조건</td>
+<td>파티 전원 사망 → 챕터 재시작 또는 세이브 포인트 복귀</td>
+</tr>
+<tr>
+<td>복수 적 동시 카운트 0 처리</td>
+<td>적 목록 순서(위→아래)로 순차 실행</td>
+</tr>
+<tr>
+<td>카드 발동 중 적 사망</td>
+<td>이미 선택한 카드의 효과는 완전 적용 후 전투 결과 판정</td>
+</tr>
+</tbody>
+</table>
+<h4 id="ai-45">적 AI 시스템 (4단계·5단계 관련)</h4>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>정의 내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>카운트 감소 타이밍</td>
+<td>플레이어 액션 버튼 1회 → 모든 적 카운트 -1</td>
+</tr>
+<tr>
+<td>카운트 0 시 동작</td>
+<td>예고 행동 실행 → 카운트 리셋</td>
+</tr>
+<tr>
+<td>예고 UI 표시 항목</td>
+<td>행동 유형, 수치(피해량·효과량), 대상(단일·전체) 항상 공개</td>
+</tr>
+<tr>
+<td>적 유형 분류</td>
+<td>일반·엘리트·보스 3종. 유형별 카운트 초기값 범위·행동 레퍼토리 다름</td>
+</tr>
+<tr>
+<td>보스 페이즈 전환</td>
+<td>체력 구간마다 행동 패턴 교체. 카운트 리셋 + 새 예고 등록</td>
+</tr>
+<tr>
+<td>적 사망 시 카운트·예고</td>
+<td>즉시 제거됨</td>
+</tr>
+<tr>
+<td>카운트 0 + 카드 효과로 동시 처치</td>
+<td>해당 적의 행동 취소됨</td>
+</tr>
+</tbody>
+</table>
+<h4 id="3">파티 연계 시스템 (3단계 관련)</h4>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>정의 내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연계 조건</td>
+<td>직전 카드와 현재 카드 소유 캐릭터가 다르고, 그 사이에 슬라이드 없어야 함</td>
+</tr>
+<tr>
+<td>연계 보너스 형태</td>
+<td>추가 광역 피해 또는 버프 형태로 즉시 적용</td>
+</tr>
+<tr>
+<td>연계 타일 소모</td>
+<td>각 카드의 발동 숫자 타일 2개 순서대로 소모. 두 타일 모두 보드에 존재해야 함</td>
+</tr>
+<tr>
+<td>이중 연계</td>
+<td>세 캐릭터 연속 발동 시 보너스 중첩 가능</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="2">2. 단계별 구현 항목과 문서화 상태</h2>
+<h3 id="2-05250529">2단계 — 카드·덱 시스템 (05/25–05/29)</h3>
+<table>
+<thead>
+<tr>
+<th>구현 항목</th>
+<th>문서화 상태</th>
+<th>비고</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>카드 데이터 구조 (발동 숫자·효과 타입·소유 캐릭터)</td>
+<td><strong>미정의</strong></td>
+<td>개념 수준만 존재. 필드 목록·타입·제약 조건 없음</td>
+</tr>
+<tr>
+<td>대기덱·핸드·소모덱 3영역 관리</td>
+<td>규칙 수준 정의</td>
+<td>영역 역할은 정의됨. <strong>영역 간 이동 처리 순서, 드로우 실패 처리 흐름 미정의</strong></td>
+</tr>
+<tr>
+<td>전투 시작 시 5장 드로우</td>
+<td>규칙 언급</td>
+<td><strong>덱이 5장 미만일 때 처리(소모덱 셔플 후 드로우 여부) 미정의</strong></td>
+</tr>
+<tr>
+<td>액션 이후 핸드 전체 소모덱 이동 + 재드로우</td>
+<td>규칙 수준 정의</td>
+<td><strong>재드로우 시 대기덱 부족 상황 처리 순서 미정의</strong></td>
+</tr>
+<tr>
+<td>대기덱 소진 시 소모덱 셔플 → 대기덱 전환</td>
+<td>규칙 언급</td>
+<td><strong>셔플 타이밍(드로우 직전 vs. 소진 감지 즉시) 미정의</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="3-06010605">3단계 — 액션 버튼·카드 실행 (06/01–06/05)</h3>
+<table>
+<thead>
+<tr>
+<th>구현 항목</th>
+<th>문서화 상태</th>
+<th>비고</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>액션 버튼 활성화 조건</td>
+<td>암묵적 정의</td>
+<td>"항상 누를 수 있다"는 맥락이지만 <strong>명시적 비활성화 조건(핸드 0장, 전투 종료 후 등) 없음</strong></td>
+</tr>
+<tr>
+<td>핸드 카드 ↔ 보드 타일 매칭 로직</td>
+<td>규칙 수준 정의</td>
+<td><strong>매칭 검사 순서, 타일 다수 존재 시 어떤 타일을 소모하는지 미정의</strong></td>
+</tr>
+<tr>
+<td>매칭된 카드 효과 순차 실행</td>
+<td>규칙 언급</td>
+<td><strong>카드 실행 순서(핸드 순서 vs. 발동 숫자 순서 vs. 매칭 완료 순서) 미정의</strong></td>
+</tr>
+<tr>
+<td>미매칭 카드 자동 소모 처리</td>
+<td>규칙 수준 정의</td>
+<td>소모덱으로 이동 확인됨. 추가 처리 없음</td>
+</tr>
+<tr>
+<td>같은 숫자 카드 복수 존재 시 선택 UI</td>
+<td>규칙 언급</td>
+<td><strong>선택 UI 발동 시점(액션 버튼 전 항상 vs. 중복 발견 시에만) 미정의</strong></td>
+</tr>
+<tr>
+<td>카드 효과 유형 (공격·회복·버프·디버프)</td>
+<td><strong>미정의</strong></td>
+<td>효과 유형 목록, 각 유형의 파라미터 구조 없음</td>
+</tr>
+<tr>
+<td>파티 연계 발동 로직</td>
+<td>규칙 수준 정의</td>
+<td><strong>연계 판정 시점(카드 선택 시 vs. 실행 시), 연계 보너스 수치 미정의</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="4-ai-06080619">4단계 — 적 AI (06/08–06/19)</h3>
+<table>
+<thead>
+<tr>
+<th>구현 항목</th>
+<th>문서화 상태</th>
+<th>비고</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>적 데이터 구조 (체력·행동 카운트·행동 패턴)</td>
+<td><strong>미정의</strong></td>
+<td>필드 목록·타입 없음</td>
+</tr>
+<tr>
+<td>액션 버튼 1회 → 전체 적 카운트 -1</td>
+<td>규칙 수준 정의</td>
+<td>처리 순서 정의됨</td>
+</tr>
+<tr>
+<td>카운트 0 시 예고 행동 실행 → 카운트 리셋</td>
+<td>규칙 수준 정의</td>
+<td><strong>카운트 리셋값(초기값 고정 vs. 패턴별 가변) 미정의</strong></td>
+</tr>
+<tr>
+<td>행동 유형 구현 (단일 공격·광역·디버프·강화)</td>
+<td>규칙 언급</td>
+<td><strong>각 행동 유형의 파라미터 구조, 적용 대상 선택 방식 미정의</strong></td>
+</tr>
+<tr>
+<td>복수 적 동시 카운트 0 처리</td>
+<td>규칙 수준 정의</td>
+<td>위→아래 순서 정의됨</td>
+</tr>
+<tr>
+<td>보스 페이즈 전환</td>
+<td>규칙 언급</td>
+<td><strong>페이즈 전환 체력 구간 정의 방식(비율 vs. 절대값), 페이즈 전환 연출 규칙 미정의</strong></td>
+</tr>
+<tr>
+<td>같은 턴 여러 스킬 겹침 처리</td>
+<td><strong>미결 상태</strong></td>
+<td><code>overview.md</code>에 "추후 결정"으로 명시된 미해결 항목</td>
+</tr>
+</tbody>
+</table>
+<h3 id="5-ui-06220703">5단계 — 전투 UI (06/22–07/03)</h3>
+<table>
+<thead>
+<tr>
+<th>구현 항목</th>
+<th>문서화 상태</th>
+<th>비고</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>전투 화면 레이아웃</td>
+<td><strong>미정의</strong></td>
+<td><code>ux.md</code> 전체가 플레이스홀더</td>
+</tr>
+<tr>
+<td>보드 슬라이드 애니메이션·타일 병합 이펙트</td>
+<td><strong>미정의</strong></td>
+<td>연출 규칙, 연출 중 입력 처리 방식 없음</td>
+</tr>
+<tr>
+<td>핸드 카드 표시·매칭 타일 하이라이트</td>
+<td><strong>미정의</strong></td>
+<td>하이라이트 조건, 실시간 반영 여부 없음</td>
+</tr>
+<tr>
+<td>적 행동 예고 UI</td>
+<td>규칙 수준 정의</td>
+<td>표시 항목은 정의됨. <strong>UI 배치·카운트 감소 애니메이션 규칙 미정의</strong></td>
+</tr>
+<tr>
+<td>슬라이드 잔여 횟수 표시</td>
+<td><strong>미정의</strong></td>
+<td>표시 위치, 소진 시 UI 상태 없음</td>
+</tr>
+<tr>
+<td>카드 실행 연출 (공격 이펙트·피해 수치 팝업)</td>
+<td><strong>미정의</strong></td>
+<td>연출 중 다음 입력 처리 방식, 연출 스킵 여부 없음</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="3_1">3. 단계별 미결 사항</h2>
+<h3 id="3-a-2">3-A. 2단계 미결 사항 — 카드·덱 시스템</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>미결 항목</th>
+<th>선택지</th>
+<th>영향 범위</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A-1</td>
+<td><strong>카드 효과 타입 목록 확정</strong></td>
+<td>(a) 공격·회복·버프·디버프 4종으로 고정 / (b) 추가 타입(실드·드로우·상태이상 등) 포함한 확장 목록</td>
+<td>카드 데이터 구조 설계에 직결. 이후 모든 카드 데이터 작성의 기반</td>
+</tr>
+<tr>
+<td>A-2</td>
+<td><strong>전투 시작 드로우 시 대기덱 5장 미만 처리</strong></td>
+<td>(a) 있는 장수만 드로우하고 소모덱 셔플 후 나머지 드로우 / (b) 있는 장수만 드로우하고 셔플 없이 시작</td>
+<td>전투 시작 초기화 로직 분기 발생</td>
+</tr>
+<tr>
+<td>A-3</td>
+<td><strong>셔플 타이밍</strong></td>
+<td>(a) 대기덱이 0이 되는 순간 즉시 셔플 / (b) 드로우 시도 시점에 대기덱이 0이면 그때 셔플</td>
+<td>타이밍 차이가 드로우 결과에 영향. (b)가 표준적</td>
+</tr>
+<tr>
+<td>A-4</td>
+<td><strong>카드 강화(합성) 결과 정의</strong></td>
+<td>(a) 발동 숫자만 감소 (예: 16→12) / (b) 발동 숫자 감소 + 효과 강화 중 하나 선택 / (c) 카드마다 강화 결과가 고정</td>
+<td>카드 데이터 구조에 "강화 단계" 필드 필요 여부 결정</td>
+</tr>
+<tr>
+<td>A-5</td>
+<td><strong>덱 구성 상한</strong></td>
+<td>카드 상한 없음 vs. 최대 N장 제한</td>
+<td>밸런스 및 소모덱 순환 주기에 영향</td>
+</tr>
+</tbody>
+</table>
+<h3 id="3-b-3">3-B. 3단계 미결 사항 — 액션 버튼·카드 실행</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>미결 항목</th>
+<th>선택지</th>
+<th>영향 범위</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>B-1</td>
+<td><strong>카드 실행 순서</strong></td>
+<td>(a) 핸드에서 왼쪽(낮은 인덱스) 순서 / (b) 발동 숫자 오름차순 / (c) 발동 숫자 내림차순 / (d) 플레이어가 순서 지정</td>
+<td>연계 발동 판정, 효과 적용 순서(방어막 선적용 여부 등)에 직결</td>
+</tr>
+<tr>
+<td>B-2</td>
+<td><strong>동일 숫자 타일 다수 존재 시 소모 위치 선택</strong></td>
+<td>(a) 자동 선택(무작위 또는 위치 규칙 고정) / (b) 플레이어가 소모할 타일 위치를 직접 선택</td>
+<td>UX 복잡도와 전략성에 영향. (b)는 추가 선택 UI 필요</td>
+</tr>
+<tr>
+<td>B-3</td>
+<td><strong>중복 숫자 카드 선택 UI 발동 시점</strong></td>
+<td>(a) 액션 버튼을 누르기 전에 핸드에서 항상 선택 가능 / (b) 액션 버튼 누른 뒤 매칭 발견 시 팝업</td>
+<td>(a)는 사전 계획 강조, (b)는 확인 절차 강조. 구현 방식 차이 큼</td>
+</tr>
+<tr>
+<td>B-4</td>
+<td><strong>액션 버튼 비활성화 조건 명시</strong></td>
+<td>항상 활성 vs. 핸드 0장일 때 비활성 vs. 매칭 카드 0장일 때 비활성</td>
+<td>UI 상태 관리와 플레이어 혼란 방지 설계에 영향</td>
+</tr>
+<tr>
+<td>B-5</td>
+<td><strong>연계 보너스 수치 정의</strong></td>
+<td>추가 광역 피해의 기본값, 계산 기준(카드 기본 피해의 %, 고정값 등)</td>
+<td>밸런스에 직결. 패시브 "연계 전문" +50% 적용 기준도 여기서 결정</td>
+</tr>
+<tr>
+<td>B-6</td>
+<td><strong>연계 판정 시점</strong></td>
+<td>(a) 카드 실행 처리 시 직전 카드와 비교 / (b) 플레이어가 카드 순서를 지정한 시점에 미리 판정</td>
+<td>B-1(카드 실행 순서)과 연동됨</td>
+</tr>
+</tbody>
+</table>
+<h3 id="3-c-4-ai">3-C. 4단계 미결 사항 — 적 AI</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>미결 항목</th>
+<th>선택지</th>
+<th>영향 범위</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>C-1</td>
+<td><strong>카운트 리셋값 방식</strong></td>
+<td>(a) 적마다 고정된 초기값으로 항상 리셋 / (b) 행동 패턴별로 다른 리셋값 사용 / (c) 리셋값에 범위(최소~최대) 적용, 무작위 선택</td>
+<td>적 행동의 예측 가능성과 전략 깊이에 직결</td>
+</tr>
+<tr>
+<td>C-2</td>
+<td><strong>행동 패턴 구조</strong></td>
+<td>(a) 고정 순환(1→2→3→1) / (b) 랜덤 선택(가중치 풀) / (c) 조건 분기(체력 구간·카운트에 따라 패턴 선택)</td>
+<td>적 데이터 구조의 복잡도 결정. 보스에서 특히 중요</td>
+</tr>
+<tr>
+<td>C-3</td>
+<td><strong>같은 턴 여러 스킬 겹침 처리</strong> (<code>overview.md</code>에 "추후 결정"으로 명시된 항목)</td>
+<td>(a) 등록 순서대로 모두 실행 / (b) 첫 번째 스킬만 실행, 나머지 무시 / (c) 합산하여 하나의 행동으로 처리</td>
+<td>복잡한 보스 기믹 설계 가능 여부에 영향. 구현 복잡도 차이 큼</td>
+</tr>
+<tr>
+<td>C-4</td>
+<td><strong>보스 페이즈 전환 트리거 정의</strong></td>
+<td>(a) 체력 비율(50%, 25% 등) / (b) 절대 체력값 / (c) 특정 카운트 도달 시</td>
+<td>페이즈 전환 체력값이 보스 데이터에서 어떻게 표현되는지 결정</td>
+</tr>
+<tr>
+<td>C-5</td>
+<td><strong>디버프·버프의 지속 방식</strong></td>
+<td>(a) N턴 지속 (액션 버튼 횟수 기준) / (b) 영구 지속(해제 스킬 없으면 유지) / (c) 조건부 해제</td>
+<td>상태이상 시스템 전반 설계에 영향. 카드 효과 타입(A-1)과 연동</td>
+</tr>
+<tr>
+<td>C-6</td>
+<td><strong>적 행동 대상 선택 방식 (단일 공격 시)</strong></td>
+<td>(a) 항상 첫 번째 생존 파티원 / (b) 체력이 가장 낮은 파티원 / (c) 무작위 파티원 / (d) 적 패턴 데이터에 타겟팅 방식을 명시</td>
+<td>전략성 수준과 플레이어 대응 가능성에 영향</td>
+</tr>
+</tbody>
+</table>
+<h3 id="3-d-5-ui">3-D. 5단계 미결 사항 — 전투 UI</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>미결 항목</th>
+<th>선택지</th>
+<th>영향 범위</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>D-1</td>
+<td><strong>연출 중 입력 처리 방식</strong></td>
+<td>(a) 연출 중 모든 입력 차단 (연출 완료 후 입력 수신) / (b) 연출 스킵 가능 (탭으로 스킵) / (c) 연출과 무관하게 즉시 입력 수신</td>
+<td>UX 체감과 게임 속도에 큰 영향. 카드 실행·보드 슬라이드 애니메이션 모두 적용</td>
+</tr>
+<tr>
+<td>D-2</td>
+<td><strong>매칭 타일 하이라이트 실시간 반영 여부</strong></td>
+<td>(a) 항상 실시간 (보드 상태 변경될 때마다 갱신) / (b) 액션 버튼 누르기 직전에만 표시</td>
+<td>구현 비용과 플레이어 가독성에 영향</td>
+</tr>
+<tr>
+<td>D-3</td>
+<td><strong>전투 화면 레이아웃 기본 구조 결정</strong></td>
+<td>보드·핸드·적 목록의 배치 방향 및 비율 (예: 상단 적 / 중단 보드 / 하단 핸드 vs. 좌측 보드 / 우측 적·핸드)</td>
+<td>5단계 UI 구현 전체의 기반. 미결 시 UI 작업 착수 불가</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="4">4. 작성이 필요한 문서와 섹션 계획</h2>
+<h3 id="_1">우선순위 높음 — 핵심 시스템 (구현 직전 필수 확정)</h3>
+<h4 id="4-1-docssystemscardmd-2">4-1. <code>docs/systems/card.md</code> 신규 작성 (2단계 착수 전 필수)</h4>
+<p>2단계 구현자가 카드 데이터 구조를 설계하기 전에 완성 필요.</p>
+<p>작성할 섹션:</p>
+<div class="highlight"><pre><span></span><code>1. 카드 데이터 구조
+   - Card 구조체 필드 목록 (발동 숫자, 효과 타입, 효과 파라미터, 소유 캐릭터 ID, 강화 단계)
+   - 효과 타입 열거형 정의 (공격·회복·버프·디버프 + 확장 목록 — 미결 A-1 확정 후)
+   - 카드 등급 정의 (발동 숫자 4·8·16·32·64·128과 등급명 매핑)
+
+2. 덱 운영 구조
+   - DeckState 구조체 (대기덱·핸드덱·소모덱 각 영역 배열)
+   - 영역 간 이동 규칙 상세
+   - 전투 시작 초기화 순서 (셔플 → 드로우 5장, 부족 시 처리 — 미결 A-2 확정 후)
+
+3. 드로우 규칙
+   - 드로우 트리거 2종: 전투 시작, 액션 버튼 이후
+   - 대기덱 소진 시 셔플 타이밍 (미결 A-3 확정 후)
+   - 예외: 대기덱·소모덱 모두 0장인 경우
+
+4. 카드 발동 흐름
+   - 매칭 검사 순서
+   - 타일 소모 처리
+   - 효과 실행 순서 (미결 B-1 확정 후)
+   - 미매칭 카드 처리
+
+5. 카드 강화 (합성)
+   - 강화 조건: 같은 카드 2장
+   - 강화 결과 (미결 A-4 확정 후)
+
+6. 카드 보상
+   - 전투 종료 후 3장 중 1장 선택 흐름
+   - 챕터 클리어 시 초기화 처리
+</code></pre></div>
+<h4 id="4-2-docssystemscombatmd-2">4-2. <code>docs/systems/combat.md</code> 신규 작성 (2단계 착수 전 필수)</h4>
+<p>턴 구조 전체를 명확히 정의해야 카드·적 AI 시스템 구현 시 각 처리 순서가 충돌하지 않는다.</p>
+<p>작성할 섹션:</p>
+<div class="highlight"><pre><span></span><code>1. 개요 — 코어 루프 흐름도
+   - 전투 시작 초기화 순서 (보드 → 덱 셔플 → 핸드 드로우 → 슬라이드 페이즈)
+
+2. 슬라이드 페이즈
+   - 슬라이드 가능 조건 (slideCount &gt; 0, isSlideBlocked = false)
+   - 슬라이드 처리 후 상태 갱신 순서
+
+3. 액션 버튼 처리 흐름 (상세 순서 명세)
+   - 활성화 조건 (미결 B-4 확정 후)
+   - 실행 순서:
+     (1) 중복 숫자 카드 선택 UI (해당 시)
+     (2) 핸드·보드 매칭 검사
+     (3) 카드 효과 실행 (순서 — 미결 B-1 확정 후)
+     (4) 파티 연계 판정 및 보너스 적용
+     (5) 핸드 전체 소모덱 이동
+     (6) 재드로우
+     (7) slideCount 리셋
+     (8) 모든 적 카운트 -1
+     (9) 카운트 0인 적 행동 처리 (위→아래 순서)
+     (10) 슬라이드 페이즈 복귀
+
+4. 전투 종료 판정
+   - 승리 조건 및 이후 흐름
+   - 패배 조건 및 이후 흐름
+   - 카드 효과 실행 중 종료 조건 충족 시 처리 방식
+
+5. 예외 케이스
+   - 핸드 0장 상태에서 액션 버튼
+   - 카드 발동 중 파티원 사망 처리
+   - 복수 적 동시 카운트 0 상세 순서
+</code></pre></div>
+<h4 id="4-3-docssystemsenemymd-4">4-3. <code>docs/systems/enemy.md</code> 신규 작성 (4단계 착수 전 필수)</h4>
+<p>작성할 섹션:</p>
+<div class="highlight"><pre><span></span><code>1. 적 데이터 구조
+   - Enemy 구조체 필드 목록 (ID, 유형, 최대 체력, 현재 체력, 행동 카운트, 행동 패턴 목록)
+   - EnemyAction 구조체 (행동 유형, 대상, 수치 파라미터, 카운트 리셋값)
+   - 적 유형별 카운트 초기값 범위 기준
+
+2. 행동 카운트 처리 규칙
+   - 감소 타이밍: 액션 버튼 1회 = 전체 적 -1
+   - 카운트 0 도달 시 실행 흐름
+   - 카운트 리셋값 방식 (미결 C-1 확정 후)
+
+3. 행동 패턴 구조
+   - 패턴 종류: 고정 순환·랜덤·조건 분기 (미결 C-2 확정 후)
+   - 같은 턴 여러 스킬 겹침 처리 (미결 C-3 확정 후)
+
+4. 행동 유형 정의
+   - 단일 공격: 파라미터(피해량, 대상 선택 방식 — 미결 C-6 확정 후)
+   - 광역 공격: 파라미터(피해량, 파티 전체 적용)
+   - 디버프: 파라미터(효과 종류, 지속 방식 — 미결 C-5 확정 후, 대상)
+   - 강화(자기 버프): 파라미터(효과 종류, 지속 방식, 대상)
+
+5. 보스 페이즈 시스템
+   - 페이즈 전환 트리거 정의 방식 (미결 C-4 확정 후)
+   - 페이즈 전환 시 처리 순서 (패턴 교체 → 카운트 리셋 → 예고 갱신)
+   - 페이즈 전환 시 현재 진행 중인 행동 처리 방식
+
+6. 예외 처리
+   - 카운트 0 + 동시 처치 시 행동 취소 규칙
+   - 전체 공격 시 방어막 우선 소모 규칙
+</code></pre></div>
+<h3 id="ui">우선순위 중간 — 구현 지원 및 UI 설계 기반</h3>
+<h4 id="4-4-docsuxmd-5">4-4. <code>docs/ux.md</code> 전투 화면 섹션 작성 (5단계 착수 전 필수)</h4>
+<p>현재 전체 플레이스홀더. 5단계 UI 구현 착수 전 전투 화면만이라도 먼저 작성 필요.</p>
+<p>작성할 섹션:</p>
+<div class="highlight"><pre><span></span><code>전투 화면 (Battle Screen)
+  - 진입 조건
+  - 레이아웃 구조 (미결 D-3 확정 후)
+    - 보드 영역: 위치, 크기 비율
+    - 핸드 영역: 카드 표시 방식, 최대 표시 수
+    - 적 목록 영역: 카운트·행동 예고 표시 위치
+    - 슬라이드 잔여 횟수 표시 위치
+    - 액션 버튼 위치·크기
+  - UI 상태 목록
+    - 슬라이드 가능 상태
+    - 슬라이드 횟수 소진 상태
+    - 슬라이드 불능 상태
+    - 카드 매칭 하이라이트 상태
+    - 카드 실행 연출 중 상태
+  - 연출 규칙
+    - 슬라이드 애니메이션 처리 방식
+    - 타일 병합 이펙트
+    - 카드 실행 연출 (연출 중 입력 차단 여부 — 미결 D-1 확정 후)
+    - 카운트 감소 애니메이션
+  - 이탈 조건 (전투 승리·패배)
+</code></pre></div>
+<h4 id="4-5-docsschemamd-ai">4-5. <code>docs/schema.md</code> — 카드·전투·적 AI 구조체 추가</h4>
+<p><code>card.md</code>, <code>combat.md</code>, <code>enemy.md</code> 작성 완료 후 각 구조체를 이 파일에 추가한다.</p>
+<p>추가할 구조체:</p>
+<div class="highlight"><pre><span></span><code>Card          — 카드 단위 데이터
+DeckState     — 대기덱·핸드덱·소모덱 상태
+CombatState   — 전투 전체 상태 (BoardState 포함)
+Enemy         — 적 단위 데이터
+EnemyAction   — 적 행동 단위 데이터
+</code></pre></div>
+<p>ERD에 각 구조체 간 관계도 추가:
+- <code>CombatState</code> → <code>BoardState</code> (컴포지션)
+- <code>CombatState</code> → <code>DeckState</code> (컴포지션)
+- <code>CombatState</code> → <code>Enemy[]</code> (컴포지션)
+- <code>Enemy</code> → <code>EnemyAction[]</code> (컴포지션)
+- <code>DeckState</code> → <code>Card[]</code> × 3 영역 (컴포지션)</p>
+<h3 id="_2">우선순위 낮음 — 참고·보조 자료</h3>
+<h4 id="4-6-docssystemsoverviewmd">4-6. <code>docs/systems/overview.md</code> 링크 보완</h4>
+<p><code>card.md</code>, <code>combat.md</code>, <code>enemy.md</code> 작성 완료 후 overview.md 핵심 시스템 목록 표의 "작성 예정" 주석을 실제 링크로 교체한다. 내용 자체는 이미 충분히 작성되어 있으므로 링크 교체 외 수정 불필요.</p>
+<hr />
+<h2 id="5">5. 구현 착수 전 확정 체크리스트</h2>
+<h3 id="2-0525">2단계 착수 전 (05/25 이전)</h3>
+<p>기획자가 아래 항목을 결정하고 <code>docs/systems/card.md</code>에 반영해야 한다.</p>
+<ul>
+<li>[ ] <strong>미결 A-1</strong>: 카드 효과 타입 목록 확정 (공격·회복·버프·디버프 기본 4종 + 추가 여부)</li>
+<li>[ ] <strong>미결 A-2</strong>: 전투 시작 드로우 시 대기덱 5장 미만 처리 방식</li>
+<li>[ ] <strong>미결 A-3</strong>: 셔플 타이밍 (대기덱 소진 즉시 vs. 드로우 시도 시점)</li>
+<li>[ ] <strong>미결 A-4</strong>: 카드 강화(합성) 결과 정의 방식</li>
+<li>[ ] <strong>미결 A-5</strong>: 덱 구성 상한 유무 및 상한값</li>
+<li>[ ] <code>docs/systems/card.md</code> 초안 작성 완료</li>
+<li>[ ] <code>docs/systems/combat.md</code> 초안 작성 완료 (턴 구조 순서 확정)</li>
+</ul>
+<h3 id="3-0601">3단계 착수 전 (06/01 이전)</h3>
+<ul>
+<li>[ ] <strong>미결 B-1</strong>: 카드 실행 순서 결정</li>
+<li>[ ] <strong>미결 B-2</strong>: 동일 숫자 타일 다수 존재 시 소모 위치 선택 방식</li>
+<li>[ ] <strong>미결 B-3</strong>: 중복 숫자 카드 선택 UI 발동 시점</li>
+<li>[ ] <strong>미결 B-4</strong>: 액션 버튼 비활성화 조건 명시</li>
+<li>[ ] <strong>미결 B-5</strong>: 연계 보너스 수치 및 계산 기준</li>
+<li>[ ] <strong>미결 B-6</strong>: 연계 판정 시점</li>
+</ul>
+<h3 id="4-0608">4단계 착수 전 (06/08 이전)</h3>
+<ul>
+<li>[ ] <strong>미결 C-1</strong>: 카운트 리셋값 방식</li>
+<li>[ ] <strong>미결 C-2</strong>: 행동 패턴 구조 (고정 순환·랜덤·조건 분기)</li>
+<li>[ ] <strong>미결 C-3</strong>: 같은 턴 여러 스킬 겹침 처리 (<code>overview.md</code> 미결 항목)</li>
+<li>[ ] <strong>미결 C-4</strong>: 보스 페이즈 전환 트리거 정의 방식</li>
+<li>[ ] <strong>미결 C-5</strong>: 디버프·버프 지속 방식</li>
+<li>[ ] <strong>미결 C-6</strong>: 단일 공격 대상 선택 방식</li>
+<li>[ ] <code>docs/systems/enemy.md</code> 초안 작성 완료</li>
+</ul>
+<h3 id="5-0622">5단계 착수 전 (06/22 이전)</h3>
+<ul>
+<li>[ ] <strong>미결 D-1</strong>: 연출 중 입력 처리 방식</li>
+<li>[ ] <strong>미결 D-2</strong>: 매칭 타일 하이라이트 실시간 반영 여부</li>
+<li>[ ] <strong>미결 D-3</strong>: 전투 화면 레이아웃 기본 구조 결정 (최우선. 미결 시 UI 착수 불가)</li>
+<li>[ ] <code>docs/ux.md</code> 전투 화면 섹션 작성 완료</li>
+</ul>
+<hr />
+<h2 id="6-doc-writer">6. doc-writer 호출 가이드</h2>
+<h3 id="2-docssystemscardmd-2">2단계용: <code>docs/systems/card.md</code> (신규, 2단계 착수 전 최우선)</h3>
+<ul>
+<li><strong>파일</strong>: <code>docs/systems/card.md</code> (신규 생성)</li>
+<li><strong>섹션</strong>: Card 구조체, DeckState 구조체, 덱 운영 규칙, 드로우 흐름, 카드 발동 흐름, 카드 강화, 카드 보상</li>
+<li><strong>참고 문서</strong>:</li>
+<li><code>docs/systems/overview.md</code> §카드 시스템 (기준 규칙)</li>
+<li><code>docs/index.md</code> §스킬 카드와 발동 조건 (등급표·발동 숫자)</li>
+<li><code>docs/schema.md</code> (완성 후 Card·DeckState 구조체 추가 필요)</li>
+<li><strong>작성 전 필수 결정</strong>: 미결 A-1(효과 타입 목록), A-2(드로우 부족 처리), A-3(셔플 타이밍), A-4(강화 결과), A-5(덱 상한)</li>
+<li><strong>주의</strong>: 미결 항목은 <code>[미결 A-N — 결정 필요]</code> 표시로 남겨두고 나머지를 먼저 작성</li>
+</ul>
+<h3 id="2-docssystemscombatmd-2">2단계용: <code>docs/systems/combat.md</code> (신규, 2단계 착수 전 최우선)</h3>
+<ul>
+<li><strong>파일</strong>: <code>docs/systems/combat.md</code> (신규 생성)</li>
+<li><strong>섹션</strong>: 전투 시작 초기화, 슬라이드 페이즈, 액션 버튼 처리 흐름 상세 순서, 전투 종료 판정, 예외 케이스</li>
+<li><strong>참고 문서</strong>:</li>
+<li><code>docs/systems/overview.md</code> §전투 시스템 (기준 규칙)</li>
+<li><code>docs/systems/board.md</code> (슬라이드 페이즈 상세)</li>
+<li><code>docs/index.md</code> §코어 루프</li>
+<li><strong>작성 전 필수 결정</strong>: 미결 B-1(카드 실행 순서), B-4(액션 버튼 비활성화 조건)</li>
+<li><strong>주의</strong>: 액션 버튼 처리 흐름의 단계별 순서를 번호로 명시. 이 순서가 카드·적 AI 구현의 기준이 됨</li>
+</ul>
+<h3 id="4-docssystemsenemymd-4">4단계용: <code>docs/systems/enemy.md</code> (신규, 4단계 착수 전 필수)</h3>
+<ul>
+<li><strong>파일</strong>: <code>docs/systems/enemy.md</code> (신규 생성)</li>
+<li><strong>섹션</strong>: Enemy 구조체, EnemyAction 구조체, 카운트 처리 규칙, 행동 패턴 구조, 행동 유형 정의, 보스 페이즈 시스템, 예외 처리</li>
+<li><strong>참고 문서</strong>:</li>
+<li><code>docs/systems/overview.md</code> §적 AI 시스템 (기준 규칙)</li>
+<li><code>docs/index.md</code> §적 행동 예고</li>
+<li><code>docs/systems/combat.md</code> (카운트 감소 타이밍)</li>
+<li><strong>작성 전 필수 결정</strong>: 미결 C-1(카운트 리셋값), C-2(패턴 구조), C-3(겹침 처리), C-4(페이즈 트리거), C-5(디버프 지속), C-6(대상 선택)</li>
+</ul>
+<h3 id="5-docsuxmd-5">5단계용: <code>docs/ux.md</code> 전투 화면 섹션 (기존 파일 보완, 5단계 착수 전 필수)</h3>
+<ul>
+<li><strong>파일</strong>: <code>docs/ux.md</code> (기존 파일에 전투 화면 섹션 추가)</li>
+<li><strong>섹션</strong>: 전투 화면 레이아웃, UI 상태 목록, 연출 규칙</li>
+<li><strong>참고 문서</strong>:</li>
+<li><code>docs/systems/combat.md</code> (전투 흐름)</li>
+<li><code>docs/systems/board.md</code> (슬라이드 불능 등 UI 상태 조건)</li>
+<li><code>docs/references/limbus.md</code> §UX 분석 (UI 레퍼런스)</li>
+<li><strong>작성 전 필수 결정</strong>: 미결 D-1(연출 중 입력 처리), D-2(하이라이트 실시간 여부), D-3(레이아웃 기본 구조)</li>
+<li><strong>주의</strong>: D-3은 이 파일 작성 착수 전 반드시 확정 필요. 레이아웃 결정 없이는 나머지 항목 작성 불가</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  맨위로
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.indexes", "navigation.top", "toc.integrate", "search.suggest", "search.highlight", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\ud074\ub9bd\ubcf4\ub4dc\uc5d0 \ubcf5\uc0ac\ub428", "clipboard.copy": "\ud074\ub9bd\ubcf4\ub4dc\ub85c \ubcf5\uc0ac", "search.result.more.one": "\uc774 \ubb38\uc11c\uc5d0\uc11c 1\uac1c\uc758 \uac80\uc0c9 \uacb0\uacfc \ub354 \ubcf4\uae30", "search.result.more.other": "\uc774 \ubb38\uc11c\uc5d0\uc11c #\uac1c\uc758 \uac80\uc0c9 \uacb0\uacfc \ub354 \ubcf4\uae30", "search.result.none": "\uac80\uc0c9\uc5b4\uc640 \uc77c\uce58\ud558\ub294 \ubb38\uc11c\uac00 \uc5c6\uc2b5\ub2c8\ub2e4", "search.result.one": "1\uac1c\uc758 \uc77c\uce58\ud558\ub294 \ubb38\uc11c", "search.result.other": "#\uac1c\uc758 \uc77c\uce58\ud558\ub294 \ubb38\uc11c", "search.result.placeholder": "\uac80\uc0c9\uc5b4\ub97c \uc785\ub825\ud558\uc138\uc694", "search.result.term.missing": "\ud3ec\ud568\ub418\uc9c0 \uc54a\uc740 \uac80\uc0c9\uc5b4", "select.version": "\ubc84\uc804 \uc120\ud0dd"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../javascripts/scroll_top.js"></script>
+      
+        <script src="../javascripts/build_data.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,2115 @@
+
+<!doctype html>
+<html lang="ko" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://suan2zto2.github.io/cazena2/references/chaos_zero_nightmare/">
+      
+      
+        <link rel="prev" href="../limbus/">
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>카오스 제로 나이트메어 - 테세라위버 기획서</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#chaos-zero-nightmare" class="md-skip">
+          콘텐츠로 이동
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="상단/헤더">
+    <a href="../.." title="테세라위버 기획서" class="md-header__button md-logo" aria-label="테세라위버 기획서" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            테세라위버 기획서
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              카오스 제로 나이트메어
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="검색" placeholder="검색" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="검색">
+        
+        <button type="reset" class="md-search__icon md-icon" title="지우기" aria-label="지우기" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            검색 초기화
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="탭" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  게임 개요
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../systems/overview/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  인게임 전투
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../outgame/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  게임 세부 시스템
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../outgame_flowchart/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  아웃게임 UI
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../schema/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  데이터
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../contents/scenario/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  콘텐츠
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../resources/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  필요 리소스
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../schedule/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  일정
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../backup/concept_A/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  백업
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="네비게이션" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="테세라위버 기획서" class="md-nav__button md-logo" aria-label="테세라위버 기획서" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    테세라위버 기획서
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    게임 개요
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    인게임 전투
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    인게임 전투
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../systems/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    인게임 전투 개요
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../systems/character/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    캐릭터 시스템
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../systems/board/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    보드 시스템
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../systems/card/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    카드 시스템
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../systems/combat/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    전투 흐름
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../systems/enemy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    적 AI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../combat_mockup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    전투 화면 목업
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    게임 세부 시스템
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    게임 세부 시스템
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../outgame/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    아웃게임 시스템
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../systems/stage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    스테이지 진행
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../systems/growth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    성장 시스템
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    아웃게임 UI
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    아웃게임 UI
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../outgame_flowchart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    아웃게임 UI구조
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../outgame_mockup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    UI 목업
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../outgame_reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    참고 레퍼런스
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    데이터
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    데이터
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../schema/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    스키마 설계
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../enums/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    열거형 정의
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_sheet/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    기획 테이블 시트
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    콘텐츠
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    콘텐츠
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contents/scenario/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    시나리오
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contents/characters/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    캐릭터
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../resources/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    필요 리소스
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../schedule/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    일정
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    백업
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    백업
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../backup/concept_A/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    안 A — 카제나 방식 × 패키지 RPG
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../backup/concept_B/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    안 B — 스테이지 클리어 × 덱 리셋 로그라이크
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../backup/concept_C/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    안 C — 2048 에너지 보드 × 덱 카드 RPG
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../limbus/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    림버스 컴퍼니
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    카오스 제로 나이트메어
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    카오스 제로 나이트메어
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="목차">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      목차
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#rpg" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        서브컬처 로그라이크 RPG의 장르적 융합과 카오스 제로 나이트메어의 시장 안착 전략
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        하드웨어 최적화 및 플랫폼 접근성 분석
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        콘텐츠 볼륨 및 플레이 타임 구조 분석
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        성장 시스템의 핵심: 세이브 데이터와 영구적 발전의 결합
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        전투 시스템의 전략적 심화 분석
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ux" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        사용자 경험(UX) 및 인터페이스 분석: 강점과 약점
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        경쟁사 비교 분석: 카제나만의 차별화 포인트
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bmbusiness-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        경제 시스템 및 BM(Business Model) 분석
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        구체적이고 실행 가능한 개선 방안 제안
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2026" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2026 로드맵 분석 및 미래 전망
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        결론: 카오스 제로 나이트메어의 지속 가능성을 위한 제언
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="chaos-zero-nightmare">카오스 제로 나이트메어(Chaos Zero Nightmare) 심층 분석 보고서</h1>
+<p><small style="color:#7070a0;font-family:'Roboto Mono',monospace;background:rgba(255,255,255,0.05);padding:2px 12px;border-radius:20px;border:1px solid rgba(255,255,255,0.08);">📄 docs/references/chaos_zero_nightmare.md</small></p>
+<p><iframe
+  src="../chaos_ZN_infographic.html"
+  width="100%"
+  style="border:none; border-radius:8px; display:block; margin-bottom:2rem;"
+  loading="lazy"
+  onload="this.style.height = this.contentWindow.document.body.scrollHeight + 'px'">
+</iframe>
+</p>
+<h2 id="rpg">서브컬처 로그라이크 RPG의 장르적 융합과 카오스 제로 나이트메어의 시장 안착 전략</h2>
+<p>스마일게이트가 서비스하고 슈퍼크리에이티브가 개발한 카오스 제로 나이트메어(이하 카제나)는 2025년 10월 22일 글로벌 정식 출시와 동시에 서브컬처 게임 시장에서 독특한 위치를 점유하기 시작했다. 크로스파이어, 로스트아크, 에픽세븐의 성공 신화를 잇는 스마일게이트의 차세대 핵심 IP로서, 본 작품은 다크 판타지 세계관과 덱빌딩 로그라이크 RPG라는 다소 하드코어한 장르적 결합을 시도했다. 출시 직후 애플 앱스토어 인기 1위를 기록하고 출시 45일 만에 전 세계 모바일 턴제 RPG 다운로드 1위 및 누적 매출 2,600만 달러를 돌파한 성과는 이러한 과감한 장르적 도전이 타겟 플레이어들의 니즈를 정확히 관통했음을 입증한다.</p>
+<p>카제나의 개발을 맡은 슈퍼크리에이티브는 전작 에픽세븐을 통해 검증된 최고 수준의 2D 애니메이션 연출력을 바탕으로, 자칫 단조로울 수 있는 카드 배틀 시스템에 동적인 카메라 워킹과 화려한 스킬 연출을 도입하여 시각적 몰입감을 극대화했다. 특히 2.5D 액티브 카메라와 능동형 광원 효과를 활용한 연출은 다크 SF 세계관의 기괴하면서도 매혹적인 분위기를 효과적으로 전달하며, 이는 시장 내 경쟁작들과 차별화되는 가장 강력한 무기 중 하나로 작용하고 있다. 본 보고서에서는 숙련된 게임 기획자의 관점에서 카제나의 핵심 메커니즘과 콘텐츠 구조, 성장 및 전투 시스템을 입체적으로 분석하고, 지속 가능한 성장을 위한 전략적 제언을 논하고자 한다.</p>
+<hr />
+<h2 id="_1">하드웨어 최적화 및 플랫폼 접근성 분석</h2>
+<p>카제나는 모바일(AOS, iOS)과 PC(STOVE) 플랫폼 간의 크로스 플레이를 완벽하게 지원하며, 다양한 사용자 환경에 맞춘 최적화 가이드를 제시함으로써 글로벌 시장에서의 진입 장벽을 낮추려는 의도를 보여준다. 모바일 기기의 경우 갤럭시 S7이나 아이폰 8과 같은 구형 단말기에서도 구동이 가능하도록 설계되었으나, 고해상도 애니메이션과 특수 효과를 온전히 경험하기 위해서는 아이폰 12 이상의 사양이 권장된다.</p>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>모바일 최소 사양</th>
+<th>모바일 권장 사양</th>
+<th>PC 권장 사양</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>운영체제(OS)</td>
+<td>Android 7.0 / iOS 12.0</td>
+<td>Android 11.0 / iOS 14.1</td>
+<td>Windows 10/11</td>
+</tr>
+<tr>
+<td>중앙처리장치(CPU)</td>
+<td>갤럭시 S7급 / 아이폰 8급</td>
+<td>갤럭시 S10급 / 아이폰 12급</td>
+<td>Intel i7 이상</td>
+</tr>
+<tr>
+<td>그래픽카드(GPU)</td>
+<td>해당 기기 기본 사양</td>
+<td>해당 기기 기본 사양</td>
+<td>GTX 1660 이상</td>
+</tr>
+<tr>
+<td>메모리(RAM)</td>
+<td>4GB 이상</td>
+<td>6GB 이상</td>
+<td>16GB RAM</td>
+</tr>
+<tr>
+<td>저장공간</td>
+<td>10GB 이상의 여유 공간</td>
+<td>15GB 이상의 여유 공간</td>
+<td>20GB 이상의 여유 공간</td>
+</tr>
+</tbody>
+</table>
+<p>PC 플랫폼의 경우 GTX 1660 이상의 그래픽 카드를 권장 사양으로 설정하여, 대화면 환경에서도 끊김 없는 고화질 연출을 제공하는 데 주력했다. 다만 출시 초기 스토브 클라이언트의 안정성 문제와 잦은 접속 끊김 현상이 보고되기도 하였는데, 이는 향후 PC 플랫폼에서의 경쟁력을 유지하기 위해 최우선적으로 해결해야 할 과제로 지목된다.</p>
+<hr />
+<h2 id="_2">콘텐츠 볼륨 및 플레이 타임 구조 분석</h2>
+<p>카제나의 콘텐츠 설계는 현대 모바일 게이머의 분절된 플레이 패턴과 하드코어 로그라이크 팬덤의 깊이 있는 탐험 욕구를 동시에 충족시키는 '이원적 구조'를 취하고 있다. 개발진은 총 플레이 타임을 수만 시간으로 설정하여 장기 서비스를 목표로 하고 있으며, 이를 위해 일일 숙제는 짧게, 깊이 있는 탐험은 길게 가져가는 전략을 채택했다.</p>
+<h3 id="_3">일일 플레이 루프와 피로도 관리</h3>
+<p>사용자가 매일 의무적으로 수행해야 하는 '일일 숙제' 성격의 콘텐츠는 약 10분 내외로 클리어가 가능하도록 설계되어 있다. 시뮬레이션 던전이나 재화 파밍 콘텐츠는 스테미나를 소비하여 빠르게 진행할 수 있으며, 고가치의 세이브 데이터가 없더라도 기초적인 보상을 획득하는 데 큰 지장이 없도록 밸런싱되어 있다. 이러한 설계는 서브 게임(Sub-game)으로서의 포지셔닝을 강화하며, 사용자가 느끼는 심리적 부담감을 완화하는 효과를 가져온다.</p>
+<h3 id="_4">로그라이크 모드와 시즌제 콘텐츠</h3>
+<p>반면, 게임의 핵심인 '카오스 탐사'와 '제로 시스템'은 한 세션당 1시간 이상의 집중을 요하는 하이엔드 콘텐츠로 구성된다. 9주 단위의 대규모 업데이트를 통해 공급되는 '은하계 재해'나 캐릭터별 외전 격인 '트라우마 코드'는 반복 플레이의 가치를 부여하는 동시에 세계관의 확장을 도모한다.</p>
+<table>
+<thead>
+<tr>
+<th>콘텐츠 구분</th>
+<th>주요 특징</th>
+<th>플레이 타임</th>
+<th>주요 보상</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>메인 스토리</td>
+<td>다크 SF 세계관 기반의 선형적 시나리오</td>
+<td>스테이지당 3~5분</td>
+<td>기초 성장 재화, 구출 앵커</td>
+</tr>
+<tr>
+<td>카오스 탐사</td>
+<td>덱빌딩 로그라이크의 정수, 반복 탐험</td>
+<td>세션당 40~70분</td>
+<td>세이브 데이터, 카드, 장비</td>
+</tr>
+<tr>
+<td>제로 시스템</td>
+<td>엔드 콘텐츠, 난이도 조절 가능</td>
+<td>세션당 60분 이상</td>
+<td>고점용 세이브 데이터, 카오스 오브</td>
+</tr>
+<tr>
+<td>트라우마 코드</td>
+<td>캐릭터별 심리 분석 및 멀티 엔딩 스토리</td>
+<td>캐릭터당 2~3시간</td>
+<td>전용 재화, 뽑기권, 캐릭터 이해도</td>
+</tr>
+<tr>
+<td>시뮬레이션</td>
+<td>장비 및 조각 파밍을 위한 전투 전용 모드</td>
+<td>스테이지당 1~2분</td>
+<td>기억의 조각(장비), 성장 재료</td>
+</tr>
+</tbody>
+</table>
+<p>콘텐츠 진행에 따른 성장은 메인 시나리오를 통해 시스템을 해금하고, 카오스 탐사를 통해 실질적인 전투 효율인 '세이브 데이터'를 구축하며, 최종적으로 제로 시스템에서 자신의 한계를 시험하는 계층적 구조를 가진다. 이러한 단계별 접근은 사용자가 복잡한 덱빌딩 시스템에 자연스럽게 적응할 수 있도록 돕는 역할을 한다.</p>
+<hr />
+<h2 id="_5">성장 시스템의 핵심: 세이브 데이터와 영구적 발전의 결합</h2>
+<p>카제나의 가장 독창적인 메커니즘은 로그라이크의 '휘발성'을 '영속성'으로 전환하는 '세이브 데이터' 시스템이다. 대다수의 로그라이크 게임이 게임 오버나 클리어 시 모든 성취를 초기화하는 것과 달리, 카제나는 탐사 과정에서 획득한 카드 조합과 장비 세팅을 하나의 데이터 파일 형태로 보존하여 다른 전투 콘텐츠에 활용할 수 있게 한다.</p>
+<h3 id="_6">세이브 데이터의 메커니즘과 가치</h3>
+<p>탐사를 마치고 귀환하면, 해당 회차에서 사용자가 직접 구축한 덱이 '세이브 데이터'로 저장된다. 이 데이터는 시뮬레이션 던전이나 보스전 등 '시뮬레이션 모드'에서 캐릭터의 실질적인 스킬 셋(Skill-set)과 능력치 보너스를 결정하는 장비의 역할을 수행한다. 이는 사용자에게 "단순히 운이 좋아서 깼다"는 경험을 넘어, "내가 직접 설계한 최강의 덱을 영구적으로 소유한다"는 성취감을 부여한다.</p>
+<h3 id="_7">다층적 성장 구조 분석</h3>
+<p>캐릭터의 전투 성능은 로그라이크 탐사 외에도 다양한 RPG적 성장 요소를 통해 강화된다. 이는 수집형 게임으로서의 수익 구조(BM)와 로그라이크의 전략성을 연결하는 고리가 된다.</p>
+<ul>
+<li>
+<p><strong>잠재력(Potential):</strong> 스테미나를 소모하여 영구적으로 카드의 피해량, 보호막 양, 힐량을 강화하는 노드 시스템이다. 기본 카드가 치유량 100%에서 시작하여 노드 강화를 통해 120%, 140%로 성장하는 방식이며, 특정 캐릭터(예: 루크)는 0코스트 총알 키워드를 기본 카드에 추가하는 등 기믹 자체를 변경하는 QoL(Quality of Life) 노드를 보유하고 있다.</p>
+</li>
+<li>
+<p><strong>에고 발현(Ego Manifestation):</strong> 캐릭터 중복 획득을 통해 진행되는 돌파 시스템으로, 총 6단계로 구성된다. 각 단계는 단순 수치 상승을 넘어 패시브 강화, 에고 스킬 자원 소모 감소, 혹은 카드의 키워드 추가(예: 보존, 개전 등)와 같은 결정적인 성능 변화를 가져온다.</p>
+</li>
+<li>
+<p><strong>기억의 조각(장비):</strong> 시뮬레이션 던전을 통해 파밍하는 아이템으로, 세트 효과를 통해 치명타 확률, 공격력 등 하드 스탯을 보강한다. 로그라이크 탐사 중 얻는 소모성 장비와 달리 영구적으로 캐릭터가 착용하는 장비다.</p>
+</li>
+</ul>
+<p>성장 공식은 대략 다음과 같은 논리 구조를 가진다:</p>
+<p>$$전투력 = f(기본 스탯 + 잠재력) \times g(에고 발현 보너스) \times h(세이브 데이터의 카드 효율)$$</p>
+<p>여기서 세이브 데이터는 로그라이크 플레이를 통해 갱신할 수 있는 변수이며, 나머지 요소는 영구적으로 축적되는 상수이다. 이러한 구조는 운(RNG)과 노력(Grinding)의 적절한 균형을 유도하지만, 고난도 콘텐츠로 갈수록 특정 세이브 데이터를 얻기 위한 반복 플레이가 유저에게 스트레스로 작용할 수 있다는 양면성을 지닌다.</p>
+<hr />
+<h2 id="_8">전투 시스템의 전략적 심화 분석</h2>
+<p>카제나의 전투는 3명의 요원이 한 팀을 이루어 매 턴 공유 자원인 3 AP(Action Point)를 활용해 카드를 사용하는 턴제 방식으로 진행된다. 이는 고정된 행동 기회 내에서 최선의 순서와 조합을 찾아내야 하는 퍼즐적 지능과 적의 위협에 실시간으로 대응해야 하는 전술적 판단을 동시에 요구한다.</p>
+<h3 id="ap">행동 포인트(AP)와 적 행동 카운트의 상호작용</h3>
+<p>전투의 가장 큰 긴장감은 플레이어의 행동이 적의 행동을 가속한다는 점에 기인한다.</p>
+<ul>
+<li>
+<p><strong>AP 시스템:</strong> 플레이어는 매 턴 3의 AP를 받는다. 딜러 캐릭터들의 카드가 보통 2 AP 이상을 요구하는 경우가 많아, AP를 회복해 주는 서포터(예: 미카)나 코스트 감소 기믹이 덱 구성의 필수 요소로 자리 잡았다.</p>
+</li>
+<li>
+<p><strong>적 행동 카운트:</strong> 적 머리 위의 다이아몬드 아이콘은 적이 공격하기까지 남은 카드 사용 횟수를 의미한다. 플레이어가 카드 1장을 사용할 때마다 카운트가 1씩 줄어들며, 0이 되면 즉시 적의 패턴이 발동된다.</p>
+</li>
+<li>
+<p><strong>전술적 판단:</strong> "이번 턴에 3장의 카드를 써서 적을 잡을 것인가, 아니면 1장만 써서 적의 패턴을 한 턴 늦추고 방어에 집중할 것인가?"라는 선택이 매 순간 발생한다.</p>
+</li>
+</ul>
+<h3 id="collapse">정신 관리 시스템: 스트레스와 붕괴(Collapse)</h3>
+<p>카제나는 체력(HP) 외에도 정신력 게이지인 스트레스를 관리해야 하는 다키스트 던전 식의 하드코어 관리 요소를 도입했다.</p>
+<ul>
+<li>
+<p><strong>스트레스 축적 기전:</strong> 턴 종료 시 혹은 대미지를 입었을 때 스트레스가 상승한다. 주목할 점은 대미지 양보다 피격 횟수가 스트레스에 더 큰 영향을 미친다는 점이다. 예를 들어, 100의 피해를 한 번 받는 것보다 50의 피해를 두 번 받는 것이 캐릭터의 정신력을 더 빠르게 갉아먹는다. 실드(Shield)를 통해 피해를 완벽히 막아내면 스트레스가 쌓이지 않지만, 단 1의 피해만 허용해도 스트레스 패널티가 발생하므로 완벽한 방어 카드의 가치가 매우 높다.</p>
+</li>
+<li>
+<p><strong>붕괴 상태의 패널티와 기회:</strong> 스트레스가 가득 차면 캐릭터는 '붕괴' 상태에 돌입한다. 이때는 최대 HP가 감소하고 해당 캐릭터의 고유 카드를 사용할 수 없으며, 에고 스킬 또한 봉인된다. 붕괴를 풀기 위해서는 전용 붕괴 카드를 여러 장(초기 5장, 반복 시 증가) 사용해야 한다.</p>
+</li>
+<li>
+<p><strong>붕괴 극복 보너스:</strong> 붕괴를 해제하는 데 성공하면 스트레스와 체력이 회복될 뿐만 아니라, 에고 스킬의 비용이 영구적으로 감소하고 즉시 사용 가능 상태가 된다. 이는 숙련된 플레이어가 의도적으로 붕괴를 유도하여 스킬 사이클을 앞당기는 전략적 선택지로 활용되기도 한다.</p>
+</li>
+</ul>
+<h3 id="epiphany">전투 시스템의 변수: 번뜩임(Epiphany)과 링크 크래시</h3>
+<ul>
+<li>
+<p><strong>번뜩임:</strong> 카드를 사용할 때 일정 확률로 발생하는 강화 효과로, 단순히 피해량이 늘어나는 것부터 카드의 코스트를 되돌려 받거나 추가 드로우를 발생시키는 등 예측 불가능한 변수를 제공한다. 이는 로그라이크 특유의 '우연한 승리'를 가능케 하는 요소다.</p>
+</li>
+<li>
+<p><strong>링크 크래시(Link Crash):</strong> 파티 전원이 붕괴하거나 체력이 바닥났을 때 발생하는 최후의 상태다. 이때는 단 한 번의 타격만으로도 게임 오버가 되지만, 단 한 번의 카드 사용으로 적을 처치하면 기적적으로 살아남을 수 있는 '데스 도어(Death's Door)' 식의 긴장감을 선사한다.</p>
+</li>
+</ul>
+<hr />
+<h2 id="ux">사용자 경험(UX) 및 인터페이스 분석: 강점과 약점</h2>
+<p>카제나의 사용자 경험은 시각적 쾌감과 시스템적 복잡성 사이의 아슬아슬한 줄타기를 하고 있다.</p>
+<h3 id="_9">디자인적 완성도와 연출의 힘</h3>
+<p>아트워크와 애니메이션은 이 게임의 가장 강력한 셀링 포인트다. 다크 판타지의 암울한 분위기를 세련된 보라색과 검정색 톤으로 구현했으며, 캐릭터들의 트라우마나 붕괴 상태를 묘사하는 일러스트는 서브컬처 팬덤의 수집욕을 자극하기에 충분하다. 전투 중 카메라의 능동적인 움직임은 정적인 카드 게임에 액션성을 부여하여 보는 재미를 극대화했다.</p>
+<h3 id="_10">접근성을 저해하는 시스템적 난해함</h3>
+<p>반면, 게임 기획적 관점에서 UI/UX의 직관성은 개선의 여지가 많다.</p>
+<ul>
+<li>
+<p><strong>용어 및 아이콘의 모호성:</strong> 번뜩임, 신 번뜩임, 에고 발현, 잠재력, 카오스 구현 등 게임 내 고유 용어가 지나치게 많아 신규 유저가 시스템을 이해하는 데 상당한 시간을 소요하게 만든다.</p>
+</li>
+<li>
+<p><strong>정보 과부하:</strong> 카드 한 장에 담긴 정보가 등급, 속성, 키워드, 번뜩임 효과 등으로 파편화되어 있어, 전투 중 빠른 판단을 내리기 어렵다는 지적이 있다. 특히 카드의 등급 구분이 직관적이지 않아 현재 자신이 사용하는 카드의 가치를 즉각적으로 파악하기 힘들다.</p>
+</li>
+<li>
+<p><strong>현지화 품질 문제:</strong> 글로벌 론칭 초기, 일부 텍스트가 AI 번역을 연상케 할 정도로 어색하거나 문맥에 맞지 않아 스토리 몰입을 방해하고 카드 효과에 대한 오해를 불러일으키기도 했다.</p>
+</li>
+</ul>
+<hr />
+<h2 id="_11">경쟁사 비교 분석: 카제나만의 차별화 포인트</h2>
+<p>카제나는 덱빌딩 로그라이크 장르의 선구자인 '슬레이 더 스파이어(STS)'와 파티 기반 카드 RPG인 '크로노 아크(Chrono Ark)'를 벤치마킹하면서도 수집형 모바일 게임의 문법을 영리하게 결합했다.</p>
+<table>
+<thead>
+<tr>
+<th>비교 항목</th>
+<th>슬레이 더 스파이어</th>
+<th>크로노 아크</th>
+<th>카오스 제로 나이트메어</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>핵심 구조</td>
+<td>순수 로그라이크 (휘발성)</td>
+<td>파티 기반 로그라이크</td>
+<td>로그라이크 + 영구 성장 RPG</td>
+</tr>
+<tr>
+<td>캐릭터 육성</td>
+<td>런(Run) 내부 성장만 존재</td>
+<td>게임 외적 해금 요소 존재</td>
+<td>잠재력, 에고 발현 등 깊은 RPG 성장</td>
+</tr>
+<tr>
+<td>전투 자원</td>
+<td>턴제 마나 (매 턴 회복)</td>
+<td>AP + 카드 사용 시 시간 경과</td>
+<td>3 AP + 카드 사용 시 적 카운트 감소</td>
+</tr>
+<tr>
+<td>데이터 보존</td>
+<td>없음 (클리어 시 종료)</td>
+<td>스토리 진행 데이터 보존</td>
+<td>세이브 데이터 시스템 (덱 영구 저장)</td>
+</tr>
+<tr>
+<td>그래픽 스타일</td>
+<td>인디 스타일 2D</td>
+<td>애니메이션 스타일 2D</td>
+<td>하이엔드 2D 애니메이션 (2.5D)</td>
+</tr>
+<tr>
+<td>플랫폼 성격</td>
+<td>PC / 콘솔 중심 패키지</td>
+<td>PC 중심 패키지</td>
+<td>모바일 / PC 크로스 플레이 라이브 서비스</td>
+</tr>
+</tbody>
+</table>
+<p>분석 결과, 카제나의 가장 큰 경쟁 우위는 '세이브 데이터'를 통한 성취감의 보존과 수집형 게임 특유의 화려한 연출에 있다. 패키지 게임들이 주는 단발적 재미를 라이브 서비스의 장기적인 수집 및 경쟁 요소로 변주한 점이 시장에서의 초기 흥행을 견인한 것으로 보인다.</p>
+<hr />
+<h2 id="bmbusiness-model">경제 시스템 및 BM(Business Model) 분석</h2>
+<p>카제나의 비즈니스 모델은 기본적으로 캐릭터와 파트너를 뽑는 '구출(Gacha)' 시스템에 기반한다. 기존 김형석 사단의 전작들과 마찬가지로 과금 압박은 낮추고 리텐션을 높이는 전략을 취하고 있다.</p>
+<h3 id="_12">무소과금 친화적 구조와 돌파의 효율</h3>
+<ul>
+<li>
+<p><strong>상시 캐릭터의 고성능:</strong> 배포 캐릭터인 미카(4성)나 상시 캐릭터들만으로도 게임의 모든 콘텐츠를 즐길 수 있도록 밸런스가 잡혀 있다. 특히 미카는 유일한 기초 AP 회복 수단을 보유하여 5성 이상의 필수 캐릭터로 취급받는다.</p>
+</li>
+<li>
+<p><strong>에고 발현의 가치:</strong> 중복 캐릭터를 획득했을 때 얻는 에고 발현 효과는 매우 강력하다. 단순히 스탯을 5~10% 올리는 것이 아니라, 카드의 메커니즘을 변경하거나 AP 소모를 줄여주는 등 '게임 체인저' 역할을 하기에 하드코어 유저들의 과금을 유도한다.</p>
+</li>
+</ul>
+<h3 id="_13">재화 수급의 한계점</h3>
+<p>하지만 유저들 사이에서는 육성 재화의 부족 문제가 지속적으로 제기되고 있다. 캐릭터 레벨업, 잠재력 노드 해금, 기억의 조각 강화 등 스테미나(에테르)를 소비해야 하는 곳은 많지만, 시뮬레이션을 통한 수급량은 이에 못 미친다는 평이다. 개발진은 이를 보상 배수 기능 도입이나 이벤트 재화 지급으로 해결하려 노력하고 있으나, 장기적인 재화 밸런스 조정은 필수적이다.</p>
+<hr />
+<h2 id="_14">구체적이고 실행 가능한 개선 방안 제안</h2>
+<p>숙련된 게임 기획자로서, 카제나의 장기 흥행과 사용자 만족도 제고를 위해 다음과 같은 세 가지 영역에서의 개선을 제안한다.</p>
+<h3 id="1-ap">1. 전투 시스템의 유연성 확보 (AP 및 턴 메커니즘 개선)</h3>
+<p>현재의 3 AP 고정 시스템은 특정 캐릭터(고코스트 딜러)의 카드 사용을 지나치게 제한하여 전투 양상을 단조롭게 만들 위험이 있다.</p>
+<ul>
+<li>
+<p><strong>개선 방안:</strong> 로그라이크 유물이나 캐릭터 패시브를 통해 '최대 AP 확장' 기회를 더 자주 제공해야 한다. 크로노 아크처럼 게임 외적 성장을 통해 기본 AP를 늘리거나, 특정 조건을 만족할 때만 일시적으로 AP를 회복하는 중립 카드의 비중을 높여 턴 사용의 가짓수를 넓혀야 한다.</p>
+</li>
+<li>
+<p><strong>기대 효과:</strong> 다양한 코스트의 카드 조합이 가능해지며, 특정 서포터(미카 등)에 대한 과도한 의존도를 낮출 수 있다.</p>
+</li>
+</ul>
+<h3 id="2-uiux">2. 가독성 및 UI/UX의 전면적 개편</h3>
+<p>전략 게임에서 정보의 불투명성은 사용자의 피로도를 급격히 높인다.</p>
+<ul>
+<li>
+<p><strong>개선 방안:</strong> 카드의 핵심 효과를 요약하여 보여주는 '간편 보기' 모드와 상세 효과를 보여주는 '정밀 보기' 모드를 분리해야 한다. 또한, 번뜩임이 발생했을 때 어떤 수치가 어떻게 변했는지 전투 로그나 팝업을 통해 명확히 시각화할 필요가 있다.</p>
+</li>
+<li>
+<p><strong>기대 효과:</strong> 신규 유저의 학습 곡선을 완만하게 만들고, 숙련 유저의 전략적 판단 정확도를 높인다.</p>
+</li>
+</ul>
+<h3 id="3">3. 세이브 데이터 파밍의 피로도 완화 및 편집권 제공</h3>
+<p>고점을 노리는 유저들이 같은 카오스 던전을 수백 번 반복하는 것은 장기적으로 게임의 수명을 갉아먹는다.</p>
+<ul>
+<li>
+<p><strong>개선 방안:</strong> 로드맵에서 언급된 '기억 조작 아이템'의 도입을 앞당기고, 획득한 세이브 데이터 내의 카드 1~2장을 다른 카드로 교체하거나 강화 수치를 미세 조정할 수 있는 '편집 시스템'을 강화해야 한다.</p>
+</li>
+<li>
+<p><strong>기대 효과:</strong> '완성된 덱'을 얻기 위한 불필요한 반복 플레이를 줄이고, 사용자가 자신의 덱을 '튜닝'하는 재미를 제공하여 엔드 콘텐츠의 만족도를 높인다.</p>
+</li>
+</ul>
+<hr />
+<h2 id="2026">2026 로드맵 분석 및 미래 전망</h2>
+<p>개발사인 슈퍼크리에이티브는 2025년 12월부터 2026년 상반기까지 이어지는 대규모 업데이트 계획을 통해 게임의 완성도를 한 단계 더 끌어올리겠다는 의지를 표명했다.</p>
+<h3 id="2-3">시즌 2 및 시즌 3의 핵심 키워드</h3>
+<ul>
+<li>
+<p><strong>플레이 다변화:</strong> 신규 요원 세레니엘과 파트너 페코의 추가를 통해 격파 특화 메타를 도입하고, '카오스 강습전'과 '순수 로그라이크 모드'를 통해 세이브 데이터 파밍 외의 순수한 재미를 강화한다.</p>
+</li>
+<li>
+<p><strong>편의성 극대화:</strong> 미확인 구역 배속 버튼 추가, 시뮬레이션 반복 보상 배수 기능, PC 클라이언트 키 매핑 개선 등 유저들이 가장 불편을 느꼈던 지점들을 정확히 타격하고 있다.</p>
+</li>
+<li>
+<p><strong>내러티브 강화:</strong> 트라우마 코드의 풀더빙 지원과 세계관 도감(아카이브) 개선을 통해 캐릭터 게임으로서의 깊이를 더한다.</p>
+</li>
+</ul>
+<h3 id="_15">타락 모드와 신규 성장 요소</h3>
+<p>특히 '타락 모드'의 도입은 주목할 만한 전략이다. 이는 기존 전투원에게 새로운 비주얼과 변화된 스킬 셋을 부여하는 시스템으로, 캐릭터 인플레이션으로 인해 버려지는 구 캐릭터들에게 새로운 생명력을 불어넣는 장치가 될 것이다. 이는 수집형 게임의 고질적 문제인 '파워 인플레'를 해결하는 동시에 기존 유저들의 자산을 보호하는 영리한 설계로 평가된다.</p>
+<hr />
+<h2 id="_16">결론: 카오스 제로 나이트메어의 지속 가능성을 위한 제언</h2>
+<p>카제나는 덱빌딩 로그라이크라는 마니아틱한 장르를 대중적인 서브컬처 RPG의 틀 안에 성공적으로 안착시킨 수작이다. 최고 수준의 연출력과 독창적인 '세이브 데이터' 시스템은 이 게임이 가진 대체 불가능한 자산이다. 하지만 시스템의 높은 복잡도와 파밍 피로도는 여전히 해결해야 할 과제로 남아 있다.</p>
+<p>성공적인 장기 서비스를 위해서는 다음과 같은 전략적 견지가 요구된다:</p>
+<p><strong>첫째,</strong> 로그라이크 본연의 '무작위성이 주는 즐거움'과 RPG의 '성취감이 주는 안도감' 사이의 밸런스를 끊임없이 미세 조정해야 한다.</p>
+<p><strong>둘째,</strong> 글로벌 유저들과의 소통을 강화하고 현지화 품질을 지속적으로 관리하여 '함장'들이 세계관에 완전히 몰입할 수 있는 환경을 조성해야 한다.</p>
+<p><strong>셋째,</strong> 2026년 로드맵에서 약속한 편의성 개선과 콘텐츠 확장을 차질 없이 이행하여 유저들과의 신뢰를 공고히 해야 한다.</p>
+<p>카제나가 제시한 새로운 장르적 표준이 서브컬처 게임 시장에서 단순한 유행을 넘어 하나의 견고한 카테고리로 자리 잡기를 기대한다. 본 분석 결과가 카제나의 시스템 고도화와 전략적 의사 결정에 유의미한 통찰력을 제공하기를 바란다.</p>
+<hr />
+<blockquote>
+<p>해당 분석 보고서의 내용 중 특정 요원(예: 유키, 미카 등)의 상세 에고 발현 수치 분석이나, 제로 시스템의 난이도별 보상 효율에 대한 수학적 검증을 추가로 원하십니까?</p>
+</blockquote>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  맨위로
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.indexes", "navigation.top", "toc.integrate", "search.suggest", "search.highlight", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\ud074\ub9bd\ubcf4\ub4dc\uc5d0 \ubcf5\uc0ac\ub428", "clipboard.copy": "\ud074\ub9bd\ubcf4\ub4dc\ub85c \ubcf5\uc0ac", "search.result.more.one": "\uc774 \ubb38\uc11c\uc5d0\uc11c 1\uac1c\uc758 \uac80\uc0c9 \uacb0\uacfc \ub354 \ubcf4\uae30", "search.result.more.other": "\uc774 \ubb38\uc11c\uc5d0\uc11c #\uac1c\uc758 \uac80\uc0c9 \uacb0\uacfc \ub354 \ubcf4\uae30", "search.result.none": "\uac80\uc0c9\uc5b4\uc640 \uc77c\uce58\ud558\ub294 \ubb38\uc11c\uac00 \uc5c6\uc2b5\ub2c8\ub2e4", "search.result.one": "1\uac1c\uc758 \uc77c\uce58\ud558\ub294 \ubb38\uc11c", "search.result.other": "#\uac1c\uc758 \uc77c\uce58\ud558\ub294 \ubb38\uc11c", "search.result.placeholder": "\uac80\uc0c9\uc5b4\ub97c \uc785\ub825\ud558\uc138\uc694", "search.result.term.missing": "\ud3ec\ud568\ub418\uc9c0 \uc54a\uc740 \uac80\uc0c9\uc5b4", "select.version": "\ubc84\uc804 \uc120\ud0dd"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../javascripts/scroll_top.js"></script>
+      
+        <script src="../../javascripts/build_data.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1280">
+  <title>2048 카드 RPG — 전투 화면 목업</title>
+  <style>
+    :root {
+      --bg:        #0d0d1f;
+      --panel:     #111125;
+      --card-bg:   #181830;
+      --border:    #252545;
+      --border2:   #303058;
+      --accent:    #00bcd4;
+      --accent2:   #00e5ff;
+      --danger:    #f44336;
+      --warning:   #ff9800;
+      --success:   #4caf50;
+      --gold:      #ffd740;
+      --text:      #e0e0e0;
+      --dim:       #7070a0;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #060612;
+      display: flex; flex-direction: column; align-items: center;
+      padding: 10px; gap: 10px;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      color: var(--text);
+      overflow: hidden;
+    }
+
+    /* .bs-wrap: zoom 적용 후 레이아웃 높이를 맞추는 컨테이너 */
+    .bs-wrap {
+      display: flex; justify-content: center;
+      width: 100%;
+    }
+
+    /* ── toolbar ── */
+    .toolbar { display: flex; gap: 10px; align-items: center; }
+    .tb-btn {
+      padding: 5px 16px; border-radius: 4px; cursor: pointer; font-size: 12px;
+      background: var(--card-bg); border: 1px solid var(--border); color: var(--dim);
+    }
+    .tb-btn.on { border-color: var(--accent); color: var(--accent); }
+    .tb-label { font-size: 11px; color: var(--dim); }
+
+    /* ════════════════════════════════════
+       BATTLE SCREEN  1280 × 720
+       ════════════════════════════════════ */
+    .bs {
+      width: 1280px; height: 720px; flex-shrink: 0;
+      background: var(--bg);
+      border: 2px solid var(--border);
+      border-radius: 10px; overflow: hidden;
+      display: flex; flex-direction: column;
+      position: relative;
+    }
+
+    /* ══ TOP BAR ══ */
+    .top-bar {
+      height: 52px; flex-shrink: 0;
+      background: var(--panel);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 16px;
+    }
+    .top-left { display: flex; align-items: center; gap: 16px; }
+    .stage-info { font-size: 12px; color: var(--dim); }
+    .stage-info b { color: var(--accent); }
+    .gold-display {
+      display: flex; align-items: center; gap: 4px;
+      font-size: 13px; font-weight: 700; color: var(--gold);
+    }
+    .relics { display: flex; gap: 6px; }
+    .relic {
+      width: 28px; height: 28px; border-radius: 6px;
+      background: var(--card-bg); border: 1px solid var(--border2);
+      display: flex; align-items: center; justify-content: center; font-size: 14px;
+      cursor: pointer;
+    }
+    .divider { width: 1px; height: 28px; background: var(--border); }
+
+    /* party HUD — main area top-left overlay */
+    .party-hud {
+      position: absolute; top: 10px; left: 10px; z-index: 10;
+      display: flex; flex-direction: column; gap: 7px;
+      background: rgba(8,8,24,0.82);
+      border: 1px solid var(--border2); border-radius: 8px;
+      padding: 8px 10px;
+      backdrop-filter: blur(4px);
+      min-width: 220px;
+    }
+    /* 팀 체력 바 */
+    .hud-team-hp { display: flex; flex-direction: column; gap: 3px; }
+    .hud-team-label {
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 10px; color: var(--dim);
+    }
+    .hud-team-label span:last-child { color: var(--text); font-weight: 700; }
+    .hud-team-bar {
+      width: 100%; height: 8px;
+      background: #222240; border-radius: 4px; overflow: hidden;
+    }
+    .hud-team-fill { height: 100%; border-radius: 4px; background: var(--success); transition: width .3s; }
+    .hud-team-fill.md { background: var(--warning); }
+    .hud-team-fill.lo { background: var(--danger); }
+    /* 캐릭터 목록 */
+    .hud-chars { display: flex; gap: 8px; }
+    .hud-char { display: flex; align-items: center; gap: 6px; }
+    .hud-avatar {
+      width: 32px; height: 32px; border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex; align-items: center; justify-content: center; font-size: 14px;
+      flex-shrink: 0;
+    }
+    .hud-info { display: flex; flex-direction: column; gap: 3px; }
+    .hud-name { font-size: 10px; font-weight: 600; color: var(--text); }
+    .hud-tags { display: flex; gap: 3px; }
+    .hud-tag {
+      font-size: 10px; padding: 1px 4px; border-radius: 3px;
+      background: var(--card-bg); border: 1px solid var(--border2);
+      color: var(--dim); white-space: nowrap;
+    }
+    .hp-hi  { background: var(--success); }
+    .hp-md  { background: var(--warning); }
+    .hp-lo  { background: var(--danger); }
+    .pause-btn {
+      width: 34px; height: 34px; border-radius: 6px;
+      background: var(--card-bg); border: 1px solid var(--border2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; cursor: pointer; color: var(--dim);
+    }
+    .pause-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ══ MAIN AREA (battlefield) ══ */
+    .main-area {
+      flex: 1; position: relative; overflow: hidden;
+      background: linear-gradient(180deg, #080818 0%, #0c0c26 60%, #10103a 100%);
+    }
+
+    /* ground line */
+    .main-area::after {
+      content: '';
+      position: absolute; bottom: 30px; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #1a1a40 20%, #252560 50%, #1a1a40 80%, transparent);
+    }
+
+    /* ══ BATTLEFIELD CHARACTER ZONES ══ */
+
+    .bf-allies {
+      position: absolute; left: 0; bottom: 30px;
+      width: 38%;
+      display: flex; align-items: flex-end; justify-content: space-evenly;
+      padding: 0 16px; z-index: 5;
+    }
+    .bf-enemies {
+      position: absolute; right: 0; bottom: 30px;
+      width: 42%;
+      display: flex; align-items: flex-end; justify-content: space-evenly;
+      padding: 0 16px; z-index: 5;
+    }
+
+    /* ── Generic character unit ── */
+    .char-unit {
+      display: flex; flex-direction: column; align-items: center; gap: 0;
+      width: 90px;
+    }
+
+    /* ── Enemy overhead: skill preview + turn count ── */
+    .char-overhead {
+      display: flex; flex-direction: column; align-items: center; gap: 5px;
+      margin-bottom: 6px;
+    }
+    .skill-preview {
+      background: rgba(20,20,50,0.92);
+      border: 1px solid var(--border2);
+      border-radius: 14px;
+      padding: 3px 9px;
+      display: flex; align-items: center; gap: 5px;
+      font-size: 11px; white-space: nowrap;
+      backdrop-filter: blur(2px);
+    }
+    .skill-preview .sk-icon { font-size: 12px; }
+    .skill-preview .sk-val  { color: var(--warning); font-weight: 700; }
+    .skill-preview.danger   { border-color: var(--danger); color: #ff8080; }
+    .skill-preview.danger .sk-val { color: var(--danger); }
+
+    .turn-badge {
+      width: 26px; height: 26px; border-radius: 50%;
+      border: 2px solid var(--accent);
+      background: rgba(0,0,0,0.6);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 700; color: var(--accent);
+    }
+    .turn-badge.hot {
+      border-color: var(--danger); color: var(--danger);
+      animation: badge-pulse 1s infinite;
+    }
+    @keyframes badge-pulse {
+      0%,100% { box-shadow: 0 0 0 0 #f4433666; }
+      50%      { box-shadow: 0 0 0 5px #f4433600; }
+    }
+
+    /* ── Spine animation placeholder sprite ── */
+    .char-sprite {
+      border-radius: 8px;
+      background: var(--card-bg);
+      border: 2px solid var(--border2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 40px;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .char-sprite.ally-s  { width: 78px; height: 130px; }
+    .char-sprite.enemy-s { width: 72px; height: 110px; }
+    .char-sprite.hurt {
+      border-color: var(--danger);
+      box-shadow: 0 0 14px #f4433644;
+    }
+    .char-unit.urgent .char-sprite {
+      border-color: var(--danger);
+      box-shadow: 0 0 18px #f4433666, 0 0 6px #f4433633;
+    }
+
+    /* ground shadow under each character */
+    .char-shadow {
+      width: 58px; height: 7px; border-radius: 50%;
+      background: rgba(0,0,0,0.5);
+      margin-top: 1px;
+    }
+
+    /* ── Character footer: HP bar + name + status ── */
+    .char-footer {
+      display: flex; flex-direction: column; align-items: center; gap: 2px;
+      width: 86px; margin-top: 5px;
+    }
+    .char-hp-wrap {
+      width: 100%; height: 6px;
+      background: #1a1a38; border-radius: 3px; overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .char-hp   { height: 100%; border-radius: 3px; }
+    .e-hp      { background: #c62828; }
+    .char-hp-text  { font-size: 9px; color: var(--dim); margin-top: 1px; }
+    .char-name-lbl { font-size: 11px; font-weight: 600; color: var(--text); margin-top: 2px; }
+
+    /* enemy type badge */
+    .etype {
+      font-size: 9px; padding: 1px 5px; border-radius: 2px;
+      font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+      margin-top: 2px;
+    }
+    .b-normal { background: #1a3a6a; color: #80b0ff; }
+    .b-elite  { background: #4a1a6a; color: #c080ff; }
+    .b-boss   { background: #6a1a1a; color: #ff8080; }
+
+    /* status/buff/debuff row */
+    .char-status {
+      display: flex; gap: 3px; flex-wrap: wrap; justify-content: center;
+      margin-top: 3px; min-height: 22px;
+    }
+    .stag {
+      width: 20px; height: 20px; border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; cursor: default;
+    }
+    .stag.buff    { background: #0a3320; border: 1px solid var(--success); }
+    .stag.debuff  { background: #380a0a; border: 1px solid var(--danger); }
+    .stag.neutral { background: #1a2a3a; border: 1px solid var(--border2); }
+
+    /* ══ BOARD OVERLAY ══ */
+    .board-overlay {
+      position: absolute;
+      left: 50%; top: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 20;
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
+      transition: opacity .3s, transform .3s;
+    }
+    .board-overlay.hidden {
+      opacity: 0; pointer-events: none;
+      transform: translate(-50%, -50%) scale(.9);
+    }
+    .board {
+      display: grid;
+      grid-template-columns: repeat(4, 82px);
+      grid-template-rows: repeat(4, 82px);
+      gap: 7px; padding: 12px;
+      background: rgba(10,10,26,0.96);
+      border: 2px solid var(--border2);
+      border-radius: 10px;
+      box-shadow: 0 0 40px rgba(0,0,0,.85), 0 0 0 1px #1a1a3a;
+      backdrop-filter: blur(6px);
+    }
+    .tile {
+      width: 82px; height: 82px; border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 24px; font-weight: 800; color: #fff;
+      border: 1px solid rgba(255,255,255,.08);
+    }
+    .t0   { background: #141428; border-color: #1e1e3e; }
+    .t2   { background: #1565c0; }
+    .t4   { background: #0277bd; }
+    .t8   { background: #00838f; }
+    .t16  { background: #00695c; }
+    .t32  { background: #558b2f; }
+    .t64  { background: #e65100; }
+    .t128 { background: #6a1a8a; }
+    .tile.glow { border: 2px solid var(--accent2); box-shadow: 0 0 12px #00e5ff88; }
+
+    .board-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      width: 100%; padding: 0 2px;
+    }
+    .slide-info { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--dim); }
+    .pips { display: flex; gap: 5px; }
+    .pip { width: 12px; height: 12px; border-radius: 50%; background: var(--accent); }
+    .pip.off { background: #222240; border: 1px solid #333360; }
+    .dir-pad {
+      display: grid; grid-template-columns: repeat(3,28px); grid-template-rows: repeat(2,28px); gap: 3px;
+    }
+    .dp {
+      width: 28px; height: 28px; border-radius: 4px;
+      background: var(--card-bg); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; color: var(--dim); cursor: pointer;
+    }
+    .dp:hover { border-color: var(--accent); color: var(--accent); }
+    .dp.blank { background: transparent; border: none; pointer-events: none; }
+
+    /* ══ BOTTOM BAR ══ */
+    .bottom-bar {
+      height: 130px; flex-shrink: 0;
+      background: var(--panel);
+      border-top: 1px solid var(--border);
+      display: flex; align-items: center;
+      padding: 0 14px; gap: 10px;
+    }
+
+    .pile-btn {
+      width: 68px; height: 100px; flex-shrink: 0;
+      background: var(--card-bg);
+      border: 2px solid var(--border2); border-radius: 8px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+      cursor: pointer;
+    }
+    .pile-btn:hover { border-color: var(--accent); }
+    .pile-icon  { font-size: 24px; }
+    .pile-count { font-size: 18px; font-weight: 700; color: var(--text); }
+    .pile-label { font-size: 10px; color: var(--dim); letter-spacing: 1px; }
+    .pile-btn.draw    { border-color: #2a4a6a; }
+    .pile-btn.discard { border-color: #3a2a4a; }
+
+    .hand { flex: 1; display: flex; align-items: flex-end; justify-content: center; gap: 8px; }
+    .card {
+      width: 94px; height: 112px;
+      background: var(--card-bg); border: 1px solid var(--border2);
+      border-radius: 9px; padding: 9px 7px;
+      display: flex; flex-direction: column; align-items: center; justify-content: space-between;
+      cursor: pointer; position: relative;
+      transition: transform .15s, border-color .15s;
+    }
+    .card:hover { transform: translateY(-10px); }
+    .card.playable { border-color: var(--accent); box-shadow: 0 0 14px #00bcd455; }
+    .card.dim { opacity: .35; }
+    .card-strip {
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      border-radius: 9px 9px 0 0;
+    }
+    .s4   { background: #607d8b; }
+    .s8   { background: #00bcd4; }
+    .s16  { background: #4caf50; }
+    .s32  { background: #ff9800; }
+    .s64  { background: #f44336; }
+    .card-owner { position: absolute; top: 5px; right: 7px; font-size: 9px; color: var(--dim); }
+    .card-num  { font-size: 21px; font-weight: 800; color: var(--accent2); }
+    .card-name { font-size: 10px; color: var(--text); text-align: center; line-height: 1.3; }
+    .card-eff  { font-size: 9px; color: var(--dim); text-align: center; }
+
+    .action-btn {
+      width: 100px; height: 100px; flex-shrink: 0;
+      background: linear-gradient(135deg, #004d52, #007780);
+      border: 2px solid var(--accent); border-radius: 10px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
+      cursor: pointer; box-shadow: 0 0 20px #00bcd455;
+      transition: box-shadow .2s;
+    }
+    .action-btn:hover { box-shadow: 0 0 32px #00bcd499; }
+    .ab-icon  { font-size: 28px; }
+    .ab-label { font-size: 13px; font-weight: 700; color: #fff; letter-spacing: 1px; }
+    .ab-hint  { font-size: 9px; color: #80d8e0; }
+  </style>
+</head>
+<body>
+
+<div class="toolbar">
+  <div class="tb-label">페이즈 :</div>
+  <button class="tb-btn on" id="btn-puzzle" onclick="setPhase('puzzle')">🧩 퍼즐 페이즈 (보드 표시)</button>
+  <button class="tb-btn"    id="btn-combat" onclick="setPhase('combat')">⚔ 전투 연출 (보드 숨김)</button>
+  <div style="flex:1"></div>
+  <button class="tb-btn" onclick="window.open(location.href,'_blank')" style="border-color:#303058;color:#a0a0c0">🔍 크게보기</button>
+</div>
+
+<!-- ══════════════════════════════════════════
+     BATTLE SCREEN
+══════════════════════════════════════════ -->
+<div class="bs-wrap" id="bs-wrap">
+<div class="bs">
+
+  <!-- ── TOP BAR ── -->
+  <div class="top-bar">
+    <div class="top-left">
+
+      <div class="stage-info">챕터 2 &gt; <b>어둠의 지하 감옥</b> &nbsp;|&nbsp; 전투 3 / 5</div>
+      <div class="gold-display">💰 <span>240</span></div>
+
+      <div class="relics">
+        <div class="relic" title="시간의 모래: 특정 카드 발동 시 적 카운트 +1">⌚</div>
+        <div class="relic" title="황금 나침반: 슬라이드 3회마다 타일 지정 생성">🧭</div>
+      </div>
+
+    </div>
+
+    <div class="pause-btn">⏸</div>
+  </div>
+
+  <!-- ── MAIN AREA (battlefield) ── -->
+  <div class="main-area">
+
+    <!-- CHARACTER HUD (top-left overlay) -->
+    <div class="party-hud">
+      <!-- 캐릭터 아이콘 + 이름 + 태그 -->
+      <div class="hud-char">
+        <div class="hud-avatar">⚔</div>
+        <div class="hud-info">
+          <div class="hud-name">카인</div>
+          <div class="hud-tags">
+            <span class="hud-tag">⚔ 전사</span>
+            <span class="hud-tag">🔥 화</span>
+          </div>
+        </div>
+      </div>
+      <!-- 체력 바 -->
+      <div class="hud-team-hp">
+        <div class="hud-team-label">
+          <span>체력</span>
+          <span>122 / 200</span>
+        </div>
+        <div class="hud-team-bar">
+          <div class="hud-team-fill md" style="width:61%"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ALLY ZONE (left) — 스파인 애니메이션 캐릭터 플레이스홀더 -->
+    <div class="bf-allies">
+
+      <!-- 카인 -->
+      <div class="char-unit">
+        <div class="char-sprite ally-s">⚔</div>
+        <div class="char-shadow"></div>
+        <div class="char-footer">
+          <div class="char-name-lbl">카인</div>
+          <div class="char-status">
+            <div class="stag buff" title="방어력 증가">🛡</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ENEMY ZONE (right) — 스파인 애니메이션 캐릭터 플레이스홀더 -->
+    <div class="bf-enemies">
+
+      <!-- 고블린 검사 -->
+      <div class="char-unit">
+        <div class="char-overhead">
+          <div class="turn-badge">3</div>
+          <div class="skill-preview">
+            <span class="sk-icon">⚔</span>
+            <span>단일 공격</span>
+            <span class="sk-val">12</span>
+          </div>
+        </div>
+        <div class="char-sprite enemy-s">👺</div>
+        <div class="char-shadow"></div>
+        <div class="char-footer">
+          <div class="char-hp-wrap"><div class="char-hp e-hp" style="width:60%"></div></div>
+          <div class="char-hp-text">60 / 100</div>
+          <div class="char-name-lbl">고블린 검사</div>
+          <div class="char-status">
+            <span class="etype b-normal">일반</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 오크 마법사 (다음 턴 공격) -->
+      <div class="char-unit urgent">
+        <div class="char-overhead">
+          <div class="turn-badge hot">1</div>
+          <div class="skill-preview danger">
+            <span class="sk-icon">💥</span>
+            <span>광역 공격</span>
+            <span class="sk-val">8</span>
+          </div>
+        </div>
+        <div class="char-sprite enemy-s">🧙</div>
+        <div class="char-shadow"></div>
+        <div class="char-footer">
+          <div class="char-hp-wrap"><div class="char-hp e-hp" style="width:88%"></div></div>
+          <div class="char-hp-text">88 / 100</div>
+          <div class="char-name-lbl">오크 마법사</div>
+          <div class="char-status">
+            <span class="etype b-elite">엘리트</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- BOARD OVERLAY (center, puzzle phase) -->
+    <div class="board-overlay" id="board-overlay">
+
+      <div class="board">
+        <div class="tile t0"></div>
+        <div class="tile t2">2</div>
+        <div class="tile t0"></div>
+        <div class="tile t4">4</div>
+
+        <div class="tile t2">2</div>
+        <div class="tile t0"></div>
+        <div class="tile t4">4</div>
+        <div class="tile t0"></div>
+
+        <div class="tile t0"></div>
+        <div class="tile t8 glow">8</div>
+        <div class="tile t0"></div>
+        <div class="tile t2">2</div>
+
+        <div class="tile t4">4</div>
+        <div class="tile t0"></div>
+        <div class="tile t16 glow">16</div>
+        <div class="tile t0"></div>
+      </div>
+
+      <div class="board-footer">
+        <div class="slide-info">
+          <span>슬라이드</span>
+          <div class="pips">
+            <div class="pip"></div><div class="pip"></div><div class="pip"></div>
+            <div class="pip off"></div><div class="pip off"></div>
+          </div>
+          <span style="color:var(--text)">3 / 5</span>
+        </div>
+        <div class="dir-pad">
+          <div class="dp blank"></div><div class="dp">▲</div><div class="dp blank"></div>
+          <div class="dp">◀</div><div class="dp blank"></div><div class="dp">▶</div>
+        </div>
+        <div style="display:flex;justify-content:center;width:90px">
+          <div class="dp">▼</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── BOTTOM BAR ── -->
+  <div class="bottom-bar">
+
+    <div class="pile-btn draw">
+      <div class="pile-icon">🂠</div>
+      <div class="pile-count">12</div>
+      <div class="pile-label">뽑기</div>
+    </div>
+
+    <div class="hand">
+
+      <div class="card playable">
+        <div class="card-strip s4"></div>
+        <div class="card-owner">카인</div>
+        <div class="card-num">4</div>
+        <div class="card-name">단검 찌르기</div>
+        <div class="card-eff">단일 공격 6</div>
+      </div>
+
+      <div class="card playable">
+        <div class="card-strip s8"></div>
+        <div class="card-owner">카인</div>
+        <div class="card-num">8</div>
+        <div class="card-name">치유의 손길</div>
+        <div class="card-eff">아군 회복 12</div>
+      </div>
+
+      <div class="card playable">
+        <div class="card-strip s16"></div>
+        <div class="card-owner">카인</div>
+        <div class="card-num">16</div>
+        <div class="card-name">파이어볼</div>
+        <div class="card-eff">광역 공격 18</div>
+      </div>
+
+      <div class="card dim">
+        <div class="card-strip s32"></div>
+        <div class="card-owner">카인</div>
+        <div class="card-num">32</div>
+        <div class="card-name">폭풍 베기</div>
+        <div class="card-eff">단일 공격 40</div>
+      </div>
+
+      <div class="card dim">
+        <div class="card-strip s64"></div>
+        <div class="card-owner">카인</div>
+        <div class="card-num">64</div>
+        <div class="card-name">메테오</div>
+        <div class="card-eff">광역 공격 60</div>
+      </div>
+
+    </div>
+
+    <div style="display:flex;align-items:center;gap:10px">
+      <div class="action-btn">
+        <div class="ab-icon">▶</div>
+        <div class="ab-label">액션</div>
+        <div class="ab-hint">카드 3장 발동</div>
+      </div>
+      <div class="pile-btn discard">
+        <div class="pile-icon">🗑</div>
+        <div class="pile-count">5</div>
+        <div class="pile-label">소모</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div><!-- /bs-wrap -->
+
+<script>
+  function autoScale() {
+    const bs   = document.querySelector('.bs');
+    const wrap = document.getElementById('bs-wrap');
+    const tb   = document.querySelector('.toolbar');
+    const tbH  = tb ? tb.offsetHeight + 10 : 0; /* 10 = gap */
+    const availW = document.documentElement.clientWidth  - 20; /* body padding ×2 */
+    const availH = document.documentElement.clientHeight - tbH - 20;
+    const scale  = Math.min(availW / 1280, availH / 720, 1);
+    bs.style.zoom = scale;
+    wrap.style.height = Math.ceil(720 * scale) + 'px';
+  }
+  window.addEventListener('resize', autoScale);
+  autoScale();
+
+  function setPhase(p) {
+    const overlay = document.getElementById('board-overlay');
+    const btnP = document.getElementById('btn-puzzle');
+    const btnC = document.getElementById('btn-combat');
+    if (p === 'puzzle') {
+      overlay.classList.remove('hidden');
+      btnP.classList.add('on'); btnC.classList.remove('on');
+    } else {
+      overlay.classList.add('hidden');
+      btnC.classList.add('on'); btnP.classList.remove('on');
+    }
+  }
+</script>
+</body>
+</html>

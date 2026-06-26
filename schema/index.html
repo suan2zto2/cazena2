@@ -1,0 +1,3554 @@
+
+<!doctype html>
+<html lang="ko" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://suan2zto2.github.io/cazena2/schema/">
+      
+      
+        <link rel="prev" href="../outgame_reference/">
+      
+      
+        <link rel="next" href="../enums/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>스키마 설계 - 테세라위버 기획서</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          콘텐츠로 이동
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="상단/헤더">
+    <a href=".." title="테세라위버 기획서" class="md-header__button md-logo" aria-label="테세라위버 기획서" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            테세라위버 기획서
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              스키마 설계
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="검색" placeholder="검색" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="검색">
+        
+        <button type="reset" class="md-search__icon md-icon" title="지우기" aria-label="지우기" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            검색 초기화
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="탭" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  게임 개요
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../systems/overview/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  인게임 전투
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../outgame/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  게임 세부 시스템
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../outgame_flowchart/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  아웃게임 UI
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
+          
+  
+  
+    
+  
+  데이터
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../contents/scenario/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  콘텐츠
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../resources/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  필요 리소스
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../schedule/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  일정
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../backup/concept_A/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  백업
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="네비게이션" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="테세라위버 기획서" class="md-nav__button md-logo" aria-label="테세라위버 기획서" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    테세라위버 기획서
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    게임 개요
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    인게임 전투
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    인게임 전투
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../systems/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    인게임 전투 개요
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../systems/character/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    캐릭터 시스템
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../systems/board/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    보드 시스템
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../systems/card/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    카드 시스템
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../systems/combat/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    전투 흐름
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../systems/enemy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    적 AI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../combat_mockup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    전투 화면 목업
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    게임 세부 시스템
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    게임 세부 시스템
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../outgame/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    아웃게임 시스템
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../systems/stage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    스테이지 진행
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../systems/growth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    성장 시스템
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    아웃게임 UI
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    아웃게임 UI
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../outgame_flowchart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    아웃게임 UI구조
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../outgame_mockup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    UI 목업
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../outgame_reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    참고 레퍼런스
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    데이터
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    데이터
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    스키마 설계
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    스키마 설계
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="목차">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      목차
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        테이블 연결 구조
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#erd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ERD
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#globalenum" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GlobalEnum
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        타입 정의
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        단순 룩업 테이블
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        세이브 데이터
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../enums/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    열거형 정의
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../data_sheet/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    기획 테이블 시트
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    콘텐츠
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    콘텐츠
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../contents/scenario/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    시나리오
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../contents/characters/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    캐릭터
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../resources/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    필요 리소스
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../schedule/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    일정
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    백업
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    백업
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../backup/concept_A/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    안 A — 카제나 방식 × 패키지 RPG
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../backup/concept_B/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    안 B — 스테이지 클리어 × 덱 리셋 로그라이크
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../backup/concept_C/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    안 C — 2048 에너지 보드 × 덱 카드 RPG
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../references/limbus/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    림버스 컴퍼니
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../references/chaos_zero_nightmare/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    카오스 제로 나이트메어
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="_1">스키마 설계</h1>
+<p><small style="color:#7070a0;font-family:'Roboto Mono',monospace;background:rgba(255,255,255,0.05);padding:2px 12px;border-radius:20px;border:1px solid rgba(255,255,255,0.08);">📄 docs/schema.md</small></p>
+<blockquote>
+<p>스키마 데이터는 두 계층으로 구분합니다.</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>계층</th>
+<th>설명</th>
+<th>생명주기</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>기획 테이블</strong></td>
+<td>기획자가 Google Sheets에서 정의하는 콘텐츠 데이터. 빌드 시 JSON으로 내보내 번들에 포함</td>
+<td>릴리즈 시점에 확정. 게임 플레이 중 변하지 않음</td>
+</tr>
+<tr>
+<td><strong>세이브 데이터</strong></td>
+<td>플레이어별로 생성·변경되는 진행 데이터. <code>ChapterRun</code>은 챕터 클리어/실패 시 초기화</td>
+<td>로컬 저장소에 유지. 세션 사이에 보존</td>
+</tr>
+</tbody>
+</table>
+<p>기획 테이블 시트 구성 상세는 <a href="../data_sheet/">기획 테이블 시트</a>를 참조한다.</p>
+<hr />
+<h2 id="_2">테이블 연결 구조</h2>
+<p>각 테이블이 어떤 테이블을 참조하는지 나타낸다. <code>?</code>는 선택적 참조(빈 값 허용).</p>
+<h3 id="_3">카드</h3>
+<table>
+<thead>
+<tr>
+<th>테이블</th>
+<th>참조 컬럼</th>
+<th>참조 대상</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CardAbilityTBL</code></td>
+<td><code>Status1</code>, <code>Status2?</code></td>
+<td><code>CardStatusTBL</code></td>
+</tr>
+<tr>
+<td><code>CardAbilityTBL</code></td>
+<td><code>Chain_Ability?</code></td>
+<td><code>CardAbilityTBL</code> (자기 참조)</td>
+</tr>
+<tr>
+<td><code>CardTBL</code></td>
+<td><code>Ability1</code>, <code>Ability2~4?</code></td>
+<td><code>CardAbilityTBL</code></td>
+</tr>
+<tr>
+<td><code>CardTBL</code></td>
+<td><code>Team</code></td>
+<td><code>CardTeamTBL</code></td>
+</tr>
+<tr>
+<td><code>CardTBL</code></td>
+<td><code>Rarity</code></td>
+<td><code>CardRarityTBL</code></td>
+</tr>
+<tr>
+<td><code>CardTBL</code></td>
+<td><code>Trait1?</code>, <code>Trait2?</code></td>
+<td><code>CardTraitTBL</code></td>
+</tr>
+<tr>
+<td><code>CardTBL</code></td>
+<td><code>Intent?</code></td>
+<td><code>CardIntentTBL</code></td>
+</tr>
+<tr>
+<td><code>CardTBL</code></td>
+<td><code>TitleStringID</code>, <code>DescStringID</code></td>
+<td><code>StringTBL_KR</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="_4">캐릭터</h3>
+<table>
+<thead>
+<tr>
+<th>테이블</th>
+<th>참조 컬럼</th>
+<th>참조 대상</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>StartCardDeckTBL</code></td>
+<td><code>slot1~10?</code></td>
+<td><code>CardTBL</code></td>
+</tr>
+<tr>
+<td><code>ChampionTBL</code></td>
+<td><code>StartDeck</code></td>
+<td><code>StartCardDeckTBL</code></td>
+</tr>
+<tr>
+<td><code>ChampionTBL</code></td>
+<td><code>Team</code></td>
+<td><code>CardTeamTBL</code></td>
+</tr>
+<tr>
+<td><code>ChampionTBL</code></td>
+<td><code>Reward_Card1?</code>, <code>Reward_Card2?</code></td>
+<td><code>CardTBL</code></td>
+</tr>
+<tr>
+<td><code>ChampionTBL</code></td>
+<td><code>TitleStringID</code></td>
+<td><code>StringTBL_KR</code></td>
+</tr>
+<tr>
+<td><code>EnemyTBL</code></td>
+<td><code>CardDeck</code></td>
+<td><code>StartCardDeckTBL</code></td>
+</tr>
+<tr>
+<td><code>EnemyTBL</code></td>
+<td><code>Trait1?</code></td>
+<td><code>CardTraitTBL</code></td>
+</tr>
+<tr>
+<td><code>EnemyTBL</code></td>
+<td><code>Ability1?</code></td>
+<td><code>CardAbilityTBL</code></td>
+</tr>
+<tr>
+<td><code>EnemyTBL</code></td>
+<td><code>TitleStringID</code></td>
+<td><code>StringTBL_KR</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="_5">맵</h3>
+<table>
+<thead>
+<tr>
+<th>테이블</th>
+<th>참조 컬럼</th>
+<th>참조 대상</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>MapTBL</code></td>
+<td><code>RandomEventID</code></td>
+<td><code>MapRandomEventTBL</code></td>
+</tr>
+<tr>
+<td><code>MapTBL</code></td>
+<td><code>FixedWidthID?</code></td>
+<td><code>MapFixedWidthTBL</code></td>
+</tr>
+<tr>
+<td><code>MapTBL</code></td>
+<td><code>FixedEventID?</code></td>
+<td><code>MapFixedEventTBL</code></td>
+</tr>
+<tr>
+<td><code>MapTBL</code></td>
+<td><code>TitleStringID</code></td>
+<td><code>StringTBL_KR</code></td>
+</tr>
+<tr>
+<td><code>MapRandomEventTBL</code></td>
+<td><code>EventID</code></td>
+<td>이벤트 테이블 (<code>Type</code> 값에 따라 결정)</td>
+</tr>
+<tr>
+<td><code>MapFixedEventTBL</code></td>
+<td><code>EventID</code></td>
+<td>이벤트 테이블 (<code>Type</code> 값에 따라 결정)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_6">맵 이벤트</h3>
+<table>
+<thead>
+<tr>
+<th>테이블</th>
+<th>참조 컬럼</th>
+<th>참조 대상</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>MapEvent_BattleTBL</code></td>
+<td><code>Enemy1~4?</code></td>
+<td><code>EnemyTBL</code></td>
+</tr>
+<tr>
+<td><code>MapEvent_BattleTBL</code></td>
+<td><code>ExtraEnemy?</code></td>
+<td><code>ExtraEnemyTBL</code></td>
+</tr>
+<tr>
+<td><code>MapEvent_BattleTBL</code></td>
+<td><code>Win_Event?</code></td>
+<td>이벤트 테이블</td>
+</tr>
+<tr>
+<td><code>ExtraEnemyTBL</code></td>
+<td><code>Enemy1~4?</code> × 2세트</td>
+<td><code>EnemyTBL</code></td>
+</tr>
+<tr>
+<td><code>MapEvent_ChoiceTBL</code></td>
+<td><code>DescStringID</code></td>
+<td><code>StringTBL_KR</code></td>
+</tr>
+<tr>
+<td><code>MapEvent_TradeTBL</code></td>
+<td><code>DescStringID</code></td>
+<td><code>StringTBL_KR</code></td>
+</tr>
+<tr>
+<td><code>MapEvent_EffectTBL</code></td>
+<td><code>ChainEventID?</code></td>
+<td>이벤트 테이블</td>
+</tr>
+<tr>
+<td><code>MapEvent_EffectTBL</code></td>
+<td><code>DescStringID</code></td>
+<td><code>StringTBL_KR</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="erd">ERD</h2>
+<pre class="mermaid"><code>erDiagram
+    StringTBL_KR {
+        number UID PK
+        string KR
+    }
+    CardTBL {
+        string Type
+        number ID PK
+        number TitleStringID FK
+        number DescStringID FK
+        string ArtIcon
+        string ArtFull
+        string S_CardType
+        number CardType
+        string S_ItemType
+        number ItemType
+        number Team FK
+        number Rarity FK
+        number Mana
+        number Trait1 FK
+        number Trait2 FK
+        number Ability1 FK
+        number Ability2 FK
+        number Ability3 FK
+        number Ability4 FK
+        number UpgradeMax
+        number UpgradeMana
+        number ShopCost
+        number Intent FK
+        string SpawnFx
+        string SpawnAudio
+        string CasterAnim
+        string TargetAnim
+        string SelectAvailability
+        number Availability
+    }
+    CardAbilityTBL {
+        string Type
+        number ID PK
+        string selectTtrigger
+        number trigger
+        string T_trigCond1
+        string T_trigCond2
+        string T_trigCond3
+        string selectTarget
+        number Target
+        string T_tgtCond1
+        string T_tgtCond2
+        string T_tgtCond3
+        string Effect1
+        string Effect2
+        number Status1 FK
+        number Status2 FK
+        number EffectValue
+        number UpgradeValue
+        string SelectUpBonus
+        number UpgradeBonus
+        number Chain_Ability FK
+        string Target_Fx
+    }
+    CardStatusTBL {
+        number ID PK
+        string selectEffect
+        number StatusEffect
+        string selectDuration
+        number StatusDuration
+        boolean IsNegative
+        number TitleStringID FK
+        number DescStringID FK
+        string Icon
+        string Fx
+        string Animation
+    }
+    CardTraitTBL {
+        number ID PK
+        number TitleStringID FK
+        number DescStringID FK
+        string Icon
+    }
+    CardTeamTBL {
+        number ID PK
+        number TitleStringID FK
+        string Icon
+        string Color
+    }
+    CardRarityTBL {
+        number ID PK
+        number TitleStringID FK
+        string Icon
+        number Probability
+    }
+    CardIntentTBL {
+        number ID PK
+        boolean IsShow
+        number Priority
+        number TitleStringID FK
+        number DescStringID FK
+        string Icon
+    }
+    ChampionTBL {
+        number ID PK
+        number TitleStringID FK
+        string ArtFull
+        string ArtPortrait
+        string Prefab
+        number HP
+        number Speed
+        number Hand
+        number Energy
+        number LvUp_HP
+        number LvUp_Speed
+        number LvUp_Hand
+        number LvUp_Energy
+        number Team FK
+        number StartDeck FK
+        number Reward_Card1 FK
+        number Reward_Card2 FK
+    }
+    EnemyTBL {
+        number ID PK
+        number TitleStringID FK
+        string ArtFull
+        string ArtPortrait
+        string Prefab
+        number HP
+        number Speed
+        number Hand
+        number Energy
+        number LvUp_Max
+        number LvUp_HP
+        number LvUp_Speed
+        number LvUp_Hand
+        number LvUp_Energy
+        string Behavior
+        number Trait1 FK
+        number Ability1 FK
+        number CardDeck FK
+        number Reward_Gold
+        number Reward_XP
+        string Spawn_Fx
+    }
+    StartCardDeckTBL {
+        string Type
+        number ID PK
+        number slot1 FK
+        number slot2 FK
+        number slot3 FK
+        number slot4 FK
+        number slot5 FK
+        number slot6 FK
+        number slot7 FK
+        number slot8 FK
+        number slot9 FK
+        number slot10 FK
+    }
+    MapTBL {
+        number ID PK
+        number TitleStringID FK
+        string MapScene
+        string BattleScene
+        number Depth
+        number Width_min
+        number Width_max
+        number Fork_probability
+        number RandomEventID FK
+        number FixedWidthID FK
+        number FixedEventID FK
+        string Map_tutorial
+    }
+    MapRandomEventTBL {
+        number ID PK
+        string Select_type
+        number Type
+        number EventID FK
+    }
+    MapFixedWidthTBL {
+        number ID PK
+        number Depth1
+        number Depth2
+        number Depth3
+        number Depth4
+        number Depth5
+        number Depth6
+        number Depth7
+        number Depth8
+        number Depth9
+        number Depth10
+        number Depth11
+        number Depth12
+    }
+    MapFixedEventTBL {
+        number ID PK
+        number Depth
+        number Index_min
+        number Index_max
+        number EventID FK
+    }
+    MapEvent_BattleTBL {
+        number ID PK
+        number Depth_Min
+        number Depth_Max
+        string Icon
+        number EnemyLevel
+        number Enemy1 FK
+        number Enemy2 FK
+        number Enemy3 FK
+        number Enemy4 FK
+        number ExtraEnemy FK
+        number RewardGold
+        number RewardXP
+        boolean IsRewardCards
+        string CardRarity
+        boolean IsRewardItem
+        string ItemRarity
+        string ItemTeam
+        string Tutorial
+        number Win_Event FK
+    }
+    ExtraEnemyTBL {
+        number ID PK
+        number ChampionMin_A
+        number Enemy1_A FK
+        number Enemy2_A FK
+        number Enemy3_A FK
+        number Enemy4_A FK
+        number ChampionMin_B
+        number Enemy1_B FK
+        number Enemy2_B FK
+        number Enemy3_B FK
+        number Enemy4_B FK
+    }
+    MapEvent_ChoiceTBL {
+        number ID PK
+        number Depth_Min
+        number Depth_Max
+        string Icon
+        number DescStringID FK
+        string Choise1_Title
+        string Choise1_Desc
+        string Choise1_Effect
+        string Choise2_Title
+        string Choise2_Desc
+        string Choise2_Effect
+        string Choise3_Title
+        string Choise3_Desc
+        string Choise3_Effect
+        string Choise4_Title
+        string Choise4_Desc
+        string Choise4_Effect
+    }
+    MapEvent_TradeTBL {
+        number ID PK
+        string Icon
+        string SelectEventTarget
+        string EventTarget
+        string SpendItem
+        number SpendGold
+        number SpendHp
+        string GainItem1
+        string GainItem2
+        string GainItem3
+        string GainAlly
+        number GainGold
+        number GainXp
+        number GainHeal
+        number DescStringID FK
+    }
+    MapEvent_EffectTBL {
+        number ID PK
+        string Icon
+        string Condition1
+        string SelectEventTarget
+        string EventTarget
+        string Effect1
+        string Effect2
+        number value
+        number ChainEventID FK
+        number DescStringID FK
+    }
+    MapEvent_OtherTBL {
+        number ID PK
+        string SelectType
+        string EventType
+        string Icon
+        string Rarity
+        string SelectWorldState
+        string WorldState
+        boolean FreeUpgrade
+    }
+    MapEvent_ShopTBL {
+        number ID PK
+        number Depth_Min
+        number Depth_Max
+        string Icon
+        number Buy_mult
+        number Selly_mult
+        string Item1
+        string Item2
+        string Item3
+        number Cards_Rand
+        number Items_Rand
+        string ItemRand_Slot1
+        string ItemRand_Slot2
+        string ItemRand_Slot3
+        string ItemRand_Slot4
+    }
+
+    StringTBL_KR ||--o{ CardTBL : "TitleStringID / DescStringID"
+    StringTBL_KR ||--o{ CardAbilityTBL : "(없음 — 직접 참조 없음)"
+    StringTBL_KR ||--o{ CardStatusTBL : "TitleStringID / DescStringID"
+    StringTBL_KR ||--o{ CardTraitTBL : "TitleStringID / DescStringID"
+    StringTBL_KR ||--o{ CardTeamTBL : "TitleStringID"
+    StringTBL_KR ||--o{ CardRarityTBL : "TitleStringID"
+    StringTBL_KR ||--o{ CardIntentTBL : "TitleStringID / DescStringID"
+    StringTBL_KR ||--o{ ChampionTBL : "TitleStringID"
+    StringTBL_KR ||--o{ EnemyTBL : "TitleStringID"
+    StringTBL_KR ||--o{ MapTBL : "TitleStringID"
+    StringTBL_KR ||--o{ MapEvent_ChoiceTBL : "DescStringID"
+    StringTBL_KR ||--o{ MapEvent_TradeTBL : "DescStringID"
+    StringTBL_KR ||--o{ MapEvent_EffectTBL : "DescStringID"
+    CardTeamTBL ||--o{ CardTBL : "Team"
+    CardTeamTBL ||--o{ ChampionTBL : "Team"
+    CardRarityTBL ||--o{ CardTBL : "Rarity"
+    CardTraitTBL ||--o{ CardTBL : "Trait1 / Trait2"
+    CardTraitTBL ||--o{ EnemyTBL : "Trait1"
+    CardIntentTBL ||--o{ CardTBL : "Intent"
+    CardAbilityTBL ||--o{ CardTBL : "Ability1~4"
+    CardAbilityTBL ||--o{ EnemyTBL : "Ability1"
+    CardAbilityTBL ||--o{ CardAbilityTBL : "Chain_Ability (자기참조)"
+    CardStatusTBL ||--o{ CardAbilityTBL : "Status1 / Status2"
+    StartCardDeckTBL ||--o{ CardTBL : "slot1~10"
+    ChampionTBL ||--o{ StartCardDeckTBL : "StartDeck"
+    EnemyTBL ||--o{ StartCardDeckTBL : "CardDeck"
+    CardTBL ||--o{ ChampionTBL : "Reward_Card1 / Reward_Card2"
+    MapTBL ||--o{ MapRandomEventTBL : "RandomEventID"
+    MapTBL ||--o{ MapFixedWidthTBL : "FixedWidthID"
+    MapTBL ||--o{ MapFixedEventTBL : "FixedEventID"
+    MapEvent_BattleTBL ||--o{ EnemyTBL : "Enemy1~4"
+    MapEvent_BattleTBL ||--o{ ExtraEnemyTBL : "ExtraEnemy"
+    ExtraEnemyTBL ||--o{ EnemyTBL : "Enemy1~4 (세트 A/B)"</code></pre>
+<hr />
+<h2 id="globalenum">GlobalEnum</h2>
+<p>공용 열거형 전체 정의는 <a href="../enums/">docs/enums.md</a>를 참조한다.</p>
+<hr />
+<h2 id="_7">타입 정의</h2>
+<h3 id="stringtbl_kr">StringTBL_KR — 문자열 테이블</h3>
+<table>
+<thead>
+<tr>
+<th>컬럼</th>
+<th>타입</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>UID</code></td>
+<td><code>number</code></td>
+<td>문자열 고유 식별 ID (PK). 테이블 종류별 대역 분리</td>
+</tr>
+<tr>
+<td><code>KR</code></td>
+<td><code>string</code></td>
+<td>한국어 표시 문자열</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="cardtbl">CardTBL — 카드</h3>
+<p>플레이어가 손패에서 사용하거나 덱에 편성하는 카드. 발동 조건·연출·상점 가격 등 카드 전반 속성을 정의한다.</p>
+<blockquote>
+<p><code>S_*</code> 및 <code>Select*</code> 접두어 컬럼은 Google Sheets 드롭다운 레이블 전용 컬럼이다. 런타임에는 사용하지 않으며, 옆에 있는 숫자 컬럼(예: <code>CardType</code>, <code>ItemType</code>, <code>Availability</code>)이 실제 enum 값이다.</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>컬럼</th>
+<th>타입</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Type</code></td>
+<td><code>string</code></td>
+<td>시트 분류 레이블. 시트 내 행 그룹 식별자</td>
+</tr>
+<tr>
+<td><code>ID</code></td>
+<td><code>number</code></td>
+<td>카드 고유 ID (PK)</td>
+</tr>
+<tr>
+<td><code>TitleStringID</code></td>
+<td><code>number</code></td>
+<td><code>StringTBL_KR.UID</code> 참조. 카드 표시 이름</td>
+</tr>
+<tr>
+<td><code>DescStringID</code></td>
+<td><code>number</code></td>
+<td><code>StringTBL_KR.UID</code> 참조. 카드 설명 텍스트</td>
+</tr>
+<tr>
+<td><code>ArtIcon</code></td>
+<td><code>string</code></td>
+<td>손패 아이콘 에셋 키</td>
+</tr>
+<tr>
+<td><code>ArtFull</code></td>
+<td><code>string</code></td>
+<td>카드 전체 일러스트 에셋 키</td>
+</tr>
+<tr>
+<td><code>S_CardType</code></td>
+<td><code>string</code></td>
+<td><code>CardType</code> 드롭다운 레이블 (시트 편집용)</td>
+</tr>
+<tr>
+<td><code>CardType</code></td>
+<td><code>number</code></td>
+<td><code>GlobalEnum.CardType</code> 참조 (<code>Skill=20</code>, <code>Power=30</code>)</td>
+</tr>
+<tr>
+<td><code>S_ItemType</code></td>
+<td><code>string</code></td>
+<td><code>ItemType</code> 드롭다운 레이블 (시트 편집용)</td>
+</tr>
+<tr>
+<td><code>ItemType</code></td>
+<td><code>number</code></td>
+<td><code>GlobalEnum.ItemType</code> 참조. 카드가 아이템으로 쓰일 때의 유형</td>
+</tr>
+<tr>
+<td><code>Team</code></td>
+<td><code>number</code></td>
+<td><code>CardTeamTBL.ID</code> 참조. 카드가 속한 팀(진영)</td>
+</tr>
+<tr>
+<td><code>Rarity</code></td>
+<td><code>number</code></td>
+<td><code>CardRarityTBL.ID</code> 참조. 희귀도 등급</td>
+</tr>
+<tr>
+<td><code>Mana</code></td>
+<td><code>number</code></td>
+<td>카드 발동 비용 (마나)</td>
+</tr>
+<tr>
+<td><code>Trait1</code></td>
+<td><code>number?</code></td>
+<td><code>CardTraitTBL.ID</code> 참조. 첫 번째 특성 태그</td>
+</tr>
+<tr>
+<td><code>Trait2</code></td>
+<td><code>number?</code></td>
+<td><code>CardTraitTBL.ID</code> 참조. 두 번째 특성 태그. 공란 가능</td>
+</tr>
+<tr>
+<td><code>Ability1</code></td>
+<td><code>number</code></td>
+<td><code>CardAbilityTBL.ID</code> 참조. 주 효과 어빌리티</td>
+</tr>
+<tr>
+<td><code>Ability2</code></td>
+<td><code>number?</code></td>
+<td>두 번째 어빌리티. 공란 가능</td>
+</tr>
+<tr>
+<td><code>Ability3</code></td>
+<td><code>number?</code></td>
+<td>세 번째 어빌리티. 공란 가능</td>
+</tr>
+<tr>
+<td><code>Ability4</code></td>
+<td><code>number?</code></td>
+<td>네 번째 어빌리티. 공란 가능</td>
+</tr>
+<tr>
+<td><code>UpgradeMax</code></td>
+<td><code>number</code></td>
+<td>최대 강화 횟수</td>
+</tr>
+<tr>
+<td><code>UpgradeMana</code></td>
+<td><code>number?</code></td>
+<td>강화 후 변경될 마나 비용. 공란이면 기존 마나 유지</td>
+</tr>
+<tr>
+<td><code>ShopCost</code></td>
+<td><code>number</code></td>
+<td>상점 구매 가격 (골드)</td>
+</tr>
+<tr>
+<td><code>Intent</code></td>
+<td><code>number?</code></td>
+<td><code>CardIntentTBL.ID</code> 참조. 적 의도 표시 정보</td>
+</tr>
+<tr>
+<td><code>SpawnFx</code></td>
+<td><code>string?</code></td>
+<td>카드 소환 파티클 에셋 키</td>
+</tr>
+<tr>
+<td><code>SpawnAudio</code></td>
+<td><code>string?</code></td>
+<td>카드 소환 사운드 에셋 키</td>
+</tr>
+<tr>
+<td><code>CasterAnim</code></td>
+<td><code>string?</code></td>
+<td>카드를 사용하는 캐릭터 애니메이션 키</td>
+</tr>
+<tr>
+<td><code>TargetAnim</code></td>
+<td><code>string?</code></td>
+<td>카드 효과를 받는 대상 애니메이션 키</td>
+</tr>
+<tr>
+<td><code>SelectAvailability</code></td>
+<td><code>string</code></td>
+<td><code>Availability</code> 드롭다운 레이블 (시트 편집용)</td>
+</tr>
+<tr>
+<td><code>Availability</code></td>
+<td><code>number</code></td>
+<td><code>GlobalEnum.CardAvailability</code> 참조. 카드 획득·출현 가능 조건</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="cardabilitytbl">CardAbilityTBL — 어빌리티</h3>
+<p>카드 또는 적이 사용하는 개별 효과 단위. <code>trigger → 조건 → target → 조건 → effects</code> 구조로 동작한다.</p>
+<blockquote>
+<p><code>T_conditions_1~3</code> 컬럼명이 <strong>트리거 조건</strong>과 <strong>대상 조건</strong> 양쪽에 동일하게 사용된다. 시트 상에서 물리적으로 두 번 등장하며, 첫 번째 세트는 트리거 발동 조건, 두 번째 세트는 대상 필터 조건이다.</p>
+<p><code>selectTtrigger</code>, <code>selectTarget</code> 등 <code>select*</code> / <code>Select*</code> 접두어 컬럼은 드롭다운 레이블 전용이며, 옆의 숫자 컬럼이 실제 enum 값이다.</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>컬럼</th>
+<th>타입</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Type</code></td>
+<td><code>string</code></td>
+<td>시트 분류 레이블</td>
+</tr>
+<tr>
+<td><code>ID</code></td>
+<td><code>number</code></td>
+<td>어빌리티 고유 ID (PK)</td>
+</tr>
+<tr>
+<td><code>selectTtrigger</code></td>
+<td><code>string</code></td>
+<td><code>trigger</code> 드롭다운 레이블 (시트 편집용, 오타 원본 유지)</td>
+</tr>
+<tr>
+<td><code>trigger</code></td>
+<td><code>number</code></td>
+<td><code>GlobalEnum.AbilityTrigger</code> 참조. 발동 시점 enum 값</td>
+</tr>
+<tr>
+<td><code>T_conditions_1</code> (트리거)</td>
+<td><code>string?</code></td>
+<td>트리거 발동 추가 조건 1</td>
+</tr>
+<tr>
+<td><code>T_conditions_2</code> (트리거)</td>
+<td><code>string?</code></td>
+<td>트리거 발동 추가 조건 2</td>
+</tr>
+<tr>
+<td><code>T_conditions_3</code> (트리거)</td>
+<td><code>string?</code></td>
+<td>트리거 발동 추가 조건 3</td>
+</tr>
+<tr>
+<td><code>selectTarget</code></td>
+<td><code>string</code></td>
+<td><code>Target</code> 드롭다운 레이블 (시트 편집용)</td>
+</tr>
+<tr>
+<td><code>Target</code></td>
+<td><code>number</code></td>
+<td><code>GlobalEnum.AbilityTarget</code> 참조. 효과 적용 대상 enum 값</td>
+</tr>
+<tr>
+<td><code>T_conditions_1</code> (대상)</td>
+<td><code>string?</code></td>
+<td>대상 필터 조건 1. 예: <code>is_allied</code>, <code>is_not_allied</code></td>
+</tr>
+<tr>
+<td><code>T_conditions_2</code> (대상)</td>
+<td><code>string?</code></td>
+<td>대상 필터 조건 2</td>
+</tr>
+<tr>
+<td><code>T_conditions_3</code> (대상)</td>
+<td><code>string?</code></td>
+<td>대상 필터 조건 3</td>
+</tr>
+<tr>
+<td><code>Effect1</code></td>
+<td><code>string?</code></td>
+<td>주 효과. 예: <code>damage</code>, <code>heal</code>, <code>add_shield</code></td>
+</tr>
+<tr>
+<td><code>Effect2</code></td>
+<td><code>string?</code></td>
+<td>보조 효과</td>
+</tr>
+<tr>
+<td><code>Status1</code></td>
+<td><code>number?</code></td>
+<td><code>CardStatusTBL.ID</code> 참조. 첫 번째 적용 상태이상</td>
+</tr>
+<tr>
+<td><code>Status2</code></td>
+<td><code>number?</code></td>
+<td><code>CardStatusTBL.ID</code> 참조. 두 번째 적용 상태이상</td>
+</tr>
+<tr>
+<td><code>EffectValue</code></td>
+<td><code>number?</code></td>
+<td>효과 수치 (피해량·회복량·쉴드량 등)</td>
+</tr>
+<tr>
+<td><code>UpgradeValue</code></td>
+<td><code>number?</code></td>
+<td>강화 시 <code>EffectValue</code> 증가량</td>
+</tr>
+<tr>
+<td><code>SelectUpBonus</code></td>
+<td><code>string?</code></td>
+<td>강화 보너스 타입 드롭다운 레이블 (시트 편집용)</td>
+</tr>
+<tr>
+<td><code>UpgradeBonus</code></td>
+<td><code>number?</code></td>
+<td>강화 보너스 수치</td>
+</tr>
+<tr>
+<td><code>Chain_Ability</code></td>
+<td><code>number?</code></td>
+<td><code>CardAbilityTBL.ID</code> 자기 참조. 이 효과 발동 후 연쇄 발동할 어빌리티</td>
+</tr>
+<tr>
+<td><code>Target_Fx</code></td>
+<td><code>string?</code></td>
+<td>효과 연출 에셋 키. 예: <code>SlashFX</code>, <code>AoeFX</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="cardstatustbl">CardStatusTBL — 상태이상</h3>
+<p>버프·디버프 정의 테이블.</p>
+<table>
+<thead>
+<tr>
+<th>컬럼</th>
+<th>타입</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ID</code></td>
+<td><code>number</code></td>
+<td>상태이상 고유 ID (PK)</td>
+</tr>
+<tr>
+<td><code>selectEffect</code></td>
+<td><code>string</code></td>
+<td><code>StatusEffect</code> 드롭다운 레이블 (시트 편집용)</td>
+</tr>
+<tr>
+<td><code>StatusEffect</code></td>
+<td><code>number</code></td>
+<td><code>GlobalEnum.StatusEffect</code> 참조. 상태이상 종류 enum 값</td>
+</tr>
+<tr>
+<td><code>selectDuration</code></td>
+<td><code>string</code></td>
+<td><code>StatusDuration</code> 드롭다운 레이블 (시트 편집용)</td>
+</tr>
+<tr>
+<td><code>StatusDuration</code></td>
+<td><code>number</code></td>
+<td><code>GlobalEnum.StatusDuration</code> 참조. 지속 방식 enum 값</td>
+</tr>
+<tr>
+<td><code>IsNegative</code></td>
+<td><code>boolean</code></td>
+<td><code>true</code>=디버프, <code>false</code>=버프</td>
+</tr>
+<tr>
+<td><code>TitleStringID</code></td>
+<td><code>number</code></td>
+<td><code>StringTBL_KR.UID</code> 참조. 상태이상 표시 이름</td>
+</tr>
+<tr>
+<td><code>DescStringID</code></td>
+<td><code>number</code></td>
+<td><code>StringTBL_KR.UID</code> 참조. 상태이상 설명 텍스트</td>
+</tr>
+<tr>
+<td><code>Icon</code></td>
+<td><code>string</code></td>
+<td>상태이상 아이콘 에셋 키</td>
+</tr>
+<tr>
+<td><code>Fx</code></td>
+<td><code>string?</code></td>
+<td>적용 파티클 에셋 키</td>
+</tr>
+<tr>
+<td><code>Animation</code></td>
+<td><code>string?</code></td>
+<td>적용 애니메이션 키</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="championtbl">ChampionTBL — 챔피언 (플레이어 캐릭터)</h3>
+<p>플레이어가 파티에 편성하는 캐릭터. 초기 스탯과 레벨업 증가량, 시작 덱, 보상 카드 후보를 정의한다.</p>
+<table>
+<thead>
+<tr>
+<th>컬럼</th>
+<th>타입</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ID</code></td>
+<td><code>number</code></td>
+<td>챔피언 고유 ID (PK)</td>
+</tr>
+<tr>
+<td><code>TitleStringID</code></td>
+<td><code>number</code></td>
+<td><code>StringTBL_KR.UID</code> 참조. 캐릭터 표시 이름</td>
+</tr>
+<tr>
+<td><code>ArtFull</code></td>
+<td><code>string</code></td>
+<td>전신 일러스트 에셋 키</td>
+</tr>
+<tr>
+<td><code>ArtPortrait</code></td>
+<td><code>string</code></td>
+<td>초상화(버스트) 에셋 키</td>
+</tr>
+<tr>
+<td><code>Prefab</code></td>
+<td><code>string</code></td>
+<td>전투 배치 프리팹 키</td>
+</tr>
+<tr>
+<td><code>HP</code></td>
+<td><code>number</code></td>
+<td>초기 최대 체력</td>
+</tr>
+<tr>
+<td><code>Speed</code></td>
+<td><code>number</code></td>
+<td>초기 행동 속도. 값이 낮을수록 먼저 행동</td>
+</tr>
+<tr>
+<td><code>Hand</code></td>
+<td><code>number</code></td>
+<td>초기 손패 최대 장수</td>
+</tr>
+<tr>
+<td><code>Energy</code></td>
+<td><code>number</code></td>
+<td>초기 턴당 최대 에너지</td>
+</tr>
+<tr>
+<td><code>LvUp_HP</code></td>
+<td><code>number</code></td>
+<td>레벨업당 체력 증가량</td>
+</tr>
+<tr>
+<td><code>LvUp_Speed</code></td>
+<td><code>number</code></td>
+<td>레벨업당 속도 증가량</td>
+</tr>
+<tr>
+<td><code>LvUp_Hand</code></td>
+<td><code>number</code></td>
+<td>레벨업당 손패 증가량</td>
+</tr>
+<tr>
+<td><code>LvUp_Energy</code></td>
+<td><code>number</code></td>
+<td>레벨업당 에너지 증가량</td>
+</tr>
+<tr>
+<td><code>Team</code></td>
+<td><code>number</code></td>
+<td><code>CardTeamTBL.ID</code> 참조. 소속 팀(진영)</td>
+</tr>
+<tr>
+<td><code>StartDeck</code></td>
+<td><code>number</code></td>
+<td><code>StartCardDeckTBL.ID</code> 참조. 챕터 시작 시 초기 덱</td>
+</tr>
+<tr>
+<td><code>Reward_Card1</code></td>
+<td><code>number?</code></td>
+<td><code>CardTBL.ID</code> 참조. 전투 보상 카드 후보 1</td>
+</tr>
+<tr>
+<td><code>Reward_Card2</code></td>
+<td><code>number?</code></td>
+<td><code>CardTBL.ID</code> 참조. 전투 보상 카드 후보 2</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="enemytbl">EnemyTBL — 적</h3>
+<p>전투에 등장하는 적 캐릭터. 챔피언과 동일한 스탯 체계를 사용하며, <code>CardDeck</code>으로 지정된 덱으로 행동한다.</p>
+<table>
+<thead>
+<tr>
+<th>컬럼</th>
+<th>타입</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ID</code></td>
+<td><code>number</code></td>
+<td>적 고유 ID (PK)</td>
+</tr>
+<tr>
+<td><code>TitleStringID</code></td>
+<td><code>number</code></td>
+<td><code>StringTBL_KR.UID</code> 참조. 적 표시 이름</td>
+</tr>
+<tr>
+<td><code>ArtFull</code></td>
+<td><code>string</code></td>
+<td>전신 일러스트 에셋 키</td>
+</tr>
+<tr>
+<td><code>ArtPortrait</code></td>
+<td><code>string</code></td>
+<td>초상화 에셋 키</td>
+</tr>
+<tr>
+<td><code>Prefab</code></td>
+<td><code>string</code></td>
+<td>전투 배치 프리팹 키</td>
+</tr>
+<tr>
+<td><code>HP</code></td>
+<td><code>number</code></td>
+<td>최대 체력</td>
+</tr>
+<tr>
+<td><code>Speed</code></td>
+<td><code>number</code></td>
+<td>행동 속도</td>
+</tr>
+<tr>
+<td><code>Hand</code></td>
+<td><code>number</code></td>
+<td>손패 최대 장수</td>
+</tr>
+<tr>
+<td><code>Energy</code></td>
+<td><code>number</code></td>
+<td>턴당 최대 에너지</td>
+</tr>
+<tr>
+<td><code>LvUp_Max</code></td>
+<td><code>number</code></td>
+<td>최대 레벨업 횟수</td>
+</tr>
+<tr>
+<td><code>LvUp_HP</code></td>
+<td><code>number</code></td>
+<td>레벨업당 체력 증가량</td>
+</tr>
+<tr>
+<td><code>LvUp_Speed</code></td>
+<td><code>number</code></td>
+<td>레벨업당 속도 증가량</td>
+</tr>
+<tr>
+<td><code>LvUp_Hand</code></td>
+<td><code>number</code></td>
+<td>레벨업당 손패 증가량</td>
+</tr>
+<tr>
+<td><code>LvUp_Energy</code></td>
+<td><code>number</code></td>
+<td>레벨업당 에너지 증가량</td>
+</tr>
+<tr>
+<td><code>Behavior</code></td>
+<td><code>string</code></td>
+<td>행동 AI 패턴 식별자</td>
+</tr>
+<tr>
+<td><code>Trait1</code></td>
+<td><code>number?</code></td>
+<td><code>CardTraitTBL.ID</code> 참조. 특성 태그</td>
+</tr>
+<tr>
+<td><code>Ability1</code></td>
+<td><code>number?</code></td>
+<td><code>CardAbilityTBL.ID</code> 참조. 고유 패시브 어빌리티</td>
+</tr>
+<tr>
+<td><code>CardDeck</code></td>
+<td><code>number</code></td>
+<td><code>StartCardDeckTBL.ID</code> 참조. 행동에 사용할 카드 덱</td>
+</tr>
+<tr>
+<td><code>Reward_Gold</code></td>
+<td><code>number</code></td>
+<td>처치 시 획득 골드</td>
+</tr>
+<tr>
+<td><code>Reward_XP</code></td>
+<td><code>number</code></td>
+<td>처치 시 획득 경험치</td>
+</tr>
+<tr>
+<td><code>Spawn_Fx</code></td>
+<td><code>string?</code></td>
+<td>등장 파티클 에셋 키</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="startcarddecktbl">StartCardDeckTBL — 시작 덱</h3>
+<p>챔피언의 초기 덱 또는 적의 행동 카드 덱. <code>Type</code> 필드로 소유자 구분.</p>
+<table>
+<thead>
+<tr>
+<th>컬럼</th>
+<th>타입</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Type</code></td>
+<td><code>string</code></td>
+<td>덱 분류 레이블. 예: <code>Champion</code>, <code>Enemy</code></td>
+</tr>
+<tr>
+<td><code>ID</code></td>
+<td><code>number</code></td>
+<td>덱 고유 ID (PK)</td>
+</tr>
+<tr>
+<td><code>slot1</code></td>
+<td><code>number?</code></td>
+<td><code>CardTBL.ID</code> 참조. 덱 슬롯 1. 공란이면 해당 슬롯 없음</td>
+</tr>
+<tr>
+<td><code>slot2</code></td>
+<td><code>number?</code></td>
+<td><code>CardTBL.ID</code> 참조. 덱 슬롯 2</td>
+</tr>
+<tr>
+<td><code>slot3</code></td>
+<td><code>number?</code></td>
+<td><code>CardTBL.ID</code> 참조. 덱 슬롯 3</td>
+</tr>
+<tr>
+<td><code>slot4</code></td>
+<td><code>number?</code></td>
+<td><code>CardTBL.ID</code> 참조. 덱 슬롯 4</td>
+</tr>
+<tr>
+<td><code>slot5</code></td>
+<td><code>number?</code></td>
+<td><code>CardTBL.ID</code> 참조. 덱 슬롯 5</td>
+</tr>
+<tr>
+<td><code>slot6</code></td>
+<td><code>number?</code></td>
+<td><code>CardTBL.ID</code> 참조. 덱 슬롯 6</td>
+</tr>
+<tr>
+<td><code>slot7</code></td>
+<td><code>number?</code></td>
+<td><code>CardTBL.ID</code> 참조. 덱 슬롯 7</td>
+</tr>
+<tr>
+<td><code>slot8</code></td>
+<td><code>number?</code></td>
+<td><code>CardTBL.ID</code> 참조. 덱 슬롯 8</td>
+</tr>
+<tr>
+<td><code>slot9</code></td>
+<td><code>number?</code></td>
+<td><code>CardTBL.ID</code> 참조. 덱 슬롯 9</td>
+</tr>
+<tr>
+<td><code>slot10</code></td>
+<td><code>number?</code></td>
+<td><code>CardTBL.ID</code> 참조. 덱 슬롯 10</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="maptbl">MapTBL — 맵</h3>
+<p>로그라이크 런에서 진행하는 맵 구조 정의. 노드 분기 확률, 씬 키, 이벤트 배치 규칙을 포함한다.</p>
+<table>
+<thead>
+<tr>
+<th>컬럼</th>
+<th>타입</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ID</code></td>
+<td><code>number</code></td>
+<td>맵 고유 ID (PK)</td>
+</tr>
+<tr>
+<td><code>TitleStringID</code></td>
+<td><code>number</code></td>
+<td><code>StringTBL_KR.UID</code> 참조. 맵 표시 이름</td>
+</tr>
+<tr>
+<td><code>MapScene</code></td>
+<td><code>string</code></td>
+<td>맵 화면 씬 에셋 키</td>
+</tr>
+<tr>
+<td><code>BattleScene</code></td>
+<td><code>string</code></td>
+<td>이 맵 내 전투에 사용할 배틀 씬 에셋 키</td>
+</tr>
+<tr>
+<td><code>Depth</code></td>
+<td><code>number</code></td>
+<td>맵 세로 깊이 (총 층 수)</td>
+</tr>
+<tr>
+<td><code>Width_min</code></td>
+<td><code>number</code></td>
+<td>층당 최소 노드 수</td>
+</tr>
+<tr>
+<td><code>Width_max</code></td>
+<td><code>number</code></td>
+<td>층당 최대 노드 수</td>
+</tr>
+<tr>
+<td><code>Fork_probability</code></td>
+<td><code>number</code></td>
+<td>경로 분기 확률 (0.0~1.0)</td>
+</tr>
+<tr>
+<td><code>RandomEventID</code></td>
+<td><code>number</code></td>
+<td><code>MapRandomEventTBL.ID</code> 참조. 랜덤 이벤트 풀</td>
+</tr>
+<tr>
+<td><code>FixedWidthID</code></td>
+<td><code>number?</code></td>
+<td><code>MapFixedWidthTBL.ID</code> 참조. 층별 고정 너비 규칙</td>
+</tr>
+<tr>
+<td><code>FixedEventID</code></td>
+<td><code>number?</code></td>
+<td><code>MapFixedEventTBL.ID</code> 참조. 고정 이벤트 배치 규칙</td>
+</tr>
+<tr>
+<td><code>Map_tutorial</code></td>
+<td><code>string?</code></td>
+<td>이 맵 진입 시 표시할 튜토리얼 키</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="mapevent_battletbl">MapEvent_BattleTBL — 전투 이벤트</h3>
+<p>맵 노드에 배치되는 전투 이벤트. 등장 적 구성, 레벨, 보상을 정의한다.</p>
+<table>
+<thead>
+<tr>
+<th>컬럼</th>
+<th>타입</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ID</code></td>
+<td><code>number</code></td>
+<td>이벤트 고유 ID (PK)</td>
+</tr>
+<tr>
+<td><code>Depth_Min</code></td>
+<td><code>number</code></td>
+<td>등장 가능 최소 깊이</td>
+</tr>
+<tr>
+<td><code>Depth_Max</code></td>
+<td><code>number</code></td>
+<td>등장 가능 최대 깊이</td>
+</tr>
+<tr>
+<td><code>Icon</code></td>
+<td><code>string</code></td>
+<td>맵 노드 아이콘 에셋 키</td>
+</tr>
+<tr>
+<td><code>EnemyLevel</code></td>
+<td><code>number</code></td>
+<td>적 레벨 오프셋</td>
+</tr>
+<tr>
+<td><code>Enemy1</code></td>
+<td><code>number?</code></td>
+<td><code>EnemyTBL.ID</code> 참조. 등장 적 슬롯 1</td>
+</tr>
+<tr>
+<td><code>Enemy2</code></td>
+<td><code>number?</code></td>
+<td><code>EnemyTBL.ID</code> 참조. 등장 적 슬롯 2</td>
+</tr>
+<tr>
+<td><code>Enemy3</code></td>
+<td><code>number?</code></td>
+<td><code>EnemyTBL.ID</code> 참조. 등장 적 슬롯 3</td>
+</tr>
+<tr>
+<td><code>Enemy4</code></td>
+<td><code>number?</code></td>
+<td><code>EnemyTBL.ID</code> 참조. 등장 적 슬롯 4</td>
+</tr>
+<tr>
+<td><code>ExtraEnemy</code></td>
+<td><code>number?</code></td>
+<td><code>ExtraEnemyTBL.ID</code> 참조. 파티 챔피언 수에 따라 추가되는 적 구성</td>
+</tr>
+<tr>
+<td><code>RewardGold</code></td>
+<td><code>number</code></td>
+<td>전투 클리어 시 고정 골드</td>
+</tr>
+<tr>
+<td><code>RewardXP</code></td>
+<td><code>number</code></td>
+<td>전투 클리어 시 경험치</td>
+</tr>
+<tr>
+<td><code>IsRewardCards</code></td>
+<td><code>boolean</code></td>
+<td>카드 보상 지급 여부</td>
+</tr>
+<tr>
+<td><code>CardRarity</code></td>
+<td><code>string?</code></td>
+<td>카드 보상 희귀도 필터</td>
+</tr>
+<tr>
+<td><code>IsRewardItem</code></td>
+<td><code>boolean</code></td>
+<td>아이템 보상 지급 여부</td>
+</tr>
+<tr>
+<td><code>ItemRarity</code></td>
+<td><code>string?</code></td>
+<td>아이템 보상 희귀도 필터</td>
+</tr>
+<tr>
+<td><code>ItemTeam</code></td>
+<td><code>string?</code></td>
+<td>아이템 보상 팀(진영) 필터</td>
+</tr>
+<tr>
+<td><code>Tutorial</code></td>
+<td><code>string?</code></td>
+<td>전투 시작 시 표시할 튜토리얼 키</td>
+</tr>
+<tr>
+<td><code>Win_Event</code></td>
+<td><code>number?</code></td>
+<td>승리 시 연쇄 발동 이벤트 ID</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="mapevent_choicetbl">MapEvent_ChoiceTBL — 선택지 이벤트</h3>
+<p>플레이어가 선택지를 고르는 이벤트 노드. 최대 4개 선택지를 지원하며, 사용하지 않는 선택지 컬럼은 공란으로 둔다.</p>
+<blockquote>
+<p><code>Choise</code>는 엑셀 원본의 오타를 그대로 유지한다.</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>컬럼</th>
+<th>타입</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ID</code></td>
+<td><code>number</code></td>
+<td>이벤트 고유 ID (PK)</td>
+</tr>
+<tr>
+<td><code>Depth_Min</code></td>
+<td><code>number</code></td>
+<td>등장 가능 최소 깊이</td>
+</tr>
+<tr>
+<td><code>Depth_Max</code></td>
+<td><code>number</code></td>
+<td>등장 가능 최대 깊이</td>
+</tr>
+<tr>
+<td><code>Icon</code></td>
+<td><code>string</code></td>
+<td>맵 노드 아이콘 에셋 키</td>
+</tr>
+<tr>
+<td><code>DescStringID</code></td>
+<td><code>number</code></td>
+<td><code>StringTBL_KR.UID</code> 참조. 이벤트 설명 텍스트</td>
+</tr>
+<tr>
+<td><code>Choise1_Title</code></td>
+<td><code>string</code></td>
+<td>선택지 1 제목</td>
+</tr>
+<tr>
+<td><code>Choise1_Desc</code></td>
+<td><code>string?</code></td>
+<td>선택지 1 설명</td>
+</tr>
+<tr>
+<td><code>Choise1_Effect</code></td>
+<td><code>string</code></td>
+<td>선택지 1 효과. <code>MapEvent_EffectTBL.ID</code> 또는 인라인 효과 문자열</td>
+</tr>
+<tr>
+<td><code>Choise2_Title</code></td>
+<td><code>string?</code></td>
+<td>선택지 2 제목. 공란이면 해당 선택지 없음</td>
+</tr>
+<tr>
+<td><code>Choise2_Desc</code></td>
+<td><code>string?</code></td>
+<td>선택지 2 설명</td>
+</tr>
+<tr>
+<td><code>Choise2_Effect</code></td>
+<td><code>string?</code></td>
+<td>선택지 2 효과</td>
+</tr>
+<tr>
+<td><code>Choise3_Title</code></td>
+<td><code>string?</code></td>
+<td>선택지 3 제목</td>
+</tr>
+<tr>
+<td><code>Choise3_Desc</code></td>
+<td><code>string?</code></td>
+<td>선택지 3 설명</td>
+</tr>
+<tr>
+<td><code>Choise3_Effect</code></td>
+<td><code>string?</code></td>
+<td>선택지 3 효과</td>
+</tr>
+<tr>
+<td><code>Choise4_Title</code></td>
+<td><code>string?</code></td>
+<td>선택지 4 제목</td>
+</tr>
+<tr>
+<td><code>Choise4_Desc</code></td>
+<td><code>string?</code></td>
+<td>선택지 4 설명</td>
+</tr>
+<tr>
+<td><code>Choise4_Effect</code></td>
+<td><code>string?</code></td>
+<td>선택지 4 효과</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="mapevent_tradetbl">MapEvent_TradeTBL — 교역 이벤트</h3>
+<p>아이템·골드·체력을 소비하고 보상을 얻는 이벤트.</p>
+<table>
+<thead>
+<tr>
+<th>컬럼</th>
+<th>타입</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ID</code></td>
+<td><code>number</code></td>
+<td>이벤트 고유 ID (PK)</td>
+</tr>
+<tr>
+<td><code>Icon</code></td>
+<td><code>string</code></td>
+<td>맵 노드 아이콘 에셋 키</td>
+</tr>
+<tr>
+<td><code>SelectEventTarget</code></td>
+<td><code>string</code></td>
+<td><code>EventTarget</code> 드롭다운 레이블 (시트 편집용)</td>
+</tr>
+<tr>
+<td><code>EventTarget</code></td>
+<td><code>string</code></td>
+<td>이벤트 효과 대상 식별자</td>
+</tr>
+<tr>
+<td><code>SpendItem</code></td>
+<td><code>string?</code></td>
+<td>소비할 아이템 식별자. 공란이면 아이템 소비 없음</td>
+</tr>
+<tr>
+<td><code>SpendGold</code></td>
+<td><code>number</code></td>
+<td>소비 골드. <code>0</code>이면 골드 소비 없음</td>
+</tr>
+<tr>
+<td><code>SpendHp</code></td>
+<td><code>number</code></td>
+<td>소비 체력. <code>0</code>이면 체력 소비 없음</td>
+</tr>
+<tr>
+<td><code>GainItem1</code></td>
+<td><code>string?</code></td>
+<td>획득 아이템 1 식별자</td>
+</tr>
+<tr>
+<td><code>GainItem2</code></td>
+<td><code>string?</code></td>
+<td>획득 아이템 2 식별자</td>
+</tr>
+<tr>
+<td><code>GainItem3</code></td>
+<td><code>string?</code></td>
+<td>획득 아이템 3 식별자</td>
+</tr>
+<tr>
+<td><code>GainAlly</code></td>
+<td><code>string?</code></td>
+<td>획득 아군 유닛 식별자</td>
+</tr>
+<tr>
+<td><code>GainGold</code></td>
+<td><code>number</code></td>
+<td>획득 골드. <code>0</code>이면 골드 획득 없음</td>
+</tr>
+<tr>
+<td><code>GainXp</code></td>
+<td><code>number</code></td>
+<td>획득 경험치. <code>0</code>이면 경험치 획득 없음</td>
+</tr>
+<tr>
+<td><code>GainHeal</code></td>
+<td><code>number</code></td>
+<td>회복량. <code>0</code>이면 회복 없음</td>
+</tr>
+<tr>
+<td><code>DescStringID</code></td>
+<td><code>number</code></td>
+<td><code>StringTBL_KR.UID</code> 참조. 이벤트 설명 텍스트</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="_8">단순 룩업 테이블</h2>
+<p>아래 테이블은 다른 테이블에서 참조되는 단순 분류 정의 테이블이다. 컬럼 목록만 표기한다.</p>
+<h3 id="cardtraittbl">CardTraitTBL — 특성</h3>
+<p><code>ID</code>, <code>TitleStringID</code>, <code>DescStringID</code>, <code>Icon</code></p>
+<h3 id="cardteamtbl">CardTeamTBL — 팀(진영)</h3>
+<p><code>ID</code>, <code>TitleStringID</code>, <code>Icon</code>, <code>Color</code></p>
+<h3 id="cardraritytbl">CardRarityTBL — 희귀도</h3>
+<p><code>ID</code>, <code>TitleStringID</code>, <code>Icon</code>, <code>Probability</code></p>
+<h3 id="cardintenttbl">CardIntentTBL — 적 의도</h3>
+<p><code>ID</code>, <code>IsShow</code>, <code>Priority</code>, <code>TitleStringID</code>, <code>DescStringID</code>, <code>Icon</code></p>
+<h3 id="maprandomeventtbl">MapRandomEventTBL — 랜덤 이벤트 풀</h3>
+<p><code>ID</code>, <code>Select_type</code>, <code>Type</code>, <code>EventID</code></p>
+<blockquote>
+<p><code>Type</code> → <code>GlobalEnum.MapEventType</code> 참조. <code>EventID</code>는 해당 타입 이벤트 테이블의 ID를 가리킨다.</p>
+</blockquote>
+<h3 id="mapfixedwidthtbl">MapFixedWidthTBL — 층별 고정 너비</h3>
+<p><code>ID</code>, <code>Depth1</code> ~ <code>Depth12</code></p>
+<blockquote>
+<p>각 <code>DepthN</code> 컬럼은 N번째 층의 고정 노드 수. 공란이면 <code>MapTBL.Width_min~max</code> 범위 내 랜덤 적용.</p>
+</blockquote>
+<h3 id="mapfixedeventtbl">MapFixedEventTBL — 고정 이벤트 배치</h3>
+<p><code>ID</code>, <code>Depth</code>, <code>Index_min</code>, <code>Index_max</code>, <code>EventID</code></p>
+<h3 id="mapevent_effecttbl">MapEvent_EffectTBL — 효과 이벤트</h3>
+<p><code>ID</code>, <code>Icon</code>, <code>Condition1</code>, <code>SelectEventTarget</code>, <code>EventTarget</code>, <code>Effect1</code>, <code>Effect2</code>, <code>value</code>, <code>ChainEventID</code>, <code>DescStringID</code></p>
+<h3 id="mapevent_othertbl">MapEvent_OtherTBL — 기타 이벤트</h3>
+<p><code>ID</code>, <code>SelectType</code>, <code>EventType</code>, <code>Icon</code>, <code>Rarity</code>, <code>SelectWorldState</code>, <code>WorldState</code>, <code>FreeUpgrade</code></p>
+<blockquote>
+<p><code>WorldState</code> → <code>GlobalEnum.WorldState</code> 참조. 특정 런 상태 조건에서만 이벤트 출현.</p>
+</blockquote>
+<h3 id="mapevent_shoptbl">MapEvent_ShopTBL — 상점 이벤트</h3>
+<p><code>ID</code>, <code>Depth_Min</code>, <code>Depth_Max</code>, <code>Icon</code>, <code>Buy_mult</code>, <code>Selly_mult</code>, <code>Item1</code>, <code>Item2</code>, <code>Item3</code>, <code>Cards_Rand</code>, <code>Items_Rand</code>, <code>ItemRand_Slot1</code> ~ <code>ItemRand_Slot4</code></p>
+<h3 id="extraenemytbl">ExtraEnemyTBL — 추가 적 구성</h3>
+<p><code>ID</code>, <code>Champion_Min</code>, <code>Enemy1</code>, <code>Enemy2</code>, <code>Enemy3</code>, <code>Enemy4</code> (세트 A), <code>Champion_Min</code>, <code>Enemy1</code>, <code>Enemy2</code>, <code>Enemy3</code>, <code>Enemy4</code> (세트 B)</p>
+<blockquote>
+<p><code>Champion_Min·Enemy1~4</code> 세트가 <strong>2쌍</strong> 존재한다. 세트 A는 파티 챔피언 수가 A 조건일 때, 세트 B는 B 조건일 때 적용되는 추가 적 구성이다. 두 세트 모두 <code>MapEvent_BattleTBL.ExtraEnemy</code>가 이 테이블을 참조하며, 런타임에 현재 챔피언 수와 각 세트의 <code>Champion_Min</code>을 비교해 적절한 세트를 선택한다.</p>
+</blockquote>
+<hr />
+<h2 id="_9">세이브 데이터</h2>
+<p>세이브 데이터는 기획 테이블과 별도로 로컬 저장소에 관리된다. 기획 테이블 데이터는 세이브에 복사하지 않고, <code>ID</code>로만 참조한다.</p>
+<h3 id="savedata">SaveData</h3>
+<table>
+<thead>
+<tr>
+<th>필드</th>
+<th>타입</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>account</code></td>
+<td><code>AccountSave</code></td>
+<td>런 초기화와 무관한 영구 성장 데이터</td>
+</tr>
+<tr>
+<td><code>currentRun</code></td>
+<td><code>RunSave \| null</code></td>
+<td>진행 중인 런. 런 종료 시 <code>null</code>로 초기화</td>
+</tr>
+</tbody>
+</table>
+<h3 id="accountsave">AccountSave</h3>
+<table>
+<thead>
+<tr>
+<th>필드</th>
+<th>타입</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>userLevel</code></td>
+<td><code>number</code></td>
+<td>유저 레벨</td>
+</tr>
+<tr>
+<td><code>userXp</code></td>
+<td><code>number</code></td>
+<td>현재 누적 경험치</td>
+</tr>
+<tr>
+<td><code>unlockedChampionIds</code></td>
+<td><code>number[]</code></td>
+<td>해금된 챔피언 ID 목록</td>
+</tr>
+<tr>
+<td><code>clearedMapIds</code></td>
+<td><code>number[]</code></td>
+<td>클리어한 맵 ID 목록</td>
+</tr>
+<tr>
+<td><code>collectedCardNames</code></td>
+<td><code>string[]</code></td>
+<td>수집한 카드 <code>Name</code> 목록 (도감 진행도)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="runsave">RunSave</h3>
+<p>단일 로그라이크 런의 진행 상태. 런 클리어 또는 실패 시 초기화된다.</p>
+<table>
+<thead>
+<tr>
+<th>필드</th>
+<th>타입</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mapId</code></td>
+<td><code>number</code></td>
+<td>진행 중인 <code>MapTBL.ID</code></td>
+</tr>
+<tr>
+<td><code>currentDepth</code></td>
+<td><code>number</code></td>
+<td>현재 깊이(층). 0부터 시작</td>
+</tr>
+<tr>
+<td><code>currentNodeIndex</code></td>
+<td><code>number \| null</code></td>
+<td>현재 노드 인덱스. 경로 선택 중이면 <code>null</code></td>
+</tr>
+<tr>
+<td><code>party</code></td>
+<td><code>CharacterRunState[]</code></td>
+<td>출전 캐릭터 상태. 1인</td>
+</tr>
+<tr>
+<td><code>gold</code></td>
+<td><code>number</code></td>
+<td>현재 보유 골드. 런 종료 시 소멸</td>
+</tr>
+<tr>
+<td><code>deckCardNames</code></td>
+<td><code>string[]</code></td>
+<td>덱에 추가된 카드 <code>Name</code> 목록 (보상 카드 포함)</td>
+</tr>
+<tr>
+<td><code>relicNames</code></td>
+<td><code>string[]</code></td>
+<td>보유 유물 <code>Name</code> 목록</td>
+</tr>
+<tr>
+<td><code>passiveNames</code></td>
+<td><code>string[]</code></td>
+<td>활성화된 패시브 <code>Name</code> 목록</td>
+</tr>
+</tbody>
+</table>
+<h3 id="characterrunstate">CharacterRunState</h3>
+<table>
+<thead>
+<tr>
+<th>필드</th>
+<th>타입</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>championId</code></td>
+<td><code>number</code></td>
+<td><code>ChampionTBL.ID</code> 참조</td>
+</tr>
+<tr>
+<td><code>currentHp</code></td>
+<td><code>number</code></td>
+<td>현재 체력. <code>0</code>이면 전투 불능 상태</td>
+</tr>
+<tr>
+<td><code>level</code></td>
+<td><code>number</code></td>
+<td>현재 레벨. 레벨업 시 스탯 증가</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  맨위로
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.indexes", "navigation.top", "toc.integrate", "search.suggest", "search.highlight", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\ud074\ub9bd\ubcf4\ub4dc\uc5d0 \ubcf5\uc0ac\ub428", "clipboard.copy": "\ud074\ub9bd\ubcf4\ub4dc\ub85c \ubcf5\uc0ac", "search.result.more.one": "\uc774 \ubb38\uc11c\uc5d0\uc11c 1\uac1c\uc758 \uac80\uc0c9 \uacb0\uacfc \ub354 \ubcf4\uae30", "search.result.more.other": "\uc774 \ubb38\uc11c\uc5d0\uc11c #\uac1c\uc758 \uac80\uc0c9 \uacb0\uacfc \ub354 \ubcf4\uae30", "search.result.none": "\uac80\uc0c9\uc5b4\uc640 \uc77c\uce58\ud558\ub294 \ubb38\uc11c\uac00 \uc5c6\uc2b5\ub2c8\ub2e4", "search.result.one": "1\uac1c\uc758 \uc77c\uce58\ud558\ub294 \ubb38\uc11c", "search.result.other": "#\uac1c\uc758 \uc77c\uce58\ud558\ub294 \ubb38\uc11c", "search.result.placeholder": "\uac80\uc0c9\uc5b4\ub97c \uc785\ub825\ud558\uc138\uc694", "search.result.term.missing": "\ud3ec\ud568\ub418\uc9c0 \uc54a\uc740 \uac80\uc0c9\uc5b4", "select.version": "\ubc84\uc804 \uc120\ud0dd"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../javascripts/scroll_top.js"></script>
+      
+        <script src="../javascripts/build_data.js"></script>
+      
+    
+  </body>
+</html>

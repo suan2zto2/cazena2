@@ -1,0 +1,46 @@
+/* 1. 배경색 - 다크 블루-틸 */
+[data-md-color-scheme="slate"] {
+    --md-default-bg-color: #0b1c2a !important;
+    --md-default-fg-color: #c0d8e8 !important;
+    --md-default-bg-color--light: #0d2235 !important;
+    --md-default-bg-color--lighter: #0f2840 !important;
+    --md-default-bg-color--lightest: #112d47 !important;
+}
+
+/* 2. 사이드바 & 헤더 배경 */
+.md-sidebar, .md-nav--primary {
+    background-color: #091620 !important;
+}
+
+.md-header {
+    background-color: #091620 !important;
+}
+
+/* 3. 섹션 제목 (h1, h2) - 화이트 */
+h1, h2 {
+    color: #ffffff !important;
+}
+
+/* 4. 카드 소제목 (h3) - 핑크/마젠타 */
+h3 {
+    color: #e060a8 !important;
+}
+
+/* 5. 내비게이션 링크 - 시안 */
+.md-nav__link {
+    color: #4ecdc4 !important;
+}
+
+.md-nav__link--active {
+    color: #ffffff !important;
+}
+
+/* 6. 본문 글자색 */
+.md-typeset {
+    color: #c0d8e8 !important;
+}
+
+/* 7. 굵은 텍스트는 화이트 */
+.md-typeset strong {
+    color: #ffffff !important;
+}

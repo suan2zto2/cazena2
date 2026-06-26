@@ -1,0 +1,2003 @@
+
+<!doctype html>
+<html lang="ko" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://suan2zto2.github.io/cazena2/references/limbus/">
+      
+      
+        <link rel="prev" href="../../backup/concept_C/">
+      
+      
+        <link rel="next" href="../chaos_zero_nightmare/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>림버스 컴퍼니 - 테세라위버 기획서</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          콘텐츠로 이동
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="상단/헤더">
+    <a href="../.." title="테세라위버 기획서" class="md-header__button md-logo" aria-label="테세라위버 기획서" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            테세라위버 기획서
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              림버스 컴퍼니
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="검색" placeholder="검색" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="검색">
+        
+        <button type="reset" class="md-search__icon md-icon" title="지우기" aria-label="지우기" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            검색 초기화
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="탭" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  게임 개요
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../systems/overview/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  인게임 전투
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../outgame/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  게임 세부 시스템
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../outgame_flowchart/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  아웃게임 UI
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../schema/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  데이터
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../contents/scenario/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  콘텐츠
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../resources/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  필요 리소스
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../schedule/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  일정
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../backup/concept_A/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  백업
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="네비게이션" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="테세라위버 기획서" class="md-nav__button md-logo" aria-label="테세라위버 기획서" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    테세라위버 기획서
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    게임 개요
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    인게임 전투
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    인게임 전투
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../systems/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    인게임 전투 개요
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../systems/character/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    캐릭터 시스템
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../systems/board/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    보드 시스템
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../systems/card/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    카드 시스템
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../systems/combat/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    전투 흐름
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../systems/enemy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    적 AI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../combat_mockup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    전투 화면 목업
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    게임 세부 시스템
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    게임 세부 시스템
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../outgame/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    아웃게임 시스템
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../systems/stage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    스테이지 진행
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../systems/growth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    성장 시스템
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    아웃게임 UI
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    아웃게임 UI
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../outgame_flowchart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    아웃게임 UI구조
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../outgame_mockup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    UI 목업
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../outgame_reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    참고 레퍼런스
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    데이터
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    데이터
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../schema/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    스키마 설계
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../enums/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    열거형 정의
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_sheet/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    기획 테이블 시트
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    콘텐츠
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    콘텐츠
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contents/scenario/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    시나리오
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contents/characters/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    캐릭터
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../resources/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    필요 리소스
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../schedule/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    일정
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    백업
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    백업
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../backup/concept_A/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    안 A — 카제나 방식 × 패키지 RPG
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../backup/concept_B/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    안 B — 스테이지 클리어 × 덱 리셋 로그라이크
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../backup/concept_C/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    안 C — 2048 에너지 보드 × 덱 카드 RPG
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    림버스 컴퍼니
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    림버스 컴퍼니
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="목차">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      목차
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        림버스 컴퍼니의 총체적 특징 및 시장 입지 분석
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        세계관과 시스템의 유기적 결합
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        시장 내 평가 및 경쟁력 진단
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        컨텐츠 볼륨 및 진행 구조 분석
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-loop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        성장 시스템 및 경제 루프(Core Loop) 분석
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        전투 시스템 심층 분석
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ux" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        사용자 경험(UX) 및 인터페이스 분석
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        전략적 통찰 및 개선 제안
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        결론 및 제언
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chaos_zero_nightmare/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    카오스 제로 나이트메어
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="_1">림버스 컴퍼니 시스템 심층 분석 보고서</h1>
+<p><small style="color:#7070a0;font-family:'Roboto Mono',monospace;background:rgba(255,255,255,0.05);padding:2px 12px;border-radius:20px;border:1px solid rgba(255,255,255,0.08);">📄 docs/references/limbus.md</small></p>
+<p><iframe
+  src="../limbus_infographic.html"
+  width="100%"
+  style="border:none; border-radius:8px; display:block; margin-bottom:2rem;"
+  loading="lazy"
+  onload="this.style.height = this.contentWindow.document.body.scrollHeight + 'px'">
+</iframe>
+</p>
+<h2 id="_2">림버스 컴퍼니의 총체적 특징 및 시장 입지 분석</h2>
+<p>림버스 컴퍼니는 프로젝트 문(Project Moon)이 구축한 독창적인 세계관인 '도시'를 배경으로 한 턴제 전략 RPG로, 전작인 '로보토미 코퍼레이션'과 '라이브러리 오브 루이나'를 잇는 서사적 완결성과 라이브 서비스 모델의 결합을 목표로 한다. 이 게임은 단순한 캐릭터 수집형 가챠 게임을 넘어, 문학적 영감을 바탕으로 한 깊이 있는 스토리텔링과 복잡한 전투 메커니즘을 통해 충성도 높은 코어 팬덤을 확보하고 있다. 시장 내에서 림버스 컴퍼니는 인디 게임 개발사의 정체성을 유지하면서도 글로벌 시장에서 경쟁력을 증명한 이례적인 사례로 평가받는다.</p>
+<h2 id="_3">세계관과 시스템의 유기적 결합</h2>
+<p>림버스 컴퍼니의 가장 독보적인 차별화 포인트는 게임 내 모든 시스템이 세계관 설정과 긴밀하게 연결되어 있다는 점이다. 유저는 '시계 대가리'라는 별칭을 가진 관리자 단테가 되어 12명의 수감자를 이끌고 '황금 가지'를 회수하는 여정에 오른다. 가챠 시스템은 '거울 세계'에서 존재하는 수감자들의 다양한 가능성을 추출한다는 '인격(Identity)' 설정으로 치환되며, 패배 시 전투 재시작은 단테의 시계를 돌리는 능력으로 설명되어 게임 플레이의 개연성을 극대화한다. 이러한 접근 방식은 유저가 시스템을 단순한 게임적 장치가 아닌 서사의 일부로 받아들이게 하여 몰입감을 비약적으로 높인다.</p>
+<h2 id="_4">시장 내 평가 및 경쟁력 진단</h2>
+<p>2026년 기준 림버스 컴퍼니는 PC와 모바일 플랫폼 양측에서 견고한 성장세를 유지하고 있으며, 특히 스팀 플랫폼에서 '매우 긍정적'인 평가를 유지하며 인디 기반 RPG 중 독보적인 DAU를 기록하고 있다. 센서타워 APAC 어워즈 2025에서 '최고의 스토리텔링 게임' 부문을 수상한 것은 이 게임의 서사적 가치가 단순한 장식에 그치지 않고 핵심 경쟁력임을 시사한다.</p>
+<table>
+<thead>
+<tr>
+<th>경쟁 요소</th>
+<th>림버스 컴퍼니 (Limbus Company)</th>
+<th>타사 경쟁작 (예: 리버스 1999, 붕괴: 스타레일)</th>
+<th>비고</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>스토리 톤</td>
+<td>하드코어, 잔혹, 문학적 상징성 강함</td>
+<td>현대적 소년만화, 비교적 대중적 서사</td>
+<td>림버스의 서사는 타협 없는 어두운 세계관 지향</td>
+</tr>
+<tr>
+<td>비즈니스 모델</td>
+<td>소과금 친화적, '정가' 시스템 중심</td>
+<td>한정 가챠 및 중복 돌파 중요도 높음</td>
+<td>림버스는 시간 투자를 통해 확정 획득 가능</td>
+</tr>
+<tr>
+<td>전투 난이도</td>
+<td>합, 코인, 정신력 등 복잡한 변수 통제 필요</td>
+<td>직관적 속성 상성 및 스킬 조합 중심</td>
+<td>림버스의 진입 장벽이 상대적으로 높음</td>
+</tr>
+<tr>
+<td>캐릭터 구조</td>
+<td>12인의 고정 주역 중심 심층 묘사</td>
+<td>주기적인 신규 캐릭터 출시 및 교체</td>
+<td>림버스는 기존 캐릭터의 가치 보존에 유리</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="_5">컨텐츠 볼륨 및 진행 구조 분석</h2>
+<p>림버스 컴퍼니의 컨텐츠 전개는 시즌제(Season)를 기반으로 하며, 매 시즌 메인 스토리인 '칸토(Canto)'가 업데이트될 때마다 게임의 전체적인 흐름과 메타가 변화한다. 전반적인 플레이 타임은 메인 스토리 공략과 숙제성 컨텐츠인 거울 던전 파밍으로 양분된다.</p>
+<h3 id="_6">진행 단계별 컨텐츠 분석</h3>
+<p>유저의 성장 단계에 따른 컨텐츠 흐름은 다음과 같은 구조를 가진다.</p>
+<ul>
+<li>
+<p><strong>초입 단계 (1~2장):</strong> 튜토리얼 성격이 강하며, 게임의 핵심인 '합' 시스템을 익히는 과정이다. 2장 클리어 시 핵심 파밍 컨텐츠인 '거울 던전'이 개방되면서 비로소 본격적인 루프에 진입하게 된다.</p>
+</li>
+<li>
+<p><strong>중급 단계 (3~4장 및 거울 던전 노멀):</strong> 캐릭터의 레벨업과 동기화가 필수적으로 요구된다. 이 단계에서 유저는 효율적인 자원 수급을 위해 거울 던전 주간 보너스를 챙기기 시작하며, 특정 키워드(화상, 파열 등)의 기초적인 조합을 시도한다.</p>
+</li>
+<li>
+<p><strong>상급 단계 (5장 이후 및 거울 던전 하드):</strong> 보스 기믹이 복잡해짐에 따라 단순한 '딸깍(자동 전투)' 플레이가 불가능해진다. 하드 난이도 거울 던전 클리어를 통해 별빛을 수집하고 영구적인 버프를 쌓아야 한다.</p>
+</li>
+<li>
+<p><strong>최종 단계 (굴절 철도):</strong> 시즌별 엔드 컨텐츠인 굴절 철도에서 최소 턴 클리어를 목표로 한다. 4호선, 5호선과 같이 최신 철도는 구간별 인격 제한이나 특수 버프 선택 등 전략적 깊이가 한층 심화되었다.</p>
+</li>
+</ul>
+<h3 id="_7">시간 투자 및 플레이 주환</h3>
+<p>거울 던전은 입장료가 없으나 보상 수령 시 엔케팔린 모듈이 소모되는 구조로, 유저의 시간과 엔케팔린을 인격 획득 재화인 '파편'으로 치환하는 핵심 장치이다. 주간 보너스를 포함해 하드 던전을 1회 클리어하는 데 약 40분에서 1시간가량이 소요되며, 이는 코어 유저들에게 '광질(파밍)'이라 불리는 반복 플레이의 재미와 고통을 동시에 선사한다.</p>
+<hr />
+<h2 id="core-loop">성장 시스템 및 경제 루프(Core Loop) 분석</h2>
+<p>림버스 컴퍼니의 경제 시스템은 '가챠의 무작위성'을 '플레이의 확정성'으로 보완하는 독특한 구조를 취한다. 이는 소과금 유저의 리텐션을 유지하는 가장 강력한 기제이다.</p>
+<h3 id="_8">자아 파편과 자판기 경제학</h3>
+<p>이 게임의 실질적인 화폐는 '광기'보다 '자아 파편'에 가깝다. 자판기(Dispenser)를 통해 모든 인격과 E.G.O를 파편 400개로 확정 획득할 수 있는 '정가' 시스템이 존재하기 때문이다.</p>
+<ul>
+<li>
+<p><strong>파편 수급 메커니즘:</strong> 유료 배틀 패스(림버스 패스) 구매 시 만렙 이후 레벨업당 지급되는 '선택 자아 파편 상자'가 핵심이다. 거울 던전 한 판당 약 9개의 상자를 얻을 수 있으며, 약 200개의 상자(거던 약 22판)를 모으면 3성 인격을 정가로 구매할 수 있다.</p>
+</li>
+<li>
+<p><strong>시즌제 자원 관리:</strong> 시즌 종료 시 보유 파편의 50%가 '끈'으로 전환되는 시스템은 유저가 재화를 무한정 쌓아두는 것을 방지하고 지속적인 플레이를 유도한다. 동시에 절반은 이월되므로 다음 시즌에 대한 준비도 가능하다.</p>
+</li>
+<li>
+<p><strong>비즈니스 모델(BM)의 특징:</strong> 소과금 친화적이지만, '발푸르기스의 밤'과 같은 한정 이벤트에서만 등장하는 아나운서나 특정 인격 등을 통해 매출의 폭발력을 확보한다.</p>
+</li>
+</ul>
+<h3 id="_9">인격 육성과 자원 밸런스 문제</h3>
+<p>인격의 성장은 레벨과 동기화(Uptie)로 나뉜다. 특히 4동기화(Uptie 4) 시스템은 인격의 성능을 비약적으로 상승시키지만, 요구되는 끈과 파편의 양이 지나치게 많아 유저들 사이에서 '재앙적인 수치 디자인'이라는 비판을 받기도 했다. 이는 특히 신규 유저가 주력 파티를 형성하는 데 있어 큰 진입 장벽으로 작용하며, 개발사 측에서 자원 수급처를 확대하거나 요구량을 조정해야 할 필요성이 제기되는 지점이다.</p>
+<h3 id="core-loop_1">코어 루프(Core Loop) 구조</h3>
+<ol>
+<li><strong>에너지 수급:</strong> 시간 경과 및 보상을 통해 엔케팔린(행동력)을 모듈로 변환.</li>
+<li><strong>반복 파밍:</strong> 거울 던전 클리어를 통해 배틀 패스 경험치 및 별빛 획득.</li>
+<li><strong>자원 획득:</strong> 패스 레벨업 보상으로 자아 파편 상자 수급.</li>
+<li><strong>확정 성장:</strong> 자판기에서 원하는 인격/E.G.O 정가 교환.</li>
+<li><strong>한계 돌파:</strong> 획득한 인격을 동기화하여 고난도 스토리 및 굴절 철도 공략.</li>
+</ol>
+<hr />
+<h2 id="_10">전투 시스템 심층 분석</h2>
+<p>림버스 컴퍼니의 전투는 '합(Clash)'을 통한 상호작용과 '코인(Coin)'에 의한 확률적 변수 창출이 핵심이다. 이는 턴제 게임임에도 실시간 대전과 같은 긴장감을 부여한다.</p>
+<h3 id="clash">합(Clash)과 코인 토스의 수학적 이해</h3>
+<p>전투의 승패는 대부분 '합'에서 결정된다. 아군과 적군이 동시에 스킬을 사용할 때, 최종 위력이 높은 쪽이 합에서 승리하며 상대의 코인을 파괴한다.</p>
+<ul>
+<li><strong>확률 계산:</strong> 코인 앞면이 나올 확률 $P$는 유저의 정신력(SP)에 의해 결정된다.</li>
+</ul>
+<p>$$P_{heads} = 0.5 + \frac{SP}{100}$$</p>
+<p>정신력이 최대치인 +45일 때 앞면 확률은 95%이며, -45일 때는 5%로 급락한다.</p>
+<ul>
+<li><strong>스노우볼링 현상:</strong> 합에서 승리하면 정신력이 오르고, 이는 다음 합의 승률을 높인다. 반면 초반 합 패배는 정신력 하락으로 이어져 전투를 돌이킬 수 없는 패배로 몰고 가는 경향이 있다. 이 시스템은 초반 리트라이의 주원인이 되기도 한다.</li>
+</ul>
+<h3 id="_11">죄악 속성과 공명 시스템</h3>
+<p>7가지 죄악 속성(분노, 색욕, 나태, 탐식, 우울, 오만, 질투)은 스킬 연결에 따라 공명을 발생시킨다.</p>
+<ul>
+<li><strong>죄악 공명:</strong> 체인에 같은 속성 스킬이 2개 이상 배치될 때 발생하며, 스킬 위력이 증가한다.</li>
+<li><strong>완전 공명:</strong> 같은 속성 스킬 3개 이상이 연속으로 배치될 때 발생하여 강력한 버프를 제공한다.</li>
+<li><strong>내성 전략:</strong> 적의 내성 정보(최대 2배 피해)에 맞춰 특정 죄악 속성 덱을 구성하는 것이 고난도 전투의 기본이다. E.G.O 장착 시 수감자의 내성이 변경되는 점을 활용해 적의 강력한 공격을 버텨내는 방어적 운용도 가능하다.</li>
+</ul>
+<h3 id="_12">주요 키워드 및 메타 분석</h3>
+<p>림버스 컴퍼니의 전투 메타는 7가지 주요 키워드를 중심으로 형성된다.</p>
+<table>
+<thead>
+<tr>
+<th>키워드</th>
+<th>메커니즘</th>
+<th>특징 및 한계</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>화상</td>
+<td>매 턴 종료 시 고정 피해 부여</td>
+<td>흑염 등 특수 스택과 연계 시 폭발적 딜링 가능</td>
+</tr>
+<tr>
+<td>출혈</td>
+<td>코인 토스 시마다 위력만큼 피해</td>
+<td>적의 코인 수가 많을수록 효율 급증</td>
+</tr>
+<tr>
+<td>진동</td>
+<td>진동 폭발 시 흐트러짐 게이지 하락</td>
+<td>초기에는 저평가받았으나 특수 진동 추가로 유틸성 강화</td>
+</tr>
+<tr>
+<td>파열</td>
+<td>피격 시 위력만큼 피해 후 횟수 차감</td>
+<td>횟수 유지가 어려우나 성공 시 가장 빠른 보스전 클리어 가능</td>
+</tr>
+<tr>
+<td>침잠</td>
+<td>정신력 감소 및 우울 피해</td>
+<td>환상체 전투에서 압도적인 효율 (우울 피해 전환)</td>
+</tr>
+<tr>
+<td>호흡</td>
+<td>크리티컬 확률 및 피해량 증가</td>
+<td>고점이 매우 높으나 예열 시간이 필요함</td>
+</tr>
+<tr>
+<td>충전</td>
+<td>특정 수치 누적 후 소모하여 강화</td>
+<td>리스크가 적고 강력한 단일 스킬 연계에 특화</td>
+</tr>
+</tbody>
+</table>
+<p>최근의 굴절 철도 5호선과 같은 컨텐츠에서는 구간별로 다른 키워드 덱(예: 1구간 화상, 2구간 침잠)을 요구함으로써 유저가 다양한 인격을 골고루 육성하도록 유도하고 있다.</p>
+<hr />
+<h2 id="ux">사용자 경험(UX) 및 인터페이스 분석</h2>
+<p>림버스 컴퍼니의 UX는 독창적이나 불친절하다는 양면성을 띠고 있다.</p>
+<h3 id="_13">튜토리얼 및 초기 진입 장벽</h3>
+<p>게임의 시스템이 지나치게 복잡함에도 불구하고 튜토리얼의 설명이 부실하며, 모바일 환경에 적합하지 않은 긴 텍스트 위주의 구성이 문제로 지적된다. 신규 유저는 속도, 타겟팅, 합 위력 계산 등의 개념을 스스로 파악해야 하며, 이는 초반 이탈의 주요 원인이 된다.</p>
+<h3 id="ui">전투 UI 및 가시성 문제</h3>
+<p>전투 중 수많은 버프와 디버프 아이콘이 표시되지만, 각 아이콘의 상세 효과를 확인하기 위해 길게 눌러야 하는 등의 조작은 전투의 템포를 끊는다. 특히 타겟팅 화살표가 겹치는 현상은 모바일 기기에서 정교한 스킬 지정을 어렵게 만든다. 하지만 코인이 깨지는 소리와 강렬한 연출, 속도감 있는 전투 애니메이션은 턴제 게임 특유의 정적인 느낌을 훌륭하게 극복한 것으로 평가받는다.</p>
+<hr />
+<h2 id="_14">전략적 통찰 및 개선 제안</h2>
+<p>숙련된 게임 기획자의 관점에서 분석한 림버스 컴퍼니의 개선 및 미래 전략은 다음과 같다.</p>
+<h3 id="1">1. 밸런스 및 성장 시스템 최적화</h3>
+<ul>
+<li>
+<p><strong>4동기화 재화 부담 완화:</strong> 4동기화에 필요한 '끈'의 수급처를 일일 던전 외에도 거울 던전의 특정 보상이나 이벤트 보상으로 확대해야 한다. 또한, 성능 향상 폭에 비해 비용이 너무 높은 초기 인격들의 수치를 재조정하여 자원 가치를 보존해줄 필요가 있다.</p>
+</li>
+<li>
+<p><strong>정신력 스노우볼 보완:</strong> 초반 합 패배 시 정신력이 깎이는 수치를 소폭 조정하거나, 방어 스킬 사용 시 정신력 회복 기믹을 강화하여 불합리한 리트라이를 줄여야 한다.</p>
+</li>
+</ul>
+<h3 id="2-ux">2. UX 및 접근성 강화</h3>
+<ul>
+<li>
+<p><strong>인터랙티브 튜토리얼 도입:</strong> 텍스트 나열 방식이 아닌, 특정 상황에서 유저가 직접 코인을 던지고 합을 해보며 시스템을 익히는 실전형 튜토리얼로 개편해야 한다.</p>
+</li>
+<li>
+<p><strong>전투 로그 및 요약 인터페이스:</strong> 전투 중 발생한 피해량이나 키워드 부여 현황을 한눈에 볼 수 있는 요약 창을 제공하여 전략 수립을 도와야 한다.</p>
+</li>
+</ul>
+<h3 id="3">3. 경제 모델의 다각화</h3>
+<ul>
+<li>
+<p><strong>치장성 상품 확대:</strong> 아나운서 외에도 수감자별 특수 대기 모션, 스킬 이펙트 변경권 등을 통해 성능에 영향을 주지 않으면서도 매출을 견인할 수 있는 요소를 늘려야 한다.</p>
+</li>
+<li>
+<p><strong>신규 유저 패키지 개편:</strong> 정가 시스템의 핵심인 파편 상자를 초반에 대량 공급하는 '성장 지원 패키지'를 통해 뉴비 유저들이 빠르게 주력 덱을 맞추고 정착할 수 있도록 유도해야 한다.</p>
+</li>
+</ul>
+<h3 id="4">4. 컨텐츠 확장 전략</h3>
+<ul>
+<li>
+<p><strong>비선형적 도전 과제:</strong> 거울 던전 외에도 특정 키워드만을 사용해야 하거나, 저성성 인격만으로 클리어해야 하는 '도전 모드'를 상시 컨텐츠로 추가하여 고인물 유저들의 인벤토리 활용도를 높여야 한다.</p>
+</li>
+<li>
+<p><strong>서사적 외전 컨텐츠:</strong> 12인 수감자 외에도 도시 세계관의 매력적인 조연들의 이야기를 다루는 미니 게임이나 외전 에피소드를 꾸준히 공급하여 IP의 깊이를 더해야 한다.</p>
+</li>
+</ul>
+<hr />
+<h2 id="_15">결론 및 제언</h2>
+<p>림버스 컴퍼니는 독창적인 서사와 유저 친화적인 경제 시스템을 통해 모바일 가챠 시장에서 성공적인 '대안 모델'을 제시했다. 비록 복잡한 시스템과 불친절한 UX라는 과제가 남아 있으나, 프로젝트 문 특유의 빠른 피드백 반영과 유저 소통 역량을 바탕으로 지속적인 개선이 이루어지고 있다.</p>
+<p>본 보고서가 분석한 데이터에 따르면, 림버스 컴퍼니의 장기적인 생존은 '정가 시스템'을 통한 유저 신뢰 유지와 더불어, 갈수록 복잡해지는 전투 메커니즘을 얼마나 직관적으로 전달하느냐에 달려 있다. 서사적 완성도가 이미 임계점을 넘은 만큼, 시스템적 안정성과 접근성 보완이 이루어진다면 림버스 컴퍼니는 단순한 게임을 넘어 독보적인 IP 프랜차이즈로서의 위치를 공고히 할 것으로 기대된다.</p>
+<hr />
+<blockquote>
+<p>귀하께서는 본 분석에서 제시된 4동기화 자원 밸런스 문제와 정신력 스노우볼 현상 중 어느 부분이 유저 리텐션에 더 치명적이라고 판단하시나요?</p>
+</blockquote>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  맨위로
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.indexes", "navigation.top", "toc.integrate", "search.suggest", "search.highlight", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\ud074\ub9bd\ubcf4\ub4dc\uc5d0 \ubcf5\uc0ac\ub428", "clipboard.copy": "\ud074\ub9bd\ubcf4\ub4dc\ub85c \ubcf5\uc0ac", "search.result.more.one": "\uc774 \ubb38\uc11c\uc5d0\uc11c 1\uac1c\uc758 \uac80\uc0c9 \uacb0\uacfc \ub354 \ubcf4\uae30", "search.result.more.other": "\uc774 \ubb38\uc11c\uc5d0\uc11c #\uac1c\uc758 \uac80\uc0c9 \uacb0\uacfc \ub354 \ubcf4\uae30", "search.result.none": "\uac80\uc0c9\uc5b4\uc640 \uc77c\uce58\ud558\ub294 \ubb38\uc11c\uac00 \uc5c6\uc2b5\ub2c8\ub2e4", "search.result.one": "1\uac1c\uc758 \uc77c\uce58\ud558\ub294 \ubb38\uc11c", "search.result.other": "#\uac1c\uc758 \uc77c\uce58\ud558\ub294 \ubb38\uc11c", "search.result.placeholder": "\uac80\uc0c9\uc5b4\ub97c \uc785\ub825\ud558\uc138\uc694", "search.result.term.missing": "\ud3ec\ud568\ub418\uc9c0 \uc54a\uc740 \uac80\uc0c9\uc5b4", "select.version": "\ubc84\uc804 \uc120\ud0dd"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../javascripts/scroll_top.js"></script>
+      
+        <script src="../../javascripts/build_data.js"></script>
+      
+    
+  </body>
+</html>

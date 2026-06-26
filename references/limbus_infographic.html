@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>림버스 컴퍼니 기획 분석 리포트</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+    body { background-color: #0f172a; color: #f8fafc; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    .card { background-color: #1e293b; border: 1px solid #334155; border-radius: 0.75rem; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5); }
+    .chart-container { position: relative; width: 100%; max-width: 600px; margin-left: auto; margin-right: auto; height: 350px; max-height: 400px; }
+    .chart-container-wide { position: relative; width: 100%; max-width: 900px; margin-left: auto; margin-right: auto; height: 400px; max-height: 450px; }
+    .text-accent-red { color: #ef4444; }
+    .text-accent-cyan { color: #06b6d4; }
+    .text-accent-yellow { color: #eab308; }
+    .bg-accent-red { background-color: #ef4444; }
+    .border-accent-red { border-color: #ef4444; }
+    .unicode-icon { font-size: 1.5rem; margin-right: 0.5rem; display: inline-block; vertical-align: middle; }
+</style>
+</head>
+<body class="p-4 md:p-8">
+
+<div style="display:none;">
+    CONFIRMATION: NO SVG OR MERMAID JS WERE USED IN THIS HTML.
+    PALETTE: Dark Neon Contrast (Background: #0f172a, Cards: #1e293b, Accents: #ef4444, #06b6d4, #eab308, #a855f7)
+</div>
+
+<header class="max-w-7xl mx-auto mb-10 text-center">
+    <h1 class="text-4xl md:text-5xl font-bold mb-4 text-white"><span class="text-accent-red">Limbus Company</span> 시스템 및 UX 심층 분석</h1>
+    <p class="text-lg text-slate-400 max-w-3xl mx-auto">프로젝트 문(Project Moon)의 세계관을 바탕으로 한 턴제 RPG의 코어 메커니즘, 콘텐츠 볼륨, 그리고 기획적 강점과 약점을 데이터 기반으로 해체합니다.</p>
+</header>
+
+<section class="max-w-7xl mx-auto mb-8">
+    <table class="w-full text-sm border-collapse" style="border:1px solid #334155; border-radius:0.75rem; overflow:hidden;">
+        <thead>
+            <tr style="background-color:#1e3a5f;">
+                <th class="px-4 py-3 text-left font-bold text-accent-cyan" style="border:1px solid #334155;">구분</th>
+                <th class="px-4 py-3 text-left font-bold text-accent-cyan" style="border:1px solid #334155;">주요 내용</th>
+                <th class="px-4 py-3 text-left font-bold text-accent-cyan" style="border:1px solid #334155;">비고</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr style="background-color:#1e293b;">
+                <td class="px-4 py-3 font-semibold text-slate-300" style="border:1px solid #334155;">장르</td>
+                <td class="px-4 py-3 text-slate-200" style="border:1px solid #334155;">죄악 공명 잔혹 RPG (수집형 전략 턴제)</td>
+                <td class="px-4 py-3 text-slate-400" style="border:1px solid #334155;">독보적인 다크 판타지 세계관</td>
+            </tr>
+            <tr style="background-color:#162032;">
+                <td class="px-4 py-3 font-semibold text-slate-300" style="border:1px solid #334155;">플랫폼</td>
+                <td class="px-4 py-3 text-slate-200" style="border:1px solid #334155;">모바일 (AOS/iOS) & PC (Steam)</td>
+                <td class="px-4 py-3 text-slate-400" style="border:1px solid #334155;">계정 연동 및 크로스 플레이 지원</td>
+            </tr>
+            <tr style="background-color:#1e293b;">
+                <td class="px-4 py-3 font-semibold text-slate-300" style="border:1px solid #334155;">엔딩 유무</td>
+                <td class="px-4 py-3 text-slate-200" style="border:1px solid #334155;">없음 (라이브 서비스형 내러티브)</td>
+                <td class="px-4 py-3 text-slate-400" style="border:1px solid #334155;">시즌제 메인 스토리 지속 업데이트</td>
+            </tr>
+            <tr style="background-color:#162032;">
+                <td class="px-4 py-3 font-semibold text-slate-300" style="border:1px solid #334155;">핵심 룰</td>
+                <td class="px-4 py-3 text-slate-200" style="border:1px solid #334155;">합(Clash) 및 코인 토스 시스템</td>
+                <td class="px-4 py-3 text-slate-400" style="border:1px solid #334155;">정신력(SP) 관리를 통한 확률 제어</td>
+            </tr>
+            <tr style="background-color:#1e293b;">
+                <td class="px-4 py-3 font-semibold text-slate-300" style="border:1px solid #334155;">재미 요소</td>
+                <td class="px-4 py-3 text-slate-200" style="border:1px solid #334155;">깊이 있는 스토리와 전략적 변수 창출</td>
+                <td class="px-4 py-3 text-slate-400" style="border:1px solid #334155;">문학 모티브 캐릭터와 E.G.O 연출</td>
+            </tr>
+            <tr style="background-color:#162032;">
+                <td class="px-4 py-3 font-semibold text-slate-300" style="border:1px solid #334155;">BM 모델</td>
+                <td class="px-4 py-3 text-slate-200" style="border:1px solid #334155;">배틀패스 및 정가(파편) 시스템</td>
+                <td class="px-4 py-3 text-slate-400" style="border:1px solid #334155;">수집형 RPG 중 최상급 무과금 효율</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<main class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+
+    <section class="card p-6 md:col-span-2">
+        <h2 class="text-2xl font-bold mb-4 border-b border-slate-600 pb-2"><span class="unicode-icon text-accent-cyan">📊</span>1. 게임의 특징 및 기획적 평가</h2>
+        <p class="mb-6 text-slate-300 leading-relaxed">
+            림버스 컴퍼니는 일반적인 수집형 RPG(Gacha)의 문법을 따르면서도, 매우 이질적인 과금 모델(정가 시스템)과 복잡한 전투 메커니즘을 가집니다. 플레이어의 충성도는 세계관(Lore)과 스토리에 크게 의존하며, BM은 철저히 '배틀패스' 중심의 소액 결제 친화적(F2P Friendly) 구조로 설계되어 있습니다. 이는 리텐션을 극대화하지만, 단기적인 ARPU(가입자당 평균 매출) 폭발력은 낮추는 기획적 선택입니다.
+        </p>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+            <div>
+                <ul class="space-y-4">
+                    <li class="bg-slate-800 p-4 rounded-lg border-l-4 border-accent-red">
+                        <strong class="text-accent-red text-lg block mb-1">강점 (Strength)</strong>
+                        독보적인 내러티브와 아트워크. 파편(Egoshard) 시스템을 통한 확정 획득(천장) 구조가 유저 스트레스를 극단적으로 낮춤.
+                    </li>
+                    <li class="bg-slate-800 p-4 rounded-lg border-l-4 border-accent-cyan">
+                        <strong class="text-accent-cyan text-lg block mb-1">약점 (Weakness)</strong>
+                        초기 진입 장벽(Onboarding)이 매우 높음. 전투 튜토리얼이 불친절하며, UI/UX의 직관성이 타 모바일 게임 대비 떨어짐.
+                    </li>
+                </ul>
+            </div>
+            <div class="chart-container">
+                <canvas id="evalChart"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <section class="card p-6 md:col-span-2">
+        <h2 class="text-2xl font-bold mb-4 border-b border-slate-600 pb-2"><span class="unicode-icon text-accent-yellow">📈</span>2. 콘텐츠 볼륨 및 난이도 진행 (Progression)</h2>
+        <p class="mb-6 text-slate-300 leading-relaxed">
+            메인 스토리는 사실상 기믹을 학습하는 거대한 튜토리얼 및 허들 역할을 수행합니다. 초기 Canto는 가벼운 스탯 체크로 넘어가지만, Canto III부터 난이도(요구 레벨 및 기믹 파훼 요구도)가 급상승하며 이탈 구간이 발생합니다. 주요 플레이 타임은 반복 파밍 콘텐츠인 '거울 던전'에서 소모됩니다.
+        </p>
+        <div class="chart-container-wide">
+            <canvas id="progressionChart"></canvas>
+        </div>
+        <p class="mt-4 text-sm text-slate-400 text-center">x축: 메인 스토리 진행도 / y축: 요구되는 전략적 체감 난이도 (스탯 및 기믹 복잡도)</p>
+    </section>
+
+    <section class="card p-6">
+        <h2 class="text-2xl font-bold mb-4 border-b border-slate-600 pb-2"><span class="unicode-icon text-green-400">🔄</span>3. 성장 시스템 및 코어 루프</h2>
+        <p class="mb-6 text-slate-300 leading-relaxed">
+            성장의 핵심 병목(Bottleneck)은 '끈(Thread)'과 '경험치 티켓'입니다. 캐릭터를 뽑아도 즉각적인 활용이 불가능하며, 이를 육성하기 위한 재화 파밍(거울 던전, 끈 던전)이 강제됩니다. 이 루프는 배틀패스 구매 유저에게 압도적으로 유리하게 설계되어 있습니다.
+        </p>
+        
+        <div class="flex flex-col space-y-4 items-center bg-slate-800 p-6 rounded-lg font-bold text-center">
+            <div class="w-full max-w-sm bg-indigo-900 border-2 border-indigo-500 rounded p-4 shadow-lg text-indigo-100">
+                1. 주간/일간 콘텐츠 수행<br><span class="text-xs text-indigo-300">(거울 던전 / 채광)</span>
+            </div>
+            <div class="text-2xl text-slate-400">↓</div>
+            <div class="w-full max-w-sm bg-purple-900 border-2 border-purple-500 rounded p-4 shadow-lg text-purple-100">
+                2. 배틀패스 레벨업 및 재화 획득<br><span class="text-xs text-purple-300">(자아 파편 상자, 광기)</span>
+            </div>
+            <div class="text-2xl text-slate-400">↓</div>
+            <div class="w-full max-w-sm bg-red-900 border-2 border-accent-red rounded p-4 shadow-lg text-red-100">
+                3. 캐릭터(인격) 정가 교환 및 뽑기<br><span class="text-xs text-red-300">(원하는 캐릭터 확정 획득)</span>
+            </div>
+            <div class="text-2xl text-slate-400">↓</div>
+            <div class="w-full max-w-sm bg-yellow-900 border-2 border-accent-yellow rounded p-4 shadow-lg text-yellow-100">
+                4. 스펙업 (동기화/레벨업)<br><span class="text-xs text-yellow-300">(끈 및 티켓 소모)</span>
+            </div>
+            <div class="text-2xl text-slate-400 text-center">↺ <span class="text-sm">반복</span></div>
+        </div>
+    </section>
+
+    <section class="card p-6">
+        <h2 class="text-2xl font-bold mb-4 border-b border-slate-600 pb-2"><span class="unicode-icon text-accent-red">⚔️</span>4. 전투 시스템 깊이 분석</h2>
+        <p class="mb-6 text-slate-300 leading-relaxed">
+            '합(Clash)' 시스템과 '코인(Coin)' 메커니즘은 게임의 핵심 정체성입니다. 전투는 단순 스탯 싸움이 아니라, 코인 토스 확률을 높이기 위한 '정신력(SP)' 관리가 핵심입니다. 초기 난수는 높지만, 스노우볼이 굴러갈수록 유저에게 유리해지는 역동적인 밸런스를 가집니다.
+        </p>
+        <div class="chart-container">
+            <canvas id="combatChart"></canvas>
+        </div>
+        <div class="mt-4 bg-slate-800 p-4 rounded-lg text-sm text-slate-300">
+            <strong>기획자 코멘트:</strong> 합 승리 시 일방적인 딜링이 가능해지는 구조는 쾌감이 크지만, 코인 억까(확률적 불운) 발생 시 유저 불쾌감(Frustration) 수치도 동시에 치솟습니다. 이를 완화하기 위한 에고(E.G.O) 시스템의 리소스(우울, 오만 등 죄악 자원) 배분 전략이 전투의 깊이를 만듭니다.
+        </div>
+    </section>
+
+</main>
+
+<footer class="max-w-7xl mx-auto mt-12 mb-8 text-center text-slate-500 text-sm">
+    <p>본 리포트는 림버스 컴퍼니의 시스템 디자인 및 UX를 기반으로 역기획/분석된 자료입니다.</p>
+</footer>
+
+<script>
+    function wrapText(text) {
+        if (text.length <= 16) return text;
+        const words = text.split(' ');
+        const lines = [];
+        let currentLine = '';
+        for (let i = 0; i < words.length; i++) {
+            if ((currentLine + words[i]).length > 16) {
+                if (currentLine.length > 0) lines.push(currentLine.trim());
+                currentLine = words[i] + ' ';
+            } else {
+                currentLine += words[i] + ' ';
+            }
+        }
+        if (currentLine.trim().length > 0) lines.push(currentLine.trim());
+        return lines;
+    }
+
+    const tooltipConfig = {
+        callbacks: {
+            title: function(tooltipItems) {
+                const item = tooltipItems[0];
+                let label = item.chart.data.labels[item.dataIndex];
+                if (Array.isArray(label)) {
+                    return label.join(' ');
+                } else {
+                    return label;
+                }
+            }
+        }
+    };
+
+    const commonOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        color: '#e2e8f0',
+        plugins: {
+            legend: { labels: { color: '#e2e8f0', font: { family: 'Segoe UI' } } },
+            tooltip: tooltipConfig
+        }
+    };
+
+    const evalLabels = ["매력적인 스토리 및 세계관 설정", "극히 무소과금 친화적인 BM 구조", "깊이 있는 합(Clash) 전투 전략성", "진입 장벽 및 UI/UX의 직관성 부족"].map(wrapText);
+    new Chart(document.getElementById('evalChart').getContext('2d'), {
+        type: 'doughnut',
+        data: {
+            labels: evalLabels,
+            datasets: [{
+                data: [45, 30, 15, 10],
+                backgroundColor: ['#ef4444', '#06b6d4', '#eab308', '#64748b'],
+                borderColor: '#1e293b',
+                borderWidth: 2
+            }]
+        },
+        options: {
+            ...commonOptions,
+            cutout: '60%',
+            plugins: {
+                ...commonOptions.plugins,
+                title: { display: true, text: '플레이어 리텐션 주요 요인 분석', color: '#f8fafc' }
+            }
+        }
+    });
+
+    const progLabels = ["Canto I (입문)", "Canto II (기초)", "Canto III (허들 시작)", "Canto IV (기믹 심화)", "Canto V (스탯 체커)", "Canto VI (종합 전술)", "거울 던전 (엔드파밍)", "거울굴절철도 (최상위)"].map(wrapText);
+    new Chart(document.getElementById('progressionChart').getContext('2d'), {
+        type: 'line',
+        data: {
+            labels: progLabels,
+            datasets: [{
+                label: '체감 난이도 및 스펙 요구량',
+                data: [10, 25, 55, 70, 85, 95, 60, 100],
+                borderColor: '#eab308',
+                backgroundColor: 'rgba(234, 179, 8, 0.2)',
+                borderWidth: 3,
+                pointBackgroundColor: '#ef4444',
+                pointRadius: 6,
+                fill: true,
+                tension: 0.3
+            }]
+        },
+        options: {
+            ...commonOptions,
+            scales: {
+                y: { beginAtZero: true, max: 110, grid: { color: '#334155' }, ticks: { color: '#94a3b8' } },
+                x: { grid: { color: '#334155' }, ticks: { color: '#94a3b8' } }
+            }
+        }
+    });
+
+    const combatLabels = ["운 요소 개입 (RNG 의존도)", "합(Clash) 기반 전술적 깊이", "사전 덱 빌딩 및 시너지 매칭", "인게임 UI 및 시스템 복잡도", "단순 캐릭터 스탯 의존성"].map(wrapText);
+    new Chart(document.getElementById('combatChart').getContext('2d'), {
+        type: 'radar',
+        data: {
+            labels: combatLabels,
+            datasets: [
+                {
+                    label: '림버스 컴퍼니 전투 메커니즘',
+                    data: [85, 90, 80, 95, 40],
+                    backgroundColor: 'rgba(239, 68, 68, 0.2)',
+                    borderColor: '#ef4444',
+                    pointBackgroundColor: '#ef4444',
+                    borderWidth: 2
+                },
+                {
+                    label: '일반적인 수집형 턴제 RPG',
+                    data: [30, 50, 60, 40, 85],
+                    backgroundColor: 'rgba(6, 182, 212, 0.2)',
+                    borderColor: '#06b6d4',
+                    pointBackgroundColor: '#06b6d4',
+                    borderWidth: 2
+                }
+            ]
+        },
+        options: {
+            ...commonOptions,
+            scales: {
+                r: {
+                    angleLines: { color: '#334155' },
+                    grid: { color: '#334155' },
+                    pointLabels: { color: '#e2e8f0', font: { size: 12 } },
+                    ticks: { display: false, min: 0, max: 100 }
+                }
+            }
+        }
+    });
+</script>
+</body>
+</html>
